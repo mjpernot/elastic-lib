@@ -1,0 +1,4 @@
+TEST*.py
+TEST*.pyc
+*.py
+*.pyc
