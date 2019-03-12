@@ -218,23 +218,6 @@ class ElasticSearchDump(ElasticSearch):
 
         """
 
-        def parse(dump, **kwargs):
-
-            """Function:  parse
-
-            Description:  Parse the dump entry for status and shard.
-
-            Arguments:
-                (input)  dump -> Dump entry.
-                (input)  **kwargs:
-                    None
-                (output) Return dump status.
-                (output) Return shard failures.
-
-            """
-
-            return dump[1], dump[9]
-
         err_flag = False
         status_msg = None
         break_flag = False
@@ -257,7 +240,7 @@ class ElasticSearchDump(ElasticSearch):
 
                     if self.dump_name == dump[0]:
 
-                        self.dump_status, self.failed_shards = parse(dump)
+                        self.dump_status, self.failed_shards = _parse(dump)
 
                         if self.dump_status == "IN_PROGRESS":
                             time.sleep(5)
@@ -293,6 +276,23 @@ class ElasticSearchDump(ElasticSearch):
             status_msg = "ERROR:  Repository name not set."
 
         return err_flag, status_msg
+
+    def _parse(dump, **kwargs):
+
+        """Function:  _parse
+
+        Description:  Parse the dump entry for status and shard.
+
+        Arguments:
+            (input)  dump -> Dump entry.
+            (input)  **kwargs:
+                None
+            (output) Return dump status.
+            (output) Return shard failures.
+
+        """
+
+        return dump[1], dump[9]
 
 
 class ElasticSearchRepo(ElasticSearch):

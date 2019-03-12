@@ -7,6 +7,14 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [1.0.3] - 2019-03-12
 ### Changed
 - elastic_class.get_dump_list:  Changed ES to es for standard convention.
+- elastic_class.ElasticSearchDump.dump_db:  Changed parse() to _parse.
+
+### Added
+- elastic_class.ElasticSearchDump._parse:  Replaces parse() in dump_db() function.
+
+### Removed
+- elastic_class.ElasticSearchDump.dump_db.parse:  Replaced by _parse() function.
+
 
 
 ## [1.0.2] - 2018-11-22
