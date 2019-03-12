@@ -40,14 +40,14 @@ import version
 __version__ = version.__version__
 
 
-def get_dump_list(ES, repo, **kwargs):
+def get_dump_list(es, repo, **kwargs):
 
     """Function:  get_dump_list
 
     Description:  Return a list of dumps within a named repository.
 
     Arguments:
-        (input) ES -> ElasticSearch instance.
+        (input) es -> ElasticSearch instance.
         (input) repo -> Name of repository.
         (input) **kwargs:
             None
@@ -55,7 +55,7 @@ def get_dump_list(ES, repo, **kwargs):
 
     """
 
-    return [x.split() for x in ES.cat.snapshots(repository=repo).splitlines()]
+    return [x.split() for x in es.cat.snapshots(repository=repo).splitlines()]
 
 
 class ElasticSearch(object):
@@ -191,17 +191,16 @@ class ElasticSearchDump(ElasticSearch):
                     repo_dict[self.repo_name]["settings"]["location"]
                 self.dump_list = get_dump_list(self.es, self.repo_name)
 
-                if self.dump_list:
-                    self.last_dump_name = \
-                        elastic_libs.get_latest_dump(self.dump_list)
+            if self.dump_list:
+                self.last_dump_name = \
+                    elastic_libs.get_latest_dump(self.dump_list)
 
-                    # Make sure new dump name is unique.
-                    if self.dump_name == self.last_dump_name:
-                        time.sleep(1)
-                        self.dump_name = self.cluster_name.lower() + \
-                            "_bkp_" + \
-                            datetime.datetime.strftime(datetime.datetime.now(),
-                                                       "%Y%m%d-%H%M%s")
+            # Make sure new dump name is unique.
+            if self.dump_name == self.last_dump_name:
+                time.sleep(1)
+                self.dump_name = self.cluster_name.lower() + "_bkp_" + \
+                    datetime.datetime.strftime(datetime.datetime.now(),
+                                               "%Y%m%d-%H%M%s")
 
     def dump_db(self, dbs=None, **kwargs):
 
@@ -214,26 +213,9 @@ class ElasticSearchDump(ElasticSearch):
             (input)  **kwargs:
                 None
             (output) err_flag True|False -> Were errors detected during dump.
-            (output) status_msg -> Return dump status or error message.
+            (output) status_msg -> Dump error message.
 
         """
-
-        def parse(dump, **kwargs):
-
-            """Function:  parse
-
-            Description:  Parse the dump entry for status and shard.
-
-            Arguments:
-                (input)  dump -> Dump entry.
-                (input)  **kwargs:
-                    None
-                (output) Return dump status.
-                (output) Return shard failures.
-
-            """
-
-            return dump[1], dump[9]
 
         err_flag = False
         status_msg = None
@@ -253,37 +235,7 @@ class ElasticSearchDump(ElasticSearch):
 
             while not break_flag and not err_flag:
 
-                for dump in get_dump_list(self.es, self.repo_name):
-
-                    if self.dump_name == dump[0]:
-
-                        self.dump_status, self.failed_shards = parse(dump)
-
-                        if self.dump_status == "IN_PROGRESS":
-                            time.sleep(5)
-
-                        elif self.dump_status == "SUCCESS":
-                            break_flag = True
-
-                        elif self.dump_status == "INCOMPATIBLE":
-                            status_msg = "Older version of ES detected: %s" \
-                                         % (self.repo_name)
-                            err_flag = True
-
-                        elif self.dump_status == "PARTIAL":
-                            status_msg = "Partial dump completed on %s" \
-                                         % (self.repo_name)
-                            err_flag = True
-
-                        elif self.dump_status == "FAILED":
-                            status_msg = "Dump failed to finish on %s" \
-                                         % (self.repo_name)
-                            err_flag = True
-
-                        else:
-                            status_msg = "Unknown error detected on %s" \
-                                         % (self.repo_name)
-                            err_flag = True
+                err_flag, status_msg, break_flag = _chk_status(break_flag)
 
             self.dump_list = get_dump_list(self.es, self.repo_name)
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
@@ -293,6 +245,74 @@ class ElasticSearchDump(ElasticSearch):
             status_msg = "ERROR:  Repository name not set."
 
         return err_flag, status_msg
+
+    def _chk_status(self, break_flag):
+
+        """Function:  _chk_status
+
+        Description:  Check status of database dump.
+
+        Arguments:
+            (input) break_flag True|False -> Break out of loop for check.
+            (output) err_flag True|False -> Were errors detected during dump.
+            (output) status_msg -> Dump error message.
+            (output) break_flag True|False -> Break out of loop for check.
+
+        """
+
+        err_flag = False
+        status_msg = None
+
+        for dump in get_dump_list(self.es, self.repo_name):
+
+            if self.dump_name == dump[0]:
+
+                self.dump_status, self.failed_shards = _parse(dump)
+
+                if self.dump_status == "IN_PROGRESS":
+                    time.sleep(5)
+
+                elif self.dump_status == "SUCCESS":
+                    break_flag = True
+
+                elif self.dump_status == "INCOMPATIBLE":
+                    status_msg = "Older version of ES detected: %s" \
+                                 % (self.repo_name)
+                    err_flag = True
+
+                elif self.dump_status == "PARTIAL":
+                    status_msg = "Partial dump completed on %s" \
+                                 % (self.repo_name)
+                    err_flag = True
+
+                elif self.dump_status == "FAILED":
+                    status_msg = "Dump failed to finish on %s" \
+                                 % (self.repo_name)
+                    err_flag = True
+
+                else:
+                    status_msg = "Unknown error detected on %s" \
+                                 % (self.repo_name)
+                    err_flag = True
+
+        return err_flag, status_msg, break_flag
+
+    def _parse(dump, **kwargs):
+
+        """Function:  _parse
+
+        Description:  Parse the dump entry for status and shard.
+
+        Arguments:
+            (input)  dump -> Dump entry.
+            (input)  **kwargs:
+                None
+            (output) Return dump status.
+            (output) Return shard failures.
+
+        """
+
+        return dump[1], dump[9]
 
 
 class ElasticSearchRepo(ElasticSearch):
@@ -685,21 +705,22 @@ class ElasticDump(ElasticCluster):
         data = requests_libs.get_query(self.node, self.port, "/_snapshot",
                                        "json")
 
+        self.type = None
+        self.dump_loc = None
+        self.dump_list = []
+        self.last_dump_name = None
+
         # Passed repo matches existing repo entry
         if repo and repo in data:
             self.repo_name = repo
 
         # Passed repo name doesn't exist
         elif repo:
-            self.repo_name = None
+            pass
 
         # If only one entry, then use it
         elif len(data.keys()) == 1:
             self.repo_name = next(iter(data))
-
-        # Repo has multiple entries - cannot set
-        else:
-            self.repo_name = None
 
         if self.repo_name:
             self.type = data[self.repo_name]["type"]
@@ -718,17 +739,6 @@ class ElasticDump(ElasticCluster):
                     if x[4] == search:
                         self.last_dump_name = x[0]
                         break
-
-            # There is no last dump
-            else:
-                self.last_dump_name = None
-
-        # Repo doesn't exist or there are multiple repos
-        else:
-            self.type = None
-            self.dump_loc = None
-            self.dump_list = []
-            self.last_dump_name = None
 
         # Pre-dump settings
         self.dump_name = self.cluster.lower() + "_bkp_" \
@@ -1257,7 +1267,7 @@ class ElasticStatus(ElasticCluster):
 
         err_flag = False
 
-        data = {"Shard_Warning": {}} if json else ""
+        data = {"Shard_Warning": {}} if json else "Shard_Warning:"
 
         # Shards not assigned to a node
         if self.unassigned_shards > 0:
@@ -1270,6 +1280,7 @@ class ElasticStatus(ElasticCluster):
                      "Total": self.num_shards}
 
             else:
+                data = data + "\n"
                 data = "WARNING: Detected %s " % (self.unassigned_shards) \
                     + "unassigned shards out of %s shards" % (self.num_shards)
 
@@ -1283,9 +1294,7 @@ class ElasticStatus(ElasticCluster):
                      "Percentage": self.active_shards_percent}
 
             else:
-                if data:
-                    data = data + "\n"
-
+                data = data + "\n"
                 data = data + "WARNING: Currently active shards at %s%%" \
                     % (self.active_shards_percent)
 
@@ -1301,9 +1310,7 @@ class ElasticStatus(ElasticCluster):
                      "List_Of_Shards": shards}
 
             else:
-                if data:
-                    data = data + "\n"
-
+                data = data + "\n"
                 data = data \
                     + "WARNING: Detected shards in non-operation mode:" \
                     + "\n" + "\n".join(str(x) for x in shards)

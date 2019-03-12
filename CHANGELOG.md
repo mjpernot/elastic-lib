@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [1.0.3] - 2019-03-12
+### Changed
+- elastic_class.get_dump_list:  Changed ES to es for standard convention.
+- elastic_class.ElasticSearchDump.dump_db:  Changed parse() to _parse.
+- elastic_class.ElasticSearchDump.dump_db:  Reduced Cognitive Complexity to accepted standard level - moved section of code to private method: _chk_status.
+- elastic_class.ElasticDump.__init__:  Reduced Cognitive Complexity to accepted standard level - initialized attributes in one area.
+- elastic_class.ElasticStatus.__init__:  Reduced Cognitive Complexity to accepted standard level - initalized data variable.
+- elastic_class.ElasticSearchDump.__init__:  Reduced Cognitive Complexity to accepted standard level - flatten if statements.
+
+### Added
+- elastic_class.ElasticSearchDump._parse:  Replaces parse() in dump_db() function.
+- elastic_class.ElasticSearchDump._chk_status:  Check status of database dump.
+
+### Removed
+- elastic_class.ElasticSearchDump.dump_db.parse:  Replaced by _parse() function.
+
+
 ## [1.0.2] - 2018-11-22
 ### Changed
 - Documentation updates.
