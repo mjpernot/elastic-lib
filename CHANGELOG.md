@@ -21,7 +21,6 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearchDump.dump_db.parse:  Replaced by _parse() function.
 
 
-
 ## [1.0.2] - 2018-11-22
 ### Changed
 - Documentation updates.
