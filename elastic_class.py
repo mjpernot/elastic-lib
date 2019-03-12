@@ -1268,7 +1268,7 @@ class ElasticStatus(ElasticCluster):
 
         err_flag = False
 
-        data = {"Shard_Warning": {}} if json else ""
+        data = {"Shard_Warning": {}} if json else "Shard_Warning:"
 
         # Shards not assigned to a node
         if self.unassigned_shards > 0:
@@ -1281,6 +1281,7 @@ class ElasticStatus(ElasticCluster):
                      "Total": self.num_shards}
 
             else:
+                data = data + "\n"
                 data = "WARNING: Detected %s " % (self.unassigned_shards) \
                     + "unassigned shards out of %s shards" % (self.num_shards)
 
@@ -1294,9 +1295,7 @@ class ElasticStatus(ElasticCluster):
                      "Percentage": self.active_shards_percent}
 
             else:
-                if data:
-                    data = data + "\n"
-
+                data = data + "\n"
                 data = data + "WARNING: Currently active shards at %s%%" \
                     % (self.active_shards_percent)
 
@@ -1312,9 +1311,7 @@ class ElasticStatus(ElasticCluster):
                      "List_Of_Shards": shards}
 
             else:
-                if data:
-                    data = data + "\n"
-
+                data = data + "\n"
                 data = data \
                     + "WARNING: Detected shards in non-operation mode:" \
                     + "\n" + "\n".join(str(x) for x in shards)
