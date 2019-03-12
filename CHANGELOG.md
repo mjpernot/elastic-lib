@@ -8,9 +8,11 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Changed
 - elastic_class.get_dump_list:  Changed ES to es for standard convention.
 - elastic_class.ElasticSearchDump.dump_db:  Changed parse() to _parse.
+- elastic_class.ElasticSearchDump.dump_db:  Reduced Cognitive Complexity to accepted standard level - moved section of code to private method: _chk_status.
 
 ### Added
 - elastic_class.ElasticSearchDump._parse:  Replaces parse() in dump_db() function.
+- elastic_class.ElasticSearchDump._chk_status:  Check status of database dump.
 
 ### Removed
 - elastic_class.ElasticSearchDump.dump_db.parse:  Replaced by _parse() function.

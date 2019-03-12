@@ -214,7 +214,7 @@ class ElasticSearchDump(ElasticSearch):
             (input)  **kwargs:
                 None
             (output) err_flag True|False -> Were errors detected during dump.
-            (output) status_msg -> Return dump status or error message.
+            (output) status_msg -> Dump error message.
 
         """
 
@@ -236,37 +236,7 @@ class ElasticSearchDump(ElasticSearch):
 
             while not break_flag and not err_flag:
 
-                for dump in get_dump_list(self.es, self.repo_name):
-
-                    if self.dump_name == dump[0]:
-
-                        self.dump_status, self.failed_shards = _parse(dump)
-
-                        if self.dump_status == "IN_PROGRESS":
-                            time.sleep(5)
-
-                        elif self.dump_status == "SUCCESS":
-                            break_flag = True
-
-                        elif self.dump_status == "INCOMPATIBLE":
-                            status_msg = "Older version of ES detected: %s" \
-                                         % (self.repo_name)
-                            err_flag = True
-
-                        elif self.dump_status == "PARTIAL":
-                            status_msg = "Partial dump completed on %s" \
-                                         % (self.repo_name)
-                            err_flag = True
-
-                        elif self.dump_status == "FAILED":
-                            status_msg = "Dump failed to finish on %s" \
-                                         % (self.repo_name)
-                            err_flag = True
-
-                        else:
-                            status_msg = "Unknown error detected on %s" \
-                                         % (self.repo_name)
-                            err_flag = True
+                err_flag, status_msg, break_flag = _chk_status(break_flag)
 
             self.dump_list = get_dump_list(self.es, self.repo_name)
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
@@ -276,6 +246,57 @@ class ElasticSearchDump(ElasticSearch):
             status_msg = "ERROR:  Repository name not set."
 
         return err_flag, status_msg
+
+    def _chk_status(self, break_flag):
+
+        """Function:  _chk_status
+
+        Description:  Check status of database dump.
+
+        Arguments:
+            (input) break_flag True|False -> Break out of loop for check.
+            (output) err_flag True|False -> Were errors detected during dump.
+            (output) status_msg -> Dump error message.
+            (output) break_flag True|False -> Break out of loop for check.
+
+        """
+
+        err_flag = False
+        status_msg = None
+
+        for dump in get_dump_list(self.es, self.repo_name):
+
+            if self.dump_name == dump[0]:
+
+                self.dump_status, self.failed_shards = _parse(dump)
+
+                if self.dump_status == "IN_PROGRESS":
+                    time.sleep(5)
+
+                elif self.dump_status == "SUCCESS":
+                    break_flag = True
+
+                elif self.dump_status == "INCOMPATIBLE":
+                    status_msg = "Older version of ES detected: %s" \
+                                 % (self.repo_name)
+                    err_flag = True
+
+                elif self.dump_status == "PARTIAL":
+                    status_msg = "Partial dump completed on %s" \
+                                 % (self.repo_name)
+                    err_flag = True
+
+                elif self.dump_status == "FAILED":
+                    status_msg = "Dump failed to finish on %s" \
+                                 % (self.repo_name)
+                    err_flag = True
+
+                else:
+                    status_msg = "Unknown error detected on %s" \
+                                 % (self.repo_name)
+                    err_flag = True
+
+        return err_flag, status_msg, break_flag
 
     def _parse(dump, **kwargs):
 
