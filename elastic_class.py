@@ -706,21 +706,22 @@ class ElasticDump(ElasticCluster):
         data = requests_libs.get_query(self.node, self.port, "/_snapshot",
                                        "json")
 
+        self.type = None
+        self.dump_loc = None
+        self.dump_list = []
+        self.last_dump_name = None
+
         # Passed repo matches existing repo entry
         if repo and repo in data:
             self.repo_name = repo
 
         # Passed repo name doesn't exist
         elif repo:
-            self.repo_name = None
+            pass
 
         # If only one entry, then use it
         elif len(data.keys()) == 1:
             self.repo_name = next(iter(data))
-
-        # Repo has multiple entries - cannot set
-        else:
-            self.repo_name = None
 
         if self.repo_name:
             self.type = data[self.repo_name]["type"]
@@ -739,17 +740,6 @@ class ElasticDump(ElasticCluster):
                     if x[4] == search:
                         self.last_dump_name = x[0]
                         break
-
-            # There is no last dump
-            else:
-                self.last_dump_name = None
-
-        # Repo doesn't exist or there are multiple repos
-        else:
-            self.type = None
-            self.dump_loc = None
-            self.dump_list = []
-            self.last_dump_name = None
 
         # Pre-dump settings
         self.dump_name = self.cluster.lower() + "_bkp_" \
