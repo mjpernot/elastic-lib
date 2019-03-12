@@ -40,14 +40,14 @@ import version
 __version__ = version.__version__
 
 
-def get_dump_list(ES, repo, **kwargs):
+def get_dump_list(es, repo, **kwargs):
 
     """Function:  get_dump_list
 
     Description:  Return a list of dumps within a named repository.
 
     Arguments:
-        (input) ES -> ElasticSearch instance.
+        (input) es -> ElasticSearch instance.
         (input) repo -> Name of repository.
         (input) **kwargs:
             None
@@ -55,7 +55,7 @@ def get_dump_list(ES, repo, **kwargs):
 
     """
 
-    return [x.split() for x in ES.cat.snapshots(repository=repo).splitlines()]
+    return [x.split() for x in es.cat.snapshots(repository=repo).splitlines()]
 
 
 class ElasticSearch(object):

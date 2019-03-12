@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [1.0.3] - 2019-03-12
+### Changed
+- elastic_class.get_dump_list:  Changed ES to es for standard convention.
+
+
 ## [1.0.2] - 2018-11-22
 ### Changed
 - Documentation updates.
