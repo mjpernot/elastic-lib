@@ -11,6 +11,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearchDump.dump_db:  Reduced Cognitive Complexity to accepted standard level - moved section of code to private method: _chk_status.
 - elastic_class.ElasticDump.__init__:  Reduced Cognitive Complexity to accepted standard level - initialized attributes in one area.
 - elastic_class.ElasticStatus.__init__:  Reduced Cognitive Complexity to accepted standard level - initalized data variable.
+- elastic_class.ElasticSearchDump.__init__:  Reduced Cognitive Complexity to accepted standard level - flatten if statements.
 
 ### Added
 - elastic_class.ElasticSearchDump._parse:  Replaces parse() in dump_db() function.

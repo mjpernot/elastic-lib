@@ -191,17 +191,16 @@ class ElasticSearchDump(ElasticSearch):
                     repo_dict[self.repo_name]["settings"]["location"]
                 self.dump_list = get_dump_list(self.es, self.repo_name)
 
-                if self.dump_list:
-                    self.last_dump_name = \
-                        elastic_libs.get_latest_dump(self.dump_list)
+            if self.dump_list:
+                self.last_dump_name = \
+                    elastic_libs.get_latest_dump(self.dump_list)
 
-                    # Make sure new dump name is unique.
-                    if self.dump_name == self.last_dump_name:
-                        time.sleep(1)
-                        self.dump_name = self.cluster_name.lower() + \
-                            "_bkp_" + \
-                            datetime.datetime.strftime(datetime.datetime.now(),
-                                                       "%Y%m%d-%H%M%s")
+            # Make sure new dump name is unique.
+            if self.dump_name == self.last_dump_name:
+                time.sleep(1)
+                self.dump_name = self.cluster_name.lower() + "_bkp_" + \
+                    datetime.datetime.strftime(datetime.datetime.now(),
+                                               "%Y%m%d-%H%M%s")
 
     def dump_db(self, dbs=None, **kwargs):
 
