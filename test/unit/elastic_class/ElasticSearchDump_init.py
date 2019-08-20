@@ -134,7 +134,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
-        test_ping_true -> Test ping of Elasticsearch server is True.
+        test_default -> Test with default settings.
 
     """
 
@@ -158,11 +158,11 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_ping_true(self, mock_es, mock_list, mock_latest):
+    def test_default(self, mock_es, mock_list, mock_latest):
 
-        """Function:  test_ping_true
+        """Function:  test_default
 
-        Description:  Test ping of Elasticsearch server is True.
+        Description:  Test with default settings.
 
         Arguments:
 
