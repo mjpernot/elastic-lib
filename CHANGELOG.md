@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [1.0.4] - 2019-08-20
+### Fixed
+- elastic_class.ElasticSearchDump.dump_db:  Corrected call syntax to \_chk_status method.
+
+
 ## [1.0.3] - 2019-03-12
 ### Changed
 - elastic_class.get_dump_list:  Changed ES to es for standard convention.
