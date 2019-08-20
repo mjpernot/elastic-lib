@@ -18,6 +18,8 @@ pipeline {
                 virtualenv test_env
                 source test_env/bin/activate
                 pip2 install mock --user
+                pip2 install elasticsearch --user
+                pip2 install requests --user
                 ./test/unit/elastic_libs/list_repos2.py
                 ./test/unit/elastic_libs/list_dumps.py
                 ./test/unit/elastic_libs/get_latest_dump.py
