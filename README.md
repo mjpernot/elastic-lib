@@ -139,21 +139,9 @@ exit
 
 # Unit test runs for elastic_libs.py:
 
-### Unit:  get_latest_dump
-
 ```
 test/unit/elastic_libs/get_latest_dump.py
-```
-
-### Unit:  list_dumps
-
-```
 test/unit/elastic_libs/list_dumps.py
-```
-
-### Unit:  list_repos2
-
-```
 test/unit/elastic_libs/list_repos2.py
 ```
 
@@ -168,6 +156,27 @@ test/unit/elastic_libs/unit_test_run.sh
 ```
 test/unit/elastic_libs/code_coverage.sh
 ```
+
+# Unit test runs for elastic_libs.py:
+
+```
+test/unit/elastic_class/ElasticSearch_init.py
+test/unit/elastic_class/ElasticSearchDump_init.py
+test/unit/elastic_class/ElasticSearchDump_dump_db.py
+```
+
+### All unit testing for elastic_class.py
+
+```
+test/unit/elastic_class/unit_test_run.sh
+```
+
+### Code coverage program
+
+```
+test/unit/elastic_class/code_coverage.sh
+```
+
 
 # Unit tests runs for elastic_class.py:
 ### NOTE:  Due to the inability to mock Elasticsearch connections in Python 2.6, there are no unit tests for this class.  All unit tests for elastic_class.py will be conducted in the Integration test section.
