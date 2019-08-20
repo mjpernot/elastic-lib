@@ -139,8 +139,9 @@ class UnitTest(unittest.TestCase):
         self.es.ping_status = False
         mock_es.return_value = self.es
 
-        es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts), (9200, self.host_list))
+        with gen_libs.no_std_out():
+            es = elastic_class.ElasticSearch(self.host_list)
+            self.assertEqual((es.port, es.hosts), (9200, self.host_list))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_ping_true(self, mock_es):
