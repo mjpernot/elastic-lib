@@ -152,6 +152,8 @@ class UnitTest(unittest.TestCase):
         self.host_str = "host1, host2"
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
+        self.dump_list = ["dump1", "dump2"]
+        self.last_dump = "dump2"
 
     @mock.patch("elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
@@ -167,12 +169,15 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
-        mock_list.return_value = ["dump1", "dump2"]
-        mock_latest.return_value = "dump2"
+        mock_list.return_value = self.dump_list
+        mock_latest.return_value = self.last_dump
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
 
-        #self.assertEqual((es.port, es.hosts), (9200, self.host_list))
+        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
+                          es.last_dump_name),
+                         (self.host_list, self.dump_list, self.repo,
+                          self.last_dump))
 
 
 if __name__ == "__main__":
