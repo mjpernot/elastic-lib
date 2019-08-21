@@ -11,6 +11,7 @@ echo "Running unit test modules in conjunction with coverage"
 coverage run -a --source=elastic_class test/unit/elastic_class/Elastic_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearch_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchDump_init.py
+coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchDump_chk_status.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchDump_dump_db.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo_create_repo.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo_delete_dump.py
