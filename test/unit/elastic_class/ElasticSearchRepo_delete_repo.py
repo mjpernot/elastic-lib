@@ -194,7 +194,7 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
 
-        self.assertEqual(es.delete_repo(), (False, None))
+        self.assertEqual(es.delete_repo(self.repo), (False, None))
 
 
 if __name__ == "__main__":
