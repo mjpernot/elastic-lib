@@ -6,6 +6,7 @@
 
 echo ""
 echo "Unit test:  elastic_class"
+test/unit/elastic_class/Elastic_init.py
 test/unit/elastic_class/ElasticSearch_init.py
 test/unit/elastic_class/ElasticSearchDump_init.py
 test/unit/elastic_class/ElasticSearchDump_dump_db.py
