@@ -169,7 +169,7 @@ class UnitTest(unittest.TestCase):
         self.host_str = "host1, host2"
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
-        self.break = False
+        self.break_flag = False
 
     @mock.patch("elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
@@ -191,7 +191,7 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
-        self.assertEqual(es._chk_status(self.break), (False, None, True))
+        self.assertEqual(es._chk_status(self.break_flag), (False, None, True))
 
 
 if __name__ == "__main__":
