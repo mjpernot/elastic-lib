@@ -167,7 +167,7 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo,
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
 
         self.assertEqual((es.hosts, es.repo, es.repo_dir),
