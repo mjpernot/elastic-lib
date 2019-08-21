@@ -12,6 +12,7 @@ coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearch_ini
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchDump_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchDump_dump_db.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo_create_repo.py
+coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo_delete_dump.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo_init.py
 coverage run -a --source=elastic_libs test/unit/elastic_libs/list_repos2.py
