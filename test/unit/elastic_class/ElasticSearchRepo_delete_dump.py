@@ -47,11 +47,26 @@ class Repo(object):
     Sub-Classes:
 
     Methods:
+        delete -> Stub holder for snapshot.delete method.
         get_repository -> Stub holder for snapshot.get_repository method.
         create_repository -> Stub holder for snapshot.create_repository method.
         delete_repository -> Stub holder for snapshot.delete_repository method.
 
     """
+
+    def delete(self, repository, snapshot):
+
+        """Method:  delete
+
+        Description:  Stub holder for snapshot.delete method.
+
+        Arguments:
+            (input) repository -> Repository name.
+            (input) snapshot -> Dump name to delete.
+
+        """
+
+        return {"acknowledged": True}
 
     def delete_repository(self):
 
@@ -193,10 +208,10 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
-        mock_list.side_effect = [["dump1", "dump2", "dump3"],
-                                 ["dump1", "dump2"]]
+        mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
+                                 [["dump1"], ["dump2"]]]
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
         self.assertEqual(es.delete_dump(self.repo, self.dump_name),
                          (False, None))
