@@ -197,7 +197,7 @@ class UnitTest(unittest.TestCase):
                                  ["dump1", "dump2"]]
         mock_delete.return_value = (False, None)
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
         self.assertEqual(es.delete_dump_all(self.repo), (False, None))
 
