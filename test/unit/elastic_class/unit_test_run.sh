@@ -9,5 +9,6 @@ echo "Unit test:  elastic_class"
 test/unit/elastic_class/ElasticSearch_init.py
 test/unit/elastic_class/ElasticSearchDump_init.py
 test/unit/elastic_class/ElasticSearchDump_dump_db.py
+test/unit/elastic_class/ElasticSearchRepo_create_repo.py
 test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
 test/unit/elastic_class/ElasticSearchRepo_init.py
