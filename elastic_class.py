@@ -267,7 +267,7 @@ class ElasticSearchDump(ElasticSearch):
 
             if self.dump_name == dump[0]:
 
-                self.dump_status, self.failed_shards = _parse(dump)
+                self.dump_status, self.failed_shards = self._parse(dump)
 
                 if self.dump_status == "IN_PROGRESS":
                     time.sleep(5)
@@ -297,7 +297,7 @@ class ElasticSearchDump(ElasticSearch):
 
         return err_flag, status_msg, break_flag
 
-    def _parse(dump, **kwargs):
+    def _parse(self, dump, **kwargs):
 
         """Function:  _parse
 
