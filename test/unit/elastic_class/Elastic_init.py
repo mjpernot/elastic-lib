@@ -62,8 +62,15 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_name = "host1"
-        self.get_data = {"first": True, "second": {"settings": {"path":
-            {"data": "data_dir", "logs": "log_dir"}}}}
+        self.get_data = {"nodes":
+                         {"first":
+                          {"settings":
+                           {"path":
+                            {"data": "data_dir", "logs": "log_dir"}}},
+                          "second":
+                          {"settings":
+                           {"path":
+                            {"data": "data_dir2", "logs": "log_dir2"}}}}}
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):
@@ -80,7 +87,7 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.Elastic(self.host_name)
         self.assertEqual((es.port, es.node, es.data, es.logs),
-                         (9200, self.host_name, "data_dir", "log_dir"))
+                         (9200, self.host_name, "data_dir2", "log_dir2"))
 
 
 if __name__ == "__main__":
