@@ -52,13 +52,16 @@ class Repo(object):
 
     """
 
-    def create_repository(self):
+    def create_repository(self, repository, body, verify):
 
         """Method:  create_repository
 
         Description:  Stub holder for snapshot.create_repository method.
 
         Arguments:
+            (input) repository -> Name of repository to create.
+            (input) body -> Command for create.
+            (input) verify -> True|False - Validate creation.
 
         """
 
@@ -180,10 +183,11 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo,
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
 
-        self.assertEqual(es.create_repo(), (False, None))
+        self.assertEqual(es.create_repo(self.repo, self.repo_dir),
+                         (False, None))
 
 
 if __name__ == "__main__":
