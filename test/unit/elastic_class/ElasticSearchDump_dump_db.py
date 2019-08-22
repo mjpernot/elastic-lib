@@ -41,10 +41,6 @@ class Repo(object):
 
     Description:  Class representation of the snapshot class.
 
-    Super-Class:  object
-
-    Sub-Classes:
-
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
         create -> Stub holder for snapshot.create method.
@@ -85,10 +81,6 @@ class Elasticsearch(object):
     """Class:  ElasticSearch
 
     Description:  Class representation of the Elasticsearch class.
-
-    Super-Class:  object
-
-    Sub-Classes:
 
     Methods:
         __init__ -> Initialize configuration environment.
@@ -144,13 +136,11 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Initialization for unit testing.
-        test_ping_true -> Test ping of Elasticsearch server is True.
+        test_no_repo_name -> Test with no repo name set.
+        test_bad_db_name -> Test with bad database name.
+        test_default -> Test with default settings.
 
     """
 
@@ -169,16 +159,66 @@ class UnitTest(unittest.TestCase):
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
         self.dbs = "dbname"
+        self.dbs2 = ["dbname"]
 
     @mock.patch("elastic_class.ElasticSearchDump._chk_status")
     @mock.patch("elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_ping_true(self, mock_es, mock_list, mock_latest, mock_chk):
+    def test_no_repo_name(self, mock_es, mock_list, mock_latest, mock_chk):
 
-        """Function:  test_ping_true
+        """Function:  test_no_repo_name
 
-        Description:  Test ping of Elasticsearch server is True.
+        Description:  Test with no repo name set.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.side_effect = [["dump1", "dump2"],
+                                 ["dump1", "dump2", "dump3"]]
+        mock_latest.side_effect = ["dump2", "dump3"]
+        mock_chk.return_value = (False, None, True)
+
+        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        es.repo_name = None
+        self.assertEqual(es.dump_db(self.dbs),
+            (True, "ERROR:  Repository name not set."))
+
+    @mock.patch("elastic_class.ElasticSearchDump._chk_status")
+    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_bad_db_name(self, mock_es, mock_list, mock_latest, mock_chk):
+
+        """Function:  test_bad_db_name
+
+        Description:  Test with bad database name.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.side_effect = [["dump1", "dump2"],
+                                 ["dump1", "dump2", "dump3"]]
+        mock_latest.side_effect = ["dump2", "dump3"]
+        mock_chk.return_value = (False, None, True)
+
+        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        self.assertEqual(es.dump_db(self.dbs2),
+            (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
+
+    @mock.patch("elastic_class.ElasticSearchDump._chk_status")
+    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_default(self, mock_es, mock_list, mock_latest, mock_chk):
+
+        """Function:  test_default
+
+        Description:  Test with default settings.
 
         Arguments:
 
@@ -192,8 +232,6 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         self.assertEqual(es.dump_db(self.dbs), (False, None))
-
-        #self.assertEqual((es.port, es.hosts), (9200, self.host_list))
 
 
 if __name__ == "__main__":
