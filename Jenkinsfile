@@ -34,6 +34,7 @@ pipeline {
                 ./test/unit/elastic_class/ElasticSearchRepo_delete_dump_all.py
                 ./test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
                 ./test/unit/elastic_class/ElasticSearchRepo_init.py
+                ./test/unit/elastic_class/ElasticStatus_init.py
                 deactivate
                 rm -rf test_env
                 """
