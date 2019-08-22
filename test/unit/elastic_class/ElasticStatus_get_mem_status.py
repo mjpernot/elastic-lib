@@ -87,8 +87,8 @@ class UnitTest(unittest.TestCase):
                                     "os": {"mem": {"used_percent": 55,
                                                    "total_in_bytes": 1234567,
                                                    "used_in_bytes": 123456,
-                                                   "free_in_bytes": 120000,
-                                                   "allocated_processors": 2}}}}
+                                                   "free_in_bytes": 120000},
+                                           "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
     @mock.patch("elastic_class.gen_libs.bytes_2_readable")
