@@ -40,6 +40,7 @@ pipeline {
                 ./test/unit/elastic_class/ElasticStatus_get_gen_status.py
                 ./test/unit/elastic_class/ElasticStatus_get_mem_status.py
                 ./test/unit/elastic_class/ElasticStatus_get_nodes.py
+                ./test/unit/elastic_class/ElasticStatus_get_node_status.py
                 ./test/unit/elastic_class/ElasticStatus_init.py
                 deactivate
                 rm -rf test_env
