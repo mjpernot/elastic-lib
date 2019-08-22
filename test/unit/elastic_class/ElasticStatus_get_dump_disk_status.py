@@ -88,8 +88,8 @@ class UnitTest(unittest.TestCase):
                                     "os": {"mem": {"used_percent": 55,
                                                    "total_in_bytes": 1234567,
                                                    "used_in_bytes": 123456,
-                                                   "free_in_bytes": 120000,
-                                                   "allocated_processors": 2}}}}
+                                                   "free_in_bytes": 120000},
+                                           "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
     @mock.patch("elastic_class.gen_libs.disk_usage")
@@ -116,7 +116,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.get_dump_disk_status(),
             ("Dump Usage\n\tRepo: reponame1\n\t\tPartition: /dir/data\n" \
              + "\t\tTotal: 200\n\t\tUsed: 150\n\t\tFree: 50\n" \
-             + "\t\tPercent: 0.0%"))
+             + "\t\tPercent: 75.00%"))
 
 
 if __name__ == "__main__":
