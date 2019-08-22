@@ -20,4 +20,5 @@ test/unit/elastic_class/ElasticSearchRepo_init.py
 test/unit/elastic_class/ElasticStatus_get_cluster.py
 test/unit/elastic_class/ElasticStatus_get_disk_status.py
 test/unit/elastic_class/ElasticStatus_get_dump_disk_status.py
+test/unit/elastic_class/ElasticStatus_get_gen_status.py
 test/unit/elastic_class/ElasticStatus_init.py
