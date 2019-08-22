@@ -35,6 +35,37 @@ import version
 __version__ = version.__version__
 
 
+class Repo2(object):
+
+    """Class:  Repo2
+
+    Description:  Class representation of the snapshot class.
+
+    Super-Class:  object
+
+    Sub-Classes:
+
+    Methods:
+        get_repository -> Stub holder for snapshot.get_repository method.
+
+    """
+
+    def get_repository(self):
+
+        """Method:  get_repository
+
+        Description:  Stub holder for snapshot.get_repository method.
+
+        Arguments:
+
+        """
+
+        return {"reponame": {"type": "dbdump", "settings":
+                             {"location": "/dir/path/dump"}},
+                "reponame2": {"type": "dbdump2", "settings":
+                             {"location": "/dir/path/dump2"}}}
+
+
 class Repo(object):
 
     """Class:  Repo
@@ -134,6 +165,9 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_repo_not_passed2 -> Test with repo not passed and multiple repos.
+        test_repo_not_passed -> Test with repo not passed as argument.
+        test_repo_not_present -> Test with repo not present.
         test_default -> Test with default settings.
 
     """
@@ -151,9 +185,80 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.host_str = "host1, host2"
         self.repo = "reponame"
+        self.repo2 = "reponame2"
         self.es = Elasticsearch(self.host_list)
         self.dump_list = ["dump1", "dump2"]
         self.last_dump = "dump2"
+
+    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_not_passed2(self, mock_es, mock_list, mock_latest):
+
+        """Function:  test_repo_not_passed2
+
+        Description:  Test with repo not passed and multiple repos.
+
+        Arguments:
+
+        """
+
+        self.es.snapshot = Repo2()
+
+        mock_es.return_value = self.es
+        mock_list.return_value = self.dump_list
+        mock_latest.return_value = self.last_dump
+
+        es = elastic_class.ElasticSearchDump(self.host_list)
+
+        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
+                          es.last_dump_name), (self.host_list, [], None, None))
+
+    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_not_passed(self, mock_es, mock_list, mock_latest):
+
+        """Function:  test_repo_not_passed
+
+        Description:  Test with repo not passed as argument.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.return_value = self.dump_list
+        mock_latest.return_value = self.last_dump
+
+        es = elastic_class.ElasticSearchDump(self.host_list)
+
+        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
+                          es.last_dump_name),
+                         (self.host_list, self.dump_list, self.repo,
+                          self.last_dump))
+
+    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_not_present(self, mock_es, mock_list, mock_latest):
+
+        """Function:  test_repo_not_present
+
+        Description:  Test with repo not present.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.return_value = self.dump_list
+        mock_latest.return_value = self.last_dump
+
+        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo2)
+
+        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
+                          es.last_dump_name), (self.host_list, [], None, None))
 
     @mock.patch("elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
