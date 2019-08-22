@@ -9,6 +9,7 @@ coverage erase
 echo ""
 echo "Running unit test modules in conjunction with coverage"
 coverage run -a --source=elastic_class test/unit/elastic_class/Elastic_init.py
+coverage run -a --source=elastic_class test/unit/elastic_class/ElasticCluster_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearch_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchDump_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchDump_chk_status.py
