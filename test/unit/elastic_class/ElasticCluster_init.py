@@ -92,7 +92,7 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticCluster(self.host_name)
         self.assertEqual((es.cluster, es.total_nodes, es.cluster_status,
                           es.master),
-                         (clustername, 1, "green", "log_dir2", "hostname"))
+                         (clustername, 1, "green", "hostname"))
 
 
 if __name__ == "__main__":
