@@ -87,8 +87,8 @@ class UnitTest(unittest.TestCase):
                                     "os": {"mem": {"used_percent": 55,
                                                    "total_in_bytes": 1234567,
                                                    "used_in_bytes": 123456,
-                                                   "free_in_bytes": 120000,
-                                                   "allocated_processors": 2}}}}
+                                                   "free_in_bytes": 120000},
+                                           "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
     @mock.patch("elastic_class.requests_libs.get_query")
@@ -110,7 +110,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.get_disk_status(),
             ("Disk Usage" \
              + "\n\tNode: hostname\n\t\tTotal: 69gb\n\t\tAvailable: 53gb\n" \
-             + "\t\tTotal Used: 16gb\n\t\tES Used: 69mb\n\t\tPercent: 23")
+             + "\t\tTotal Used: 16gb\n\t\tES Used: 69mb\n\t\tPercent: 23"))
 
 
 if __name__ == "__main__":
