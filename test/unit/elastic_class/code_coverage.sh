@@ -23,6 +23,7 @@ coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get_disk_status.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get_dump_disk_status.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get_gen_status.py
+coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get_mem_status.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_init.py
 
 echo ""
