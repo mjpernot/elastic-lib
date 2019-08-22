@@ -27,6 +27,7 @@ coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get_nodes.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get_node_status.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get_shrd_status.py
+coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_get_svr_status.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_init.py
 coverage run -a --source=elastic_libs test/unit/elastic_libs/list_repos2.py
 coverage run -a --source=elastic_libs test/unit/elastic_libs/list_dumps.py
