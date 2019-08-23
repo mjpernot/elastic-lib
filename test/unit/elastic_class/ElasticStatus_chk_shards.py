@@ -112,7 +112,7 @@ class UnitTest(unittest.TestCase):
              + "unassigned shards out of 9 shards\n" \
              + "WARNING: Currently active shards at 90%\n" \
              + "WARNING: Detected shards in non-operation mode:" \
-             + "\nshard1 d1 d2 UNASSIGNED host\n"))
+             + "\n['shard1', 'd1', 'd2', 'UNASSIGNED', 'host']"))
 
 
 if __name__ == "__main__":

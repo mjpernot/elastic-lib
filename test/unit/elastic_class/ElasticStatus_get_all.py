@@ -90,9 +90,19 @@ class UnitTest(unittest.TestCase):
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
-    @mock.patch("elastic_class.ElasticStatus")
+    @mock.patch("elastic_class.ElasticStatus.get_cluster")
+    @mock.patch("elastic_class.ElasticStatus.get_dump_disk_status")
+    @mock.patch("elastic_class.ElasticStatus.get_disk_status")
+    @mock.patch("elastic_class.ElasticStatus.get_gen_status")
+    @mock.patch("elastic_class.ElasticStatus.get_shrd_status")
+    @mock.patch("elastic_class.ElasticStatus.get_mem_status")
+    @mock.patch("elastic_class.ElasticStatus.get_svr_status")
+    @mock.patch("elastic_class.ElasticStatus.get_node_status")
+    @mock.patch("elastic_class.ElasticStatus.get_nodes")
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_default(self, mock_get, mock_es):
+    def test_default(self, mock_get, mock_nodes, mock_stat, mock_svr,
+                     mock_mem, mock_shrd, mock_gen, mock_disk, mock_dump,
+                     mock_cluster):
 
         """Function:  test_default
 
@@ -105,19 +115,19 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_es.get_nodes.return_value = "nodes"
-        mock_es.get_node_status.return_value = "green"
-        mock_es.get_svr_status.return_value = "yellow"
-        mock_es.get_mem_status.return_value = "90"
-        mock_es.get_shrd_status.return_value = "red"
-        mock_es.get_gen_status.return_value = "ok"
-        mock_es.get_disk_status.return_value = "50"
-        mock_es.get_dump_disk_status.return_value = "good"
-        mock_es.get_cluster.return_value = "clustername"
+        mock_nodes.return_value = "nodes"
+        mock_stat.return_value = "green"
+        mock_svr.return_value = "yellow"
+        mock_mem.return_value = "90"
+        mock_shrd.return_value = "red"
+        mock_gen.return_value = "ok"
+        mock_disk.return_value = "50"
+        mock_dump.return_value = "good"
+        mock_cluster.return_value = "clustername"
 
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.get_all (),
-            ("nodes\ngreen\nyellow\n90\nred\nok\n50\ngood\nclustername"))
+            ("clustername\nnodes\ngreen\nyellow\n90\nred\nok\n50\ngood"))
 
 
 if __name__ == "__main__":

@@ -90,9 +90,16 @@ class UnitTest(unittest.TestCase):
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
-    @mock.patch("elastic_class.ElasticStatus")
+    @mock.patch("elastic_class.ElasticStatus.get_cluster")
+    @mock.patch("elastic_class.ElasticStatus.chk_disk")
+    @mock.patch("elastic_class.ElasticStatus.chk_status")
+    @mock.patch("elastic_class.ElasticStatus.chk_server")
+    @mock.patch("elastic_class.ElasticStatus.chk_shards")
+    @mock.patch("elastic_class.ElasticStatus.chk_nodes")
+    @mock.patch("elastic_class.ElasticStatus.chk_mem")
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_default(self, mock_get, mock_es):
+    def test_default(self, mock_get, mock_mem, mock_nodes, mock_shards,
+                     mock_server, mock_status, mock_disk, mock_cluster):
 
         """Function:  test_default
 
@@ -105,13 +112,13 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_es.chk_mem.return_value = None
-        mock_es.chk_nodes.return_value = None
-        mock_es.chk_shards.return_value = None
-        mock_es.chk_server.return_value = None
-        mock_es.chk_status.return_value = None
-        mock_es.chk_disk.return_value = None
-        mock_es.chk_cluster.return_value = "clustername"
+        mock_mem.return_value = None
+        mock_nodes.return_value = None
+        mock_shards.return_value = None
+        mock_server.return_value = None
+        mock_status.return_value = None
+        mock_disk.return_value = None
+        mock_cluster.return_value = "clustername"
 
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.chk_all(), (None))
