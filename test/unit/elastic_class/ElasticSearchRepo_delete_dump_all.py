@@ -149,6 +149,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_delete_dump_fails -> Test with delete dumps fails.
         test_repo_name_none -> Test with repo name set to none.
         test_no_repo_name -> Test with no repo name passed.
         test_default -> Test with default settings.
@@ -168,6 +169,29 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
+
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_delete_dump_fails(self, mock_es, mock_list, mock_delete):
+
+        """Function:  test_delete_dump_fails
+
+        Description:  Test with delete dumps fails.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.side_effect = [["dump1", "dump2", "dump3"],
+                                 ["dump1", "dump2"]]
+        mock_delete.return_value = (True, "Error Message")
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+
+        self.assertEqual(es.delete_dump_all(self.repo),
+            (True, "Error Message"))
 
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
