@@ -180,6 +180,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_repo_name_none -> Test with repo name set to None.
         test_no_dump -> Test with no dump to delete.
         test_dump_detected -> Test with dump detected after delete.
         test_delete_failed -> Test with delete of dump failing.
@@ -203,6 +204,29 @@ class UnitTest(unittest.TestCase):
         self.repo2 = "reponame2"
         self.es = Elasticsearch(self.host_list)
         self.dump_name = "dump3"
+
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_name_none(self, mock_es, mock_list):
+
+        """Function:  test_repo_name_none
+
+        Description:  Test with repo name set to None.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
+                                 [["dump1"], ["dump2"]]]
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo_name = None
+
+        self.assertEqual(es.delete_dump(dump_name=self.dump_name),
+            (True,
+             "ERROR: Missing arg/repo not exist, Repo: None, Dump: dump3"))
 
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
