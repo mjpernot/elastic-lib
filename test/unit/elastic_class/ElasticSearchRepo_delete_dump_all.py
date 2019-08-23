@@ -212,7 +212,7 @@ class UnitTest(unittest.TestCase):
         mock_delete.return_value = (False, None)
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo_name = None
+        es.repo = None
 
         self.assertEqual(es.delete_dump_all(),
             (True, "ERROR:  Repo:  None is not present or missing argument."))

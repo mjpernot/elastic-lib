@@ -42,10 +42,6 @@ class Repo(object):
 
     Description:  Class representation of the snapshot class.
 
-    Super-Class:  object
-
-    Sub-Classes:
-
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
         create_repository -> Stub holder for snapshot.create_repository method.
@@ -66,7 +62,7 @@ class Repo(object):
         """
 
         if repository == "reponame3":
-            return {"failed": True}
+            return {"acknowledged": False}
 
         else:
             return {"acknowledged": True}
@@ -90,10 +86,6 @@ class Elasticsearch(object):
     """Class:  ElasticSearch
 
     Description:  Class representation of the Elasticsearch class.
-
-    Super-Class:  object
-
-    Sub-Classes:
 
     Methods:
         __init__ -> Initialize configuration environment.
@@ -149,10 +141,6 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Initialization for unit testing.
         test_not_created_repo -> Test with repository not created.
@@ -200,7 +188,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.create_repo(self.repo3, self.repo_dir),
             (True,
-            "ERROR:  Repository creation failure:  reponame3, '/dir/path/repo'"))
+            "ERROR:  Repository creation failure:  reponame3, /dir/path/repo"))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_not_detected_repo(self, mock_es):
@@ -221,7 +209,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.create_repo(self.repo2, self.repo_dir),
             (True,
-            "ERROR:  Repository not detected:  reponame2, '/dir/path/repo'"))
+            "ERROR:  Repository not detected:  reponame2, /dir/path/repo"))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_missing_repo_name(self, mock_es):
@@ -238,11 +226,11 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
-        es.repo_name = None
+        es.repo = None
 
         self.assertEqual(es.create_repo(repo_dir=self.repo_dir),
             (True,
-            "ERROR: Missing repo name or directory: None, '/dir/path/repo'"))
+            "ERROR: Missing repo name or directory: 'None', '/dir/path/repo'"))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_no_repo_dir(self, mock_es):

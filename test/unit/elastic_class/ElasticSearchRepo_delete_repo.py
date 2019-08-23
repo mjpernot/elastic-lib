@@ -42,10 +42,6 @@ class Repo(object):
 
     Description:  Class representation of the snapshot class.
 
-    Super-Class:  object
-
-    Sub-Classes:
-
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
         create_repository -> Stub holder for snapshot.create_repository method.
@@ -65,7 +61,7 @@ class Repo(object):
         """
 
         if repository == "reponame3":
-            return {"failed": True}
+            return {"acknowledged": False}
 
         else:
             return {"acknowledged": True}
@@ -101,10 +97,6 @@ class Elasticsearch(object):
     """Class:  ElasticSearch
 
     Description:  Class representation of the Elasticsearch class.
-
-    Super-Class:  object
-
-    Sub-Classes:
 
     Methods:
         __init__ -> Initialize configuration environment.
@@ -160,10 +152,6 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Initialization for unit testing.
         test_repo_name_failed -> Test with repo name failed to delete.
@@ -211,7 +199,7 @@ class UnitTest(unittest.TestCase):
                         "reponame2":
                         {"type": "dbdump", "settings":
                          {"location": "/dir/path/dump2"}}}
-        es.repo_name = None
+        es.repo_dict[self.repo3] = True
 
         self.assertEqual(es.delete_repo(self.repo3),
             (True, "ERROR:  Repository deletion failed:  reponame3"))
@@ -236,9 +224,9 @@ class UnitTest(unittest.TestCase):
                         "reponame2":
                         {"type": "dbdump", "settings":
                          {"location": "/dir/path/dump2"}}}
-        es.repo_name = None
+        es.repo = None
 
-        self.assertEqual(es.delete_repo(self.repo2),
+        self.assertEqual(es.delete_repo(),
             (True, "ERROR: Missing repo or does not exist: None"))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")

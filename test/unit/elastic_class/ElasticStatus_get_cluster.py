@@ -108,7 +108,7 @@ class UnitTest(unittest.TestCase):
                                 self.get_data7, self.get_data8, self.get_data9]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_cluster(True), ({"Cluster": clustername"}))
+        self.assertEqual(es.get_cluster(True), ({"Cluster": "clustername"}))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):

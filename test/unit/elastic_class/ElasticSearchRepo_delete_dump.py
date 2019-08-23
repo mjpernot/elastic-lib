@@ -42,10 +42,6 @@ class Repo(object):
 
     Description:  Class representation of the snapshot class.
 
-    Super-Class:  object
-
-    Sub-Classes:
-
     Methods:
         delete -> Stub holder for snapshot.delete method.
         get_repository -> Stub holder for snapshot.get_repository method.
@@ -67,7 +63,7 @@ class Repo(object):
         """
 
         if repository == "reponame2":
-            return {"failed": True}
+            return {"acknowledged": False}
 
         else:
             return {"acknowledged": True}
@@ -115,10 +111,6 @@ class Elasticsearch(object):
     """Class:  ElasticSearch
 
     Description:  Class representation of the Elasticsearch class.
-
-    Super-Class:  object
-
-    Sub-Classes:
 
     Methods:
         __init__ -> Initialize configuration environment.
@@ -174,10 +166,6 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Initialization for unit testing.
         test_repo_name_none -> Test with repo name set to None.
@@ -222,7 +210,7 @@ class UnitTest(unittest.TestCase):
                                  [["dump1"], ["dump2"]]]
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo_name = None
+        es.repo = None
 
         self.assertEqual(es.delete_dump(dump_name=self.dump_name),
             (True,
@@ -287,6 +275,7 @@ class UnitTest(unittest.TestCase):
                                  [["dump1"], ["dump2"]]]
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo_dict[self.repo2] = True
 
         self.assertEqual(es.delete_dump(self.repo2, self.dump_name),
             (True, "ERROR:  Dump deletion failed:  reponame2, dump3"))
