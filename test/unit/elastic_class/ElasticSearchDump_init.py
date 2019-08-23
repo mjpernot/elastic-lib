@@ -149,6 +149,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_dupe_name -> Test with duplicate dump name.
         test_repo_not_passed2 -> Test with repo not passed and multiple repos.
         test_repo_not_passed -> Test with repo not passed as argument.
         test_repo_not_present -> Test with repo not present.
@@ -174,7 +175,33 @@ class UnitTest(unittest.TestCase):
         self.dump_list = ["dump1", "dump2"]
         self.last_dump = "dump2"
 
-    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.datetime.datetime")
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_dupe_name(self, mock_es, mock_list, mock_latest, mock_date):
+
+        """Function:  test_dupe_name
+
+        Description:  Test with duplicate dump name.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.return_value = self.dump_list
+        mock_latest.return_value = self.last_dump
+        mock_date.strftime.side_effect = ["dump2", "dump3"]
+
+        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+
+        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
+                          es.last_dump_name),
+                         (self.host_list, self.dump_list, self.repo,
+                          self.last_dump))
+
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_repo_not_passed2(self, mock_es, mock_list, mock_latest):
@@ -198,7 +225,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual((es.hosts, es.dump_list, es.repo_name,
                           es.last_dump_name), (self.host_list, [], None, None))
 
-    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_repo_not_passed(self, mock_es, mock_list, mock_latest):
@@ -222,7 +249,7 @@ class UnitTest(unittest.TestCase):
                          (self.host_list, self.dump_list, self.repo,
                           self.last_dump))
 
-    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_repo_not_present(self, mock_es, mock_list, mock_latest):
@@ -244,7 +271,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual((es.hosts, es.dump_list, es.repo_name,
                           es.last_dump_name), (self.host_list, [], None, None))
 
-    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es, mock_list, mock_latest):
