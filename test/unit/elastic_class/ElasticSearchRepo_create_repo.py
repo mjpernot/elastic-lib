@@ -65,7 +65,11 @@ class Repo(object):
 
         """
 
-        return {"acknowledged": True}
+        if repository == "reponame3":
+            return {"failed": True}
+
+        else:
+            return {"acknowledged": True}
 
     def get_repository(self):
 
@@ -152,6 +156,7 @@ class UnitTest(unittest.TestCase):
     Methods:
         setUp -> Initialization for unit testing.
         test_not_created_repo -> Test with repository not created.
+        test_not_detected_repo -> Test with repository not detected.
         test_missing_repo_name -> Test with missing repo named.
         test_no_repo_dir -> Test with no repo directory passed.
         test_no_repo_name -> Test with no repo named passed.
@@ -172,6 +177,7 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.repo2 = "reponame2"
+        self.repo3 = "reponame3"
         self.es = Elasticsearch(self.host_list)
         self.repo_dir = "/dir/path/repo"
 
@@ -181,6 +187,27 @@ class UnitTest(unittest.TestCase):
         """Function:  test_not_created_repo
 
         Description:  Test with repository not created.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                             repo_dir=self.repo_dir)
+        es.repo_name = None
+
+        self.assertEqual(es.create_repo(self.repo3, self.repo_dir),
+            (True,
+            "ERROR:  Repository creation failure:  reponame3, '/dir/path/repo'"))
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_not_detected_repo(self, mock_es):
+
+        """Function:  test_not_detected_repo
+
+        Description:  Test with repository not detected.
 
         Arguments:
 
