@@ -171,7 +171,7 @@ class UnitTest(unittest.TestCase):
         self.es = Elasticsearch(self.host_list)
         self.break_flag = False
 
-    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_success_dump(self, mock_es, mock_list, mock_latest):
