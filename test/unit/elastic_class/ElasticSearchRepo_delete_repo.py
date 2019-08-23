@@ -64,7 +64,11 @@ class Repo(object):
 
         """
 
-        return {"acknowledged": True}
+        if repository == "reponame3":
+            return {"failed": True}
+
+        else:
+            return {"acknowledged": True}
 
     def create_repository(self):
 
@@ -162,6 +166,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_repo_name_failed -> Test with repo name failed to delete.
         test_repo_name_none -> Test with repo name set to None.
         test_no_repo_name -> Test with no repo name passed.
         test_not_deleted -> Test with repository not being deleted.
@@ -182,8 +187,34 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.repo2 = "reponame2"
+        self.repo3 = "reponame3"
         self.es = Elasticsearch(self.host_list)
         self.err_msg = "ERROR:  Repository still detected:  reponame"
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_name_failed(self, mock_es):
+
+        """Function:  test_repo_name_failed
+
+        Description:  Test with repo name failed to delete.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo_dict = {"reponame":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump"}},
+                        "reponame2":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump2"}}}
+        es.repo_name = None
+
+        self.assertEqual(es.delete_repo(self.repo3),
+            (True, "ERROR:  Repository deletion failed:  reponame3"))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_repo_name_none(self, mock_es):
