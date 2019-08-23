@@ -161,6 +161,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_repo_name_none -> Test with repo name set to none.
+        test_no_repo_name -> Test with no repo name passed.
         test_default -> Test with default settings.
 
     """
@@ -178,6 +180,52 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
+
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_name_none(self, mock_es, mock_list, mock_delete):
+
+        """Function:  test_repo_name_none
+
+        Description:  Test with repo name set to none.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.side_effect = [["dump1", "dump2", "dump3"],
+                                 ["dump1", "dump2"]]
+        mock_delete.return_value = (False, None)
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo_name = None
+
+        self.assertEqual(es.delete_dump_all(),
+            (True, "ERROR:  Repo:  None is not present or missing argument."))
+
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_no_repo_name(self, mock_es, mock_list, mock_delete):
+
+        """Function:  test_no_repo_name
+
+        Description:  Test with no repo name passed.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.side_effect = [["dump1", "dump2", "dump3"],
+                                 ["dump1", "dump2"]]
+        mock_delete.return_value = (False, None)
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+
+        self.assertEqual(es.delete_dump_all(), (False, None))
 
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
