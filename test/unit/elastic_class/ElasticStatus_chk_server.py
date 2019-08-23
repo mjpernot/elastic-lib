@@ -108,7 +108,7 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.chk_server(),
-            (""WARNING:  Have reach 75% threshold.  " \
+            ("WARNING:  Have reach 75% threshold.  " \
              + "Currently using 75% on 2 CPUs"))
 
 
