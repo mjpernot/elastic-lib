@@ -162,6 +162,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_repo_name_none -> Test with repo name set to None.
+        test_no_repo_name -> Test with no repo name passed.
         test_not_deleted -> Test with repository not being deleted.
         test_default -> Test with default settings.
 
@@ -182,6 +184,54 @@ class UnitTest(unittest.TestCase):
         self.repo2 = "reponame2"
         self.es = Elasticsearch(self.host_list)
         self.err_msg = "ERROR:  Repository still detected:  reponame"
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_name_none(self, mock_es):
+
+        """Function:  test_repo_name_none
+
+        Description:  Test with repo name set to None.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo_dict = {"reponame":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump"}},
+                        "reponame2":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump2"}}}
+        es.repo_name = None
+
+        self.assertEqual(es.delete_repo(self.repo2),
+            (True, "ERROR: Missing repo or does not exist: None"))
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_no_repo_name(self, mock_es):
+
+        """Function:  test_no_repo_name
+
+        Description:  Test with no repo name passed.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo_dict = {"reponame":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump"}},
+                        "reponame2":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump2"}}}
+
+        self.assertEqual(es.delete_repo(self.repo2), (False, None))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_not_deleted(self, mock_es):
