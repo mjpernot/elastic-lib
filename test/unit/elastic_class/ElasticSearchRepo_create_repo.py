@@ -167,8 +167,88 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
+        self.repo2 = "reponame2"
         self.es = Elasticsearch(self.host_list)
         self.repo_dir = "/dir/path/repo"
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_not_created_repo(self, mock_es):
+
+        """Function:  test_not_created_repo
+
+        Description:  Test with repository not created.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                             repo_dir=self.repo_dir)
+        es.repo_name = None
+
+        self.assertEqual(es.create_repo(self.repo2, self.repo_dir),
+            (True,
+            "ERROR:  Repository not detected:  reponame2, '/dir/path/repo'"))
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_missing_repo_name(self, mock_es):
+
+        """Function:  test_missing_repo_name
+
+        Description:  Test with missing repo named.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                             repo_dir=self.repo_dir)
+        es.repo_name = None
+
+        self.assertEqual(es.create_repo(repo_dir=self.repo_dir),
+            (True,
+            "ERROR: Missing repo name or directory: None, '/dir/path/repo'"))
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_no_repo_dir(self, mock_es):
+
+        """Function:  test_no_repo_dir
+
+        Description:  Test with no repo directory passed.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                             repo_dir=self.repo_dir)
+
+        self.assertEqual(es.create_repo(self.repo), (False, None))
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_no_repo_name(self, mock_es):
+
+        """Function:  test_no_repo_name
+
+        Description:  Test with no repo named passed.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                             repo_dir=self.repo_dir)
+
+        self.assertEqual(es.create_repo(repo_dir=self.repo_dir),
+                         (False, None))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es):
