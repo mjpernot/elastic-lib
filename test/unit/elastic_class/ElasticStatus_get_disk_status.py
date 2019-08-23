@@ -109,8 +109,8 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.get_disk_status(True),
-            ({"Disk_Usage": {"hostname": {"Total": 69gb, "Available": 53gb,
-                "Total_Used": 16gb, "ES_Used": 69mb, "Percent": 23}}}))
+            ({"Disk_Usage": {"hostname": {"Total": "69gb", "Available": "53gb",
+                "Total_Used": "16gb", "ES_Used": "69mb", "Percent": "23"}}}))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):

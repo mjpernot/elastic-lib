@@ -110,7 +110,8 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.get_gen_status(True),
             ({"Cluster_Status":
-                {"Master": hostname, "Status": green, "Pending_Tasks": 0}}))
+                {"Master": "hostname", "Status": "green",
+                 "Pending_Tasks": 0}}))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):
