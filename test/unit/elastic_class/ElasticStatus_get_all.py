@@ -116,7 +116,7 @@ class UnitTest(unittest.TestCase):
         mock_es.get_cluster.return_value = "clustername"
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.ElasticStatus_get_all.py(),
+        self.assertEqual(es.get_all (),
             ("nodes\ngreen\nyellow\n90\nred\nok\n50\ngood\nclustername"))
 
 
