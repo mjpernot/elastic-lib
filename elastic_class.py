@@ -1281,7 +1281,8 @@ class ElasticStatus(ElasticCluster):
 
             else:
                 data = data + "\n"
-                data = "WARNING: Detected %s " % (self.unassigned_shards) \
+                data = data \
+                    + "WARNING: Detected %s " % (self.unassigned_shards) \
                     + "unassigned shards out of %s shards" % (self.num_shards)
 
         # How much of shards is not active

@@ -6,6 +6,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [1.0.4] - 2019-08-21
 ### Fixed
+- elastic_class.ElasticStatus.chk_shards:  Corrected string concentation error.
 - elastic_class.ElasticSearchDump.dump_db:  Corrected call syntax to \_chk_status method.
 - elastic_class.ElasticSearchDump.\_chk_status:  Corrected call syntax to \_parse method.
 - elastic_class.ElasticSearchDump.\_parse:  Corrected incorrect argument list.
