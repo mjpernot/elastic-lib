@@ -162,7 +162,7 @@ class UnitTest(unittest.TestCase):
         self.dbs2 = ["dbname"]
 
     @mock.patch("elastic_class.ElasticSearchDump._chk_status")
-    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_no_repo_name(self, mock_es, mock_list, mock_latest, mock_chk):
@@ -187,7 +187,7 @@ class UnitTest(unittest.TestCase):
             (True, "ERROR:  Repository name not set."))
 
     @mock.patch("elastic_class.ElasticSearchDump._chk_status")
-    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_bad_db_name(self, mock_es, mock_list, mock_latest, mock_chk):
@@ -211,7 +211,7 @@ class UnitTest(unittest.TestCase):
             (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
 
     @mock.patch("elastic_class.ElasticSearchDump._chk_status")
-    @mock.patch("elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es, mock_list, mock_latest, mock_chk):
