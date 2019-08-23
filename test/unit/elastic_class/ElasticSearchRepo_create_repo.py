@@ -151,6 +151,10 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_not_created_repo -> Test with repository not created.
+        test_missing_repo_name -> Test with missing repo named.
+        test_no_repo_dir -> Test with no repo directory passed.
+        test_no_repo_name -> Test with no repo named passed.
         test_default -> Test with default settings.
 
     """
