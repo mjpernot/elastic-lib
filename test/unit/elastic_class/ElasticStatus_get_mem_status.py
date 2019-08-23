@@ -44,6 +44,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_json -> Test with JSON format.
         test_default -> Test with default settings.
 
     """
@@ -90,6 +91,28 @@ class UnitTest(unittest.TestCase):
                                                    "free_in_bytes": 120000},
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
+
+    @mock.patch("elastic_class.gen_libs.bytes_2_readable")
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_json(self, mock_get, mock_lib):
+
+        """Function:  test_json
+
+        Description:  Test with JSON format.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+        mock_lib.side_effect = [123, 12, 10]
+
+        es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.get_mem_status(True),
+            ({"Memory":
+                {"Percent": 55, "Total": 123, "Used": 12, "Free": 10}}))
 
     @mock.patch("elastic_class.gen_libs.bytes_2_readable")
     @mock.patch("elastic_class.requests_libs.get_query")
