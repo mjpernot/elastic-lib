@@ -44,6 +44,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_string_default -> Test with string settings.
         test_default -> Test with default settings.
 
     """
@@ -90,6 +91,28 @@ class UnitTest(unittest.TestCase):
                                                    "free_in_bytes": 120000},
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
+
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_string_default(self, mock_get):
+
+        """Function:  test_string_default
+
+        Description:  Test with string settings.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+
+        es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.chk_disk(cutoff_disk=10), 
+            ("Disk Warning\n" \
+             + "\tNode: hostname\n\t\tHas reached disk threshold" \
+             + "\n\t\tThreshold: 10\n\t\tTotal: 69gb\n" \
+             + "\t\tUsed: 16gb\n\t\tES Used: 69mb\n"))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):
