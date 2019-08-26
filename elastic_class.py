@@ -36,7 +36,6 @@ import lib.gen_libs as gen_libs
 import requests_lib.requests_libs as requests_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -49,8 +48,6 @@ def get_dump_list(es, repo, **kwargs):
     Arguments:
         (input) es -> ElasticSearch instance.
         (input) repo -> Name of repository.
-        (input) **kwargs:
-            None
         (output) List of ElasticSearch dumps.
 
     """
@@ -67,11 +64,6 @@ class ElasticSearch(object):
         implement the connecting to an execute commands in an ElasticSearch
         database/cluster.
 
-    Super-Class:  object
-
-    Sub-Classes:
-        ElasticSearchDump
-
     Methods:
         __init__ -> Class instance initialization.
 
@@ -86,8 +78,6 @@ class ElasticSearch(object):
         Arguments:
             (input) host_list -> List of host(s) within ElasticSearch cluster.
             (input) port -> ElasticSearch port to connect to.
-            (input)  **kwargs:
-                None
 
         """
 
@@ -124,11 +114,6 @@ class ElasticSearchDump(ElasticSearch):
         dump.  An ElasticSearchDump object is used as proxy to implement a
         database dump of an ElasticSearch database/cluster.
 
-    Super-Class:  ElasticSearch
-
-    Sub-Classes:
-        None
-
     Methods:
         __init__ -> Class instance initilization.
         dump_db -> Executes a dump of an ElasticSearch database.
@@ -147,8 +132,6 @@ class ElasticSearchDump(ElasticSearch):
             (input) port -> ElasticSearch database port.
             (input) repo -> Name of repository.  Required if multiple
                 repositories are present in the cluster.
-            (input)  **kwargs:
-                None
 
         """
 
@@ -210,8 +193,6 @@ class ElasticSearchDump(ElasticSearch):
 
         Arguments:
             (input) dbs -> String of database(s) to dump, comma delimited.
-            (input)  **kwargs:
-                None
             (output) err_flag True|False -> Were errors detected during dump.
             (output) status_msg -> Dump error message.
 
@@ -305,8 +286,6 @@ class ElasticSearchDump(ElasticSearch):
 
         Arguments:
             (input)  dump -> Dump entry.
-            (input)  **kwargs:
-                None
             (output) Return dump status.
             (output) Return shard failures.
 
@@ -322,11 +301,6 @@ class ElasticSearchRepo(ElasticSearch):
     Description:  Class which is a representation of ElasticSearchRepo
         repositories.  An ElasticSearchRepo object is used as proxy to
         implement respositories within an Elasticsearch cluster.
-
-    Super-Class:  ElasticSearch
-
-    Sub-Classes:
-        None
 
     Methods:
         __init__ -> Class instance initilization.
@@ -350,8 +324,6 @@ class ElasticSearchRepo(ElasticSearch):
             (input) port -> ElasticSearch database port.
             (input) repo -> Name of repository.
             (input) repo_dir -> Directory path to respository.
-            (input)  **kwargs:
-                None
 
         """
 
@@ -375,8 +347,6 @@ class ElasticSearchRepo(ElasticSearch):
         Arguments:
             (input) repo_name -> Name of repository.
             (input) repo_dir -> Directory path to respository.
-            (input)  **kwargs:
-                None
             (output) err_flag -> True|False - Error status for repo creation.
             (output) err_msg -> Status error message or None.
 
@@ -429,8 +399,6 @@ class ElasticSearchRepo(ElasticSearch):
 
         Arguments:
             (input) repo -> Name of repository.
-            (input)  **kwargs:
-                None
             (output) err_flag -> True|False - Error status for repo deletion.
             (output) err_msg -> Status error message or None.
 
@@ -476,8 +444,6 @@ class ElasticSearchRepo(ElasticSearch):
         Arguments:
             (input) repo_name -> Name of repository.
             (input) dump_name -> Name of dump.
-            (input)  **kwargs:
-                None
             (output) err_flag -> True|False - Error status for deletion.
             (output) err_msg -> Status error message or None.
 
@@ -531,8 +497,6 @@ class ElasticSearchRepo(ElasticSearch):
 
         Arguments:
             (input)  repo_name -> Name of repository.
-            (input)  **kwargs:
-                None
             (output) err_flag -> True|False - Error status for deletion.
             (output) err_msg -> Status error message or None.
 
@@ -570,12 +534,6 @@ class Elastic(object):
     Description:  Class which is a representation of an Elasticsearch database
         node.  An Elastic object is used as proxy to implement the connecting
         to an execute commands in an Elasticsearch database node.
-
-    Super-Class:  object
-
-    Sub-Classes:
-        ElasticCluster
-
     Methods:
         __init__ -> Class instance initilization.
 
@@ -590,8 +548,6 @@ class Elastic(object):
         Arguments:
             (input) hostname -> Hostname of Elasticsearch database node.
             (input) port -> Elasticsearch database port.  Default = 9200.
-            (input)  **kwargs:
-                None
 
         """
 
@@ -615,12 +571,6 @@ class ElasticCluster(Elastic):
         Elasticsearch database nodes.  An ElasticCluster object is used as a
         proxy to implement connecting to an Elasticsearch database cluster.
 
-    Super-Class:  Elastic
-
-    Sub-Classes:
-        ElasticDump
-        ElasticStatus
-
     Methods:
         __init__ -> Class instance initilization.
 
@@ -635,8 +585,6 @@ class ElasticCluster(Elastic):
         Arguments:
             (input) hostname -> Hostname of Elasticsearch database node.
             (input) port -> Elasticsearch database port.  Default = 9200.
-            (input) **kwargs:
-                None
 
         """
 
