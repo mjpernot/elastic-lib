@@ -108,7 +108,11 @@ class UnitTest(unittest.TestCase):
                                 self.get_data7, self.get_data8, self.get_data9]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.chk_status(), (None))
+        es.cluster_status = "Yellow"
+        es.pending_tasks = 1
+        self.assertEqual(es.chk_status(),
+            ("WARNING: Detected Cluster status is Yellow\n" \
+             + "WARNING: Detected Cluster has 1 pending tasks"))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):
@@ -126,11 +130,7 @@ class UnitTest(unittest.TestCase):
                                 self.get_data7, self.get_data8, self.get_data9]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        es.cluster_status = "Yellow"
-        es.pending_tasks = 1
-        self.assertEqual(es.chk_status(),
-            ("WARNING: Detected Cluster status is Yellow\n" \
-             + "WARNING: Detected Cluster has 1 pending tasks"))
+        self.assertEqual(es.chk_status(), (None))
 
 
 if __name__ == "__main__":
