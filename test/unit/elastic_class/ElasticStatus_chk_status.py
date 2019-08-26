@@ -44,6 +44,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_string_default -> Test with string settings.
         test_default -> Test with default settings.
 
     """
@@ -92,6 +93,24 @@ class UnitTest(unittest.TestCase):
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
     @mock.patch("elastic_class.requests_libs.get_query")
+    def test_string_default(self, mock_get):
+
+        """Function:  test_string_default
+
+        Description:  Test with string settings.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+
+        es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.chk_status(), (None))
+
+    @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):
 
         """Function:  test_default
@@ -107,7 +126,11 @@ class UnitTest(unittest.TestCase):
                                 self.get_data7, self.get_data8, self.get_data9]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.chk_status(), (None))
+        es.cluster_status = "Yellow"
+        es.pending_tasks = 1
+        self.assertEqual(es.chk_status(),
+            ("WARNING: Detected Cluster status is Yellow\n" \
+             + "WARNING: Detected Cluster has 1 pending tasks"))
 
 
 if __name__ == "__main__":
