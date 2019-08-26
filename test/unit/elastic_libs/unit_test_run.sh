@@ -5,14 +5,8 @@
 #   is located at.
 
 echo ""
-echo "Unit test:  get_latest_dump"
+echo "Unit test:  elastic_libs"
 test/unit/elastic_libs/get_latest_dump.py
-
-echo ""
-echo "Unit test:  list_dumps"
 test/unit/elastic_libs/list_dumps.py
-
-echo ""
-echo "Unit test:  list_repos2"
 test/unit/elastic_libs/list_repos2.py
 
