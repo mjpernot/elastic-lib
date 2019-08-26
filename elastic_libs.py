@@ -20,7 +20,6 @@
 import requests_lib.requests_libs as requests_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -32,8 +31,6 @@ def get_latest_dump(dump_list, **kwargs):
 
     Arguments:
         (input) dump_list -> List of dumps from a repository.
-        (input) **kwargs:
-            None
         (output) Name of latest dump.
 
     """
@@ -57,8 +54,6 @@ def list_dumps(dump_list, **kwargs):
 
     Arguments:
         (input) dump_list -> List of database dumps.
-        (input) **kwargs:
-            None
 
     """
 
@@ -81,8 +76,6 @@ def list_repos2(repo_list, **kwargs):
 
     Arguments:
         (input) repo_list -> List of repositories.
-        (input) **kwargs:
-            None
 
     """
 
