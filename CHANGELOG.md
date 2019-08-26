@@ -17,16 +17,16 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.get_dump_list:  Changed ES to es for standard convention.
 - elastic_class.ElasticSearchDump.dump_db:  Changed parse() to _parse.
 - elastic_class.ElasticSearchDump.dump_db:  Reduced Cognitive Complexity to accepted standard level - moved section of code to private method: _chk_status.
-- elastic_class.ElasticDump.__init__:  Reduced Cognitive Complexity to accepted standard level - initialized attributes in one area.
-- elastic_class.ElasticStatus.__init__:  Reduced Cognitive Complexity to accepted standard level - initalized data variable.
-- elastic_class.ElasticSearchDump.__init__:  Reduced Cognitive Complexity to accepted standard level - flatten if statements.
+- elastic_class.ElasticDump.\_\_init\_\_:  Reduced Cognitive Complexity to accepted standard level - initialized attributes in one area.
+- elastic_class.ElasticStatus.\_\_init\_\_:  Reduced Cognitive Complexity to accepted standard level - initalized data variable.
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Reduced Cognitive Complexity to accepted standard level - flatten if statements.
 
 ### Added
-- elastic_class.ElasticSearchDump._parse:  Replaces parse() in dump_db() function.
-- elastic_class.ElasticSearchDump._chk_status:  Check status of database dump.
+- elastic_class.ElasticSearchDump.\_parse:  Replaces parse() in dump_db() function.
+- elastic_class.ElasticSearchDump.\_chk_status:  Check status of database dump.
 
 ### Removed
-- elastic_class.ElasticSearchDump.dump_db.parse:  Replaced by _parse() function.
+- elastic_class.ElasticSearchDump.dump_db.parse:  Replaced by \_parse() function.
 
 
 ## [1.0.2] - 2018-11-22
@@ -78,8 +78,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [0.3.11] - 2018-06-25
 ### Changed
 - elastic_class.ElasticSearchDump.dump_db:  Update last_dump_name with latest dump name.
-- elastic_class.ElasticSearchDump.__init__:  Added seconds to dump_name attribute value.
-- elastic_class.ElasticSearchDump.__init__:  Added check to make sure new dump name is unique.
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Added seconds to dump_name attribute value.
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Added check to make sure new dump name is unique.
 
 
 ## [0.3.10] - 2018-06-20
@@ -89,16 +89,16 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [0.3.9] - 2018-06-19
 ### Fixed
-- elastic_class.ElasticSearchDump.__init__:  Added check for repo_name not being set.
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Added check for repo_name not being set.
 
 
 ## [0.3.8] - 2018-06-18
 ### Changed
 - elastic_class.ElasticSearchDump.dump_db:  Update self.dump_list after dump has completed.
-- elastic_class.ElasticSearch.__init__:  Initialize all attributes at the very least.
-- elastic_class.ElasticSearchDump.__init__:  Initialize all attributes at the very least.
-- elastic_class.ElasticSearchDump.__init__:  Refactored check on repository name argument.
-- elastic_class.ElasticSearchRepo.__init__:  Initialize all attributes at the very least.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Initialize all attributes at the very least.
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Initialize all attributes at the very least.
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Refactored check on repository name argument.
+- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Initialize all attributes at the very least.
 
 
 ## [0.3.7] - 2018-06-17
@@ -159,11 +159,11 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticStatus.get_dump_disk_status:  Changed "Bytes_2_Readable" to "bytes_2_readable" and "Disk_Usage" to "disk_usage".
 - elastic_class.ElasticStatus.get_mem_status:  Changed "Bytes_2_Readable" to "bytes_2_readable".
 - elastic_class.ElasticStatus.get_svr_status:  Changed "Milli_2_Readadble" to "milli_2_readadble".
-- elastic_class.ElasticStatus.__init__: Changed "Get_Query" to "get_query".
+- elastic_class.ElasticStatus.\_\_init\_\_: Changed "Get_Query" to "get_query".
 - elastic_class.ElasticDump.dump_db: Changed "Put_Cmd" to "put_cmd".
-- elastic_class.ElasticDump.__init__: Changed "Get_Query" to "get_query".
-- elastic_class.ElasticCluster.__init__: Changed "Get_Query" to "get_query".
-- elastic_class.Elastic.__init__: Changed "Get_Query" to "get_query".
+- elastic_class.ElasticDump.\_\_init\_\_: Changed "Get_Query" to "get_query".
+- elastic_class.ElasticCluster.\_\_init\_\_: Changed "Get_Query" to "get_query".
+- elastic_class.Elastic.\_\_init\_\_: Changed "Get_Query" to "get_query".
 - elastic_class.py:  Setup single source version control.
 - elastic_libs.py:  Setup single source version control.
 
@@ -213,7 +213,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [0.1.11] - 2017-10-04
 ### Fixed
 - elastic_class.py:  Error: Unable to dump to new repository as no last dump is is listed.
-- elastic_class.Elastic_Dump.__init__:  Set last_dump_name to None if new or empty repository.
+- elastic_class.Elastic_Dump.\_\_init\_\_:  Set last_dump_name to None if new or empty repository.
 
 
 ## [0.1.10] - 2017-10-02
@@ -232,14 +232,14 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.Elastic_Status.chk_disk_status method.
 
 ### Changed
-- elastic_class.Elastic_Status.__init__:  Add attributes for disk space usage and cutoffs.
+- elastic_class.Elastic_Status.\_\_init\_\_:  Add attributes for disk space usage and cutoffs.
 - elastic_class.Elastic_Status.get_all:  Refactored method.
 - elastic_class.Elastic_Status.get_all:  Added get_disk_status to method.
 
 
 ## [0.1.8] - 2017-09-28
 ### Changed
-- elastic_class.Elastic_Status.__init__:  Add new attributes for cpu and memory threshold cutoffs.
+- elastic_class.Elastic_Status.\_\_init\_\_:  Add new attributes for cpu and memory threshold cutoffs.
 - elastic_class.Elastic_Status.chk_mem:  Use class attribute as the default setting for threshold.
 - elastic_class.Elastic_Status.chk_server:  Use class attribute as the default setting for threshold.
 
@@ -302,17 +302,17 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_libs.List_Dump_Format function.
 
 ### Changed
-- elastic_class.Elastic_Cluster.__init__: Add attribute repo_list.
+- elastic_class.Elastic_Cluster.\_\_init\_\_: Add attribute repo_list.
 
 
 ## [0.1.1] - 2017-09-15
 ### Fixed
-- elastic_class.Elastic_Dump.__init__:  Modify code to deal with multiple repositories.
-- elastic_class.Elastic_Dump.__init__:  Accept new argument into class:  repo
+- elastic_class.Elastic_Dump.\_\_init\_\_:  Modify code to deal with multiple repositories.
+- elastic_class.Elastic_Dump.\_\_init\_\_:  Accept new argument into class:  repo
 
 ### Changed
 - elastic_class.Elastic_Dump.dump_db:  Add additional checks to ensure dump will be successful.
-- elastic_class.Elastic_Dump.__init__:  Change self.dump_list to an empty list.
+- elastic_class.Elastic_Dump.\_\_init\_\_:  Change self.dump_list to an empty list.
 
 
 ## [0.1.0] - 2017-09-13
@@ -321,11 +321,11 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [0.0.5] - 2017-09-12
 ### Fixed
-- elastic_class.Elastic_Dump.__init__:  Database dump list being incorrectly parsed on white spaces.
+- elastic_class.Elastic_Dump.\_\_init\_\_:  Database dump list being incorrectly parsed on white spaces.
 
 ### Changed
 - elastic_class.py:  Change all requests_libs.Get_Query calls to add leading slash.
-- elastic_class.Elastic_Dump.__init__:  Add new attribute to hold list of database dumps.
+- elastic_class.Elastic_Dump.\_\_init\_\_:  Add new attribute to hold list of database dumps.
 
 
 ## [0.0.4] - 2017-09-11
@@ -333,7 +333,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.Elastic_Dump.dump_db method.
 
 ### Changed
-- elastic_class.Elastic_Dump.__init__:  Changed attribute setting for dump name.
+- elastic_class.Elastic_Dump.\_\_init\_\_:  Changed attribute setting for dump name.
 
 
 ## [0.0.3] - 2017-09-07
