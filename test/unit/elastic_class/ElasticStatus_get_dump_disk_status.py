@@ -114,7 +114,7 @@ class UnitTest(unittest.TestCase):
         mock_disk.return_value = _usage(total=200, used=150, free=50)
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_dump_disk_status(),
+        self.assertEqual(es.get_dump_disk_status(True),
             ({"Dump_Usage": {"Dump_Usage": {"reponame1": {
                 "Partition": "/dir/data", "Total": "200", "Used": "150",
                 "Free": "50", "Percent": 75}}}}))
