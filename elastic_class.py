@@ -328,6 +328,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         """
 
+        host_list = list(host_list)
         super(ElasticSearchRepo, self).__init__(host_list, port, **kwargs)
 
         self.repo = repo
