@@ -82,7 +82,7 @@ class ElasticSearch(object):
         """
 
         self.port = port
-        self.hosts = host_list
+        self.hosts = list(host_list)
         self.cluster_name = None
         self.node_connected_to = None
         self.es = None
