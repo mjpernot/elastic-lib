@@ -35,6 +35,8 @@ def get_latest_dump(dump_list, **kwargs):
 
     """
 
+    dump_list = list(dump_list)
+
     if dump_list:
         search = max([x[4] for x in dump_list])
 
