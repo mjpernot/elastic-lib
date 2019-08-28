@@ -87,23 +87,18 @@ class ElasticSearch(object):
         self.node_connected_to = None
         self.es = None
 
-        if isinstance(self.hosts, list):
+        self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
-            self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
+        if self.es.ping():
+            info = self.es.info()
 
-            if self.es.ping():
-                info = self.es.info()
-
-                self.cluster_name = info["cluster_name"]
-                self.node_connected_to = info["name"]
-
-            else:
-                print("Error:  Failed ping of nodes:  %s, Port: %s"
-                      % (self.hosts, self.port))
-                self.es = None
+            self.cluster_name = info["cluster_name"]
+            self.node_connected_to = info["name"]
 
         else:
-            print("Error:  Host_list not a list: %s" % (self.hosts))
+            print("Error:  Failed ping of nodes:  %s, Port: %s"
+                  % (self.hosts, self.port))
+            self.es = None
 
 
 class ElasticSearchDump(ElasticSearch):
