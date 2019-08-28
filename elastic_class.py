@@ -1334,7 +1334,7 @@ class ElasticStatus(ElasticCluster):
 
                 else:
                     data = data \
-                        + "\tNode: %s\n\t\tHas reached disk threshold" \
+                        + "\tNode: %s\n\t\tHave reached disk usage threshold" \
                         % (node[8]) \
                         + "\n\t\tThreshold: %s\n\t\tTotal: %s\n" \
                         % (self.cutoff_disk, node[4]) \
