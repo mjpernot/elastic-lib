@@ -135,6 +135,7 @@ class ElasticSearchDump(ElasticSearch):
 
         """
 
+        host_list = list(host_list)
         super(ElasticSearchDump, self).__init__(host_list, port, **kwargs)
 
         self.dump_status = None
