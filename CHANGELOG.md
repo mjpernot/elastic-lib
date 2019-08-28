@@ -6,6 +6,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [1.0.4] - 2019-08-28
 ### Fixed
+- elastic_libs.get_latest_dump:  Fixed problem with mutable default arguments issue.
 - elastic_libs.list_dumps:  Fixed problem with mutable default arguments issue.
 - elastic_libs.list_repos2:  Fixed problem with mutable default arguments issue.
 - elastic_class.ElasticStatus.chk_shards:  Corrected string concentation error.
