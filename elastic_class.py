@@ -87,9 +87,9 @@ class ElasticSearch(object):
         self.node_connected_to = None
         self.es = None
 
-        if isinstance(host_list, list):
+        if isinstance(self.hosts, list):
 
-            self.es = elasticsearch.Elasticsearch(host_list, port=self.port)
+            self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
             if self.es.ping():
                 info = self.es.info()
