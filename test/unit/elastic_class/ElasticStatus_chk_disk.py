@@ -133,7 +133,7 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.chk_disk(cutoff_disk=10), 
             ("Disk Warning\n" \
-             + "\tNode: hostname\n\t\tHave reached disk usage threshold" \
+             + "\n\tNode: hostname\n\t\tHave reached disk usage threshold" \
              + "\n\t\tThreshold: 10\n\t\tTotal: 69gb\n" \
              + "\t\tUsed: 16gb\n\t\tES Used: 69mb\n"))
 
