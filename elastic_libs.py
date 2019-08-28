@@ -79,6 +79,8 @@ def list_repos2(repo_list, **kwargs):
 
     """
 
+    repo_list = list(repo_list)
+
     print("{0:30} {1}".format("Repository Name", "Location"))
 
     for repo in repo_list:
