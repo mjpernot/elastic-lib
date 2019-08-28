@@ -86,19 +86,15 @@ class ElasticSearch(object):
         self.cluster_name = None
         self.node_connected_to = None
         self.es = None
+        self.is_connected = False
 
         self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
         if self.es.ping():
+            self.is_connected = True
             info = self.es.info()
-
             self.cluster_name = info["cluster_name"]
             self.node_connected_to = info["name"]
-
-        else:
-            print("Error:  Failed ping of nodes:  %s, Port: %s"
-                  % (self.hosts, self.port))
-            self.es = None
 
 
 class ElasticSearchDump(ElasticSearch):
