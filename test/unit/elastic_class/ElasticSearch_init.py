@@ -29,7 +29,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -129,9 +128,9 @@ class UnitTest(unittest.TestCase):
         self.es.ping_status = False
         mock_es.return_value = self.es
 
-        with gen_libs.no_std_out():
-            es = elastic_class.ElasticSearch(self.host_list)
-            self.assertEqual((es.port, es.hosts), (9200, self.host_list))
+        es = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual((es.port, es.hosts, es.is_connected),
+                         (9200, self.host_list, False))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_ping_true(self, mock_es):
@@ -147,7 +146,8 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
 
         es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts), (9200, self.host_list))
+        self.assertEqual((es.port, es.hosts, es.is_connected),
+                         (9200, self.host_list, True))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_host_list(self, mock_es):
