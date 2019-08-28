@@ -57,6 +57,8 @@ def list_dumps(dump_list, **kwargs):
 
     """
 
+    dump_list = list(dump_list)
+
     print("{0:25} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
           .format("Database Dump Name", "Status", "Time", "Number",
                   "Shard Information", "", ""))
