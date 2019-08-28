@@ -4,8 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
-## [1.0.4] - 2019-08-21
+## [1.0.4] - 2019-08-28
 ### Fixed
+- elastic_libs.list_repos2:  Fixed problem with mutable default arguments issue.
 - elastic_class.ElasticStatus.chk_shards:  Corrected string concentation error.
 - elastic_class.ElasticSearchDump.dump_db:  Corrected call syntax to \_chk_status method.
 - elastic_class.ElasticSearchDump.\_chk_status:  Corrected call syntax to \_parse method.
