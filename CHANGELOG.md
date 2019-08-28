@@ -6,6 +6,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [1.0.4] - 2019-08-28
 ### Fixed
+- elastic_class.ElasticSearch.\_\_init\_\_: Created is_connected attr to maintain connection status.
 - elastic_class.ElasticSearchRepo.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
 - elastic_class.ElasticSearchDump.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
 - elastic_class.ElasticSearch.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
