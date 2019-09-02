@@ -139,21 +139,9 @@ exit
 
 # Unit test runs for elastic_libs.py:
 
-### Unit:  get_latest_dump
-
 ```
 test/unit/elastic_libs/get_latest_dump.py
-```
-
-### Unit:  list_dumps
-
-```
 test/unit/elastic_libs/list_dumps.py
-```
-
-### Unit:  list_repos2
-
-```
 test/unit/elastic_libs/list_repos2.py
 ```
 
@@ -168,6 +156,53 @@ test/unit/elastic_libs/unit_test_run.sh
 ```
 test/unit/elastic_libs/code_coverage.sh
 ```
+
+# Unit test runs for elastic_libs.py:
+
+```
+test/unit/elastic_class/Elastic_init.py
+test/unit/elastic_class/ElasticCluster_init.py
+test/unit/elastic_class/ElasticSearch_init.py
+test/unit/elastic_class/ElasticSearchDump_init.py
+test/unit/elastic_class/ElasticSearchDump_chk_status.py
+test/unit/elastic_class/ElasticSearchDump_dump_db.py
+test/unit/elastic_class/ElasticSearchRepo_create_repo.py
+test/unit/elastic_class/ElasticSearchRepo_delete_dump.py
+test/unit/elastic_class/ElasticSearchRepo_delete_dump_all.py
+test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
+test/unit/elastic_class/ElasticSearchRepo_init.py
+test/unit/elastic_class/ElasticStatus_chk_all.py
+test/unit/elastic_class/ElasticStatus_chk_disk.py
+test/unit/elastic_class/ElasticStatus_chk_mem.py
+test/unit/elastic_class/ElasticStatus_chk_nodes.py
+test/unit/elastic_class/ElasticStatus_chk_server.py
+test/unit/elastic_class/ElasticStatus_chk_shards.py
+test/unit/elastic_class/ElasticStatus_chk_status.py
+test/unit/elastic_class/ElasticStatus_get_all.py
+test/unit/elastic_class/ElasticStatus_get_cluster.py
+test/unit/elastic_class/ElasticStatus_get_disk_status.py
+test/unit/elastic_class/ElasticStatus_get_dump_disk_status.py
+test/unit/elastic_class/ElasticStatus_get_gen_status.py
+test/unit/elastic_class/ElasticStatus_get_mem_status.py
+test/unit/elastic_class/ElasticStatus_get_nodes.py
+test/unit/elastic_class/ElasticStatus_get_node_status.py
+test/unit/elastic_class/ElasticStatus_get_shrd_status.py
+test/unit/elastic_class/ElasticStatus_get_svr_status.py
+test/unit/elastic_class/ElasticStatus_init.py
+```
+
+### All unit testing for elastic_class.py
+
+```
+test/unit/elastic_class/unit_test_run.sh
+```
+
+### Code coverage program
+
+```
+test/unit/elastic_class/code_coverage.sh
+```
+
 
 # Unit tests runs for elastic_class.py:
 ### NOTE:  Due to the inability to mock Elasticsearch connections in Python 2.6, there are no unit tests for this class.  All unit tests for elastic_class.py will be conducted in the Integration test section.

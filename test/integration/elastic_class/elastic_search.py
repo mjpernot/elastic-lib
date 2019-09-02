@@ -9,7 +9,6 @@
         test/integration/elastic_class/elastic_search.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import lib.gen_libs as gen_libs
 import elastic_class
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -43,16 +41,11 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:  None
-
     Methods:
         setUp -> Unit testing initilization.
         test_ping_failure -> Test if ping is a failure.
         test_ping_success -> Test to if ping is successful.
         test_host_is_list -> Test to see if host is a list.
-        test_host_not_list -> Test to see if host is not a list.
         test_init -> Test to see if class instance is created.
 
     """
@@ -64,7 +57,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -80,7 +72,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test if ping is a failure.
 
         Arguments:
-            None
 
         """
 
@@ -104,7 +95,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test to if ping is successful.
 
         Arguments:
-            None
 
         """
 
@@ -125,37 +115,12 @@ class UnitTest(unittest.TestCase):
         Description:  Test to see if host is a list.
 
         Arguments:
-            None
 
         """
 
         ES = elastic_class.ElasticSearch(self.cfg.host)
 
         if ES.hosts == self.cfg.host:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
-
-    def test_host_not_list(self):
-
-        """Function:  test_host_not_list
-
-        Description:  Test to see if host is not a list.
-
-        Arguments:
-            None
-
-        """
-
-        host_list = "Host_Name"
-
-        with gen_libs.no_std_out():
-            ES = elastic_class.ElasticSearch(host_list)
-
-        if ES.hosts == host_list:
             status = True
 
         else:
@@ -170,7 +135,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test to see if class instance is created.
 
         Arguments:
-            None
 
         """
 
