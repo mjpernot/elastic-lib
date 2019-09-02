@@ -60,6 +60,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        # This is set to allow to show large differences.
+        self.maxDiff = None
         self.host_name = "host1"
         self.get_data = {"nodes":
                          {"first":
@@ -110,10 +112,10 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.chk_disk(json=True, cutoff_disk=10),
-            ({"Disk_Warning": {"Disk_Warning": {"hostname": 
+            ({"Disk_Warning": {"hostname": 
                 {"Reason": "Have reached disk usage threshold",
                  "Threshold": 10, "Total": "69gb", "Used": "16gb",
-                 "ES_Used": "69mb"}}}}))
+                 "ES_Used": "69mb"}}}))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_string_default(self, mock_get):
