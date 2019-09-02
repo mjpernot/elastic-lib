@@ -9,7 +9,6 @@
         test/unit/elastic_libs/list_repos2.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import elastic_libs
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -42,10 +40,6 @@ class UnitTest(unittest.TestCase):
     """Class:  UnitTest
 
     Description:  Class which is a representation of a unit testing.
-
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:  None
 
     Methods:
         setUp -> Unit testing initilization.
@@ -61,18 +55,17 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
-        self.list_mult = {u'BACKUP_TEST2':
-                          {u'type': u'fs', u'settings':
-                           {u'compress': u'true',
-                            u'location': u'/mnt/BACKUP_TEST2'}},
-                          u'BACKUP_TEST':
-                          {u'type': u'fs',
-                           u'settings': {u'compress': u'true',
-                                         u'location': u'/mnt/BACKUP_TEST'}}}
+        self.list_mult = {'BACKUP_TEST2':
+                          {'type': 'fs', 'settings':
+                           {'compress': 'true',
+                            'location': '/mnt/BACKUP_TEST2'}},
+                          'BACKUP_TEST':
+                          {'type': 'fs',
+                           'settings': {'compress': 'true',
+                                        'location': '/mnt/BACKUP_TEST'}}}
 
         self.empty_list = []
 
@@ -83,7 +76,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test printing of empty list.
 
         Arguments:
-            None
 
         """
 
@@ -97,7 +89,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test printing of dump list.
 
         Arguments:
-            None
 
         """
 

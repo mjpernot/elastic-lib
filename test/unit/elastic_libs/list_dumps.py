@@ -9,7 +9,6 @@
         test/unit/elastic_libs/list_dumps.py
 
     Arguments:
-        None
 
 """
 
@@ -33,7 +32,6 @@ import elastic_libs
 import lib.gen_libs as gen_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -42,10 +40,6 @@ class UnitTest(unittest.TestCase):
     """Class:  UnitTest
 
     Description:  Class which is a representation of a unit testing.
-
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:  None
 
     Methods:
         setUp -> Unit testing initilization.
@@ -61,7 +55,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -80,7 +73,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test printing of empty list.
 
         Arguments:
-            None
 
         """
 
@@ -94,7 +86,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test printing of dump list.
 
         Arguments:
-            None
 
         """
 

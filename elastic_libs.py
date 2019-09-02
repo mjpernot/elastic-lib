@@ -20,7 +20,6 @@
 import requests_lib.requests_libs as requests_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -32,11 +31,11 @@ def get_latest_dump(dump_list, **kwargs):
 
     Arguments:
         (input) dump_list -> List of dumps from a repository.
-        (input) **kwargs:
-            None
         (output) Name of latest dump.
 
     """
+
+    dump_list = list(dump_list)
 
     if dump_list:
         search = max([x[4] for x in dump_list])
@@ -57,10 +56,10 @@ def list_dumps(dump_list, **kwargs):
 
     Arguments:
         (input) dump_list -> List of database dumps.
-        (input) **kwargs:
-            None
 
     """
+
+    dump_list = list(dump_list)
 
     print("{0:25} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
           .format("Database Dump Name", "Status", "Time", "Number",
@@ -80,11 +79,11 @@ def list_repos2(repo_list, **kwargs):
     Description:  Lists the repositories in the Elasticsearch cluster.
 
     Arguments:
-        (input) repo_list -> List of repositories.
-        (input) **kwargs:
-            None
+        (input) repo_list -> Dictionary of repositories.
 
     """
+
+    repo_list = dict(repo_list)
 
     print("{0:30} {1}".format("Repository Name", "Location"))
 
