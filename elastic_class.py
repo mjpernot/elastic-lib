@@ -1336,7 +1336,7 @@ class ElasticStatus(ElasticCluster):
                     data = data \
                         + "\n\tNode: %s" \
                         % (node[8]) \
-                        + ""\n\t\tHave reached disk usage threshold" \
+                        + "\n\t\tHave reached disk usage threshold" \
                         + "\n\t\tThreshold: %s\n\t\tTotal: %s\n" \
                         % (self.cutoff_disk, node[4]) \
                         + "\t\tUsed: %s\n\t\tES Used: %s\n" \
@@ -1375,7 +1375,7 @@ class ElasticStatus(ElasticCluster):
                 err_flag = True
 
                 if json:
-                    data = gen_libs.merge_two_dicts(data, results)
+                    data, status, msg = gen_libs.merge_two_dicts(data, results)
 
                 else:
                     data = data + "\n" + results
