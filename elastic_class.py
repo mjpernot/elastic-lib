@@ -1086,7 +1086,7 @@ class ElasticStatus(ElasticCluster):
             results = func(json)
 
             if json:
-                data = gen_libs.merge_two_dicts(data, results)
+                data, status, msg = gen_libs.merge_two_dicts(data, results)
 
             else:
                 data = data + "\n" + results

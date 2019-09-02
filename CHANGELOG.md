@@ -7,6 +7,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [1.0.4] - 2019-09-02
 ### Fixed
 - elastic_class.chk_all:  Added return parameters for gen_libs.merge_two_dicts.
+- elastic_class.get_all:  Added return parameters for gen_libs.merge_two_dicts.
 - elastic_class.ElasticStatus.chk_disk:  Corrected formatting error.
 - elastic_class.ElasticSearch.\_\_init\_\_: Created is_connected attr to maintain connection status.
 - elastic_class.ElasticSearchRepo.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
