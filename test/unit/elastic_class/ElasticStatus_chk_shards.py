@@ -107,6 +107,34 @@ class UnitTest(unittest.TestCase):
                                 self.get_data7, self.get_data8, self.get_data9]
 
         es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.chk_shards(True), 
+            ({"Shard_Warning": {"Shard_Warning": {"Unassigned_Shards": {
+                "Reason": "Detected unassigned shards",
+                "Unassigned": 1, "Total": 9},
+                "Active_Shards_Percent":
+                    {"Reason": "Detected less than 100% active shards",
+                     "Percentage": 90},
+                "Non_Operation_Shards":
+                    {"Reason": "Detected shards not in operational mode",
+                     "List_Of_Shards":
+                         ['shard1', 'd1', 'd2', 'UNASSIGNED', 'host']}}}}))
+
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_default(self, mock_get):
+
+        """Function:  test_default
+
+        Description:  Test with default settings.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+
+        es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.chk_shards(),
             ("Shard_Warning:\nWARNING: Detected 1 " \
              + "unassigned shards out of 9 shards\n" \

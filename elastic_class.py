@@ -36,7 +36,6 @@ import lib.gen_libs as gen_libs
 import requests_lib.requests_libs as requests_libs
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -49,8 +48,6 @@ def get_dump_list(es, repo, **kwargs):
     Arguments:
         (input) es -> ElasticSearch instance.
         (input) repo -> Name of repository.
-        (input) **kwargs:
-            None
         (output) List of ElasticSearch dumps.
 
     """
@@ -67,11 +64,6 @@ class ElasticSearch(object):
         implement the connecting to an execute commands in an ElasticSearch
         database/cluster.
 
-    Super-Class:  object
-
-    Sub-Classes:
-        ElasticSearchDump
-
     Methods:
         __init__ -> Class instance initialization.
 
@@ -86,34 +78,23 @@ class ElasticSearch(object):
         Arguments:
             (input) host_list -> List of host(s) within ElasticSearch cluster.
             (input) port -> ElasticSearch port to connect to.
-            (input)  **kwargs:
-                None
 
         """
 
         self.port = port
-        self.hosts = host_list
+        self.hosts = list(host_list)
         self.cluster_name = None
         self.node_connected_to = None
         self.es = None
+        self.is_connected = False
 
-        if isinstance(host_list, list):
+        self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
-            self.es = elasticsearch.Elasticsearch(host_list, port=self.port)
-
-            if self.es.ping():
-                info = self.es.info()
-
-                self.cluster_name = info["cluster_name"]
-                self.node_connected_to = info["name"]
-
-            else:
-                print("Error:  Failed ping of nodes:  %s, Port: %s"
-                      % (self.hosts, self.port))
-                self.es = None
-
-        else:
-            print("Error:  Host_list not a list: %s" % (self.hosts))
+        if self.es.ping():
+            self.is_connected = True
+            info = self.es.info()
+            self.cluster_name = info["cluster_name"]
+            self.node_connected_to = info["name"]
 
 
 class ElasticSearchDump(ElasticSearch):
@@ -123,11 +104,6 @@ class ElasticSearchDump(ElasticSearch):
     Description:  Class which is a representation of ElasticSearch database
         dump.  An ElasticSearchDump object is used as proxy to implement a
         database dump of an ElasticSearch database/cluster.
-
-    Super-Class:  ElasticSearch
-
-    Sub-Classes:
-        None
 
     Methods:
         __init__ -> Class instance initilization.
@@ -147,11 +123,10 @@ class ElasticSearchDump(ElasticSearch):
             (input) port -> ElasticSearch database port.
             (input) repo -> Name of repository.  Required if multiple
                 repositories are present in the cluster.
-            (input)  **kwargs:
-                None
 
         """
 
+        host_list = list(host_list)
         super(ElasticSearchDump, self).__init__(host_list, port, **kwargs)
 
         self.dump_status = None
@@ -210,8 +185,6 @@ class ElasticSearchDump(ElasticSearch):
 
         Arguments:
             (input) dbs -> String of database(s) to dump, comma delimited.
-            (input)  **kwargs:
-                None
             (output) err_flag True|False -> Were errors detected during dump.
             (output) status_msg -> Dump error message.
 
@@ -305,8 +278,6 @@ class ElasticSearchDump(ElasticSearch):
 
         Arguments:
             (input)  dump -> Dump entry.
-            (input)  **kwargs:
-                None
             (output) Return dump status.
             (output) Return shard failures.
 
@@ -322,11 +293,6 @@ class ElasticSearchRepo(ElasticSearch):
     Description:  Class which is a representation of ElasticSearchRepo
         repositories.  An ElasticSearchRepo object is used as proxy to
         implement respositories within an Elasticsearch cluster.
-
-    Super-Class:  ElasticSearch
-
-    Sub-Classes:
-        None
 
     Methods:
         __init__ -> Class instance initilization.
@@ -350,11 +316,10 @@ class ElasticSearchRepo(ElasticSearch):
             (input) port -> ElasticSearch database port.
             (input) repo -> Name of repository.
             (input) repo_dir -> Directory path to respository.
-            (input)  **kwargs:
-                None
 
         """
 
+        host_list = list(host_list)
         super(ElasticSearchRepo, self).__init__(host_list, port, **kwargs)
 
         self.repo = repo
@@ -375,8 +340,6 @@ class ElasticSearchRepo(ElasticSearch):
         Arguments:
             (input) repo_name -> Name of repository.
             (input) repo_dir -> Directory path to respository.
-            (input)  **kwargs:
-                None
             (output) err_flag -> True|False - Error status for repo creation.
             (output) err_msg -> Status error message or None.
 
@@ -429,8 +392,6 @@ class ElasticSearchRepo(ElasticSearch):
 
         Arguments:
             (input) repo -> Name of repository.
-            (input)  **kwargs:
-                None
             (output) err_flag -> True|False - Error status for repo deletion.
             (output) err_msg -> Status error message or None.
 
@@ -476,8 +437,6 @@ class ElasticSearchRepo(ElasticSearch):
         Arguments:
             (input) repo_name -> Name of repository.
             (input) dump_name -> Name of dump.
-            (input)  **kwargs:
-                None
             (output) err_flag -> True|False - Error status for deletion.
             (output) err_msg -> Status error message or None.
 
@@ -531,8 +490,6 @@ class ElasticSearchRepo(ElasticSearch):
 
         Arguments:
             (input)  repo_name -> Name of repository.
-            (input)  **kwargs:
-                None
             (output) err_flag -> True|False - Error status for deletion.
             (output) err_msg -> Status error message or None.
 
@@ -570,12 +527,6 @@ class Elastic(object):
     Description:  Class which is a representation of an Elasticsearch database
         node.  An Elastic object is used as proxy to implement the connecting
         to an execute commands in an Elasticsearch database node.
-
-    Super-Class:  object
-
-    Sub-Classes:
-        ElasticCluster
-
     Methods:
         __init__ -> Class instance initilization.
 
@@ -590,8 +541,6 @@ class Elastic(object):
         Arguments:
             (input) hostname -> Hostname of Elasticsearch database node.
             (input) port -> Elasticsearch database port.  Default = 9200.
-            (input)  **kwargs:
-                None
 
         """
 
@@ -615,12 +564,6 @@ class ElasticCluster(Elastic):
         Elasticsearch database nodes.  An ElasticCluster object is used as a
         proxy to implement connecting to an Elasticsearch database cluster.
 
-    Super-Class:  Elastic
-
-    Sub-Classes:
-        ElasticDump
-        ElasticStatus
-
     Methods:
         __init__ -> Class instance initilization.
 
@@ -635,8 +578,6 @@ class ElasticCluster(Elastic):
         Arguments:
             (input) hostname -> Hostname of Elasticsearch database node.
             (input) port -> Elasticsearch database port.  Default = 9200.
-            (input) **kwargs:
-                None
 
         """
 
@@ -674,10 +615,6 @@ class ElasticDump(ElasticCluster):
         dump.  An ElasticDump object is used as proxy to implement a database
         dump of an Elasticsearch database node.
 
-    Super-Class:  ElasticCluster
-
-    Sub-Classes:
-
     Methods:
         __init__ -> Class instance initilization.
         dump_db -> Dump Elasticsearch database.
@@ -694,8 +631,6 @@ class ElasticDump(ElasticCluster):
             (input) hostname -> Hostname of Elasticsearch database node.
             (input) repo -> Name of repository.  Required if multiple repos.
             (input) port -> Elasticsearch database port.  Default = 9200.
-            (input)  **kwargs:
-                None
 
         """
 
@@ -758,8 +693,6 @@ class ElasticDump(ElasticCluster):
             status of the dump attributes.
 
         Arguments:
-            (input)  **kwargs:
-                None
             (output) err_flag True|False -> Has errors been detected.
             (output) status_msg -> Return dump status or error message.
 
@@ -815,10 +748,6 @@ class ElasticStatus(ElasticCluster):
         implement connecting to an Elasticsearch database cluster and executing
         status commands.
 
-    Super-Class:  ElasticCluster
-
-    Sub-Classes:
-
     Methods:
         __init__ -> Class instance initilization.
         get_cluster -> Return formatted cluster name.
@@ -854,8 +783,6 @@ class ElasticStatus(ElasticCluster):
             (input) cutoff_mem -> Threshold cutoff for memory check.
             (input) cutoff_cpu -> Threshold cutoff for cpu usage check.
             (input) cutoff_disk -> Threshold cutoff for disk usage check.
-            (input) **kwargs:
-                None
 
         """
 
@@ -923,8 +850,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) Cluster name
 
         """
@@ -943,8 +868,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) List of node names
 
         """
@@ -963,8 +886,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) Return status of nodes in cluster
 
         """
@@ -986,8 +907,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) Return status of server
 
         """
@@ -1011,8 +930,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) Return status of memory
 
         """
@@ -1039,8 +956,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) Return status of shards in Elasticsearch cluster
 
         """
@@ -1065,8 +980,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) Return general status of Elasticsearch cluster
 
         """
@@ -1088,8 +1001,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) data -> Disk usage status by node.
 
         """
@@ -1121,8 +1032,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) data -> Dump disk usage by repository.
 
         """
@@ -1161,8 +1070,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) data -> Status of all elements.
 
         """
@@ -1179,7 +1086,7 @@ class ElasticStatus(ElasticCluster):
             results = func(json)
 
             if json:
-                data = gen_libs.merge_two_dicts(data, results)
+                data, status, msg = gen_libs.merge_two_dicts(data, results)
 
             else:
                 data = data + "\n" + results
@@ -1195,8 +1102,6 @@ class ElasticStatus(ElasticCluster):
         Arguments:
             (input) json -> True|False - Return output in JSON format.
             (input) cutoff_mem -> Percentage threshold on memory used.
-            (input) **kwargs:
-                None
             (output) Return warning message on memory usage
 
         """
@@ -1231,8 +1136,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) Return warning message on failed nodes
 
         """
@@ -1259,8 +1162,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) Return warning message on shard problems
 
         """
@@ -1327,8 +1228,6 @@ class ElasticStatus(ElasticCluster):
         Arguments:
             (input) json -> True|False - Return output in JSON format.
             (input) cutoff_cpu -> Percentage threshold on cpu usage.
-            (input) **kwargs:
-                None
             (output) Return warning message on server status
 
         """
@@ -1361,8 +1260,6 @@ class ElasticStatus(ElasticCluster):
 
         Arguments:
             (input) json -> True|False - Return output in JSON format.
-            (input) **kwargs:
-                None
             (output) Return warning message on cluster status
 
         """
@@ -1411,8 +1308,6 @@ class ElasticStatus(ElasticCluster):
         Arguments:
             (input) json -> True|False - Return output in JSON format.
             (input) cutoff_disk -> Percentage threshold on disk usage.
-            (input) **kwargs:
-                None
             (output) data -> Warning messages on disk usage status
 
         """
@@ -1439,8 +1334,9 @@ class ElasticStatus(ElasticCluster):
 
                 else:
                     data = data \
-                        + "\tNode: %s\n\t\tHas reached disk threshold" \
+                        + "\n\tNode: %s" \
                         % (node[8]) \
+                        + "\n\t\tHave reached disk usage threshold" \
                         + "\n\t\tThreshold: %s\n\t\tTotal: %s\n" \
                         % (self.cutoff_disk, node[4]) \
                         + "\t\tUsed: %s\n\t\tES Used: %s\n" \
@@ -1460,8 +1356,6 @@ class ElasticStatus(ElasticCluster):
             (input) cutoff_cpu -> Percentage threshold on cpu usage.
             (input) cutoff_mem -> Percentage threshold on memory used.
             (input) cutoff_disk -> Percentage threshold on disk usage.
-            (input) **kwargs:
-                None
             (output) Return any messages from all element check.
 
         """
@@ -1481,7 +1375,7 @@ class ElasticStatus(ElasticCluster):
                 err_flag = True
 
                 if json:
-                    data = gen_libs.merge_two_dicts(data, results)
+                    data, status, msg = gen_libs.merge_two_dicts(data, results)
 
                 else:
                     data = data + "\n" + results

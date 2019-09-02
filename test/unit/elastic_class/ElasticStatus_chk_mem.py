@@ -43,6 +43,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_string_default -> Test with string setting.
         test_default -> Test with default settings.
 
     """
@@ -89,6 +90,52 @@ class UnitTest(unittest.TestCase):
                                                    "free_in_bytes": 120000},
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
+
+    @mock.patch("elastic_class.gen_libs.bytes_2_readable")
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_json(self, mock_get, mock_libs):
+
+        """Function:  test_json
+
+        Description:  Test with JSON format.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+        mock_libs.return_value = 10000000
+
+        es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.chk_mem(json=True, cutoff_mem=10),
+            ({"Memory_Warning": 
+                {"Reason": "Have reach memory threshold",
+                 "Threshold": 10, "Total_Memory": 10000000,
+                 "Memory_Usage": 55}}))
+
+    @mock.patch("elastic_class.gen_libs.bytes_2_readable")
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_string_default(self, mock_get, mock_libs):
+
+        """Function:  test_string_default
+
+        Description:  Test with string setting.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+        mock_libs.return_value = 10000000
+
+        es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.chk_mem(cutoff_mem=10),
+            ("WARNING:  Have reach 10% threshold.  " \
+             + "Currently using 55% on 10000000 of memory"))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):
