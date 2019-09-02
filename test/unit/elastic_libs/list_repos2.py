@@ -41,10 +41,6 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Unit testing initilization.
         test_print_empty -> Test printing of empty list.
@@ -62,14 +58,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.list_mult = {u'BACKUP_TEST2':
-                          {u'type': u'fs', u'settings':
-                           {u'compress': u'true',
-                            u'location': u'/mnt/BACKUP_TEST2'}},
-                          u'BACKUP_TEST':
-                          {u'type': u'fs',
-                           u'settings': {u'compress': u'true',
-                                         u'location': u'/mnt/BACKUP_TEST'}}}
+        self.list_mult = {'BACKUP_TEST2':
+                          {'type': 'fs', 'settings':
+                           {'compress': 'true',
+                            'location': '/mnt/BACKUP_TEST2'}},
+                          'BACKUP_TEST':
+                          {'type': 'fs',
+                           'settings': {'compress': 'true',
+                                        'location': '/mnt/BACKUP_TEST'}}}
 
         self.empty_list = []
 

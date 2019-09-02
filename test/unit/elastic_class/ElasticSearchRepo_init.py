@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearch_init.py
+"""Program:  ElasticSearchRepo_init.py
 
-    Description:  Unit testing of __init__ in elastic_class.ElasticSearch.
+    Description:  Unit testing of __init__ in elastic_class.ElasticSearchRepo
+        class.
 
     Usage:
-        test/unit/elastic_class/ElasticSearch_init.py
+        test/unit/elastic_class/ElasticSearchRepo_init.py
 
     Arguments:
 
@@ -29,9 +30,35 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
+import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
+
+
+class Repo(object):
+
+    """Class:  Repo
+
+    Description:  Class representation of the snapshot class.
+
+    Methods:
+        get_repository -> Stub holder for snapshot.get_repository method.
+
+    """
+
+    def get_repository(self):
+
+        """Method:  get_repository
+
+        Description:  Stub holder for snapshot.get_repository method.
+
+        Arguments:
+
+        """
+
+        return {"reponame": {"type": "dbdump", "settings":
+                             {"location": "/dir/path/dump"}}}
 
 
 class Elasticsearch(object):
@@ -61,6 +88,7 @@ class Elasticsearch(object):
         self.port = port
         self.ping_status = True
         self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
+        self.snapshot = Repo()
 
     def ping(self):
 
@@ -95,9 +123,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
-        test_ping_false -> Test ping of Elasticsearch server is False.
-        test_ping_true -> Test ping of Elasticsearch server is True.
-        test_host_list -> Test host_list is a list.
+        test_default -> Test with default settings.
 
     """
 
@@ -112,32 +138,16 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
+        self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
+        self.repo_dir = "/dir/path/repo"
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_ping_false(self, mock_es):
+    def test_default(self, mock_es):
 
-        """Function:  test_ping_false
+        """Function:  test_default
 
-        Description:  Test ping of Elasticsearch server is False.
-
-        Arguments:
-
-        """
-
-        self.es.ping_status = False
-        mock_es.return_value = self.es
-
-        es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts, es.is_connected),
-                         (9200, self.host_list, False))
-
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_ping_true(self, mock_es):
-
-        """Function:  test_ping_true
-
-        Description:  Test ping of Elasticsearch server is True.
+        Description:  Test with default settings.
 
         Arguments:
 
@@ -145,25 +155,11 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
 
-        es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts, es.is_connected),
-                         (9200, self.host_list, True))
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                             repo_dir=self.repo_dir)
 
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_host_list(self, mock_es):
-
-        """Function:  test_host_list
-
-        Description:  Test host_list is a list.
-
-        Arguments:
-
-        """
-
-        mock_es.return_value = self.es
-
-        es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts), (9200, self.host_list))
+        self.assertEqual((es.hosts, es.repo, es.repo_dir),
+                         (self.host_list, self.repo, self.repo_dir))
 
 
 if __name__ == "__main__":
