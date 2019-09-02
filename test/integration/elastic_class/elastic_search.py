@@ -46,7 +46,6 @@ class UnitTest(unittest.TestCase):
         test_ping_failure -> Test if ping is a failure.
         test_ping_success -> Test to if ping is successful.
         test_host_is_list -> Test to see if host is a list.
-        test_host_not_list -> Test to see if host is not a list.
         test_init -> Test to see if class instance is created.
 
     """
@@ -122,29 +121,6 @@ class UnitTest(unittest.TestCase):
         ES = elastic_class.ElasticSearch(self.cfg.host)
 
         if ES.hosts == self.cfg.host:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
-
-    def test_host_not_list(self):
-
-        """Function:  test_host_not_list
-
-        Description:  Test to see if host is not a list.
-
-        Arguments:
-
-        """
-
-        host_list = "Host_Name"
-
-        with gen_libs.no_std_out():
-            ES = elastic_class.ElasticSearch(host_list)
-
-        if ES.hosts == host_list:
             status = True
 
         else:

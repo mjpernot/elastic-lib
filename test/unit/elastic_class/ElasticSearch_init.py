@@ -29,7 +29,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -98,7 +97,6 @@ class UnitTest(unittest.TestCase):
         setUp -> Initialization for unit testing.
         test_ping_false -> Test ping of Elasticsearch server is False.
         test_ping_true -> Test ping of Elasticsearch server is True.
-        test_host_list2 -> Test host_list is not a list.
         test_host_list -> Test host_list is a list.
 
     """
@@ -114,7 +112,6 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.host_str = "host1, host2"
         self.es = Elasticsearch(self.host_list)
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
@@ -131,9 +128,9 @@ class UnitTest(unittest.TestCase):
         self.es.ping_status = False
         mock_es.return_value = self.es
 
-        with gen_libs.no_std_out():
-            es = elastic_class.ElasticSearch(self.host_list)
-            self.assertEqual((es.port, es.hosts), (9200, self.host_list))
+        es = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual((es.port, es.hosts, es.is_connected),
+                         (9200, self.host_list, False))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_ping_true(self, mock_es):
@@ -149,21 +146,8 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
 
         es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts), (9200, self.host_list))
-
-    def test_host_list2(self):
-
-        """Function:  test_host_list2
-
-        Description:  Test host_list is not a list.
-
-        Arguments:
-
-        """
-
-        with gen_libs.no_std_out():
-            es = elastic_class.ElasticSearch(self.host_str)
-            self.assertEqual((es.port, es.hosts), (9200, self.host_str))
+        self.assertEqual((es.port, es.hosts, es.is_connected),
+                         (9200, self.host_list, True))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_host_list(self, mock_es):

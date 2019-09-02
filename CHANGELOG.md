@@ -4,8 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
-## [1.0.4] - 2019-08-21
+## [1.0.4] - 2019-09-02
 ### Fixed
+- elastic_class.chk_all:  Added return parameters for gen_libs.merge_two_dicts.
+- elastic_class.get_all:  Added return parameters for gen_libs.merge_two_dicts.
+- elastic_class.ElasticStatus.chk_disk:  Corrected formatting error.
+- elastic_class.ElasticSearch.\_\_init\_\_: Created is_connected attr to maintain connection status.
+- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
+- elastic_libs.get_latest_dump:  Fixed problem with mutable default arguments issue.
+- elastic_libs.list_dumps:  Fixed problem with mutable default arguments issue.
+- elastic_libs.list_repos2:  Fixed problem with mutable default arguments issue.
 - elastic_class.ElasticStatus.chk_shards:  Corrected string concentation error.
 - elastic_class.ElasticSearchDump.dump_db:  Corrected call syntax to \_chk_status method.
 - elastic_class.ElasticSearchDump.\_chk_status:  Corrected call syntax to \_parse method.
@@ -14,6 +24,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [1.0.3] - 2019-03-12
 ### Changed
+- elastic_class.ElasticStatus.chk_disk:  Updated warning message.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Removed check on host_list being a list.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Replaced host_list with self.hosts attribute.
 - elastic_class.get_dump_list:  Changed ES to es for standard convention.
 - elastic_class.ElasticSearchDump.dump_db:  Changed parse() to _parse.
 - elastic_class.ElasticSearchDump.dump_db:  Reduced Cognitive Complexity to accepted standard level - moved section of code to private method: _chk_status.

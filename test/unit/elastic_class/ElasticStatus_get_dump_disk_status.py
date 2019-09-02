@@ -60,6 +60,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        # This is set to allow to show large differences.
+        self.maxDiff = None
         self.host_name = "host1"
         self.get_data = {"nodes":
                          {"first":
@@ -115,9 +117,9 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.get_dump_disk_status(True),
-            ({"Dump_Usage": {"Dump_Usage": {"reponame1": {
-                "Partition": "/dir/data", "Total": "200", "Used": "150",
-                "Free": "50", "Percent": 75}}}}))
+            ({"Dump_Usage": {"reponame1": {
+                "Partition": "/dir/data", "Total": 200, "Used": 150,
+                "Free": 50, "Percent": 75}}}))
 
     @mock.patch("elastic_class.gen_libs.disk_usage")
     @mock.patch("elastic_class.gen_libs.bytes_2_readable")

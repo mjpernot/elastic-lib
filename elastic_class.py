@@ -82,28 +82,19 @@ class ElasticSearch(object):
         """
 
         self.port = port
-        self.hosts = host_list
+        self.hosts = list(host_list)
         self.cluster_name = None
         self.node_connected_to = None
         self.es = None
+        self.is_connected = False
 
-        if isinstance(host_list, list):
+        self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
-            self.es = elasticsearch.Elasticsearch(host_list, port=self.port)
-
-            if self.es.ping():
-                info = self.es.info()
-
-                self.cluster_name = info["cluster_name"]
-                self.node_connected_to = info["name"]
-
-            else:
-                print("Error:  Failed ping of nodes:  %s, Port: %s"
-                      % (self.hosts, self.port))
-                self.es = None
-
-        else:
-            print("Error:  Host_list not a list: %s" % (self.hosts))
+        if self.es.ping():
+            self.is_connected = True
+            info = self.es.info()
+            self.cluster_name = info["cluster_name"]
+            self.node_connected_to = info["name"]
 
 
 class ElasticSearchDump(ElasticSearch):
@@ -135,6 +126,7 @@ class ElasticSearchDump(ElasticSearch):
 
         """
 
+        host_list = list(host_list)
         super(ElasticSearchDump, self).__init__(host_list, port, **kwargs)
 
         self.dump_status = None
@@ -327,6 +319,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         """
 
+        host_list = list(host_list)
         super(ElasticSearchRepo, self).__init__(host_list, port, **kwargs)
 
         self.repo = repo
@@ -1093,7 +1086,7 @@ class ElasticStatus(ElasticCluster):
             results = func(json)
 
             if json:
-                data = gen_libs.merge_two_dicts(data, results)
+                data, status, msg = gen_libs.merge_two_dicts(data, results)
 
             else:
                 data = data + "\n" + results
@@ -1341,8 +1334,9 @@ class ElasticStatus(ElasticCluster):
 
                 else:
                     data = data \
-                        + "\tNode: %s\n\t\tHas reached disk threshold" \
+                        + "\n\tNode: %s" \
                         % (node[8]) \
+                        + "\n\t\tHave reached disk usage threshold" \
                         + "\n\t\tThreshold: %s\n\t\tTotal: %s\n" \
                         % (self.cutoff_disk, node[4]) \
                         + "\t\tUsed: %s\n\t\tES Used: %s\n" \
@@ -1381,7 +1375,7 @@ class ElasticStatus(ElasticCluster):
                 err_flag = True
 
                 if json:
-                    data = gen_libs.merge_two_dicts(data, results)
+                    data, status, msg = gen_libs.merge_two_dicts(data, results)
 
                 else:
                     data = data + "\n" + results

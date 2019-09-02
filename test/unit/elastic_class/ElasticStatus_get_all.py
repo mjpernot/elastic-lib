@@ -127,9 +127,9 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.get_all (True),
-            ({"clustername": {"dump": "good", "disk": "50", "gen": "ok",
+            ({"clustername": {}, "dump": "good", "disk": "50", "gen": "ok",
                 "shrd": "red", "mem": "90", "svr": "yellow", "stat": "green",
-                "nodes": "nodes"}}))
+                "nodes": "nodes"}))
 
     @mock.patch("elastic_class.ElasticStatus.get_cluster")
     @mock.patch("elastic_class.ElasticStatus.get_dump_disk_status")

@@ -60,6 +60,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        # This is set to allow to show large differences.
+        self.maxDiff = None
         self.host_name = "host1"
         self.get_data = {"nodes":
                          {"first":
@@ -111,14 +113,14 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticStatus(self.host_name)
         es.cluster_status = "Yellow"
         es.pending_tasks = 1
-        self.assertEqual(es.chk_status(),
-            ({"Cluster_Warning": {"Cluster_Warning": 
+        self.assertEqual(es.chk_status(json=True),
+            ({"Cluster_Warning": 
                 {"Cluster_Status":
                     {"Reason": "Detected the cluster is not green",
                      "Status": "Yellow"},
                  "Pending_Tasks":
                      {"Reason": "Detected cluster has pending tasks",
-                     "Tasks": 1}}}}))
+                     "Tasks": 1}}}))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_string_default(self, mock_get):
