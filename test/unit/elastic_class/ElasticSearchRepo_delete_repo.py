@@ -42,10 +42,6 @@ class Repo(object):
 
     Description:  Class representation of the snapshot class.
 
-    Super-Class:  object
-
-    Sub-Classes:
-
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
         create_repository -> Stub holder for snapshot.create_repository method.
@@ -64,7 +60,11 @@ class Repo(object):
 
         """
 
-        return {"acknowledged": True}
+        if repository == "reponame3":
+            return {"acknowledged": False}
+
+        else:
+            return {"acknowledged": True}
 
     def create_repository(self):
 
@@ -97,10 +97,6 @@ class Elasticsearch(object):
     """Class:  ElasticSearch
 
     Description:  Class representation of the Elasticsearch class.
-
-    Super-Class:  object
-
-    Sub-Classes:
 
     Methods:
         __init__ -> Initialize configuration environment.
@@ -156,12 +152,11 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Initialization for unit testing.
+        test_repo_name_failed -> Test with repo name failed to delete.
+        test_repo_name_none -> Test with repo name set to None.
+        test_no_repo_name -> Test with no repo name passed.
         test_not_deleted -> Test with repository not being deleted.
         test_default -> Test with default settings.
 
@@ -180,8 +175,82 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.repo2 = "reponame2"
+        self.repo3 = "reponame3"
         self.es = Elasticsearch(self.host_list)
         self.err_msg = "ERROR:  Repository still detected:  reponame"
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_name_failed(self, mock_es):
+
+        """Function:  test_repo_name_failed
+
+        Description:  Test with repo name failed to delete.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo_dict = {"reponame":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump"}},
+                        "reponame2":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump2"}}}
+        es.repo_dict[self.repo3] = True
+
+        self.assertEqual(es.delete_repo(self.repo3),
+            (True, "ERROR:  Repository deletion failed:  reponame3"))
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_name_none(self, mock_es):
+
+        """Function:  test_repo_name_none
+
+        Description:  Test with repo name set to None.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo_dict = {"reponame":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump"}},
+                        "reponame2":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump2"}}}
+        es.repo = None
+
+        self.assertEqual(es.delete_repo(),
+            (True, "ERROR: Missing repo or does not exist: None"))
+
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_no_repo_name(self, mock_es):
+
+        """Function:  test_no_repo_name
+
+        Description:  Test with no repo name passed.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo_dict = {"reponame":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump"}},
+                        "reponame2":
+                        {"type": "dbdump", "settings":
+                         {"location": "/dir/path/dump2"}}}
+
+        self.assertEqual(es.delete_repo(self.repo2), (False, None))
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_not_deleted(self, mock_es):

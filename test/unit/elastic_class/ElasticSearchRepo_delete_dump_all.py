@@ -42,10 +42,6 @@ class Repo(object):
 
     Description:  Class representation of the snapshot class.
 
-    Super-Class:  object
-
-    Sub-Classes:
-
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
         create_repository -> Stub holder for snapshot.create_repository method.
@@ -96,10 +92,6 @@ class Elasticsearch(object):
     """Class:  ElasticSearch
 
     Description:  Class representation of the Elasticsearch class.
-
-    Super-Class:  object
-
-    Sub-Classes:
 
     Methods:
         __init__ -> Initialize configuration environment.
@@ -155,12 +147,11 @@ class UnitTest(unittest.TestCase):
 
     Description:  Class which is a representation of a unit testing.
 
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:
-
     Methods:
         setUp -> Initialization for unit testing.
+        test_delete_dump_fails -> Test with delete dumps fails.
+        test_repo_name_none -> Test with repo name set to none.
+        test_no_repo_name -> Test with no repo name passed.
         test_default -> Test with default settings.
 
     """
@@ -178,6 +169,75 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
+
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_delete_dump_fails(self, mock_es, mock_list, mock_delete):
+
+        """Function:  test_delete_dump_fails
+
+        Description:  Test with delete dumps fails.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.side_effect = [["dump1", "dump2", "dump3"],
+                                 ["dump1", "dump2"]]
+        mock_delete.return_value = (True, "Error Message")
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+
+        self.assertEqual(es.delete_dump_all(self.repo),
+            (True, "Error Message"))
+
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_repo_name_none(self, mock_es, mock_list, mock_delete):
+
+        """Function:  test_repo_name_none
+
+        Description:  Test with repo name set to none.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.side_effect = [["dump1", "dump2", "dump3"],
+                                 ["dump1", "dump2"]]
+        mock_delete.return_value = (False, None)
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        es.repo = None
+
+        self.assertEqual(es.delete_dump_all(),
+            (True, "ERROR:  Repo:  None is not present or missing argument."))
+
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
+    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_no_repo_name(self, mock_es, mock_list, mock_delete):
+
+        """Function:  test_no_repo_name
+
+        Description:  Test with no repo name passed.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+        mock_list.side_effect = [["dump1", "dump2", "dump3"],
+                                 ["dump1", "dump2"]]
+        mock_delete.return_value = (False, None)
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+
+        self.assertEqual(es.delete_dump_all(), (False, None))
 
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")

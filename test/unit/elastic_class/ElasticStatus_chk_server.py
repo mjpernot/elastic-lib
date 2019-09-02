@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticStatus_get_svr_status.py
+"""Program:  ElasticStatus_chk_server.py
 
-    Description:  Unit testing of get_svr_status in
+    Description:  Unit testing of chk_server in
         elastic_class.ElasticStatus class.
 
     Usage:
-        test/unit/elastic_class/ElasticStatus_get_svr_status.py
+        test/unit/elastic_class/ElasticStatus_chk_server.py
 
     Arguments:
 
@@ -45,6 +45,7 @@ class UnitTest(unittest.TestCase):
     Methods:
         setUp -> Initialization for unit testing.
         test_json -> Test with JSON format.
+        test_no_errors -> Test with no problems detected.
         test_default -> Test with default settings.
 
     """
@@ -92,9 +93,8 @@ class UnitTest(unittest.TestCase):
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
-    @mock.patch("elastic_class.gen_libs.milli_2_readadble")
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_json(self, mock_get, mock_lib):
+    def test_json(self, mock_get):
 
         """Function:  test_json
 
@@ -107,16 +107,32 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_lib.return_value = 1000
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_svr_status(True),
-            ({"Server":
-                {"Uptime": 1000, "Allocated_CPU": 2, "CPU_Active": 75}}))
+        self.assertEqual(es.chk_server(json=True),
+            ({"Server_Warning": {"Reason": "Have reach cpu threshold",
+                "Threshold": 75, "Total_CPUs": 2, "CPU_Usage": 75}}))
 
-    @mock.patch("elastic_class.gen_libs.milli_2_readadble")
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_default(self, mock_get, mock_lib):
+    def test_no_errors(self, mock_get):
+
+        """Function:  test_no_errors
+
+        Description:  Test with no problems detected.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+
+        es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.chk_server(cutoff_cpu=95), (None))
+
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_default(self, mock_get):
 
         """Function:  test_default
 
@@ -129,11 +145,11 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_lib.return_value = 1000
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_svr_status(),
-            ("Server\n\tUptime: 1000\n\tAlloc CPU: 2\n\tCPU Active: 75"))
+        self.assertEqual(es.chk_server(),
+            ("WARNING:  Have reach 75% threshold.  " \
+             + "Currently using 75% on 2 CPUs"))
 
 
 if __name__ == "__main__":

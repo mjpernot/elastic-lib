@@ -44,6 +44,9 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_disk_arg -> Test passing disk argument.
+        test_cpu_arg -> Test passing cpu argument.
+        test_mem_arg -> Test passing memory argument.
         test_default -> Test with default settings.
 
     """
@@ -90,6 +93,66 @@ class UnitTest(unittest.TestCase):
                                                    "free_in_bytes": 120000},
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
+
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_disk_arg(self, mock_get):
+
+        """Function:  test_disk_arg
+
+        Description:  Test passing disk argument.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+
+        es = elastic_class.ElasticStatus(self.host_name, cutoff_disk=30)
+        self.assertEqual((es.num_shards, es.failed_nodes, es.alloc_cpu,
+                          es.cpu_active, es.pending_tasks, es.cutoff_disk),
+                         (9, 0, 2, 75, 0, 30))
+
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_cpu_arg(self, mock_get):
+
+        """Function:  test_cpu_arg
+
+        Description:  Test passing cpu argument.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+
+        es = elastic_class.ElasticStatus(self.host_name, cutoff_cpu=20)
+        self.assertEqual((es.num_shards, es.failed_nodes, es.alloc_cpu,
+                          es.cpu_active, es.pending_tasks, es.cutoff_cpu),
+                         (9, 0, 2, 75, 0, 20))
+
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_mem_arg(self, mock_get):
+
+        """Function:  test_mem_arg
+
+        Description:  Test passing memory argument.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+
+        es = elastic_class.ElasticStatus(self.host_name, cutoff_mem=10)
+        self.assertEqual((es.num_shards, es.failed_nodes, es.alloc_cpu,
+                          es.cpu_active, es.pending_tasks, es.cutoff_mem),
+                         (9, 0, 2, 75, 0, 10))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):

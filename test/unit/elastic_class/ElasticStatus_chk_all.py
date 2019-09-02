@@ -1,13 +1,12 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticStatus_get_svr_status.py
+"""Program:  ElasticStatus_chk_all.py
 
-    Description:  Unit testing of get_svr_status in
-        elastic_class.ElasticStatus class.
+    Description:  Unit testing of chk_all in elastic_class.ElasticStatus class.
 
     Usage:
-        test/unit/elastic_class/ElasticStatus_get_svr_status.py
+        test/unit/elastic_class/ElasticStatus_chk_all.py
 
     Arguments:
 
@@ -45,6 +44,7 @@ class UnitTest(unittest.TestCase):
     Methods:
         setUp -> Initialization for unit testing.
         test_json -> Test with JSON format.
+        test_string_default -> Test with string settings.
         test_default -> Test with default settings.
 
     """
@@ -92,9 +92,16 @@ class UnitTest(unittest.TestCase):
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
-    @mock.patch("elastic_class.gen_libs.milli_2_readadble")
+    @mock.patch("elastic_class.ElasticStatus.get_cluster")
+    @mock.patch("elastic_class.ElasticStatus.chk_disk")
+    @mock.patch("elastic_class.ElasticStatus.chk_status")
+    @mock.patch("elastic_class.ElasticStatus.chk_server")
+    @mock.patch("elastic_class.ElasticStatus.chk_shards")
+    @mock.patch("elastic_class.ElasticStatus.chk_nodes")
+    @mock.patch("elastic_class.ElasticStatus.chk_mem")
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_json(self, mock_get, mock_lib):
+    def test_json(self, mock_get, mock_mem, mock_nodes, mock_shards,
+                  mock_server, mock_status, mock_disk, mock_cluster):
 
         """Function:  test_json
 
@@ -107,16 +114,63 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_lib.return_value = 1000
+        mock_mem.return_value = None
+        mock_nodes.return_value = None
+        mock_shards.return_value = None
+        mock_server.return_value = None
+        mock_status.return_value = None
+        mock_disk.return_value = {"disk": "Not good"}
+        mock_cluster.return_value = {"clustername": {}}
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_svr_status(True),
-            ({"Server":
-                {"Uptime": 1000, "Allocated_CPU": 2, "CPU_Active": 75}}))
+        self.assertEqual(es.chk_all(json=True),
+                         ({"clustername": {}, "disk": "Not good"}))
 
-    @mock.patch("elastic_class.gen_libs.milli_2_readadble")
+    @mock.patch("elastic_class.ElasticStatus.get_cluster")
+    @mock.patch("elastic_class.ElasticStatus.chk_disk")
+    @mock.patch("elastic_class.ElasticStatus.chk_status")
+    @mock.patch("elastic_class.ElasticStatus.chk_server")
+    @mock.patch("elastic_class.ElasticStatus.chk_shards")
+    @mock.patch("elastic_class.ElasticStatus.chk_nodes")
+    @mock.patch("elastic_class.ElasticStatus.chk_mem")
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_default(self, mock_get, mock_lib):
+    def test_string_default(self, mock_get, mock_mem, mock_nodes,
+                            mock_shards, mock_server, mock_status, mock_disk,
+                            mock_cluster):
+
+        """Function:  test_string_default
+
+        Description:  Test with string settings.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+        mock_mem.return_value = None
+        mock_nodes.return_value = None
+        mock_shards.return_value = None
+        mock_server.return_value = None
+        mock_status.return_value = None
+        mock_disk.return_value = "disk is not good"
+        mock_cluster.return_value = "clustername"
+
+        es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.chk_all(),
+                         ("clustername\ndisk is not good"))
+
+    @mock.patch("elastic_class.ElasticStatus.get_cluster")
+    @mock.patch("elastic_class.ElasticStatus.chk_disk")
+    @mock.patch("elastic_class.ElasticStatus.chk_status")
+    @mock.patch("elastic_class.ElasticStatus.chk_server")
+    @mock.patch("elastic_class.ElasticStatus.chk_shards")
+    @mock.patch("elastic_class.ElasticStatus.chk_nodes")
+    @mock.patch("elastic_class.ElasticStatus.chk_mem")
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_default(self, mock_get, mock_mem, mock_nodes, mock_shards,
+                     mock_server, mock_status, mock_disk, mock_cluster):
 
         """Function:  test_default
 
@@ -129,11 +183,16 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_lib.return_value = 1000
+        mock_mem.return_value = None
+        mock_nodes.return_value = None
+        mock_shards.return_value = None
+        mock_server.return_value = None
+        mock_status.return_value = None
+        mock_disk.return_value = None
+        mock_cluster.return_value = "clustername"
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_svr_status(),
-            ("Server\n\tUptime: 1000\n\tAlloc CPU: 2\n\tCPU Active: 75"))
+        self.assertEqual(es.chk_all(), (None))
 
 
 if __name__ == "__main__":

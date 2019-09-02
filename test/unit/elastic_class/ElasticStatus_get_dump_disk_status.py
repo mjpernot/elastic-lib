@@ -45,6 +45,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_json -> Test with JSON format.
         test_default -> Test with default settings.
 
     """
@@ -59,6 +60,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        # This is set to allow to show large differences.
+        self.maxDiff = None
         self.host_name = "host1"
         self.get_data = {"nodes":
                          {"first":
@@ -91,6 +94,32 @@ class UnitTest(unittest.TestCase):
                                                    "free_in_bytes": 120000},
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
+
+    @mock.patch("elastic_class.gen_libs.disk_usage")
+    @mock.patch("elastic_class.gen_libs.bytes_2_readable")
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_json(self, mock_get, mock_lib, mock_disk):
+
+        """Function:  test_json
+
+        Description:  Test with JSON format.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+        mock_lib.side_effect = [200, 150, 50]
+        _usage = collections.namedtuple("usage", "total used free")
+        mock_disk.return_value = _usage(total=200, used=150, free=50)
+
+        es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.get_dump_disk_status(True),
+            ({"Dump_Usage": {"reponame1": {
+                "Partition": "/dir/data", "Total": 200, "Used": 150,
+                "Free": 50, "Percent": 75}}}))
 
     @mock.patch("elastic_class.gen_libs.disk_usage")
     @mock.patch("elastic_class.gen_libs.bytes_2_readable")

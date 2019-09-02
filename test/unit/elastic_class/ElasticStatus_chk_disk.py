@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticStatus_get_svr_status.py
+"""Program:  ElasticStatus_chk_disk.py
 
-    Description:  Unit testing of get_svr_status in
+    Description:  Unit testing of chk_disk in
         elastic_class.ElasticStatus class.
 
     Usage:
-        test/unit/elastic_class/ElasticStatus_get_svr_status.py
+        test/unit/elastic_class/ElasticStatus_chk_disk.py
 
     Arguments:
 
@@ -45,6 +45,7 @@ class UnitTest(unittest.TestCase):
     Methods:
         setUp -> Initialization for unit testing.
         test_json -> Test with JSON format.
+        test_string_default -> Test with string settings.
         test_default -> Test with default settings.
 
     """
@@ -59,6 +60,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        # This is set to allow to show large differences.
+        self.maxDiff = None
         self.host_name = "host1"
         self.get_data = {"nodes":
                          {"first":
@@ -92,9 +95,8 @@ class UnitTest(unittest.TestCase):
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
-    @mock.patch("elastic_class.gen_libs.milli_2_readadble")
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_json(self, mock_get, mock_lib):
+    def test_json(self, mock_get):
 
         """Function:  test_json
 
@@ -107,16 +109,38 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_lib.return_value = 1000
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_svr_status(True),
-            ({"Server":
-                {"Uptime": 1000, "Allocated_CPU": 2, "CPU_Active": 75}}))
+        self.assertEqual(es.chk_disk(json=True, cutoff_disk=10),
+            ({"Disk_Warning": {"hostname": 
+                {"Reason": "Have reached disk usage threshold",
+                 "Threshold": 10, "Total": "69gb", "Used": "16gb",
+                 "ES_Used": "69mb"}}}))
 
-    @mock.patch("elastic_class.gen_libs.milli_2_readadble")
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_default(self, mock_get, mock_lib):
+    def test_string_default(self, mock_get):
+
+        """Function:  test_string_default
+
+        Description:  Test with string settings.
+
+        Arguments:
+
+        """
+
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5, self.get_data6,
+                                self.get_data7, self.get_data8, self.get_data9]
+
+        es = elastic_class.ElasticStatus(self.host_name)
+        self.assertEqual(es.chk_disk(cutoff_disk=10), 
+            ("Disk Warning\n" \
+             + "\n\tNode: hostname\n\t\tHave reached disk usage threshold" \
+             + "\n\t\tThreshold: 10\n\t\tTotal: 69gb\n" \
+             + "\t\tUsed: 16gb\n\t\tES Used: 69mb\n"))
+
+    @mock.patch("elastic_class.requests_libs.get_query")
+    def test_default(self, mock_get):
 
         """Function:  test_default
 
@@ -129,11 +153,9 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_lib.return_value = 1000
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_svr_status(),
-            ("Server\n\tUptime: 1000\n\tAlloc CPU: 2\n\tCPU Active: 75"))
+        self.assertEqual(es.chk_disk(), (None))
 
 
 if __name__ == "__main__":
