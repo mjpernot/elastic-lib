@@ -10,7 +10,6 @@
         test/integration/elastic_class/elasticsearchdump_dumpdb.py
 
     Arguments:
-        None
 
 """
 
@@ -35,7 +34,6 @@ import lib.gen_libs as gen_libs
 import elastic_class
 import version
 
-# Version
 __version__ = version.__version__
 
 
@@ -44,10 +42,6 @@ class UnitTest(unittest.TestCase):
     """Class:  UnitTest
 
     Description:  Class which is a representation of a unit testing.
-
-    Super-Class:  unittest.TestCase
-
-    Sub-Classes:  None
 
     Methods:
         setUp -> Unit testing initilization.
@@ -69,7 +63,6 @@ class UnitTest(unittest.TestCase):
         Description:  Initialization for unit testing.
 
         Arguments:
-            None
 
         """
 
@@ -91,7 +84,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test dumping two databases.
 
         Arguments:
-            None
 
         """
 
@@ -127,7 +119,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test dumping single database.
 
         Arguments:
-            None
 
         """
 
@@ -161,7 +152,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test database name is not a string.
 
         Arguments:
-            None
 
         """
 
@@ -185,7 +175,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test dump list is updated after dump.
 
         Arguments:
-            None
 
         """
 
@@ -211,7 +200,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test dump of database is successful.
 
         Arguments:
-            None
 
         """
 
@@ -237,7 +225,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test repo name is set, but not present.
 
         Arguments:
-            None
 
         """
 
@@ -255,7 +242,6 @@ class UnitTest(unittest.TestCase):
         Description:  Test repo name is not set for dump.
 
         Arguments:
-            None
 
         """
 
@@ -272,7 +258,6 @@ class UnitTest(unittest.TestCase):
         Description:  Clean up of integration testing.
 
         Arguments:
-            None
 
         """
 

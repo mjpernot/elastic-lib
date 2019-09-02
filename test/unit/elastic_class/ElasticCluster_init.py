@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  Elastic_init.py
+"""Program:  ElasticCluster_init.py
 
-    Description:  Unit testing of __init__ in elastic_class.Elastic class.
+    Description:  Unit testing of __init__ in elastic_class.ElasticCluster
+        class.
 
     Usage:
-        test/unit/elastic_class/Elastic_init.py
+        test/unit/elastic_class/ElasticCluster_init.py
 
     Arguments:
 
@@ -67,6 +68,12 @@ class UnitTest(unittest.TestCase):
                           {"settings":
                            {"path":
                             {"data": "data_dir2", "logs": "log_dir2"}}}}}
+        self.get_data2 = {"cluster_name":  "clustername",
+                          "nodes":  {"id1": {"name": "node1"}},
+                          "_nodes": {"total": 1}}
+        self.get_data3 = {"status": "green"}
+        self.get_data4 = "id1 ip_address ip_address hostname\n"
+        self.get_data5 = {"reponame1": {"settings": {"location": "/dir/data"}}}
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):
@@ -79,11 +86,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_get.return_value = self.get_data
+        mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
+                                self.get_data4, self.get_data5]
 
-        es = elastic_class.Elastic(self.host_name)
-        self.assertEqual((es.port, es.node, es.data, es.logs),
-                         (9200, self.host_name, "data_dir2", "log_dir2"))
+        es = elastic_class.ElasticCluster(self.host_name)
+        self.assertEqual((es.cluster, es.total_nodes, es.cluster_status,
+                          es.master),
+                         ("clustername", 1, "green", "hostname"))
 
 
 if __name__ == "__main__":
