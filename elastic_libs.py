@@ -79,11 +79,11 @@ def list_repos2(repo_list, **kwargs):
     Description:  Lists the repositories in the Elasticsearch cluster.
 
     Arguments:
-        (input) repo_list -> List of repositories.
+        (input) repo_list -> Dictionary of repositories.
 
     """
 
-    repo_list = list(repo_list)
+    repo_list = dict(repo_list)
 
     print("{0:30} {1}".format("Repository Name", "Location"))
 
