@@ -119,12 +119,12 @@ class UnitTest(unittest.TestCase):
         mock_shards.return_value = None
         mock_server.return_value = None
         mock_status.return_value = None
-        mock_disk.return_value = {"disk: "Not good"}
+        mock_disk.return_value = {"disk": "Not good"}
         mock_cluster.return_value = {"clustername": {}}
 
         es = elastic_class.ElasticStatus(self.host_name)
         self.assertEqual(es.chk_all(json=True),
-                         ({"clustername": {"disk: "Not good"}}))
+                         ({"clustername": {}, "disk": "Not good"}))
 
     @mock.patch("elastic_class.ElasticStatus.get_cluster")
     @mock.patch("elastic_class.ElasticStatus.chk_disk")
