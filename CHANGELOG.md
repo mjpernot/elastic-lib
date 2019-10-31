@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [2.0.0] - 2019-10-31
+Breaking Change
+
+### Deprecated
+- elastic_class.ElasticCluster:  Integrated into the ElasticSearch class.
+- elastic_class.ElasticStatus:  Replaced by the ElasticSearchAdmin class.
+
+
 ## [1.0.4] - 2019-09-02
 ### Fixed
 - elastic_class.chk_all:  Added return parameters for gen_libs.merge_two_dicts.

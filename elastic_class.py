@@ -15,9 +15,9 @@
             ElasticSearchRepo
 
         Elastic (deprecated)
-            ElasticCluster
+            ElasticCluster (deprecated)
                 ElasticDump (deprecated)
-                ElasticStatus
+                ElasticStatus (deprecated)
 
 """
 
@@ -558,7 +558,7 @@ class Elastic(object):
 
 class ElasticCluster(Elastic):
 
-    """Class:  ElasticCluster
+    """Class:  ElasticCluster (deprecated:  Integrated into ElasticSearch)
 
     Description:  Class which is a representation of a cluster of
         Elasticsearch database nodes.  An ElasticCluster object is used as a
@@ -740,7 +740,7 @@ class ElasticDump(ElasticCluster):
 
 class ElasticStatus(ElasticCluster):
 
-    """Class:  ElasticStatus
+    """Class:  ElasticStatus (deprecated:  Replaced by ElasticSearchAdmin)
 
     Description:  Class which is a representation of an Elasticsearch
         cluster status which contains attributes to show the general health of
