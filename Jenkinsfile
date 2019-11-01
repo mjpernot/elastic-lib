@@ -23,6 +23,7 @@ pipeline {
                 ./test/unit/elastic_libs/list_repos2.py
                 ./test/unit/elastic_libs/list_dumps.py
                 ./test/unit/elastic_libs/get_latest_dump.py
+                ./test/unit/elastic_class/get_dump_list.py
                 ./test/unit/elastic_class/Elastic_init.py
                 ./test/unit/elastic_class/ElasticCluster_init.py
                 ./test/unit/elastic_class/ElasticSearch_init.py
