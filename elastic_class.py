@@ -11,6 +11,7 @@
         get_cluster_nodes
         get_dump_list
         get_info
+        get_nodes
         get_repo_list
         is_active
 
@@ -48,11 +49,11 @@ def get_cluster_nodes(es, **kwargs):
 
     """Function:  get_cluster_nodes
 
-    Description:  Return a dictionary of information on Elasticsearch nodes.
+    Description:  Return a dict of information on Elasticsearch cluster nodes.
 
     Arguments:
         (input) es -> ElasticSearch instance.
-        (output) Dictionary of information on Elasticsearch nodes.
+        (output) Dictionary of information on Elasticsearch cluster nodes.
 
     """
 
@@ -88,6 +89,21 @@ def get_info(es, **kwargs):
     """
 
     return es.info()
+
+
+def get_nodes(es, **kwargs):
+
+    """Function:  get_nodes
+
+    Description:  Return a dictionary of information on Elasticsearch nodes.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) Dictionary of information on Elasticsearch nodes.
+
+    """
+
+    return es.nodes.info()["nodes"]
 
 
 def get_repo_list(es, **kwargs):
