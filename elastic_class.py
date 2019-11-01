@@ -2,12 +2,14 @@
 
 """Program:  elastic_class.py
 
-    Description:  Class definitions and methods for an Elasticsearch
-        database/cluster, Elasticsearch replication, and Elasticsearch
-        database/cluster status.
+    Description:  Class definitions and methods for an Elasticsearch cluster,
+        Elasticsearch cluster dump, Elasticsearch cluster repository, and
+        Elasticsearch cluster status.  Includes supporting functions for the
+        classes.
 
     Functions:
         get_dump_list
+        get_info
 
     Classes:
         ElasticSearch
@@ -53,6 +55,21 @@ def get_dump_list(es, repo, **kwargs):
     """
 
     return [x.split() for x in es.cat.snapshots(repository=repo).splitlines()]
+
+
+def get_info(es, **kwargs):
+
+    """Function:  get_info
+
+    Description:  Return a dictionary of a basic Elasticsearch info command.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) Dictionary of basic Elasticsearch info command.
+
+    """
+
+    return es.info()
 
 
 class ElasticSearch(object):

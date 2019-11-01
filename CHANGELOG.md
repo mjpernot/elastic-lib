@@ -7,6 +7,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [2.0.0] - 2019-10-31
 Breaking Change
 
+### Added
+- elastic_class.get_info:  Dictionary of basic Elasticsearch info command.
+
 ### Deprecated
 - elastic_class.ElasticCluster:  Integrated into the ElasticSearch class.
 - elastic_class.ElasticStatus:  Replaced by the ElasticSearchAdmin class.
