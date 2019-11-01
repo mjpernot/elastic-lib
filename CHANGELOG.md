@@ -9,9 +9,9 @@ Breaking Change
 
 ### Added
 - elastic_class.get_cluster_nodes:  Dictionary of information on Elasticsearch nodes.
-- elastic_class.is_active:  True or False if the Elasticsearch cluster is up.
-- elastic_class.get_repo_list:  Dictionary of a list of Elasticsearch nodes.
 - elastic_class.get_info:  Dictionary of basic Elasticsearch info command.
+- elastic_class.get_repo_list:  Dictionary of a list of Elasticsearch nodes.
+- elastic_class.is_active:  True or False if the Elasticsearch cluster is up.
 
 ### Deprecated
 - elastic_class.ElasticCluster:  Integrated into the ElasticSearch class.
