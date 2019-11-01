@@ -10,6 +10,7 @@
     Functions:
         get_dump_list
         get_info
+        get_repo_list
 
     Classes:
         ElasticSearch
@@ -70,6 +71,21 @@ def get_info(es, **kwargs):
     """
 
     return es.info()
+
+
+def get_repo_list(es, **kwargs):
+
+    """Function:  get_repo_list
+
+    Description:  Return a dictionary of a list of Elasticsearch nodes.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) Dictionary of a list of Elasticsearch nodes.
+
+    """
+
+    return es.snapshot.get_repository()
 
 
 class ElasticSearch(object):
