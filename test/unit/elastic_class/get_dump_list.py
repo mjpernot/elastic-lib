@@ -82,7 +82,7 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
-        self.snapshot = Repo()
+        self.cat = Repo()
 
 
 class UnitTest(unittest.TestCase):
@@ -113,7 +113,7 @@ class UnitTest(unittest.TestCase):
         self.results = [["bkp_name", "SUCCESS", "start", "end"],
                         ["bkp_name2", "SUCCESS", "start", "end"]]
 
-    def test_default(self, mock_es):
+    def test_default(self):
 
         """Function:  test_default
 
