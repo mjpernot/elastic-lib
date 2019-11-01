@@ -10,6 +10,7 @@
     Functions:
         get_cluster_health
         get_cluster_nodes
+        get_cluster_stats
         get_dump_list
         get_info
         get_nodes
@@ -74,6 +75,21 @@ def get_cluster_nodes(es, **kwargs):
     """
 
     return es.nodes.info()
+
+
+def get_cluster_stats(es, **kwargs):
+
+    """Function:  get_cluster_stats
+
+    Description:  Return a dict of information on Elasticsearch cluster stats.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) Dictionary of information on Elasticsearch cluster stats.
+
+    """
+
+    return es.cluster.stats()
 
 
 def get_cluster_status(es, **kwargs):
