@@ -9,6 +9,7 @@ echo "Unit test:  elastic_class"
 test/unit/elastic_class/get_cluster_nodes.py
 test/unit/elastic_class/get_dump_list.py
 test/unit/elastic_class/get_info.py
+test/unit/elastic_class/get_nodes.py
 test/unit/elastic_class/get_repo_list.py
 test/unit/elastic_class/is_active.py
 test/unit/elastic_class/Elastic_init.py
