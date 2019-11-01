@@ -9,17 +9,17 @@ pipeline {
         stage('Test') {
             steps {
                 dir ('lib') {
-                    git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/python-lib.git"
+                    git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.code.dicelab.net/JAC-IDM/python-lib.git"
                 }
                 dir ('requests_lib') {
-                    git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.dicelab.net/JAC-IDM/requests-lib.git"
+                    git branch: "master", credentialsId: "2cfb403c-be21-4fac-94d7-c8cd5c531feb", url: "https://gitlab.code.dicelab.net/JAC-IDM/requests-lib.git"
                 }
                 sh """
                 virtualenv test_env
                 source test_env/bin/activate
-                pip2 install mock --user
-                pip2 install elasticsearch --user
-                pip2 install requests --user
+                pip2 install mock==2.0.0 --user
+                pip2 install elasticsearch==7.0.2 --user
+                pip2 install requests==2.22.0 --user
                 ./test/unit/elastic_libs/list_repos2.py
                 ./test/unit/elastic_libs/list_dumps.py
                 ./test/unit/elastic_libs/get_latest_dump.py
