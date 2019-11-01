@@ -11,6 +11,7 @@
         get_dump_list
         get_info
         get_repo_list
+        is_active
 
     Classes:
         ElasticSearch
@@ -86,6 +87,21 @@ def get_repo_list(es, **kwargs):
     """
 
     return es.snapshot.get_repository()
+
+
+def is_active(es, **kwargs):
+
+    """Function:  is_active
+
+    Description:  Returns True or False if the Elasticsearch cluster is up.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) True|False - Elasticsearch cluster is up.
+
+    """
+
+    return es.ping()
 
 
 class ElasticSearch(object):

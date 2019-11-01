@@ -8,6 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Added
+- elastic_class.is_active:  True or False if the Elasticsearch cluster is up.
 - elastic_class.get_repo_list:  Dictionary of a list of Elasticsearch nodes.
 - elastic_class.get_info:  Dictionary of basic Elasticsearch info command.
 
