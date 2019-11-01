@@ -161,6 +161,7 @@ test/unit/elastic_libs/code_coverage.sh
 
 ```
 test/unit/elastic_class/get_dump_list.py
+test/unit/elastic_class/get_info.py
 test/unit/elastic_class/Elastic_init.py
 test/unit/elastic_class/ElasticCluster_init.py
 test/unit/elastic_class/ElasticSearch_init.py
