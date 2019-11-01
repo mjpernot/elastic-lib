@@ -8,6 +8,7 @@
         classes.
 
     Functions:
+        get_cluster_health
         get_cluster_nodes
         get_dump_list
         get_info
@@ -43,6 +44,21 @@ import requests_lib.requests_libs as requests_libs
 import version
 
 __version__ = version.__version__
+
+
+def get_cluster_health(es, **kwargs):
+
+    """Function:  get_cluster_health
+
+    Description:  Return a dict of information on Elasticsearch cluster health.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) Dictionary of information on Elasticsearch cluster health.
+
+    """
+
+    return es.cluster.health()
 
 
 def get_cluster_nodes(es, **kwargs):
