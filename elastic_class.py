@@ -76,6 +76,21 @@ def get_cluster_nodes(es, **kwargs):
     return es.nodes.info()
 
 
+def get_cluster_status(es, **kwargs):
+
+    """Function:  get_cluster_status
+
+    Description:  Return status of the Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) .Status of the Elasticsearch cluster.
+
+    """
+
+    return es.cluster.health()["status"]
+
+
 def get_dump_list(es, repo, **kwargs):
 
     """Function:  get_dump_list
