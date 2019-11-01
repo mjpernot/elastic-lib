@@ -8,6 +8,7 @@
         classes.
 
     Functions:
+        get_cluster_nodes
         get_dump_list
         get_info
         get_repo_list
@@ -41,6 +42,21 @@ import requests_lib.requests_libs as requests_libs
 import version
 
 __version__ = version.__version__
+
+
+def get_cluster_nodes(es, **kwargs):
+
+    """Function:  get_cluster_nodes
+
+    Description:  Return a dictionary of information on Elasticsearch nodes.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) Dictionary of information on Elasticsearch nodes.
+
+    """
+
+    return es.nodes.info()
 
 
 def get_dump_list(es, repo, **kwargs):
