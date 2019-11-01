@@ -162,6 +162,7 @@ test/unit/elastic_libs/code_coverage.sh
 ```
 test/unit/elastic_class/get_cluster_health.py
 test/unit/elastic_class/get_cluster_nodes.py
+test/unit/elastic_class/get_cluster_status.py
 test/unit/elastic_class/get_dump_list.py
 test/unit/elastic_class/get_info.py
 test/unit/elastic_class/get_nodes.py
