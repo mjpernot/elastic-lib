@@ -8,6 +8,7 @@
         classes.
 
     Functions:
+        create_snapshot
         get_cluster_health
         get_cluster_nodes
         get_cluster_stats
@@ -48,6 +49,24 @@ import requests_lib.requests_libs as requests_libs
 import version
 
 __version__ = version.__version__
+
+
+def create_snapshot(es, repname, body, dumpname, **kwargs):
+
+    """Function:  create_snapshot
+
+    Description:  Runs a dump of a named repository.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (input) reponame -> Name of repository.
+        (input) body -> Contains arguments for the dump command.
+        (input) dumpname -> Dump name repository will be dumped too.
+
+    """
+
+    body = dict(body)
+    es.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
 
 
 def get_cluster_health(es, **kwargs):
