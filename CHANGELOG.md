@@ -7,6 +7,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [2.0.0] - 2019-10-31
 Breaking Change
 
+### Changed
+- elastic_class.ElasticSearch.\_\_init\_\_:  Integrated Elastic class into ElasticSearch class.
+
 ### Added
 - elastic_class.create_snapshot:  Runs a dump of a repository.
 - elastic_class.create_snapshot_repo:  Creates a repository in Elasticsearch cluster.
