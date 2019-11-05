@@ -9,8 +9,10 @@ Breaking Change
 
 ### Changed
 - elastic_class.ElasticSearch.\_\_init\_\_:  Integrated Elastic class into ElasticSearch class.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Replaced attribute updates with call to update_status.
 
 ### Added
+- elastic_class.ElasticSearch.update_status:  Update class attributes by querying Elasticsearch.
 - elastic_class.create_snapshot:  Runs a dump of a repository.
 - elastic_class.create_snapshot_repo:  Creates a repository in Elasticsearch cluster.
 - elastic_class.delete_snapshot:  Deletes a dump in a repository.

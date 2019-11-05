@@ -341,20 +341,7 @@ class ElasticSearch(object):
 
         self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
-        if self.es.ping():
-            self.is_connected = True
-            info = self.es.info()
-            self.cluster_name = info["cluster_name"]
-            self.node_connected_to = info["name"]
-            
-            # Locate the data and log devices.
-            data = get_nodes(self.es)
-
-            for x in data:
-                self.data[data[x]["name"]] = \
-                    data[x]["settings"]["path"]["data"]
-                self.logs[data[x]["name"]] = \
-                    data[x]["settings"]["path"]["logs"]
+        self.update_status()
 
     def update_status(self, **kwargs):
 
@@ -371,7 +358,7 @@ class ElasticSearch(object):
             info = self.es.info()
             self.cluster_name = info["cluster_name"]
             self.node_connected_to = info["name"]
-            
+
             # Locate the data and log devices.
             data = get_nodes(self.es)
 
