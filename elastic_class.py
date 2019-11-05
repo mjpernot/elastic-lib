@@ -10,6 +10,7 @@
     Functions:
         create_snapshot
         create_snapshot_repo
+        delete_snapshot
         get_cluster_health
         get_cluster_nodes
         get_cluster_stats
@@ -62,7 +63,7 @@ def create_snapshot(es, repname, body, dumpname, **kwargs):
         (input) es -> ElasticSearch instance.
         (input) reponame -> Name of repository.
         (input) body -> Contains arguments for the dump command.
-        (input) dumpname -> Dump name repository will be dumped too.
+        (input) dumpname -> Dump name which it will be dumped too.
 
     """
 
@@ -87,6 +88,22 @@ def create_snapshot_repo(es, repname, body, verify=True, **kwargs):
     body = dict(body)
     es.snapshot.create_repository(repository=reponame, body=body,
                                   verify=verify)
+
+
+def delete_snapshot(es, repname, dumpname, **kwargs):
+
+    """Function:  delete_snapshot
+
+    Description:  Deltes a dump in a named repository.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (input) reponame -> Name of repository.
+        (input) dumpname -> Dump name to be deleted.
+
+    """
+
+    es.snapshot.delete(repository=reponame, snapshot=dumpname)
 
 
 def get_cluster_health(es, **kwargs):
