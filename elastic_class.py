@@ -54,7 +54,7 @@ import version
 __version__ = version.__version__
 
 
-def create_snapshot(es, repname, body, dumpname, **kwargs):
+def create_snapshot(es, reponame, body, dumpname, **kwargs):
 
     """Function:  create_snapshot
 
