@@ -160,12 +160,18 @@ class UnitTest(unittest.TestCase):
         self.es = Elasticsearch(self.host_list)
         self.dbs = "dbname"
         self.dbs2 = ["dbname"]
+        self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
+            {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
+            "serverid2": {"name": "hostname2", "settings":
+            {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.ElasticSearchDump._chk_status")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_no_repo_name(self, mock_es, mock_list, mock_latest, mock_chk):
+    def test_no_repo_name(self, mock_es, mock_list, mock_latest, mock_chk,
+                          mock_nodes):
 
         """Function:  test_no_repo_name
 
@@ -180,17 +186,20 @@ class UnitTest(unittest.TestCase):
                                  ["dump1", "dump2", "dump3"]]
         mock_latest.side_effect = ["dump2", "dump3"]
         mock_chk.return_value = (False, None, True)
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.repo_name = None
         self.assertEqual(es.dump_db(self.dbs),
             (True, "ERROR:  Repository name not set."))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.ElasticSearchDump._chk_status")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_bad_db_name(self, mock_es, mock_list, mock_latest, mock_chk):
+    def test_bad_db_name(self, mock_es, mock_list, mock_latest, mock_chk,
+                         mock_nodes):
 
         """Function:  test_bad_db_name
 
@@ -205,16 +214,19 @@ class UnitTest(unittest.TestCase):
                                  ["dump1", "dump2", "dump3"]]
         mock_latest.side_effect = ["dump2", "dump3"]
         mock_chk.return_value = (False, None, True)
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         self.assertEqual(es.dump_db(self.dbs2),
             (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.ElasticSearchDump._chk_status")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es, mock_list, mock_latest, mock_chk):
+    def test_default(self, mock_es, mock_list, mock_latest, mock_chk,
+                     mock_nodes):
 
         """Function:  test_default
 
@@ -229,6 +241,7 @@ class UnitTest(unittest.TestCase):
                                  ["dump1", "dump2", "dump3"]]
         mock_latest.side_effect = ["dump2", "dump3"]
         mock_chk.return_value = (False, None, True)
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         self.assertEqual(es.dump_db(self.dbs), (False, None))
