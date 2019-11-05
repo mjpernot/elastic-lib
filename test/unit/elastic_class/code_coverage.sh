@@ -8,14 +8,21 @@ coverage erase
 
 echo ""
 echo "Running unit test modules in conjunction with coverage"
+coverage run -a --source=elastic_class test/unit/elastic_class/create_snapshot.py
+coverage run -a --source=elastic_class test/unit/elastic_class/create_snapshot_repo.py
+coverage run -a --source=elastic_class test/unit/elastic_class/delete_snapshot.py
+coverage run -a --source=elastic_class test/unit/elastic_class/delete_snapshot_repo.py
 coverage run -a --source=elastic_class test/unit/elastic_class/get_cluster_health.py
 coverage run -a --source=elastic_class test/unit/elastic_class/get_cluster_nodes.py
 coverage run -a --source=elastic_class test/unit/elastic_class/get_cluster_stats.py
 coverage run -a --source=elastic_class test/unit/elastic_class/get_cluster_status.py
+coverage run -a --source=elastic_class test/unit/elastic_class/get_disks.py
 coverage run -a --source=elastic_class test/unit/elastic_class/get_dump_list.py
 coverage run -a --source=elastic_class test/unit/elastic_class/get_info.py
+coverage run -a --source=elastic_class test/unit/elastic_class/get_master_name.py
 coverage run -a --source=elastic_class test/unit/elastic_class/get_nodes.py
 coverage run -a --source=elastic_class test/unit/elastic_class/get_repo_list.py
+coverage run -a --source=elastic_class test/unit/elastic_class/get_shards.py
 coverage run -a --source=elastic_class test/unit/elastic_class/is_active.py
 coverage run -a --source=elastic_class test/unit/elastic_class/Elastic_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticCluster_init.py
