@@ -123,7 +123,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertFalse(elastic_class.create_snapshot(
+        self.assertFalse(elastic_class.create_snapshot_repo(
             self.es, repository=self.repo_name, body=self.body,
             verify=True))
 
