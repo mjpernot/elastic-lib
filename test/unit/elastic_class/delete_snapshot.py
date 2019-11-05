@@ -123,7 +123,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.assertFalse(elastic_class.delete_snapshot(
-            self.es, repository=self.repo_name, snapshot=self.dump_name))
+            self.es, self.repo_name, self.dump_name))
 
 
 if __name__ == "__main__":

@@ -40,15 +40,15 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
-        delete_repository -> Stub for snapshot.delete_repository method.
+        delete -> Stub for snapshot.delete method.
 
     """
 
-    def delete_repository(self, reponame):
+    def delete(self, repository):
 
-        """Method:  delete_repository
+        """Method:  delete
 
-        Description:  Stub for snapshot.delete_repository method.
+        Description:  Stub for snapshot.delete method.
 
         Arguments:
             (input) repository -> Name of repository.
@@ -121,7 +121,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.assertFalse(elastic_class.delete_snapshot_repo(
-            self.es, repository=self.repo_name))
+            self.es, self.repo_name))
 
 
 if __name__ == "__main__":

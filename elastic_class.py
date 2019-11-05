@@ -107,7 +107,7 @@ def delete_snapshot(es, reponame, dumpname, **kwargs):
     es.snapshot.delete(repository=reponame, snapshot=dumpname)
 
 
-def delete_snapshot_repo(es, repname, **kwargs):
+def delete_snapshot_repo(es, reponame, **kwargs):
 
     """Function:  delete_snapshot_repo
 

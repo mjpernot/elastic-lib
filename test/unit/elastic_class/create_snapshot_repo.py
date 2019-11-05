@@ -44,7 +44,7 @@ class Repo(object):
 
     """
 
-    def create_repository(self, reponame, body, verify):
+    def create_repository(self, repository, body, verify):
 
         """Method:  create_repository
 
@@ -124,8 +124,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.assertFalse(elastic_class.create_snapshot_repo(
-            self.es, repository=self.repo_name, body=self.body,
-            verify=True))
+            self.es, self.repo_name, self.body, True))
 
 
 if __name__ == "__main__":

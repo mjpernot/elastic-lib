@@ -125,8 +125,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.assertFalse(elastic_class.create_snapshot(
-            self.es, repository=self.repo_name, body=self.body,
-            snapshot=self.dump_name))
+            self.es, self.repo_name, self.body, self.dump_name))
 
 
 if __name__ == "__main__":
