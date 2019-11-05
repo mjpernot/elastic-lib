@@ -9,6 +9,7 @@
 
     Functions:
         create_snapshot
+        create_snapshot_repo
         get_cluster_health
         get_cluster_nodes
         get_cluster_stats
@@ -67,6 +68,25 @@ def create_snapshot(es, repname, body, dumpname, **kwargs):
 
     body = dict(body)
     es.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
+
+
+def create_snapshot_repo(es, repname, body, verify=True, **kwargs):
+
+    """Function:  create_snapshot_repo
+
+    Description:  Creates a repository in Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (input) reponame -> Name of repository.
+        (input) body -> Contains arguments for the dump command.
+        (input) verify -> True|False - Validate the repository.
+
+    """
+
+    body = dict(body)
+    es.snapshot.create_repository(repository=reponame, body=body,
+                                  verify=verify)
 
 
 def get_cluster_health(es, **kwargs):
