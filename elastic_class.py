@@ -11,6 +11,7 @@
         get_cluster_health
         get_cluster_nodes
         get_cluster_stats
+        get_disks
         get_dump_list
         get_info
         get_nodes
@@ -106,6 +107,21 @@ def get_cluster_status(es, **kwargs):
     """
 
     return es.cluster.health()["status"]
+
+
+def get_disks(es, **kwargs):
+
+    """Function:  get_disks
+
+    Description:  Return a list of disks within the Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) List of ElasticSearch disks.
+
+    """
+
+    return [x.split() for x in es.cat.allocation().splitlines()]
 
 
 def get_dump_list(es, repo, **kwargs):
