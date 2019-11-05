@@ -9,6 +9,7 @@ Breaking Change
 
 ### Added
 - elastic_class.create_snapshot:  Runs a dump of a repository.
+- elastic_class.create_snapshot_repo:  Creates a repository in Elasticsearch cluster.
 - elastic_class.get_cluster_health:  Dictionary of information on Elasticsearch cluster health.
 - elastic_class.get_cluster_nodes:  Dictionary of information on Elasticsearch cluster nodes.
 - elastic_class.get_cluster_stats:  Dictionary of information on Elasticsearch cluster stats.
