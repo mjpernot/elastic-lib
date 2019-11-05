@@ -335,6 +335,8 @@ class ElasticSearch(object):
         self.node_connected_to = None
         self.es = None
         self.is_connected = False
+        self.data = {}
+        self.logs = {}
 
         self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
@@ -343,6 +345,15 @@ class ElasticSearch(object):
             info = self.es.info()
             self.cluster_name = info["cluster_name"]
             self.node_connected_to = info["name"]
+            
+            # Locate the data and log devices.
+            data = get_nodes(self.es)
+
+            for x in data:
+                self.data[data[x]]["name"] = \
+                    data[x]["settings"]["path"]["data"]
+                self.log[data[x]]["name"] = \
+                    data[x]["settings"]["path"]["logs"]
 
 
 class ElasticSearchDump(ElasticSearch):
