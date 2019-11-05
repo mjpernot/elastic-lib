@@ -314,6 +314,7 @@ class ElasticSearch(object):
 
     Methods:
         __init__ -> Class instance initialization.
+        update_status -> Update class attributes by querying Elasticsearch.
 
     """
 
@@ -339,6 +340,31 @@ class ElasticSearch(object):
         self.logs = {}
 
         self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
+
+        if self.es.ping():
+            self.is_connected = True
+            info = self.es.info()
+            self.cluster_name = info["cluster_name"]
+            self.node_connected_to = info["name"]
+            
+            # Locate the data and log devices.
+            data = get_nodes(self.es)
+
+            for x in data:
+                self.data[data[x]]["name"] = \
+                    data[x]["settings"]["path"]["data"]
+                self.log[data[x]]["name"] = \
+                    data[x]["settings"]["path"]["logs"]
+
+    def update_status(self, **kwargs):
+
+        """Method:  update_status
+
+        Description:  Update class attributes by querying Elasticsearch.
+
+        Arguments:
+
+        """
 
         if self.es.ping():
             self.is_connected = True
