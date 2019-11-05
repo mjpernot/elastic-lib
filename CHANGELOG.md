@@ -7,14 +7,26 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [2.0.0] - 2019-10-31
 Breaking Change
 
+### Changed
+- elastic_class.ElasticSearch.\_\_init\_\_:  Integrated Elastic class into ElasticSearch class.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Replaced attribute updates with call to update_status.
+
 ### Added
+- elastic_class.ElasticSearch.update_status:  Update class attributes by querying Elasticsearch.
+- elastic_class.create_snapshot:  Runs a dump of a repository.
+- elastic_class.create_snapshot_repo:  Creates a repository in Elasticsearch cluster.
+- elastic_class.delete_snapshot:  Deletes a dump in a repository.
+- elastic_class.delete_snapshot_repo:  Deletes a repository in Elasticsearch cluster.
 - elastic_class.get_cluster_health:  Dictionary of information on Elasticsearch cluster health.
 - elastic_class.get_cluster_nodes:  Dictionary of information on Elasticsearch cluster nodes.
 - elastic_class.get_cluster_stats:  Dictionary of information on Elasticsearch cluster stats.
 - elastic_class.get_cluster_status:  Status of the Elasticsearch cluster.
+- elastic_class.get_disks:  List of disks in Elasticsearch cluser.
 - elastic_class.get_info:  Dictionary of basic Elasticsearch info command.
+- elastic_class.get_master_name:  Name of the master node in Elasticsearch cluster.
 - elastic_class.get_nodes:  Dictionary of information on Elasticsearch nodes.
-- elastic_class.get_repo_list:  Dictionary of a list of Elasticsearch nodes.
+- elastic_class.get_repo_list:  Dictionary of a list of Elasticsearch repositories.
+- elastic_class.get_shards:  List of shards in Elasticsearch cluser.
 - elastic_class.is_active:  True or False if the Elasticsearch cluster is up.
 
 ### Deprecated

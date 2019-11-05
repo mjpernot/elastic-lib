@@ -168,9 +168,14 @@ class UnitTest(unittest.TestCase):
         self.repo3 = "reponame3"
         self.es = Elasticsearch(self.host_list)
         self.repo_dir = "/dir/path/repo"
+        self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
+            {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
+            "serverid2": {"name": "hostname2", "settings":
+            {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_not_created_repo(self, mock_es):
+    def test_not_created_repo(self, mock_es, mock_nodes):
 
         """Function:  test_not_created_repo
 
@@ -181,6 +186,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
@@ -190,8 +196,9 @@ class UnitTest(unittest.TestCase):
             (True,
             "ERROR:  Repository creation failure:  reponame3, /dir/path/repo"))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_not_detected_repo(self, mock_es):
+    def test_not_detected_repo(self, mock_es, mock_nodes):
 
         """Function:  test_not_detected_repo
 
@@ -202,6 +209,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
@@ -211,8 +219,9 @@ class UnitTest(unittest.TestCase):
             (True,
             "ERROR:  Repository not detected:  reponame2, /dir/path/repo"))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_missing_repo_name(self, mock_es):
+    def test_missing_repo_name(self, mock_es, mock_nodes):
 
         """Function:  test_missing_repo_name
 
@@ -223,6 +232,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
@@ -232,8 +242,9 @@ class UnitTest(unittest.TestCase):
             (True,
             "ERROR: Missing repo name or directory: 'None', '/dir/path/repo'"))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_no_repo_dir(self, mock_es):
+    def test_no_repo_dir(self, mock_es, mock_nodes):
 
         """Function:  test_no_repo_dir
 
@@ -244,14 +255,16 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
 
         self.assertEqual(es.create_repo(self.repo), (False, None))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_no_repo_name(self, mock_es):
+    def test_no_repo_name(self, mock_es, mock_nodes):
 
         """Function:  test_no_repo_name
 
@@ -262,6 +275,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
@@ -269,8 +283,9 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.create_repo(repo_dir=self.repo_dir),
                          (False, None))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es):
+    def test_default(self, mock_es, mock_nodes):
 
         """Function:  test_default
 
@@ -281,6 +296,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)

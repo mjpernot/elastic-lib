@@ -8,13 +8,20 @@
         classes.
 
     Functions:
+        create_snapshot
+        create_snapshot_repo
+        delete_snapshot
+        delete_snapshot_repo
         get_cluster_health
         get_cluster_nodes
         get_cluster_stats
+        get_disks
         get_dump_list
         get_info
+        get_master_name
         get_nodes
         get_repo_list
+        get_shards
         is_active
 
     Classes:
@@ -45,6 +52,74 @@ import requests_lib.requests_libs as requests_libs
 import version
 
 __version__ = version.__version__
+
+
+def create_snapshot(es, reponame, body, dumpname, **kwargs):
+
+    """Function:  create_snapshot
+
+    Description:  Runs a dump of a named repository.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (input) reponame -> Name of repository.
+        (input) body -> Contains arguments for the dump command.
+        (input) dumpname -> Dump name which it will be dumped too.
+
+    """
+
+    body = dict(body)
+    es.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
+
+
+def create_snapshot_repo(es, reponame, body, verify=True, **kwargs):
+
+    """Function:  create_snapshot_repo
+
+    Description:  Creates a repository in Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (input) reponame -> Name of repository.
+        (input) body -> Contains arguments for the dump command.
+        (input) verify -> True|False - Validate the repository.
+
+    """
+
+    body = dict(body)
+    es.snapshot.create_repository(repository=reponame, body=body,
+                                  verify=verify)
+
+
+def delete_snapshot(es, reponame, dumpname, **kwargs):
+
+    """Function:  delete_snapshot
+
+    Description:  Deltes a dump in a named repository.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (input) reponame -> Name of repository.
+        (input) dumpname -> Dump name to be deleted.
+
+    """
+
+    es.snapshot.delete(repository=reponame, snapshot=dumpname)
+
+
+def delete_snapshot_repo(es, reponame, **kwargs):
+
+    """Function:  delete_snapshot_repo
+
+    Description:  Deletes named repository in Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (input) reponame -> Name of repository.
+
+    """
+
+    es.snapshot.delete(repository=reponame)
 
 
 def get_cluster_health(es, **kwargs):
@@ -100,11 +175,26 @@ def get_cluster_status(es, **kwargs):
 
     Arguments:
         (input) es -> ElasticSearch instance.
-        (output) .Status of the Elasticsearch cluster.
+        (output) Status of the Elasticsearch cluster.
 
     """
 
     return es.cluster.health()["status"]
+
+
+def get_disks(es, **kwargs):
+
+    """Function:  get_disks
+
+    Description:  Return a list of disks within the Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) List of ElasticSearch disks.
+
+    """
+
+    return [x.split() for x in es.cat.allocation().splitlines()]
 
 
 def get_dump_list(es, repo, **kwargs):
@@ -138,6 +228,21 @@ def get_info(es, **kwargs):
     return es.info()
 
 
+def get_master_name(es, **kwargs):
+
+    """Function:  get_master_name
+
+    Description:  Return name of the master node in a Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) Name of master node in ElasticSearch cluster.
+
+    """
+
+    return es.cat.master().strip().split(" ")[-1]
+
+
 def get_nodes(es, **kwargs):
 
     """Function:  get_nodes
@@ -157,15 +262,30 @@ def get_repo_list(es, **kwargs):
 
     """Function:  get_repo_list
 
-    Description:  Return a dictionary of a list of Elasticsearch nodes.
+    Description:  Return a dictionary of a list of Elasticsearch repositories.
 
     Arguments:
         (input) es -> ElasticSearch instance.
-        (output) Dictionary of a list of Elasticsearch nodes.
+        (output) Dictionary of a list of Elasticsearch repositories.
 
     """
 
     return es.snapshot.get_repository()
+
+
+def get_shards(es, **kwargs):
+
+    """Function:  get_shards
+
+    Description:  Return a list of shards within the Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) List of ElasticSearch shards.
+
+    """
+
+    return [x.split() for x in es.cat.shards().splitlines()]
 
 
 def is_active(es, **kwargs):
@@ -194,6 +314,7 @@ class ElasticSearch(object):
 
     Methods:
         __init__ -> Class instance initialization.
+        update_status -> Update class attributes by querying Elasticsearch.
 
     """
 
@@ -215,14 +336,40 @@ class ElasticSearch(object):
         self.node_connected_to = None
         self.es = None
         self.is_connected = False
+        self.data = {}
+        self.logs = {}
 
         self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
+
+        self.update_status()
+
+    def update_status(self, **kwargs):
+
+        """Method:  update_status
+
+        Description:  Update class attributes by querying Elasticsearch.
+
+        Arguments:
+
+        """
 
         if self.es.ping():
             self.is_connected = True
             info = self.es.info()
             self.cluster_name = info["cluster_name"]
             self.node_connected_to = info["name"]
+
+            # Locate the data and log devices.
+            data = get_nodes(self.es)
+
+            for x in data:
+                self.data[data[x]["name"]] = \
+                    data[x]["settings"]["path"]["data"]
+                self.logs[data[x]["name"]] = \
+                    data[x]["settings"]["path"]["logs"]
+
+        else:
+            self.is_connected = False
 
 
 class ElasticSearchDump(ElasticSearch):

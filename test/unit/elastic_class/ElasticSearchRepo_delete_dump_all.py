@@ -169,11 +169,17 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
+        self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
+            {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
+            "serverid2": {"name": "hostname2", "settings":
+            {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_delete_dump_fails(self, mock_es, mock_list, mock_delete):
+    def test_delete_dump_fails(self, mock_es, mock_list, mock_delete,
+                               mock_nodes):
 
         """Function:  test_delete_dump_fails
 
@@ -187,16 +193,18 @@ class UnitTest(unittest.TestCase):
         mock_list.side_effect = [["dump1", "dump2", "dump3"],
                                  ["dump1", "dump2"]]
         mock_delete.return_value = (True, "Error Message")
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
         self.assertEqual(es.delete_dump_all(self.repo),
             (True, "Error Message"))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_repo_name_none(self, mock_es, mock_list, mock_delete):
+    def test_repo_name_none(self, mock_es, mock_list, mock_delete, mock_nodes):
 
         """Function:  test_repo_name_none
 
@@ -210,6 +218,7 @@ class UnitTest(unittest.TestCase):
         mock_list.side_effect = [["dump1", "dump2", "dump3"],
                                  ["dump1", "dump2"]]
         mock_delete.return_value = (False, None)
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo = None
@@ -217,10 +226,11 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.delete_dump_all(),
             (True, "ERROR:  Repo:  None is not present or missing argument."))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_no_repo_name(self, mock_es, mock_list, mock_delete):
+    def test_no_repo_name(self, mock_es, mock_list, mock_delete, mock_nodes):
 
         """Function:  test_no_repo_name
 
@@ -234,15 +244,17 @@ class UnitTest(unittest.TestCase):
         mock_list.side_effect = [["dump1", "dump2", "dump3"],
                                  ["dump1", "dump2"]]
         mock_delete.return_value = (False, None)
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
         self.assertEqual(es.delete_dump_all(), (False, None))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es, mock_list, mock_delete):
+    def test_default(self, mock_es, mock_list, mock_delete, mock_nodes):
 
         """Function:  test_default
 
@@ -256,6 +268,7 @@ class UnitTest(unittest.TestCase):
         mock_list.side_effect = [["dump1", "dump2", "dump3"],
                                  ["dump1", "dump2"]]
         mock_delete.return_value = (False, None)
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 

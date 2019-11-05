@@ -54,7 +54,7 @@ vim {Other_Python_Project}/README.md
 
 Add the system module requirements to the another program's requirements.txt file and remove any duplicates.
 
-``
+```
 cat requirements.txt >> {Other_Python_Project}/requirements.txt
 vim {Other_Python_Project}/requirements.txt
 ```
@@ -160,18 +160,26 @@ test/unit/elastic_libs/code_coverage.sh
 # Unit test runs for elastic_libs.py:
 
 ```
+test/unit/elastic_class/create_snapshot.py
+test/unit/elastic_class/create_snapshot_repo.py
+test/unit/elastic_class/delete_snapshot.py
+test/unit/elastic_class/delete_snapshot_repo.py
 test/unit/elastic_class/get_cluster_health.py
 test/unit/elastic_class/get_cluster_nodes.py
 test/unit/elastic_class/get_cluster_stats.py
 test/unit/elastic_class/get_cluster_status.py
+test/unit/elastic_class/get_disks.py
 test/unit/elastic_class/get_dump_list.py
 test/unit/elastic_class/get_info.py
+test/unit/elastic_class/get_master_name.py
 test/unit/elastic_class/get_nodes.py
 test/unit/elastic_class/get_repo_list.py
+test/unit/elastic_class/get_shards.py
 test/unit/elastic_class/is_active.py
 test/unit/elastic_class/Elastic_init.py
 test/unit/elastic_class/ElasticCluster_init.py
 test/unit/elastic_class/ElasticSearch_init.py
+test/unit/elastic_class/ElasticSearch_update_status.py
 test/unit/elastic_class/ElasticSearchDump_init.py
 test/unit/elastic_class/ElasticSearchDump_chk_status.py
 test/unit/elastic_class/ElasticSearchDump_dump_db.py
@@ -281,53 +289,13 @@ sudo chown elasticsearch:elasticsearch elastic.py
 sudo bash
 su - elasticsearch
 cd {Python_Project}/elastic_lib
-```
-
-### Integration:  ElasticSearch class
-
-```
 test/integration/elastic_class/elastic_search.py
-```
-
-### Integration:  ElasticSearchDump class
-
-```
 test/integration/elastic_class/elasticsearchdump.py
-```
-
-### Integration:  ElasticSearchDump.dump_db method
-
-```
 test/integration/elastic_class/elasticsearchdump_dumpdb.py
-```
-
-### Integration:  ElasticSearchRepo class
-
-```
 test/integration/elastic_class/elasticsearchrepo.py
-```
-
-### Integration:  ElasticSearchRepo.create_repo method
-
-```
 test/integration/elastic_class/elasticsearchrepo_createrepo.py
-```
-
-### Integration:  ElasticSearchRepo.delete_repo method
-
-```
 test/integration/elastic_class/elasticsearchrepo_deleterepo.py
-```
-
-### Integration:  ElasticSearchRepo.delete_dump method
-
-```
 test/integration/elastic_class/elasticsearchrepo_deletedump.py
-```
-
-### Integration:  ElasticSearchRepo.delete_dump_all method
-
-```
 test/integration/elastic_class/elasticsearchrepo_deletedumpall.py
 ```
 

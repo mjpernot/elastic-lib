@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearch_init.py
+"""Program:  ElasticSearch_update_status.py
 
-    Description:  Unit testing of __init__ in elastic_class.ElasticSearch.
+    Description:  Unit testing of update_status in elastic_class.ElasticSearch.
 
     Usage:
-        test/unit/elastic_class/ElasticSearch_init.py
+        test/unit/elastic_class/ElasticSearch_update_status.py
 
     Arguments:
 
@@ -97,7 +97,6 @@ class UnitTest(unittest.TestCase):
         setUp -> Initialization for unit testing.
         test_ping_false -> Test ping of Elasticsearch server is False.
         test_ping_true -> Test ping of Elasticsearch server is True.
-        test_host_list -> Test host_list is a list.
 
     """
 
@@ -137,6 +136,7 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
 
         es = elastic_class.ElasticSearch(self.host_list)
+        es.update_status()
         self.assertEqual((es.port, es.hosts, es.is_connected, es.data,
                           es.logs),
                          (9200, self.host_list, False, {}, {}))
@@ -157,28 +157,11 @@ class UnitTest(unittest.TestCase):
         mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearch(self.host_list)
+        es.update_status()
         self.assertEqual((es.port, es.hosts, es.is_connected, es.data,
                           es.logs),
                          (9200, self.host_list, True, self.data_results,
                          self.logs_results))
-
-    @mock.patch("elastic_class.get_nodes")
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_host_list(self, mock_es, mock_nodes):
-
-        """Function:  test_host_list
-
-        Description:  Test host_list is a list.
-
-        Arguments:
-
-        """
-
-        mock_es.return_value = self.es
-        mock_nodes.return_value = self.nodes_data
-
-        es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts), (9200, self.host_list))
 
 
 if __name__ == "__main__":
