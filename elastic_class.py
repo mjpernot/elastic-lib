@@ -14,6 +14,7 @@
         get_disks
         get_dump_list
         get_info
+        get_master_name
         get_nodes
         get_repo_list
         get_shards
@@ -102,7 +103,7 @@ def get_cluster_status(es, **kwargs):
 
     Arguments:
         (input) es -> ElasticSearch instance.
-        (output) .Status of the Elasticsearch cluster.
+        (output) Status of the Elasticsearch cluster.
 
     """
 
@@ -155,6 +156,21 @@ def get_info(es, **kwargs):
     return es.info()
 
 
+def get_master_name(es, **kwargs):
+
+    """Function:  get_master_name
+
+    Description:  Return name of the master node in a Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) Name of master node in ElasticSearch cluster.
+
+    """
+
+    return es.cat.master().strip().split(" ")[-1]
+
+
 def get_nodes(es, **kwargs):
 
     """Function:  get_nodes
@@ -174,11 +190,11 @@ def get_repo_list(es, **kwargs):
 
     """Function:  get_repo_list
 
-    Description:  Return a dictionary of a list of Elasticsearch nodes.
+    Description:  Return a dictionary of a list of Elasticsearch repositories.
 
     Arguments:
         (input) es -> ElasticSearch instance.
-        (output) Dictionary of a list of Elasticsearch nodes.
+        (output) Dictionary of a list of Elasticsearch repositories.
 
     """
 
