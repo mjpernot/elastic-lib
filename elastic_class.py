@@ -72,7 +72,7 @@ def create_snapshot(es, reponame, body, dumpname, **kwargs):
     es.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
 
 
-def create_snapshot_repo(es, repname, body, verify=True, **kwargs):
+def create_snapshot_repo(es, reponame, body, verify=True, **kwargs):
 
     """Function:  create_snapshot_repo
 
@@ -91,7 +91,7 @@ def create_snapshot_repo(es, repname, body, verify=True, **kwargs):
                                   verify=verify)
 
 
-def delete_snapshot(es, repname, dumpname, **kwargs):
+def delete_snapshot(es, reponame, dumpname, **kwargs):
 
     """Function:  delete_snapshot
 
