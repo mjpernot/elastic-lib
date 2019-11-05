@@ -163,11 +163,16 @@ class UnitTest(unittest.TestCase):
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
         self.break_flag = False
+        self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
+            {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
+            "serverid2": {"name": "hostname2", "settings":
+            {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_unknown_dump(self, mock_es, mock_list, mock_latest):
+    def test_unknown_dump(self, mock_es, mock_list, mock_latest, mock_nodes):
 
         """Function:  test_unknown_dump
 
@@ -181,16 +186,18 @@ class UnitTest(unittest.TestCase):
         mock_list.side_effect = [["dump1", "dump2"], [["dump1"], ["dump2"],
             ["dump3", "UNKNOWN", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag),
             (True, "Unknown error detected on reponame", False))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_failed_dump(self, mock_es, mock_list, mock_latest):
+    def test_failed_dump(self, mock_es, mock_list, mock_latest, mock_nodes):
 
         """Function:  test_failed_dump
 
@@ -204,16 +211,18 @@ class UnitTest(unittest.TestCase):
         mock_list.side_effect = [["dump1", "dump2"], [["dump1"], ["dump2"],
             ["dump3", "FAILED", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag),
             (True, "Dump failed to finish on reponame", False))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_partial_dump(self, mock_es, mock_list, mock_latest):
+    def test_partial_dump(self, mock_es, mock_list, mock_latest, mock_nodes):
 
         """Function:  test_partial_dump
 
@@ -227,16 +236,19 @@ class UnitTest(unittest.TestCase):
         mock_list.side_effect = [["dump1", "dump2"], [["dump1"], ["dump2"],
             ["dump3", "PARTIAL", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag),
             (True, "Partial dump completed on reponame", False))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_incompatible_dump(self, mock_es, mock_list, mock_latest):
+    def test_incompatible_dump(self, mock_es, mock_list, mock_latest,
+                               mock_nodes):
 
         """Function:  test_incompatible_dump
 
@@ -250,16 +262,19 @@ class UnitTest(unittest.TestCase):
         mock_list.side_effect = [["dump1", "dump2"], [["dump1"], ["dump2"],
             ["dump3", "INCOMPATIBLE", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag),
             (True, "Older version of ES detected: reponame", False))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_in_progress_dump(self, mock_es, mock_list, mock_latest):
+    def test_in_progress_dump(self, mock_es, mock_list, mock_latest,
+                              mock_nodes):
 
         """Function:  test_in_progress_dump
 
@@ -274,15 +289,17 @@ class UnitTest(unittest.TestCase):
             ["dump3", "IN_PROGRESS", None, None, None, None, None, None, None, 0],
             ["dump3", "SUCCESS", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag), (False, None, True))
 
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_success_dump(self, mock_es, mock_list, mock_latest):
+    def test_success_dump(self, mock_es, mock_list, mock_latest, mock_nodes):
 
         """Function:  test_success_dump
 
@@ -296,6 +313,7 @@ class UnitTest(unittest.TestCase):
         mock_list.side_effect = [["dump1", "dump2"], [["dump1"], ["dump2"],
             ["dump3", "SUCCESS", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
+        mock_nodes.return_value = self.nodes_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
