@@ -381,6 +381,9 @@ class ElasticSearch(object):
                 self.log[data[x]]["name"] = \
                     data[x]["settings"]["path"]["logs"]
 
+        else:
+            self.is_connected = False
+
 
 class ElasticSearchDump(ElasticSearch):
 
