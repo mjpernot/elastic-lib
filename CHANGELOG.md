@@ -15,6 +15,7 @@ Breaking Change
 - elastic_class.get_info:  Dictionary of basic Elasticsearch info command.
 - elastic_class.get_nodes:  Dictionary of information on Elasticsearch nodes.
 - elastic_class.get_repo_list:  Dictionary of a list of Elasticsearch nodes.
+- elastic_class.get_shards:  List of shards in Elasticsearch cluser.
 - elastic_class.is_active:  True or False if the Elasticsearch cluster is up.
 
 ### Deprecated
