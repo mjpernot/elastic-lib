@@ -54,7 +54,7 @@ vim {Other_Python_Project}/README.md
 
 Add the system module requirements to the another program's requirements.txt file and remove any duplicates.
 
-``
+```
 cat requirements.txt >> {Other_Python_Project}/requirements.txt
 vim {Other_Python_Project}/requirements.txt
 ```
