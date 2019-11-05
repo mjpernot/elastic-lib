@@ -44,13 +44,16 @@ class Repo(object):
 
     """
 
-    def create(self, repository):
+    def create(self, repository, body, snapshot):
 
         """Method:  create
 
         Description:  Stub holder for snapshot.create method.
 
         Arguments:
+            (input) repository -> Name of repository.
+            (input) body -> Dictionary of arguments.
+            (input) snapshot -> Dump name.
 
         """
 
