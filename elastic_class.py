@@ -376,9 +376,9 @@ class ElasticSearch(object):
             data = get_nodes(self.es)
 
             for x in data:
-                self.data[data[x]]["name"] = \
+                self.data[data[x]["name"]] = \
                     data[x]["settings"]["path"]["data"]
-                self.log[data[x]]["name"] = \
+                self.logs[data[x]["name"]] = \
                     data[x]["settings"]["path"]["logs"]
 
         else:
