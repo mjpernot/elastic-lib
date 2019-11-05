@@ -11,6 +11,7 @@
         create_snapshot
         create_snapshot_repo
         delete_snapshot
+        delete_snapshot_repo
         get_cluster_health
         get_cluster_nodes
         get_cluster_stats
@@ -104,6 +105,21 @@ def delete_snapshot(es, repname, dumpname, **kwargs):
     """
 
     es.snapshot.delete(repository=reponame, snapshot=dumpname)
+
+
+def delete_snapshot_repo(es, repname, **kwargs):
+
+    """Function:  delete_snapshot_repo
+
+    Description:  Deletes named repository in Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (input) reponame -> Name of repository.
+
+    """
+
+    es.snapshot.delete(repository=reponame)
 
 
 def get_cluster_health(es, **kwargs):
