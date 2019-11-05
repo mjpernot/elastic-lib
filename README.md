@@ -288,53 +288,13 @@ sudo chown elasticsearch:elasticsearch elastic.py
 sudo bash
 su - elasticsearch
 cd {Python_Project}/elastic_lib
-```
-
-### Integration:  ElasticSearch class
-
-```
 test/integration/elastic_class/elastic_search.py
-```
-
-### Integration:  ElasticSearchDump class
-
-```
 test/integration/elastic_class/elasticsearchdump.py
-```
-
-### Integration:  ElasticSearchDump.dump_db method
-
-```
 test/integration/elastic_class/elasticsearchdump_dumpdb.py
-```
-
-### Integration:  ElasticSearchRepo class
-
-```
 test/integration/elastic_class/elasticsearchrepo.py
-```
-
-### Integration:  ElasticSearchRepo.create_repo method
-
-```
 test/integration/elastic_class/elasticsearchrepo_createrepo.py
-```
-
-### Integration:  ElasticSearchRepo.delete_repo method
-
-```
 test/integration/elastic_class/elasticsearchrepo_deleterepo.py
-```
-
-### Integration:  ElasticSearchRepo.delete_dump method
-
-```
 test/integration/elastic_class/elasticsearchrepo_deletedump.py
-```
-
-### Integration:  ElasticSearchRepo.delete_dump_all method
-
-```
 test/integration/elastic_class/elasticsearchrepo_deletedumpall.py
 ```
 
