@@ -53,7 +53,7 @@ class Repo(object):
         Arguments:
             (input) repository -> Name of repository.
             (input) body -> Dictionary of dump arguments.
-            (input) verify -> True|False - Verify if dump is valid.
+            (input) verify -> True|False - Verify the repository.
 
         """
 
