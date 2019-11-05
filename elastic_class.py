@@ -15,6 +15,7 @@
         get_info
         get_nodes
         get_repo_list
+        get_shards
         is_active
 
     Classes:
@@ -166,6 +167,21 @@ def get_repo_list(es, **kwargs):
     """
 
     return es.snapshot.get_repository()
+
+
+def get_shards(es, **kwargs):
+
+    """Function:  get_shards
+
+    Description:  Return a list of shards within the Elasticsearch cluster.
+
+    Arguments:
+        (input) es -> ElasticSearch instance.
+        (output) List of ElasticSearch shards.
+
+    """
+
+    return [x.split() for x in es.cat.shards().splitlines()]
 
 
 def is_active(es, **kwargs):
