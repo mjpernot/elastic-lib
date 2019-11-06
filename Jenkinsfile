@@ -52,6 +52,7 @@ pipeline {
                 ./test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
                 ./test/unit/elastic_class/ElasticSearchRepo_init.py
                 ./test/unit/elastic_class/ElasticSearchStatus_init.py
+                ./test/unit/elastic_class/ElasticSearchStatus_update_status.py
                 ./test/unit/elastic_class/ElasticStatus_chk_all.py
                 ./test/unit/elastic_class/ElasticStatus_chk_disk.py
                 ./test/unit/elastic_class/ElasticStatus_chk_mem.py
