@@ -338,7 +338,10 @@ class ElasticSearch(object):
         self.is_connected = False
         self.data = {}
         self.logs = {}
-
+        self.nodes = []
+        self.total_nodes = None
+        self.cluster_status = None
+        self.master = None
         self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
         self.update_status()
@@ -355,11 +358,13 @@ class ElasticSearch(object):
 
         if self.es.ping():
             self.is_connected = True
-            info = self.es.info()
-            self.cluster_name = info["cluster_name"]
+
+            # Basic information
+            info = get_info(self.es)
+
             self.node_connected_to = info["name"]
 
-            # Locate the data and log devices.
+            # Node information
             data = get_nodes(self.es)
 
             for x in data:
@@ -368,8 +373,31 @@ class ElasticSearch(object):
                 self.logs[data[x]["name"]] = \
                     data[x]["settings"]["path"]["logs"]
 
+            self.nodes = [data["nodes"][x]["name"] for x in data["nodes"]]
+            self.total_nodes = data["_nodes"]["total"]
+
+            # Cluster health information
+            health = get_cluster_health(self.es)
+
+            self.cluster_status = health["status"]
+            self.cluster_name = health["cluster_name"]
+
+            # Master information
+            self.master = get_master_name(self.es)
+
         else:
             self.is_connected = False
+
+##########################
+        self.cluster_status = requests_libs.get_query(self.node, self.port,
+                                                      "/_cluster/health",
+                                                      "json")["status"]
+        self.master = [x for x in requests_libs.get_query(self.node,
+                                                          self.port,
+                                                          "/_cat/master",
+                                                          "text")
+                       .strip().split(" ")][-1]
+###########################
 
 
 class ElasticSearchDump(ElasticSearch):
