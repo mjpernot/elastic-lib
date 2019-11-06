@@ -373,8 +373,12 @@ class ElasticSearch(object):
                 self.logs[data[x]["name"]] = \
                     data[x]["settings"]["path"]["logs"]
 
-            self.nodes = [data["nodes"][x]["name"] for x in data["nodes"]]
-            self.total_nodes = data["_nodes"]["total"]
+            self.nodes = [data[x]["name"] for x in data]
+
+            # Cluster node information
+            cluster = get_cluster_nodes(self.es)
+
+            self.total_nodes = cluster["_nodes"]["total"]
 
             # Cluster health information
             health = get_cluster_health(self.es)
@@ -387,17 +391,6 @@ class ElasticSearch(object):
 
         else:
             self.is_connected = False
-
-##########################
-        self.cluster_status = requests_libs.get_query(self.node, self.port,
-                                                      "/_cluster/health",
-                                                      "json")["status"]
-        self.master = [x for x in requests_libs.get_query(self.node,
-                                                          self.port,
-                                                          "/_cat/master",
-                                                          "text")
-                       .strip().split(" ")][-1]
-###########################
 
 
 class ElasticSearchDump(ElasticSearch):
