@@ -167,12 +167,21 @@ class UnitTest(unittest.TestCase):
             {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
             "serverid2": {"name": "hostname2", "settings":
             {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
+        self.info_data = {"name": "localservername"}
+        self.health_data = {"status": "green", "cluster_name": "ClusterName"}
+        self.master = "MasterName"
+        self.cluster_data = {"_nodes": {"total": 3}}
 
+    @mock.patch("elastic_class.get_cluster_nodes")
+    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_unknown_dump(self, mock_es, mock_list, mock_latest, mock_nodes):
+    def test_unknown_dump(self, mock_es, mock_list, mock_latest, mock_nodes,
+                          mock_info, mock_health, mock_master, mock_cluster):
 
         """Function:  test_unknown_dump
 
@@ -187,17 +196,26 @@ class UnitTest(unittest.TestCase):
             ["dump3", "UNKNOWN", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
         mock_nodes.return_value = self.nodes_data
+        mock_info.return_value = self.info_data
+        mock_health.return_value = self.health_data
+        mock_master.return_value = self.master_name
+        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag),
             (True, "Unknown error detected on reponame", False))
 
+    @mock.patch("elastic_class.get_cluster_nodes")
+    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_failed_dump(self, mock_es, mock_list, mock_latest, mock_nodes):
+    def test_failed_dump(self, mock_es, mock_list, mock_latest, mock_nodes,
+                         mock_info, mock_health, mock_master, mock_cluster):
 
         """Function:  test_failed_dump
 
@@ -212,17 +230,26 @@ class UnitTest(unittest.TestCase):
             ["dump3", "FAILED", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
         mock_nodes.return_value = self.nodes_data
+        mock_info.return_value = self.info_data
+        mock_health.return_value = self.health_data
+        mock_master.return_value = self.master_name
+        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag),
             (True, "Dump failed to finish on reponame", False))
 
+    @mock.patch("elastic_class.get_cluster_nodes")
+    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_partial_dump(self, mock_es, mock_list, mock_latest, mock_nodes):
+    def test_partial_dump(self, mock_es, mock_list, mock_latest, mock_nodes,
+                          mock_info, mock_health, mock_master, mock_cluster):
 
         """Function:  test_partial_dump
 
@@ -237,18 +264,27 @@ class UnitTest(unittest.TestCase):
             ["dump3", "PARTIAL", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
         mock_nodes.return_value = self.nodes_data
+        mock_info.return_value = self.info_data
+        mock_health.return_value = self.health_data
+        mock_master.return_value = self.master_name
+        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag),
             (True, "Partial dump completed on reponame", False))
 
+    @mock.patch("elastic_class.get_cluster_nodes")
+    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_incompatible_dump(self, mock_es, mock_list, mock_latest,
-                               mock_nodes):
+                               mock_nodes, mock_info, mock_health,
+                               mock_master, mock_cluster):
 
         """Function:  test_incompatible_dump
 
@@ -263,18 +299,27 @@ class UnitTest(unittest.TestCase):
             ["dump3", "INCOMPATIBLE", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
         mock_nodes.return_value = self.nodes_data
+        mock_info.return_value = self.info_data
+        mock_health.return_value = self.health_data
+        mock_master.return_value = self.master_name
+        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag),
             (True, "Older version of ES detected: reponame", False))
 
+    @mock.patch("elastic_class.get_cluster_nodes")
+    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_in_progress_dump(self, mock_es, mock_list, mock_latest,
-                              mock_nodes):
+                              mock_nodes, mock_info, mock_health, mock_master,
+                              mock_cluster):
 
         """Function:  test_in_progress_dump
 
@@ -290,16 +335,25 @@ class UnitTest(unittest.TestCase):
             ["dump3", "SUCCESS", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
         mock_nodes.return_value = self.nodes_data
+        mock_info.return_value = self.info_data
+        mock_health.return_value = self.health_data
+        mock_master.return_value = self.master_name
+        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
         self.assertEqual(es._chk_status(self.break_flag), (False, None, True))
 
+    @mock.patch("elastic_class.get_cluster_nodes")
+    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elastic_libs.get_latest_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_success_dump(self, mock_es, mock_list, mock_latest, mock_nodes):
+    def test_success_dump(self, mock_es, mock_list, mock_latest, mock_nodes,
+                          mock_info, mock_health, mock_master, mock_cluster):
 
         """Function:  test_success_dump
 
@@ -314,6 +368,10 @@ class UnitTest(unittest.TestCase):
             ["dump3", "SUCCESS", None, None, None, None, None, None, None, 0]]]
         mock_latest.side_effect = ["dump2", "dump3"]
         mock_nodes.return_value = self.nodes_data
+        mock_info.return_value = self.info_data
+        mock_health.return_value = self.health_data
+        mock_master.return_value = self.master_name
+        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.dump_name = "dump3"
