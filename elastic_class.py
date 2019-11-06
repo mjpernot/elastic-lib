@@ -28,6 +28,7 @@
         ElasticSearch
             ElasticSearchDump
             ElasticSearchRepo
+            ElasticSearchStatus
 
         Elastic (deprecated)
             ElasticCluster (deprecated)
@@ -816,6 +817,675 @@ class ElasticSearchRepo(ElasticSearch):
         return err_flag, err_msg
 
 
+######################################################
+######################################################
+class ElasticSearchStatus(ElasticSearch):
+
+    """Class:  ElasticSearchStatus
+
+    Description:  Class which is a representation of an elasticsearch
+        cluster status which contains attributes to show the general health of
+        the cluster.  An ElasticSearchStatus is used as a proxy to implment
+        connecting to an elasticsearch cluster and executing status commands.
+
+    Methods:
+        __init__ -> Class instance initilization.
+        update_status -> Update class attributes by querying Elasticsearch.
+        get_cluster -> Return formatted cluster name.
+        get_nodes -> Return formatted list of node names.
+        get_node_status -> Return status of nodes.
+        get_svr_status -> Return status of server.
+        get_mem_status -> Return status of memory on the server.
+        get_shrd_status -> Return status of shards in the cluster.
+        get_gen_status -> Return general status in the cluster.
+        get_disk_status -> Return status of disk usage for each node.
+        get_dump_disk_status -> Return status of dump disk usage for each repo.
+        get_all -> Call get_ functions and return as single result set.
+        chk_mem -> Checks the memory percentage used against a cutoff value.
+        chk_nodes -> Check status of nodes in cluster.
+        chk_shards -> Check status of shards in cluster.
+        chk_server -> Check status of the server.
+        chk_status -> Check status of the cluster.
+        chk_disk -> Check status of disk usage on each node.
+        chk_all - Calls all chk_ functions and return as a single result set.
+
+    """
+
+    def __init__(self, hostname, port=9200, cutoff_mem=90, cutoff_cpu=75,
+                 cutoff_disk=85, **kwargs):
+
+        """Method:  __init__
+
+        Description:  Initialization of an instance of ElasticSearchStatus
+            class.
+
+        Arguments:
+            (input) hostname -> Hostname of Elasticsearch database node.
+            (input) port -> Elasticsearch database port.  Default = 9200.
+            (input) cutoff_mem -> Threshold cutoff for memory check.
+            (input) cutoff_cpu -> Threshold cutoff for cpu usage check.
+            (input) cutoff_disk -> Threshold cutoff for disk usage check.
+
+        """
+
+        super(ElasticSearchStatus, self).__init__(hostname, port, **kwargs)
+
+        self.cutoff_mem = cutoff_mem
+        self.cutoff_cpu = cutoff_cpu
+        self.cutoff_disk = cutoff_disk
+        self.unassigned_shards = None
+        self.active_shards_percent = None
+        self.pending_tasks = None
+        self.num_shards = None
+        self.num_primary = None
+        self.shard_list = []
+        self.failed_nodes = None
+        self.mem_per_used = None
+        self.mem_total = None
+        self.mem_used = None
+        self.mem_free = None
+        self.uptime = None
+        self.alloc_cpu = None
+        self.cpu_active = None
+        self.disk_list = []
+        self.repo_dict = {}
+
+        self.update_status()
+
+    def update_status(self, **kwargs):
+
+        """Method:  update_status
+
+        Description:  Update class attributes by querying Elasticsearch.
+
+        Arguments:
+
+        """
+
+        if self.es.ping():
+            self.is_connected = True
+
+            # Get cluster health
+            health = get_cluster_health(self.es)
+
+            self.unassigned_shards = health["unassigned_shards"]
+            self.active_shards_percent = \
+                health["active_shards_percent_as_number"]
+            self.pending_tasks = health["number_of_pending_tasks"]
+            self.num_shards = health["active_shards"]
+            self.num_primary = health["active_primary_shards"]
+
+            # Get cluster shards
+            self.shard_list = get_shards(self.es)
+
+            # Get cluster status
+            status = get_cluster_status(self.es)
+
+            self.failed_nodes = status["_nodes"]["failed"]
+            self.mem_per_used = status["nodes"]["os"]["mem"]["used_percent"]
+            self.mem_total = status["nodes"]["os"]["mem"]["total_in_bytes"]
+            self.mem_used = status["nodes"]["os"]["mem"]["used_in_bytes"]
+            self.mem_free = status["nodes"]["os"]["mem"]["free_in_bytes"]
+            self.uptime = status["nodes"]["jvm"]["max_uptime_in_millis"]
+            self.alloc_cpu = status["nodes"]["os"]["allocated_processors"]
+            self.cpu_active = status["nodes"]["process"]["cpu"]["percent"]
+
+            # Get disks usage
+            self.disk_list = get_disks(self.es)
+
+            # Get repository list
+            self.repo_dict = get_repo_list(self.es)
+
+        else:
+            self.is_connected = False
+
+######################################################
+# STOPPED HERE
+######################################################
+    def get_cluster(self, json=False, **kwargs):
+
+        """Method:  get_cluster
+
+        Description:  Return formatted cluster name.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) Cluster name
+
+        """
+
+        if json:
+            return {"Cluster": self.cluster}
+
+        else:
+            return "Cluster: %s" % (self.cluster)
+
+    def get_nodes(self, json=False, **kwargs):
+
+        """Method:  get_nodes
+
+        Description:  Return formatted list of node names.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) List of node names
+
+        """
+
+        if json:
+            return {"Nodes": [str(x) for x in self.nodes]}
+
+        else:
+            return "Nodes:  %s" % ([str(x) for x in self.nodes])
+
+    def get_node_status(self, json=False, **kwargs):
+
+        """Method:  get_node_status
+
+        Description:  Return status of nodes.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) Return status of nodes in cluster
+
+        """
+
+        if json:
+            return {"Node_Status":
+                    {"Total_Nodes": self.total_nodes,
+                     "Failed_Nodes": self.failed_nodes}}
+
+        else:
+            return "Node_Status\n\tTotal Nodes:  %s\n\tFailed Nodes:  %s" \
+                   % (self.total_nodes, self.failed_nodes)
+
+    def get_svr_status(self, json=False, **kwargs):
+
+        """Method:  get_svr_status
+
+        Description:  Return status of server.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) Return status of server
+
+        """
+
+        if json:
+            return {"Server":
+                    {"Uptime": gen_libs.milli_2_readadble(self.uptime),
+                     "Allocated_CPU": self.alloc_cpu,
+                     "CPU_Active": self.cpu_active}}
+
+        else:
+            return "Server\n\tUptime: %s\n\tAlloc CPU: %s\n\tCPU Active: %s" \
+                   % (gen_libs.milli_2_readadble(self.uptime), self.alloc_cpu,
+                      self.cpu_active)
+
+    def get_mem_status(self, json=False, **kwargs):
+
+        """Method:  get_mem_status
+
+        Description:  Return status of memory on the server.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) Return status of memory
+
+        """
+
+        if json:
+            return {"Memory":
+                    {"Percent": self.mem_per_used,
+                     "Total": gen_libs.bytes_2_readable(self.mem_total),
+                     "Used": gen_libs.bytes_2_readable(self.mem_used),
+                     "Free": gen_libs.bytes_2_readable(self.mem_free)}}
+
+        else:
+            return "Memory\n\tPer: %s\n\tTotal: %s\n\tUsed: %s\n\tFree: %s"\
+                   % (self.mem_per_used,
+                      gen_libs.bytes_2_readable(self.mem_total),
+                      gen_libs.bytes_2_readable(self.mem_used),
+                      gen_libs.bytes_2_readable(self.mem_free))
+
+    def get_shrd_status(self, json=False, **kwargs):
+
+        """Method:  get_shrd_status
+
+        Description:  Return status of shards in the cluster.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) Return status of shards in Elasticsearch cluster
+
+        """
+
+        if json:
+            return {"Shards":
+                    {"Percent": self.active_shards_percent,
+                     "Unassigned": self.unassigned_shards,
+                     "Total": self.num_shards, "Primary": self.num_primary}}
+
+        else:
+            return "Shards\n\tPercent: %s\n\t" % (self.active_shards_percent) \
+                   + "Unassigned: %s\n\tTotal: %s\n\tPrimary: %s" \
+                   % (self.unassigned_shards, self.num_shards,
+                      self.num_primary)
+
+    def get_gen_status(self, json=False, **kwargs):
+
+        """Method:  get_shard_status
+
+        Description:  Return general status in the cluster.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) Return general status of Elasticsearch cluster
+
+        """
+
+        if json:
+            return {"Cluster_Status":
+                    {"Master": self.master, "Status": self.cluster_status,
+                     "Pending_Tasks": self.pending_tasks}}
+
+        else:
+            return "Cluster\n\tMaster: %s\n\tStatus: %s\n\tPending Tasks: %s" \
+                   % (self.master, self.cluster_status, self.pending_tasks)
+
+    def get_disk_status(self, json=False, **kwargs):
+
+        """Method:  get_disk_status
+
+        Description:  Return status of disk usage for each node.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) data -> Disk usage status by node.
+
+        """
+
+        data = {"Disk_Usage": {}} if json else "Disk Usage"
+
+        for node in self.disk_list:
+            if json:
+                data["Disk_Usage"][node[8]] = {
+                    "Total": node[4], "Available": node[3],
+                    "Total_Used": node[2], "ES_Used": node[1],
+                    "Percent": node[5]}
+
+            else:
+                data = data \
+                    + "\n\tNode: %s\n\t\tTotal: %s\n\t\tAvailable: %s\n" \
+                    % (node[8], node[4], node[3]) \
+                    + "\t\tTotal Used: %s\n\t\tES Used: %s\n" \
+                    % (node[2], node[1]) \
+                    + "\t\tPercent: %s" % (node[5])
+
+        return data
+
+    def get_dump_disk_status(self, json=False, **kwargs):
+
+        """Method:  get_dump_disk_status
+
+        Description:  Return status of dump disk usage for each repository.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) data -> Dump disk usage by repository.
+
+        """
+
+        data = {"Dump_Usage": {}} if json else "Dump Usage"
+
+        for repo in self.repo_list:
+            partition = self.repo_list[repo]["settings"]["location"]
+            usage = gen_libs.disk_usage(partition)
+
+            if json:
+                data["Dump_Usage"][repo] = {
+                    "Partition": partition,
+                    "Total": gen_libs.bytes_2_readable(usage.total),
+                    "Used": gen_libs.bytes_2_readable(usage.used),
+                    "Free": gen_libs.bytes_2_readable(usage.free),
+                    "Percent": (float(usage.used) / usage.total) * 100}
+
+            else:
+                data = data + "\n\tRepo: %s\n\t\tPartition: %s\n" \
+                    % (repo, partition) \
+                    + "\t\tTotal: %s\n\t\tUsed: %s\n\t\tFree: %s\n" \
+                    % (gen_libs.bytes_2_readable(usage.total),
+                       gen_libs.bytes_2_readable(usage.used),
+                       gen_libs.bytes_2_readable(usage.free)) \
+                    + "\t\tPercent: %.2f%%" \
+                    % ((float(usage.used) / usage.total) * 100)
+
+        return data
+
+    def get_all(self, json=False, **kwargs):
+
+        """Method:  get_all
+
+        Description:  Return status of all elements.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) data -> Status of all elements.
+
+        """
+
+        # List of checks to be called
+        func_list = [self.get_nodes, self.get_node_status,
+                     self.get_svr_status, self.get_mem_status,
+                     self.get_shrd_status, self.get_gen_status,
+                     self.get_disk_status, self.get_dump_disk_status]
+
+        data = self.get_cluster(json)
+
+        for func in func_list:
+            results = func(json)
+
+            if json:
+                data, status, msg = gen_libs.merge_two_dicts(data, results)
+
+            else:
+                data = data + "\n" + results
+
+        return data
+
+    def chk_mem(self, json=False, cutoff_mem=None, **kwargs):
+
+        """Method:  chk_mem
+
+        Description:  Checks the memory percentage used against a cutoff value.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (input) cutoff_mem -> Percentage threshold on memory used.
+            (output) Return warning message on memory usage
+
+        """
+
+        if cutoff_mem:
+            self.cutoff_mem = cutoff_mem
+
+        if self.mem_per_used >= self.cutoff_mem:
+            if json:
+                return {"Memory_Warning":
+                        {"Reason": "Have reach memory threshold",
+                         "Threshold": self.cutoff_mem,
+                         "Total_Memory":
+                             gen_libs.bytes_2_readable(self.mem_total),
+                         "Memory_Usage": self.mem_per_used}}
+
+            else:
+                return "WARNING:  Have reach %s%% threshold.  " \
+                       % (self.cutoff_mem) \
+                       + "Currently using %s%% on %s of memory" \
+                       % (self.mem_per_used,
+                          gen_libs.bytes_2_readable(self.mem_total))
+
+        else:
+            return None
+
+    def chk_nodes(self, json=False, **kwargs):
+
+        """Method:  chk_nodes
+
+        Description:  Check for failed nodes in a Elasticsearch cluster.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) Return warning message on failed nodes
+
+        """
+
+        if self.failed_nodes > 0:
+            if json:
+                return {"Node_Failure":
+                        {"Reason": "Detected failure on one or more nodes",
+                         "Failed_Nodes": self.failed_nodes,
+                         "Total_Nodes": self.total_nodes}}
+
+            else:
+                return "WARNING:  Have detected %s " % (self.failed_nodes) \
+                       + "failed nodes out of %s nodes" % (self.total_nodes)
+
+        else:
+            return None
+
+    def chk_shards(self, json=False, **kwargs):
+
+        """Method:  chk_shards
+
+        Description:  Check on status of shards in Elasticsearcd cluster.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) Return warning message on shard problems
+
+        """
+
+        err_flag = False
+
+        data = {"Shard_Warning": {}} if json else "Shard_Warning:"
+
+        # Shards not assigned to a node
+        if self.unassigned_shards > 0:
+            err_flag = True
+
+            if json:
+                data["Shard_Warning"]["Unassigned_Shards"] = \
+                    {"Reason": "Detected unassigned shards",
+                     "Unassigned": self.unassigned_shards,
+                     "Total": self.num_shards}
+
+            else:
+                data = data + "\n"
+                data = data \
+                    + "WARNING: Detected %s " % (self.unassigned_shards) \
+                    + "unassigned shards out of %s shards" % (self.num_shards)
+
+        # How much of shards is not active
+        if self.active_shards_percent < 100:
+            err_flag = True
+
+            if json:
+                data["Shard_Warning"]["Active_Shards_Percent"] = \
+                    {"Reason": "Detected less than 100% active shards",
+                     "Percentage": self.active_shards_percent}
+
+            else:
+                data = data + "\n"
+                data = data + "WARNING: Currently active shards at %s%%" \
+                    % (self.active_shards_percent)
+
+        # List of shards not in running in operations
+        shards = [x for x in self.shard_list if x[3] != "STARTED"]
+
+        if shards:
+            err_flag = True
+
+            if json:
+                data["Shard_Warning"]["Non_Operation_Shards"] = \
+                    {"Reason": "Detected shards not in operational mode",
+                     "List_Of_Shards": shards}
+
+            else:
+                data = data + "\n"
+                data = data \
+                    + "WARNING: Detected shards in non-operation mode:" \
+                    + "\n" + "\n".join(str(x) for x in shards)
+
+        return data if err_flag else None
+
+    def chk_server(self, json=False, cutoff_cpu=None, **kwargs):
+
+        """Method:  chk_server
+
+        Description:  Checks the server status.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (input) cutoff_cpu -> Percentage threshold on cpu usage.
+            (output) Return warning message on server status
+
+        """
+
+        if cutoff_cpu:
+            self.cutoff_cpu = cutoff_cpu
+
+        if self.cpu_active >= self.cutoff_cpu:
+            if json:
+                return {"Server_Warning":
+                        {"Reason": "Have reach cpu threshold",
+                         "Threshold": self.cutoff_cpu,
+                         "Total_CPUs": self.alloc_cpu,
+                         "CPU_Usage": self.cpu_active}}
+
+            else:
+                return "WARNING:  Have reach %s%% threshold.  " \
+                       % (self.cutoff_cpu) \
+                       + "Currently using %s%% on %s CPUs" \
+                       % (self.cpu_active, self.alloc_cpu)
+
+        else:
+            return None
+
+    def chk_status(self, json=False, **kwargs):
+
+        """Method:  chk_status
+
+        Description:  Checks the cluster status.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (output) Return warning message on cluster status
+
+        """
+
+        err_flag = False
+
+        data = {"Cluster_Warning": {}} if json else ""
+
+        # Elasticsearch cluster status
+        if self.cluster_status != "green":
+            err_flag = True
+
+            if json:
+                data["Cluster_Warning"]["Cluster_Status"] = \
+                    {"Reason": "Detected the cluster is not green",
+                     "Status": self.cluster_status}
+
+            else:
+                data = data + "WARNING: Detected Cluster status is %s" \
+                    % (self.cluster_status)
+
+        # Cluster's pending tasks
+        if self.pending_tasks > 0:
+            err_flag = True
+
+            if json:
+                data["Cluster_Warning"]["Pending_Tasks"] = \
+                    {"Reason": "Detected cluster has pending tasks",
+                     "Tasks": self.pending_tasks}
+
+            else:
+                if data:
+                    data = data + "\n"
+
+                data = data + "WARNING: Detected Cluster has %s " \
+                    % (self.pending_tasks) + "pending tasks"
+
+        return data if err_flag else None
+
+    def chk_disk(self, json=False, cutoff_disk=None, **kwargs):
+
+        """Method:  chk_disk
+
+        Description:  Checks the disk usage status.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (input) cutoff_disk -> Percentage threshold on disk usage.
+            (output) data -> Warning messages on disk usage status
+
+        """
+
+        err_flag = False
+
+        data = {"Disk_Warning": {}} if json else "Disk Warning\n"
+
+        if cutoff_disk:
+            self.cutoff_disk = cutoff_disk
+
+        for node in self.disk_list:
+
+            if int(node[5]) >= self.cutoff_disk:
+                err_flag = True
+
+                if json:
+                    data["Disk_Warning"][node[8]] = {
+                        "Reason": "Have reached disk usage threshold",
+                        "Threshold": self.cutoff_disk,
+                        "Total": node[4],
+                        "Used": node[2],
+                        "ES_Used": node[1]}
+
+                else:
+                    data = data \
+                        + "\n\tNode: %s" \
+                        % (node[8]) \
+                        + "\n\t\tHave reached disk usage threshold" \
+                        + "\n\t\tThreshold: %s\n\t\tTotal: %s\n" \
+                        % (self.cutoff_disk, node[4]) \
+                        + "\t\tUsed: %s\n\t\tES Used: %s\n" \
+                        % (node[2], node[1])
+
+        return data if err_flag else None
+
+    def chk_all(self, json=False, cutoff_cpu=None, cutoff_mem=None,
+                cutoff_disk=None, **kwargs):
+
+        """Method:  chk_all
+
+        Description:  Check status of all elements.
+
+        Arguments:
+            (input) json -> True|False - Return output in JSON format.
+            (input) cutoff_cpu -> Percentage threshold on cpu usage.
+            (input) cutoff_mem -> Percentage threshold on memory used.
+            (input) cutoff_disk -> Percentage threshold on disk usage.
+            (output) Return any messages from all element check.
+
+        """
+
+        # List of checks to be called
+        func_list = [self.chk_mem, self.chk_nodes, self.chk_shards,
+                     self.chk_server, self.chk_status, self.chk_disk]
+        err_flag = False
+
+        data = self.get_cluster(json)
+
+        for func in func_list:
+            results = func(json, cutoff_cpu=cutoff_cpu, cutoff_mem=cutoff_mem,
+                           cutoff_disk=cutoff_disk)
+
+            if results:
+                err_flag = True
+
+                if json:
+                    data, status, msg = gen_libs.merge_two_dicts(data, results)
+
+                else:
+                    data = data + "\n" + results
+
+        return data if err_flag else None
+
+######################################################
+######################################################
+
+
 class Elastic(object):
 
     """Class:  Elastic (deprecated:  Replaced by Elasticsearch class)
@@ -1036,7 +1706,7 @@ class ElasticDump(ElasticCluster):
 
 class ElasticStatus(ElasticCluster):
 
-    """Class:  ElasticStatus (deprecated:  Replaced by ElasticSearchAdmin)
+    """Class:  ElasticStatus (deprecated:  Replaced by ElasticSearchStatus)
 
     Description:  Class which is a representation of an Elasticsearch
         cluster status which contains attributes to show the general health of
