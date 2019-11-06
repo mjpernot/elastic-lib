@@ -36,6 +36,7 @@ coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo_delete_dump_all.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchRepo_init.py
+coverage run -a --source=elastic_class test/unit/elastic_class/ElasticSearchStatus_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_chk_all.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_chk_disk.py
 coverage run -a --source=elastic_class test/unit/elastic_class/ElasticStatus_chk_mem.py
