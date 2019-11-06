@@ -118,7 +118,7 @@ class UnitTest(unittest.TestCase):
             {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
         self.info_data = {"name": "localservername"}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
-        self.master = "MasterName"
+        self.master_name = "MasterName"
         self.cluster_data = {"_nodes": {"total": 3}}
         self.data_results = {"hostname1": ["/dir/data1"],
             "hostname2": ["/dir/data2"]}
@@ -174,7 +174,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual((es.port, es.hosts, es.is_connected, es.data,
                           es.logs),
                          (9200, self.host_list, True, self.data_results,
-                         self.logs_results))
+                          self.logs_results))
 
 
 if __name__ == "__main__":

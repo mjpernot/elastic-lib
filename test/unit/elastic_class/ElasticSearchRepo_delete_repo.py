@@ -184,7 +184,7 @@ class UnitTest(unittest.TestCase):
             {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
         self.info_data = {"name": "localservername"}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
-        self.master = "MasterName"
+        self.master_name = "MasterName"
         self.cluster_data = {"_nodes": {"total": 3}}
 
 
