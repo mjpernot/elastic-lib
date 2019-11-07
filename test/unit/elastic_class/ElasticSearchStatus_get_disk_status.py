@@ -90,16 +90,16 @@ class UnitTest(unittest.TestCase):
             ["990", "68mb", "15gb", "53gb", "68gb", "22", "ip3", "ip4",
              "hostname2"]]
         self.results = {
-            "DiskUsage": {"DiskUsage": {"hostname1": {"Total": "69gb",
-                                                      "Available": "53gb",
-                                                      "TotalUsed": "15gb",
-                                                      "ESUsed": "68mb",
-                                                      "Precent": "23"},
-                                        "hostname2": {"Total": "68gb",
-                                                      "Available": "53gb",
-                                                      "TotalUsed": "14gb",
-                                                      "ESUsed": "67mb",
-                                                      "Precent": "22"}}}}
+            "DiskUsage": {"hostname1": {"Total": "69gb",
+                                        "Available": "53gb",
+                                        "TotalUsed": "15gb",
+                                        "ESUsed": "68mb",
+                                        "Precent": "23"},
+                          "hostname2": {"Total": "68gb",
+                                        "Available": "53gb",
+                                        "TotalUsed": "14gb",
+                                        "ESUsed": "67mb",
+                                        "Precent": "22"}}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
