@@ -83,27 +83,29 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        # This is set to allow to show large differences.
+        self.maxDiff = None
         self.host_list = ["host1", "host2"]
         self.es = Elasticsearch(self.host_list)
         self.repo_dict = {"repo1": {"settings": {"location": "/dir/repo1"}},
                           "repo2": {"settings": {"location": "/dir/repo2"}}}
         self.results = {
-            "DumpUsage": {"repo1": {"Partition": "/dir/repo1",
-                                    "Total": "53gb",
-                                    "Used": "15gb",
-                                    "Free": "68mb",
-                                    "Precent": 23},
-                          "repo2": {"Partition": "/dir/repo2",
-                                    "Total": "53gb",
-                                    "Used": "14gb",
-                                    "Free": "67mb",
-                                    "Precent": 22}}}
+            "DumpUsage": {"repo1": {"Used": "15.00GB",
+                                    "Partition": "/dir/repo1",
+                                    "Percent": 28.30188679245283,
+                                    "Free": "68.00MB",
+                                    "Total": "53.00GB"},
+                          "repo2": {"Used": "14.00GB",
+                                    "Partition": "/dir/repo2",
+                                    "Percent": 26.41509433962264,
+                                    "Free": "67.00MB",
+                                    "Total": "53.00GB"}}}
 
         usage = collections.namedtuple('USAGE', 'total used free')
-        self.usage1 = usage(53, 15, 68)
-        self.usage2 = usage(53, 14, 67)
+        self.usage1 = usage(56908316672, 16106127360, 71303168)
+        self.usage2 = usage(56908316672, 15032385536, 70254592)
 
-    @mock.patch("elastic_class.gen_libs")
+    @mock.patch("elastic_class.gen_libs.disk_usage")
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
@@ -120,7 +122,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
-        mock_libs.disk_usage.side_effect = [self.usage1, self.usage2]
+        mock_libs.side_effect = [self.usage1, self.usage2]
 
         es = elastic_class.ElasticSearchStatus(self.host_list)
         es.repo_dict = self.repo_dict
