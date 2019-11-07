@@ -44,7 +44,6 @@ class Elasticsearch(object):
     Methods:
         __init__ -> Initialize configuration environment.
         ping -> Stub holder for Elasticsearch.ping method.
-        info -> Stub holder for Elasticsearch.info method.
 
     """
 
@@ -74,18 +73,6 @@ class Elasticsearch(object):
         """
 
         return self.ping_status
-
-    def info(self):
-
-        """Method:  info
-
-        Description:  Stub holder for Elasticsearch.info method.
-
-        Arguments:
-
-        """
-
-        return self.info_status
 
 
 class UnitTest(unittest.TestCase):

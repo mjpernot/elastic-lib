@@ -51,6 +51,23 @@ pipeline {
                 ./test/unit/elastic_class/ElasticSearchRepo_delete_dump_all.py
                 ./test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
                 ./test/unit/elastic_class/ElasticSearchRepo_init.py
+                ./test/unit/elastic_class/ElasticSearchStatus_chk_all.py
+                ./test/unit/elastic_class/ElasticSearchStatus_chk_disk.py
+                ./test/unit/elastic_class/ElasticSearchStatus_chk_mem.py
+                ./test/unit/elastic_class/ElasticSearchStatus_chk_nodes.py
+                ./test/unit/elastic_class/ElasticSearchStatus_chk_server.py
+                ./test/unit/elastic_class/ElasticSearchStatus_chk_shards.py
+                ./test/unit/elastic_class/ElasticSearchStatus_chk_status.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_all.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_cluster.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_disk_status.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_dump_disk_status.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_gen_status.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_mem_status.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_node_status.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_nodes.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_shrd_status.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_svr_status.py
                 ./test/unit/elastic_class/ElasticSearchStatus_init.py
                 ./test/unit/elastic_class/ElasticSearchStatus_update_status.py
                 ./test/unit/elastic_class/ElasticStatus_chk_all.py

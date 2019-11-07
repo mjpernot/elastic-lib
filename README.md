@@ -94,6 +94,7 @@ exit
   * ElasticSearch => Class which is a representation of an ElasticSearch database/cluster.  An ElasticSearch object is used as proxy to implement the connecting to an execute commands in an ElasticSearch database/cluster.
   * ElasticSearchDump => Class which is a representation of ElasticSearch database dump.  An ElasticSearchDump object is used as proxy to implement a database dump of an ElasticSearch database/cluster.
   * ElasticSearchRepo => Class which is a representation of ElasticSearchRepo repositories.  An ElasticSearchRepo object is used as proxy to implement respositories within an Elasticsearch cluster.
+  * ElasticSearchStatus => Class which is a representation of an Elasticsearch cluster status which contains attributes to show the general health of the Elasticsearch cluster.  An ElasticStatus is used as a proxy to implement connecting to an Elasticsearch database cluster and executing status commands.
   * (Deprecated)  Elastic => Class which is a representation of an Elasticsearch database node.  An Elastic object is used as proxy to implement the connecting to an execute commands in an Elasticsearch database node.
   * (Deprecated)  ElasticCluster => Class which is a representation of a cluster of Elasticsearch database nodes.  An ElasticCluster object is used as a proxy to implement connecting to an Elasticsearch database cluster.
   * (Deprecated)  ElasticDump => Class which is a representation of Elasticsearch database dump.  An ElasticDump object is used as proxy to implement a database dump of an Elasticsearch database node.
@@ -189,6 +190,23 @@ test/unit/elastic_class/ElasticSearchRepo_delete_dump_all.py
 test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
 test/unit/elastic_class/ElasticSearchRepo_init.py
 test/unit/elastic_class/ElasticStatus_chk_all.py
+test/unit/elastic_class/ElasticSearchStatus_chk_all.py
+test/unit/elastic_class/ElasticSearchStatus_chk_disk.py
+test/unit/elastic_class/ElasticSearchStatus_chk_mem.py
+test/unit/elastic_class/ElasticSearchStatus_chk_nodes.py
+test/unit/elastic_class/ElasticSearchStatus_chk_server.py
+test/unit/elastic_class/ElasticSearchStatus_chk_shards.py
+test/unit/elastic_class/ElasticSearchStatus_chk_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_all.py
+test/unit/elastic_class/ElasticSearchStatus_get_cluster.py
+test/unit/elastic_class/ElasticSearchStatus_get_disk_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_dump_disk_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_gen_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_mem_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_node_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_nodes.py
+test/unit/elastic_class/ElasticSearchStatus_get_shrd_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_svr_status.py
 test/unit/elastic_class/ElasticSearchStatus_init.py
 test/unit/elastic_class/ElasticSearchStatus_update_status.py
 test/unit/elastic_class/ElasticStatus_chk_disk.py
