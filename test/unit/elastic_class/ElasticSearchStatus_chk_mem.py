@@ -92,14 +92,14 @@ class UnitTest(unittest.TestCase):
         self.mem_total = 234567890
         self.results = {}
         self.results2 = {
-            "MemoryWarning": {"Reason": "Have reached memory threshold",
+            "MemoryWarning": {"Reason": "Have reach memory threshold",
                               "Threshold": 90,
-                              "TotalMemory": "223.70mb",
+                              "TotalMemory": "223.70MB",
                               "MemoryUsage": self.mem_per_used2}}
         self.results3 = {
-            "MemoryWarning": {"Reason": "Have reached memory threshold",
+            "MemoryWarning": {"Reason": "Have reach memory threshold",
                               "Threshold": 85,
-                              "TotalMemory": "223.70mb",
+                              "TotalMemory": "223.70MB",
                               "MemoryUsage": self.mem_per_used2}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
