@@ -104,14 +104,14 @@ class UnitTest(unittest.TestCase):
                 "Threshold": 85,
                 "Total": "68gb",
                 "Used": "15gb",
-                "ESUsed": "68gb"}}}
+                "ESUsed": "68mb"}}}
         self.results3 = {
             "DiskWarning": {"hostname2": {
                 "Reason": "Have reached disk usage threshold",
                 "Threshold": 87,
                 "Total": "68gb",
                 "Used": "15gb",
-                "ESUsed": "68gb"}}}
+                "ESUsed": "68mb"}}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
@@ -133,7 +133,7 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchStatus(self.host_list)
         es.disk_list = self.disk_list2
 
-        self.assertEqual(es.get_disk_status(cutoff_disk=87), self.results3)
+        self.assertEqual(es.chk_disk(cutoff_disk=87), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
@@ -155,7 +155,7 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchStatus(self.host_list)
         es.disk_list = self.disk_list2
 
-        self.assertEqual(es.get_disk_status(cutoff_disk=95), self.results)
+        self.assertEqual(es.chk_disk(cutoff_disk=95), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
@@ -177,7 +177,7 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchStatus(self.host_list)
         es.disk_list = self.disk_list2
 
-        self.assertEqual(es.get_disk_status(), self.results2)
+        self.assertEqual(es.chk_disk(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
@@ -199,7 +199,7 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchStatus(self.host_list)
         es.disk_list = self.disk_list
 
-        self.assertEqual(es.get_disk_status(), self.results)
+        self.assertEqual(es.chk_disk(), self.results)
 
 
 if __name__ == "__main__":
