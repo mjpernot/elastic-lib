@@ -117,6 +117,8 @@ class UnitTest(unittest.TestCase):
         self.disks_data = ["disk1", "disk2"]
         self.repo_data = {"repo1": "green", "repo2": "green"}
 
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_ping_false(self, mock_es):
 
@@ -141,6 +143,8 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_cluster_status")
     @mock.patch("elastic_class.get_shards")
     @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_ping_true(self, mock_es, mock_health, mock_shards, mock_status,
                        mock_disks, mock_repo):
