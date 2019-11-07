@@ -123,7 +123,7 @@ class UnitTest(unittest.TestCase):
         es.mem_per_used = self.mem_per_used2
         es.mem_total = self.mem_total
 
-        self.assertEqual(es.chk_mem(cutoff=85), self.results3)
+        self.assertEqual(es.chk_mem(cutoff_mem=85), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
@@ -146,7 +146,7 @@ class UnitTest(unittest.TestCase):
         es.mem_per_used = self.mem_per_used
         es.mem_total = self.mem_total
 
-        self.assertEqual(es.chk_mem(cutoff=85), self.results)
+        self.assertEqual(es.chk_mem(cutoff_mem=85), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
