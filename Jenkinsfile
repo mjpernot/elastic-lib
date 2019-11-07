@@ -58,6 +58,7 @@ pipeline {
                 ./test/unit/elastic_class/ElasticSearchStatus_chk_server.py
                 ./test/unit/elastic_class/ElasticSearchStatus_chk_shards.py
                 ./test/unit/elastic_class/ElasticSearchStatus_chk_status.py
+                ./test/unit/elastic_class/ElasticSearchStatus_get_all.py
                 ./test/unit/elastic_class/ElasticSearchStatus_get_cluster.py
                 ./test/unit/elastic_class/ElasticSearchStatus_get_disk_status.py
                 ./test/unit/elastic_class/ElasticSearchStatus_get_dump_disk_status.py
