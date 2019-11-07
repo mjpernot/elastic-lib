@@ -974,8 +974,8 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        return {"Node_Status": {"TotalNodes": self.total_nodes,
-                                "FailedNodes": self.failed_nodes}}
+        return {"NodeStatus": {"TotalNodes": self.total_nodes,
+                               "FailedNodes": self.failed_nodes}}
 
     def get_svr_status(self, **kwargs):
 
