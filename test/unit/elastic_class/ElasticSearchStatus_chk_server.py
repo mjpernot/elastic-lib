@@ -92,14 +92,14 @@ class UnitTest(unittest.TestCase):
         self.cpu_active2 = 80
         self.results = {}
         self.results2 = {
-            "ServerWarning": {"Reason": "Have reached cpu threshold",
+            "ServerWarning": {"Reason": "Have reach cpu threshold",
                               "Threshold": 75,
-                              "TotalCpus": self.alloc_cpu,
+                              "TotalCPUs": self.alloc_cpu,
                               "CPUUsage": self.cpu_active2}}
         self.results3 = {
-            "MemoryWarning": {"Reason": "Have reached cpu threshold",
+            "ServerWarning": {"Reason": "Have reach cpu threshold",
                               "Threshold": 78,
-                              "TotalCpus": self.alloc_cpu,
+                              "TotalCPUs": self.alloc_cpu,
                               "CPUUsage": self.cpu_active2}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
