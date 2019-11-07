@@ -82,6 +82,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        # This is set to allow to show large differences.
+        self.maxDiff = None
         self.host_list = ["host1", "host2"]
         self.es = Elasticsearch(self.host_list)
         self.disk_list = [
@@ -92,14 +94,14 @@ class UnitTest(unittest.TestCase):
         self.results = {
             "DiskUsage": {"hostname1": {"Total": "69gb",
                                         "Available": "53gb",
-                                        "TotalUsed": "15gb",
-                                        "ESUsed": "68mb",
-                                        "Precent": "23"},
+                                        "TotalUsed": "16gb",
+                                        "ESUsed": "69mb",
+                                        "Percent": "23"},
                           "hostname2": {"Total": "68gb",
                                         "Available": "53gb",
-                                        "TotalUsed": "14gb",
-                                        "ESUsed": "67mb",
-                                        "Precent": "22"}}}
+                                        "TotalUsed": "15gb",
+                                        "ESUsed": "68mb",
+                                        "Percent": "22"}}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
