@@ -89,8 +89,8 @@ class UnitTest(unittest.TestCase):
         self.mem_used = 123456789
         self.mem_free = 12345678
         self.results = {
-            "Memory": {"Percent": self.mem_per_used, "Total": "117.74MB",
-                       "Used": "223.70MB", "Free": "11.77MB"}}
+            "Memory": {"Percent": self.mem_per_used, "Total": "223.70MB",
+                       "Used": "117.74MB", "Free": "11.77MB"}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
