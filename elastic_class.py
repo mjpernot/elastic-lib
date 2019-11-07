@@ -1102,7 +1102,7 @@ class ElasticSearchStatus(ElasticSearch):
         func_list = [self.get_nodes, self.get_node_status,
                      self.get_svr_status, self.get_mem_status,
                      self.get_shrd_status, self.get_gen_status,
-                     self.get_disk_status, self.get_dump_disk_status]
+                     self.get_disk_status]
         data = self.get_cluster()
 
         for func in func_list:
