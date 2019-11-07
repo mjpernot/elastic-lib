@@ -84,6 +84,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        # This is set to allow to show large differences.
+        self.maxDiff = None
         self.host_list = ["host1", "host2"]
         self.es = Elasticsearch(self.host_list)
         self.cluster_status = "green"
@@ -117,10 +119,11 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
 
-        es = cluster_status = self.cluster_status
+        es = elastic_class.ElasticSearchStatus(self.host_list)
+        es.cluster_status = self.cluster_status
         es.pending_tasks = self.pending_tasks2
 
-        self.assertEqual(es.chk_shards(), self.results3)
+        self.assertEqual(es.chk_status(), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
@@ -139,10 +142,11 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
 
-        es = cluster_status = self.cluster_status2
+        es = elastic_class.ElasticSearchStatus(self.host_list)
+        es.cluster_status = self.cluster_status2
         es.pending_tasks = self.pending_tasks
 
-        self.assertEqual(es.chk_shards(), self.results2)
+        self.assertEqual(es.chk_status(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
@@ -165,7 +169,7 @@ class UnitTest(unittest.TestCase):
         es.cluster_status = self.cluster_status
         es.pending_tasks = self.pending_tasks
 
-        self.assertEqual(es.chk_shards(), self.results)
+        self.assertEqual(es.chk_status(), self.results)
 
 
 if __name__ == "__main__":
