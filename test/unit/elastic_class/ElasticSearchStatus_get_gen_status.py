@@ -90,7 +90,7 @@ class UnitTest(unittest.TestCase):
         self.results = {
             "ClusterStatus": {"Master": self.master,
                               "Status": self.cluster_status,
-                              "PendingsTasks": self.pending_tasks}}
+                              "PendingTasks": self.pending_tasks}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
