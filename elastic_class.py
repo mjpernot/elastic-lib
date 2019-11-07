@@ -974,8 +974,8 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        return {"Node_Status": {"Total_Nodes": self.total_nodes,
-                                "Failed_Nodes": self.failed_nodes}}
+        return {"Node_Status": {"TotalNodes": self.total_nodes,
+                                "FailedNodes": self.failed_nodes}}
 
     def get_svr_status(self, **kwargs):
 
@@ -989,8 +989,8 @@ class ElasticSearchStatus(ElasticSearch):
         """
 
         return {"Server": {"Uptime": gen_libs.milli_2_readadble(self.uptime),
-                           "Allocated_CPU": self.alloc_cpu,
-                           "CPU_Active": self.cpu_active}}
+                           "AllocatedCPU": self.alloc_cpu,
+                           "CPUActive": self.cpu_active}}
 
     def get_mem_status(self, **kwargs):
 
@@ -1035,9 +1035,9 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        return {"Cluster_Status": {"Master": self.master,
-                                   "Status": self.cluster_status,
-                                   "Pending_Tasks": self.pending_tasks}}
+        return {"ClusterStatus": {"Master": self.master,
+                                  "Status": self.cluster_status,
+                                  "PendingTasks": self.pending_tasks}}
 
     def get_disk_status(self, **kwargs):
 
@@ -1051,13 +1051,12 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        data = {"Disk_Usage": {}}
+        data = {"DiskUsage": {}}
 
         for node in self.disk_list:
-            data["Disk_Usage"][node[8]] = {
+            data["DiskUsage"][node[8]] = {
                 "Total": node[4], "Available": node[3],
-                "Total_Used": node[2], "ES_Used": node[1],
-                "Percent": node[5]}
+                "TotalUsed": node[2], "ESUsed": node[1], "Percent": node[5]}
 
         return data
 
@@ -1073,13 +1072,13 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        data = {"Dump_Usage": {}}
+        data = {"DumpUsage": {}}
 
         for repo in self.repo_dict:
             partition = self.repo_dict[repo]["settings"]["location"]
             usage = gen_libs.disk_usage(partition)
 
-            data["Dump_Usage"][repo] = {
+            data["DumpUsage"][repo] = {
                 "Partition": partition,
                 "Total": gen_libs.bytes_2_readable(usage.total),
                 "Used": gen_libs.bytes_2_readable(usage.used),
@@ -1128,12 +1127,12 @@ class ElasticSearchStatus(ElasticSearch):
             self.cutoff_mem = cutoff_mem
 
         if self.mem_per_used >= self.cutoff_mem:
-            return {"Memory_Warning":
+            return {"MemoryWarning":
                     {"Reason": "Have reach memory threshold",
                      "Threshold": self.cutoff_mem,
-                     "Total_Memory":
+                     "TotalMemory":
                          gen_libs.bytes_2_readable(self.mem_total),
-                     "Memory_Usage": self.mem_per_used}}
+                     "MemoryUsage": self.mem_per_used}}
 
         else:
             return {}
@@ -1150,10 +1149,10 @@ class ElasticSearchStatus(ElasticSearch):
         """
 
         if self.failed_nodes > 0:
-            return {"Node_Failure":
+            return {"NodeFailure":
                     {"Reason": "Detected failure on one or more nodes",
-                     "Failed_Nodes": self.failed_nodes,
-                     "Total_Nodes": self.total_nodes}}
+                     "FailedNodes": self.failed_nodes,
+                     "TotalNodes": self.total_nodes}}
 
         else:
             return {}
@@ -1171,13 +1170,13 @@ class ElasticSearchStatus(ElasticSearch):
 
         err_flag = False
 
-        data = {"Shard_Warning": {}}
+        data = {"ShardWarning": {}}
 
         # Shards not assigned to a node
         if self.unassigned_shards > 0:
             err_flag = True
 
-            data["Shard_Warning"]["Unassigned_Shards"] = \
+            data["ShardWarning"]["UnassignedShards"] = \
                 {"Reason": "Detected unassigned shards",
                  "Unassigned": self.unassigned_shards,
                  "Total": self.num_shards}
@@ -1186,7 +1185,7 @@ class ElasticSearchStatus(ElasticSearch):
         if self.active_shards_percent < 100:
             err_flag = True
 
-            data["Shard_Warning"]["Active_Shards_Percent"] = \
+            data["ShardWarning"]["ActiveShardsPercent"] = \
                 {"Reason": "Detected less than 100% active shards",
                  "Percentage": self.active_shards_percent}
 
@@ -1196,9 +1195,9 @@ class ElasticSearchStatus(ElasticSearch):
         if shards:
             err_flag = True
 
-            data["Shard_Warning"]["Non_Operation_Shards"] = \
+            data["ShardWarning"]["NonOperationShards"] = \
                 {"Reason": "Detected shards not in operational mode",
-                 "List_Of_Shards": shards}
+                 "ListofShards": shards}
 
         return data if err_flag else {}
 
@@ -1218,11 +1217,11 @@ class ElasticSearchStatus(ElasticSearch):
             self.cutoff_cpu = cutoff_cpu
 
         if self.cpu_active >= self.cutoff_cpu:
-            return {"Server_Warning":
+            return {"ServerWarning":
                     {"Reason": "Have reach cpu threshold",
                      "Threshold": self.cutoff_cpu,
-                     "Total_CPUs": self.alloc_cpu,
-                     "CPU_Usage": self.cpu_active}}
+                     "TotalCPUs": self.alloc_cpu,
+                     "CPUUsage": self.cpu_active}}
 
         else:
             return {}
@@ -1240,13 +1239,13 @@ class ElasticSearchStatus(ElasticSearch):
 
         err_flag = False
 
-        data = {"Cluster_Warning": {}}
+        data = {"ClusterWarning": {}}
 
         # Elasticsearch cluster status
         if self.cluster_status != "green":
             err_flag = True
 
-            data["Cluster_Warning"]["Cluster_Status"] = \
+            data["ClusterWarning"]["ClusterStatus"] = \
                 {"Reason": "Detected the cluster is not green",
                  "Status": self.cluster_status}
 
@@ -1254,7 +1253,7 @@ class ElasticSearchStatus(ElasticSearch):
         if self.pending_tasks > 0:
             err_flag = True
 
-            data["Cluster_Warning"]["Pending_Tasks"] = \
+            data["ClusterWarning"]["PendingTasks"] = \
                 {"Reason": "Detected cluster has pending tasks",
                  "Tasks": self.pending_tasks}
 
@@ -1274,7 +1273,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         err_flag = False
 
-        data = {"Disk_Warning": {}}
+        data = {"DiskWarning": {}}
 
         if cutoff_disk:
             self.cutoff_disk = cutoff_disk
@@ -1284,12 +1283,12 @@ class ElasticSearchStatus(ElasticSearch):
             if int(node[5]) >= self.cutoff_disk:
                 err_flag = True
 
-                data["Disk_Warning"][node[8]] = {
+                data["DiskWarning"][node[8]] = {
                     "Reason": "Have reached disk usage threshold",
                     "Threshold": self.cutoff_disk,
                     "Total": node[4],
                     "Used": node[2],
-                    "ES_Used": node[1]}
+                    "ESUsed": node[1]}
 
         return data if err_flag else {}
 
