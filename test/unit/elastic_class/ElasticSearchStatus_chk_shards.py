@@ -85,6 +85,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        # This is set to allow to show large differences.
+        self.maxDiff = None
         self.host_list = ["host1", "host2"]
         self.es = Elasticsearch(self.host_list)
         self.unassigned_shards = 0
@@ -109,7 +111,7 @@ class UnitTest(unittest.TestCase):
         self.results4 = {
             "ShardWarning": {"NonOperationShards": {
                 "Reason": "Detected shards not in operational mode",
-                "ListofShards": ["shard2", "d1", "d1", "STOPPED"]}}}
+                "ListofShards": [["shard2", "d1", "d1", "STOPPED"]]}}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status",
                 mock.Mock(return_value=True))
@@ -128,9 +130,10 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
 
-        es = unassigned_shards = self.unassigned_shards
+        es = elastic_class.ElasticSearchStatus(self.host_list)
+        es.unassigned_shards = self.unassigned_shards
         es.active_shards_percent = self.active_shards_percent
-        es.shard_list = self.shard_lis2
+        es.shard_list = self.shard_list2
 
         self.assertEqual(es.chk_shards(), self.results4)
 
@@ -151,7 +154,8 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
 
-        es = unassigned_shards = self.unassigned_shards
+        es = elastic_class.ElasticSearchStatus(self.host_list)
+        es.unassigned_shards = self.unassigned_shards
         es.active_shards_percent = self.active_shards_percent2
         es.shard_list = self.shard_list
 
@@ -174,9 +178,11 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
 
-        es = unassigned_shards = self.unassigned_shards2
+        es = elastic_class.ElasticSearchStatus(self.host_list)
+        es.unassigned_shards = self.unassigned_shards2
         es.active_shards_percent = self.active_shards_percent
         es.shard_list = self.shard_list
+        es.num_shards = self.num_shards
 
         self.assertEqual(es.chk_shards(), self.results2)
 
