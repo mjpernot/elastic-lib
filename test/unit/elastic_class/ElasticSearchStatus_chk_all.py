@@ -67,6 +67,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_one_warn -> Test with one warning.
         test_default_no_warn -> Test with default settings and no warning.
 
     """
