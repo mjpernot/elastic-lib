@@ -357,7 +357,7 @@ class ElasticSearch(object):
 
         """
 
-        if self.es.ping():
+        if is_active(self.es):
             self.is_connected = True
 
             # Basic information
