@@ -43,7 +43,6 @@ class Repo(object):
 
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
-        create -> Stub holder for snapshot.create method.
 
     """
 
@@ -60,21 +59,6 @@ class Repo(object):
         return {"reponame": {"type": "dbdump", "settings":
                              {"location": "/dir/path/dump"}}}
 
-    def create(self, repository, body, snapshot):
-
-        """Method:  create
-
-        Description:  Stub holder for snapshot.create method.
-
-        Arguments:
-            (input) repository -> Repository name.
-            (input) body -> Database dump command.
-            (input) snapshot -> Database dump respository information.
-
-        """
-
-        return True
-
 
 class Elasticsearch(object):
 
@@ -84,7 +68,6 @@ class Elasticsearch(object):
 
     Methods:
         __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
         info -> Stub holder for Elasticsearch.info method.
 
     """
@@ -101,22 +84,9 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
-        self.ping_status = True
         self.info_status = {"cluster_name": "ClusterName",
                             "name": "servername"}
         self.snapshot = Repo()
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
 
     def info(self):
 
@@ -167,6 +137,7 @@ class UnitTest(unittest.TestCase):
             {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
 
+    @mock.patch("elastic_class.create_snapshot_repo", mock.Mock())
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -202,6 +173,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.dump_db(self.dbs),
             (True, "ERROR:  Repository name not set."))
 
+    @mock.patch("elastic_class.create_snapshot_repo", mock.Mock())
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -236,6 +208,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.dump_db(self.dbs2),
             (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
 
+    @mock.patch("elastic_class.create_snapshot_repo", mock.Mock())
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
