@@ -84,12 +84,13 @@ def create_snapshot_repo(es, reponame, body, verify=True, **kwargs):
         (input) reponame -> Name of repository.
         (input) body -> Contains arguments for the dump command.
         (input) verify -> True|False - Validate the repository.
+        (output) Return exit status of create_repository command.
 
     """
 
     body = dict(body)
-    es.snapshot.create_repository(repository=reponame, body=body,
-                                  verify=verify)
+    return es.snapshot.create_repository(repository=reponame, body=body,
+                                         verify=verify)
 
 
 def delete_snapshot(es, reponame, dumpname, **kwargs):
