@@ -96,11 +96,16 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value={"clustername": {}}))
     @mock.patch("elastic_class.ElasticStatus.chk_disk",
                 mock.Mock(return_value={"disk": "Not good"}))
-    @mock.patch("elastic_class.ElasticStatus.chk_status", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_server", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_shards", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_nodes", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_mem", mock.Mock())
+    @mock.patch("elastic_class.ElasticStatus.chk_status",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_server",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_shards",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_nodes",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_mem",
+                mock.Mock(return_value=None))
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_json(self, mock_get):
 
@@ -124,11 +129,16 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value="clustername"))
     @mock.patch("elastic_class.ElasticStatus.chk_disk",
                 mock.Mock(return_value="disk is not good"))
-    @mock.patch("elastic_class.ElasticStatus.chk_status", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_server", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_shards", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_nodes", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_mem", mock.Mock())
+    @mock.patch("elastic_class.ElasticStatus.chk_status",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_server",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_shards",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_nodes",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_mem",
+                mock.Mock(return_value=None))
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_string_default(self, mock_get):
 
@@ -150,12 +160,18 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticStatus.get_cluster",
                 mock.Mock(return_value="clustername"))
-    @mock.patch("elastic_class.ElasticStatus.chk_disk", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_status", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_server", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_shards", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_nodes", mock.Mock())
-    @mock.patch("elastic_class.ElasticStatus.chk_mem", mock.Mock())
+    @mock.patch("elastic_class.ElasticStatus.chk_disk",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_status",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_server",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_shards",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_nodes",
+                mock.Mock(return_value=None))
+    @mock.patch("elastic_class.ElasticStatus.chk_mem",
+                mock.Mock(return_value=None))
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):
 
