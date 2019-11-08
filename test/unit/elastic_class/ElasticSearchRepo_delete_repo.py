@@ -44,21 +44,8 @@ class Repo(object):
 
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
-        create_repository -> Stub holder for snapshot.create_repository method.
 
     """
-
-    def create_repository(self):
-
-        """Method:  create_repository
-
-        Description:  Stub holder for snapshot.create_repository method.
-
-        Arguments:
-
-        """
-
-        return {"acknowledged": True}
 
     def get_repository(self):
 
@@ -156,19 +143,24 @@ class UnitTest(unittest.TestCase):
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
         self.master_name = "MasterName"
         self.cluster_data = {"_nodes": {"total": 3}}
-
+        self.repo_list = {"reponame": {"type": "dbdump", "settings":
+                {"location": "/dir/path/dump"}}}
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.delete_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": False}))
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_repo_name_failed(self, mock_es, mock_nodes, mock_info, mock_health,
-                              mock_master, mock_cluster):
+    def test_repo_name_failed(self, mock_es, mock_nodes, mock_health,
+                              mock_list):
 
         """Function:  test_repo_name_failed
 
@@ -180,10 +172,8 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
         mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
+        mock_list.return_value = self.repo_list
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo_dict = {"reponame":
@@ -200,14 +190,17 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.delete_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_repo_name_none(self, mock_es, mock_nodes, mock_info, mock_health,
-                            mock_master, mock_cluster):
+    def test_repo_name_none(self, mock_es, mock_nodes, mock_health, mock_list):
 
         """Function:  test_repo_name_none
 
@@ -219,10 +212,8 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
         mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
+        mock_list.return_value = self.repo_list
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo_dict = {"reponame":
@@ -239,14 +230,17 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.delete_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_no_repo_name(self, mock_es, mock_nodes, mock_info, mock_health,
-                          mock_master, mock_cluster):
+    def test_no_repo_name(self, mock_es, mock_nodes, mock_health, mock_list):
 
         """Function:  test_no_repo_name
 
@@ -258,10 +252,8 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
         mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
+        mock_list.return_value = self.repo_list
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo_dict = {"reponame":
@@ -276,14 +268,17 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.delete_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_not_deleted(self, mock_es, mock_nodes, mock_info, mock_health,
-                         mock_master, mock_cluster):
+    def test_not_deleted(self, mock_es, mock_nodes, mock_health, mock_list):
 
         """Function:  test_not_deleted
 
@@ -295,10 +290,8 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
         mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
+        mock_list.return_value = self.repo_list
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
@@ -307,14 +300,17 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.delete_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es, mock_nodes, mock_info, mock_health,
-                     mock_master, mock_cluster):
+    def test_default(self, mock_es, mock_nodes, mock_health, mock_list):
 
         """Function:  test_default
 
@@ -326,10 +322,8 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
         mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
+        mock_list.return_value = self.repo_list
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo_dict = {"reponame":
