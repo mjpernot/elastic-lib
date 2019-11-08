@@ -95,7 +95,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.ElasticStatus.get_cluster",
                 mock.Mock(return_value={"clustername": {}}))
     @mock.patch("elastic_class.ElasticStatus.chk_disk",
-                mock.Mock(return_value={"disk": "Not good"})
+                mock.Mock(return_value={"disk": "Not good"}))
     @mock.patch("elastic_class.ElasticStatus.chk_status", mock.Mock())
     @mock.patch("elastic_class.ElasticStatus.chk_server", mock.Mock())
     @mock.patch("elastic_class.ElasticStatus.chk_shards", mock.Mock())
@@ -123,7 +123,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.ElasticStatus.get_cluster",
                 mock.Mock(return_value="clustername"))
     @mock.patch("elastic_class.ElasticStatus.chk_disk",
-                mock.Mock(return_value="disk is not good")
+                mock.Mock(return_value="disk is not good"))
     @mock.patch("elastic_class.ElasticStatus.chk_status", mock.Mock())
     @mock.patch("elastic_class.ElasticStatus.chk_server", mock.Mock())
     @mock.patch("elastic_class.ElasticStatus.chk_shards", mock.Mock())
@@ -150,15 +150,14 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticStatus.get_cluster",
                 mock.Mock(return_value="clustername"))
-    @mock.patch("elastic_class.ElasticStatus.chk_disk", mock.Mock()
+    @mock.patch("elastic_class.ElasticStatus.chk_disk", mock.Mock())
     @mock.patch("elastic_class.ElasticStatus.chk_status", mock.Mock())
     @mock.patch("elastic_class.ElasticStatus.chk_server", mock.Mock())
     @mock.patch("elastic_class.ElasticStatus.chk_shards", mock.Mock())
     @mock.patch("elastic_class.ElasticStatus.chk_nodes", mock.Mock())
     @mock.patch("elastic_class.ElasticStatus.chk_mem", mock.Mock())
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_default(self, mock_get, mock_mem, mock_nodes, mock_shards,
-                     mock_server, mock_status, mock_disk, mock_cluster):
+    def test_default(self, mock_get):
 
         """Function:  test_default
 
