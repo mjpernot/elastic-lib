@@ -657,9 +657,7 @@ class ElasticSearchRepo(ElasticSearch):
             data_dict = {"type": "fs", "settings": {"location": repo_dir,
                                                     "compress": True}}
 
-            status = self.es.snapshot.create_repository(repository=repo_name,
-                                                        body=data_dict,
-                                                        verify=True)
+            status = create_snapshot_repo(self.es, repo_name, data_dict, True)
 
             if not status["acknowledged"]:
                 err_flag = True
