@@ -143,6 +143,7 @@ class UnitTest(unittest.TestCase):
         self.repo_list = {"reponame": {"type": "dbdump", "settings":
                 {"location": "/dir/path/dump"}}}
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": False}))
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -178,8 +179,9 @@ class UnitTest(unittest.TestCase):
             (True,
             "ERROR:  Repository creation failure:  reponame3, /dir/path/repo"))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.create_snapshot_repo",
-                mock.Mock(return_value={"acknowledged": False}))
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -213,6 +215,7 @@ class UnitTest(unittest.TestCase):
             (True,
             "ERROR:  Repository not detected:  reponame2, /dir/path/repo"))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": False}))
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -248,8 +251,9 @@ class UnitTest(unittest.TestCase):
             (True,
             "ERROR: Missing repo name or directory: 'None', '/dir/path/repo'"))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.create_snapshot_repo",
-                mock.Mock(return_value={"acknowledged": False}))
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -279,8 +283,9 @@ class UnitTest(unittest.TestCase):
                                              repo_dir=self.repo_dir)
         self.assertEqual(es.create_repo(self.repo), (False, None))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.create_snapshot_repo",
-                mock.Mock(return_value={"acknowledged": False}))
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -311,8 +316,9 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.create_repo(repo_dir=self.repo_dir),
                          (False, None))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.create_snapshot_repo",
-                mock.Mock(return_value={"acknowledged": False}))
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
