@@ -179,6 +179,7 @@ class UnitTest(unittest.TestCase):
             "serverid2": {"name": "hostname2", "settings":
             {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
+        self.last_dump = "dump2"
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
