@@ -53,10 +53,11 @@ class Repo(object):
         Arguments:
             (input) repository -> Name of repository.
             (input) snapshot -> Dump name.
+            (output) Return exit status of command.
 
         """
 
-        pass
+        return {"acknowledged": True}
 
 
 class Elasticsearch(object):
@@ -111,6 +112,7 @@ class UnitTest(unittest.TestCase):
         self.repo_name = "reponame"
         self.dump_name = "dumpname"
         self.es = Elasticsearch(self.host_list)
+        self.results = {"acknowledged": True}
 
     def test_default(self):
 
@@ -122,8 +124,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertFalse(elastic_class.delete_snapshot(
-            self.es, self.repo_name, self.dump_name))
+        self.assertEqual(elastic_class.delete_snapshot(
+            self.es, self.repo_name, self.dump_name), self.results)
 
 
 if __name__ == "__main__":
