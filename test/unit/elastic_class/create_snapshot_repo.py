@@ -114,6 +114,7 @@ class UnitTest(unittest.TestCase):
         self.repo_name = "reponame"
         self.body = {"indices": "dbs", "ignore_unavailable": True}
         self.es = Elasticsearch(self.host_list)
+        self.results = {"acknowledged": True}
 
     def test_default(self):
 
