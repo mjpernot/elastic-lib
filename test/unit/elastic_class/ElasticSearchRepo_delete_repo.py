@@ -139,10 +139,7 @@ class UnitTest(unittest.TestCase):
             {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
             "serverid2": {"name": "hostname2", "settings":
             {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
-        self.info_data = {"name": "localservername"}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
-        self.master_name = "MasterName"
-        self.cluster_data = {"_nodes": {"total": 3}}
         self.repo_list = {"reponame": {"type": "dbdump", "settings":
                 {"location": "/dir/path/dump"}}}
 
