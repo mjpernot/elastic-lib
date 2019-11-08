@@ -103,10 +103,11 @@ def delete_snapshot(es, reponame, dumpname, **kwargs):
         (input) es -> ElasticSearch instance.
         (input) reponame -> Name of repository.
         (input) dumpname -> Dump name to be deleted.
+        (output) Return exit status of delete_repository command.
 
     """
 
-    es.snapshot.delete(repository=reponame, snapshot=dumpname)
+    return es.snapshot.delete(repository=reponame, snapshot=dumpname)
 
 
 def delete_snapshot_repo(es, reponame, **kwargs):
