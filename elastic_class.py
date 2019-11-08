@@ -701,8 +701,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         if repo_name and repo_name in self.repo_dict:
 
-            status = self.es.snapshot.delete_repository(
-                repository=repo_name)
+            status = delete_snapshot_repo(self.es, repo_name)
 
             if not status["acknowledged"]:
                 err_flag = True
