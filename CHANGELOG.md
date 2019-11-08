@@ -8,7 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Changed
-- elastic_class.ElasticSearch.\_\_init\_\_:  Replaced call to ping with call to is_active().
+- elastic_class.ElasticSearch.update_status:  Replaced call to ping with call to is_active().
 - elastic_class.ElasticSearch.\_\_init\_\_:  Integrated ElasticCluster class into ElasticSearch class.
 - elastic_class.ElasticSearch.\_\_init\_\_:  Integrated Elastic class into ElasticSearch class.
 - elastic_class.ElasticSearch.\_\_init\_\_:  Replaced attribute updates with call to update_status().
