@@ -45,26 +45,8 @@ class Repo(object):
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
         create_repository -> Stub holder for snapshot.create_repository method.
-        delete_repository -> Stub holder for snapshot.delete_repository method.
 
     """
-
-    def delete_repository(self, repository):
-
-        """Method:  delete_repository
-
-        Description:  Stub holder for snapshot.delete_repository method.
-
-        Arguments:
-            (input) repository -> Name of repository to delete.
-
-        """
-
-        if repository == "reponame3":
-            return {"acknowledged": False}
-
-        else:
-            return {"acknowledged": True}
 
     def create_repository(self):
 
@@ -100,7 +82,6 @@ class Elasticsearch(object):
 
     Methods:
         __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
         info -> Stub holder for Elasticsearch.info method.
 
     """
@@ -118,20 +99,9 @@ class Elasticsearch(object):
         self.hosts = host_list
         self.port = port
         self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
+        self.info_status = {"cluster_name":
+                            "ClusterName", "name": "servername"}
         self.snapshot = Repo()
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
 
     def info(self):
 
@@ -188,6 +158,9 @@ class UnitTest(unittest.TestCase):
         self.cluster_data = {"_nodes": {"total": 3}}
 
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": False}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
@@ -224,6 +197,9 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.delete_repo(self.repo3),
             (True, "ERROR:  Repository deletion failed:  reponame3"))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
@@ -260,6 +236,9 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.delete_repo(),
             (True, "ERROR: Missing repo or does not exist: None"))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
@@ -294,6 +273,9 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.delete_repo(self.repo2), (False, None))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
@@ -322,6 +304,9 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.delete_repo(self.repo), (True, self.err_msg))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")

@@ -54,10 +54,11 @@ class Repo(object):
             (input) repository -> Name of repository.
             (input) body -> Dictionary of dump arguments.
             (input) verify -> True|False - Verify the repository.
+            (output) Return exit status of command.
 
         """
 
-        pass
+        return {"acknowledged": True}
 
 
 class Elasticsearch(object):
@@ -84,6 +85,7 @@ class Elasticsearch(object):
         self.hosts = host_list
         self.port = port
         self.snapshot = Repo()
+        self.results = {"acknowledged": True}
 
 
 class UnitTest(unittest.TestCase):
@@ -112,6 +114,7 @@ class UnitTest(unittest.TestCase):
         self.repo_name = "reponame"
         self.body = {"indices": "dbs", "ignore_unavailable": True}
         self.es = Elasticsearch(self.host_list)
+        self.results = {"acknowledged": True}
 
     def test_default(self):
 
@@ -123,8 +126,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertFalse(elastic_class.create_snapshot_repo(
-            self.es, self.repo_name, self.body, True))
+        self.assertEqual(elastic_class.create_snapshot_repo(
+            self.es, self.repo_name, self.body, True), self.results)
 
 
 if __name__ == "__main__":

@@ -84,12 +84,13 @@ def create_snapshot_repo(es, reponame, body, verify=True, **kwargs):
         (input) reponame -> Name of repository.
         (input) body -> Contains arguments for the dump command.
         (input) verify -> True|False - Validate the repository.
+        (output) Return exit status of create_repository command.
 
     """
 
     body = dict(body)
-    es.snapshot.create_repository(repository=reponame, body=body,
-                                  verify=verify)
+    return es.snapshot.create_repository(repository=reponame, body=body,
+                                         verify=verify)
 
 
 def delete_snapshot(es, reponame, dumpname, **kwargs):
@@ -117,10 +118,11 @@ def delete_snapshot_repo(es, reponame, **kwargs):
     Arguments:
         (input) es -> ElasticSearch instance.
         (input) reponame -> Name of repository.
+        (output) Return exit status of delete_repository command.
 
     """
 
-    es.snapshot.delete(repository=reponame)
+    return es.snapshot.delete_repository(repository=reponame)
 
 
 def get_cluster_health(es, **kwargs):
@@ -357,7 +359,7 @@ class ElasticSearch(object):
 
         """
 
-        if self.es.ping():
+        if is_active(self.es):
             self.is_connected = True
 
             # Basic information
@@ -500,8 +502,7 @@ class ElasticSearchDump(ElasticSearch):
             status_msg = "ERROR:  Database name(s) is not a string: %s" % dbs
 
         if self.repo_name and not err_flag:
-            self.es.snapshot.create(repository=self.repo_name, body=body,
-                                    snapshot=self.dump_name)
+            create_snapshot(self.es, self.repo_name, body, self.dump_name)
 
             while not break_flag and not err_flag:
 
@@ -656,9 +657,7 @@ class ElasticSearchRepo(ElasticSearch):
             data_dict = {"type": "fs", "settings": {"location": repo_dir,
                                                     "compress": True}}
 
-            status = self.es.snapshot.create_repository(repository=repo_name,
-                                                        body=data_dict,
-                                                        verify=True)
+            status = create_snapshot_repo(self.es, repo_name, data_dict, True)
 
             if not status["acknowledged"]:
                 err_flag = True
@@ -667,7 +666,7 @@ class ElasticSearchRepo(ElasticSearch):
 
             else:
                 # Update repo dictionary.
-                self.repo_dict = self.es.snapshot.get_repository()
+                self.repo_dict = get_repo_list(self.es)
 
                 if repo_name not in self.repo_dict:
                     err_flag = True
@@ -702,8 +701,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         if repo_name and repo_name in self.repo_dict:
 
-            status = self.es.snapshot.delete_repository(
-                repository=repo_name)
+            status = delete_snapshot_repo(self.es, repo_name)
 
             if not status["acknowledged"]:
                 err_flag = True
@@ -900,7 +898,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        if self.es.ping():
+        if is_active(self.es):
             self.is_connected = True
 
             # Get cluster health

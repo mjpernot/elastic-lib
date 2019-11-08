@@ -43,7 +43,6 @@ class Elasticsearch(object):
 
     Methods:
         __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
 
     """
 
@@ -59,20 +58,7 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
-        self.ping_status = True
         self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
 
 
 class UnitTest(unittest.TestCase):
@@ -117,6 +103,7 @@ class UnitTest(unittest.TestCase):
         self.disks_data = ["disk1", "disk2"]
         self.repo_data = {"repo1": "green", "repo2": "green"}
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
@@ -130,7 +117,6 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.es.ping_status = False
         mock_es.return_value = self.es
 
         es = elastic_class.ElasticSearchStatus(self.host_list)
@@ -138,13 +124,14 @@ class UnitTest(unittest.TestCase):
         self.assertEqual((es.port, es.hosts, es.is_connected),
                          (9200, self.host_list, False))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.get_disks")
     @mock.patch("elastic_class.get_cluster_status")
     @mock.patch("elastic_class.get_shards")
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.update_status",
-                mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_ping_true(self, mock_es, mock_health, mock_shards, mock_status,
                        mock_disks, mock_repo):

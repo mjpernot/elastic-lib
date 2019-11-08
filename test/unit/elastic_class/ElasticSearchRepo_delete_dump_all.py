@@ -113,7 +113,8 @@ class Elasticsearch(object):
         self.hosts = host_list
         self.port = port
         self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
+        self.info_status = {"cluster_name": "ClusterName",
+                            "name": "servername"}
         self.snapshot = Repo()
 
     def ping(self):
@@ -173,22 +174,22 @@ class UnitTest(unittest.TestCase):
             {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
             "serverid2": {"name": "hostname2", "settings":
             {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
-        self.info_data = {"name": "localservername"}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
-        self.master_name = "MasterName"
-        self.cluster_data = {"_nodes": {"total": 3}}
 
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
+                mock.Mock(return_value=(True, "Error Message")))
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
-    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_delete_dump_fails(self, mock_es, mock_list, mock_delete,
-                               mock_nodes, mock_info, mock_health,
-                               mock_master, mock_cluster):
+    def test_delete_dump_fails(self, mock_es, mock_list, mock_nodes,
+                               mock_health):
 
         """Function:  test_delete_dump_fails
 
@@ -201,29 +202,27 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
         mock_list.side_effect = [["dump1", "dump2", "dump3"],
                                  ["dump1", "dump2"]]
-        mock_delete.return_value = (True, "Error Message")
         mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
         self.assertEqual(es.delete_dump_all(self.repo),
             (True, "Error Message"))
 
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
+                mock.Mock(return_value=(True, "Error Message")))
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
-    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_repo_name_none(self, mock_es, mock_list, mock_delete, mock_nodes,
-                            mock_info, mock_health, mock_master,
-                            mock_cluster):
+    def test_repo_name_none(self, mock_es, mock_list, mock_nodes, mock_health):
 
         """Function:  test_repo_name_none
 
@@ -236,12 +235,8 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
         mock_list.side_effect = [["dump1", "dump2", "dump3"],
                                  ["dump1", "dump2"]]
-        mock_delete.return_value = (False, None)
         mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo = None
@@ -249,17 +244,19 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.delete_dump_all(),
             (True, "ERROR:  Repo:  None is not present or missing argument."))
 
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
+                mock.Mock(return_value=(False, None)))
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
-    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_no_repo_name(self, mock_es, mock_list, mock_delete, mock_nodes,
-                          mock_info, mock_health, mock_master,
-                          mock_cluster):
+    def test_no_repo_name(self, mock_es, mock_list, mock_nodes, mock_health):
 
         """Function:  test_no_repo_name
 
@@ -272,28 +269,26 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
         mock_list.side_effect = [["dump1", "dump2", "dump3"],
                                  ["dump1", "dump2"]]
-        mock_delete.return_value = (False, None)
         mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
         self.assertEqual(es.delete_dump_all(), (False, None))
 
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
+                mock.Mock(return_value=(False, None)))
     @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
-    @mock.patch("elastic_class.ElasticSearchRepo.delete_dump")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es, mock_list, mock_delete, mock_nodes,
-                            mock_info, mock_health, mock_master,
-                            mock_cluster):
+    def test_default(self, mock_es, mock_list, mock_nodes, mock_health):
 
         """Function:  test_default
 
@@ -306,12 +301,8 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
         mock_list.side_effect = [["dump1", "dump2", "dump3"],
                                  ["dump1", "dump2"]]
-        mock_delete.return_value = (False, None)
         mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 

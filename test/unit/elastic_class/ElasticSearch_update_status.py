@@ -42,7 +42,6 @@ class Elasticsearch(object):
 
     Methods:
         __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
         info -> Stub holder for Elasticsearch.info method.
 
     """
@@ -60,19 +59,8 @@ class Elasticsearch(object):
         self.hosts = host_list
         self.port = port
         self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
+        self.info_status = {"cluster_name":
+                            "ClusterName", "name": "servername"}
 
     def info(self):
 
@@ -125,6 +113,7 @@ class UnitTest(unittest.TestCase):
         self.logs_results = {"hostname1": ["/dir/logs1"],
             "hostname2": ["/dir/logs2"]}
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_ping_false(self, mock_es):
 
@@ -145,6 +134,7 @@ class UnitTest(unittest.TestCase):
                           es.logs),
                          (9200, self.host_list, False, {}, {}))
 
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
