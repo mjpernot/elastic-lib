@@ -44,28 +44,8 @@ class Repo(object):
 
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
-        create_repository -> Stub holder for snapshot.create_repository method.
 
     """
-
-    def create_repository(self, repository, body, verify):
-
-        """Method:  create_repository
-
-        Description:  Stub holder for snapshot.create_repository method.
-
-        Arguments:
-            (input) repository -> Name of repository to create.
-            (input) body -> Command for create.
-            (input) verify -> True|False - Validate creation.
-
-        """
-
-        if repository == "reponame3":
-            return {"acknowledged": False}
-
-        else:
-            return {"acknowledged": True}
 
     def get_repository(self):
 
@@ -89,7 +69,6 @@ class Elasticsearch(object):
 
     Methods:
         __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
         info -> Stub holder for Elasticsearch.info method.
 
     """
@@ -106,21 +85,9 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
-        self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
+        self.info_status = {"cluster_name": "ClusterName",
+                            "name": "servername"}
         self.snapshot = Repo()
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
 
     def info(self):
 
@@ -177,6 +144,8 @@ class UnitTest(unittest.TestCase):
         self.master_name = "MasterName"
         self.cluster_data = {"_nodes": {"total": 3}}
 
+    @mock.patch("elastic_class.create_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": False}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
@@ -208,6 +177,8 @@ class UnitTest(unittest.TestCase):
             (True,
             "ERROR:  Repository creation failure:  reponame3, /dir/path/repo"))
 
+    @mock.patch("elastic_class.create_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
@@ -239,6 +210,8 @@ class UnitTest(unittest.TestCase):
             (True,
             "ERROR:  Repository not detected:  reponame2, /dir/path/repo"))
 
+    @mock.patch("elastic_class.create_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
@@ -270,6 +243,8 @@ class UnitTest(unittest.TestCase):
             (True,
             "ERROR: Missing repo name or directory: 'None', '/dir/path/repo'"))
 
+    @mock.patch("elastic_class.create_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
@@ -298,6 +273,8 @@ class UnitTest(unittest.TestCase):
                                              repo_dir=self.repo_dir)
         self.assertEqual(es.create_repo(self.repo), (False, None))
 
+    @mock.patch("elastic_class.create_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
@@ -327,6 +304,8 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.create_repo(repo_dir=self.repo_dir),
                          (False, None))
 
+    @mock.patch("elastic_class.create_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
     @mock.patch("elastic_class.get_cluster_health")
