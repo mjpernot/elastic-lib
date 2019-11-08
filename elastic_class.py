@@ -501,8 +501,7 @@ class ElasticSearchDump(ElasticSearch):
             status_msg = "ERROR:  Database name(s) is not a string: %s" % dbs
 
         if self.repo_name and not err_flag:
-            self.es.snapshot.create(repository=self.repo_name, body=body,
-                                    snapshot=self.dump_name)
+            create_snapshot(self.es, self.repo_name, body, self.dump_name)
 
             while not break_flag and not err_flag:
 
