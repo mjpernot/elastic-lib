@@ -8,6 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Changed
+- elastic_class.ElasticSearchRepo.delete_dump:  Replaced snapshot.delete with call to delete_snapshot().
 - elastic_class.ElasticSearchRepo.delete_repo:  Replaced es.snapshot.get_repository with call to get_repo_list().
 - elastic_class.ElasticSearchRepo.delete_repo:  Replaced snapshot.delete_repository with call to delete_snapshot_repo().
 - elastic_class.ElasticSearchRepo.create_repo:  Replaced es.snapshot.get_repository with call to get_repo_list().

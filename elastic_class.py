@@ -749,8 +749,7 @@ class ElasticSearchRepo(ElasticSearch):
             # See if the dump exists.
             if dump_name in [x[0] for x in get_dump_list(self.es, repo_name)]:
 
-                status = self.es.snapshot.delete(repository=repo_name,
-                                                 snapshot=dump_name)
+                status = delete_snapshot(self.es, repo_name, dumpname)
 
                 if not status["acknowledged"]:
                     err_flag = True
