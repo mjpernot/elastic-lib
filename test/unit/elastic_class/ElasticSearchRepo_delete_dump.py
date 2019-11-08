@@ -43,30 +43,11 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
-        delete -> Stub holder for snapshot.delete method.
         get_repository -> Stub holder for snapshot.get_repository method.
         create_repository -> Stub holder for snapshot.create_repository method.
         delete_repository -> Stub holder for snapshot.delete_repository method.
 
     """
-
-    def delete(self, repository, snapshot):
-
-        """Method:  delete
-
-        Description:  Stub holder for snapshot.delete method.
-
-        Arguments:
-            (input) repository -> Repository name.
-            (input) snapshot -> Dump name to delete.
-
-        """
-
-        if repository == "reponame2":
-            return {"acknowledged": False}
-
-        else:
-            return {"acknowledged": True}
 
     def delete_repository(self):
 
@@ -199,6 +180,8 @@ class UnitTest(unittest.TestCase):
             {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
 
+    @mock.patch("elastic_class.delete_snapshot",
+                mock.Mock(return_value={"acknowledged": False}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -231,6 +214,8 @@ class UnitTest(unittest.TestCase):
             (True,
              "ERROR: Missing arg/repo not exist, Repo: None, Dump: dump3"))
 
+    @mock.patch("elastic_class.delete_snapshot",
+                mock.Mock(return_value={"acknowledged": False}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -261,6 +246,8 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.delete_dump(self.repo, self.dump_name),
             (True, "ERROR: Dump: dump3 not in Repository: reponame"))
 
+    @mock.patch("elastic_class.delete_snapshot",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -291,6 +278,8 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.delete_dump(self.repo, self.dump_name),
             (True, "ERROR: Dump still detected: reponame, dump3"))
 
+    @mock.patch("elastic_class.delete_snapshot",
+                mock.Mock(return_value={"acknowledged": False}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -322,6 +311,8 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.delete_dump(self.repo2, self.dump_name),
             (True, "ERROR:  Dump deletion failed:  reponame2, dump3"))
 
+    @mock.patch("elastic_class.delete_snapshot",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -352,6 +343,8 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.delete_dump(dump_name=self.dump_name),
                          (False, None))
 
+    @mock.patch("elastic_class.delete_snapshot",
+                mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
