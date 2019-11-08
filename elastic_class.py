@@ -118,10 +118,11 @@ def delete_snapshot_repo(es, reponame, **kwargs):
     Arguments:
         (input) es -> ElasticSearch instance.
         (input) reponame -> Name of repository.
+        (output) Return exit status of delete_repository command.
 
     """
 
-    es.snapshot.delete(repository=reponame)
+    return es.snapshot.delete_repository(repository=reponame)
 
 
 def get_cluster_health(es, **kwargs):
