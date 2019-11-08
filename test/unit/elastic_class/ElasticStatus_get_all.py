@@ -137,7 +137,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.ElasticStatus.get_disk_status",
                 mock.Mock(return_value="50"))
     @mock.patch("elastic_class.ElasticStatus.get_gen_status",
-                mock.Mock(return_value=ok"))
+                mock.Mock(return_value="ok"))
     @mock.patch("elastic_class.ElasticStatus.get_shrd_status",
                 mock.Mock(return_value="red"))
     @mock.patch("elastic_class.ElasticStatus.get_mem_status",
