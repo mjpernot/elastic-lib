@@ -900,7 +900,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        if self.es.ping():
+        if is_active(self.es):
             self.is_connected = True
 
             # Get cluster health
