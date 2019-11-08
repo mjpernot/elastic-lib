@@ -250,7 +250,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_partial_dump(self, mock_es, mock_list, mock_nodes, mock_cluster):
+    def test_partial_dump(self, mock_es, mock_list, mock_nodes, mock_health):
 
         """Function:  test_partial_dump
 
@@ -284,7 +284,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_incompatible_dump(self, mock_es, mock_list, mock_nodes,
-                               mock_cluster):
+                               mock_health):
 
         """Function:  test_incompatible_dump
 
@@ -319,7 +319,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_in_progress_dump(self, mock_es, mock_list, mock_nodes,
-                              mock_cluster):
+                              mock_health):
 
         """Function:  test_in_progress_dump
 
@@ -353,7 +353,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_success_dump(self, mock_es, mock_list, mock_nodes, mock_cluster):
+    def test_success_dump(self, mock_es, mock_list, mock_nodes, mock_health):
 
         """Function:  test_success_dump
 
