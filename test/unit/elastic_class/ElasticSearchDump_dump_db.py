@@ -137,7 +137,8 @@ class UnitTest(unittest.TestCase):
             {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
 
-    @mock.patch("elastic_class.create_snapshot_repo", mock.Mock())
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.create_snapshot", mock.Mock())
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -173,7 +174,8 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.dump_db(self.dbs),
             (True, "ERROR:  Repository name not set."))
 
-    @mock.patch("elastic_class.create_snapshot_repo", mock.Mock())
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.create_snapshot", mock.Mock())
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
@@ -208,7 +210,8 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.dump_db(self.dbs2),
             (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
 
-    @mock.patch("elastic_class.create_snapshot_repo", mock.Mock())
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.create_snapshot", mock.Mock())
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_master_name",
