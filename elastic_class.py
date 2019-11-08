@@ -710,7 +710,7 @@ class ElasticSearchRepo(ElasticSearch):
 
             else:
                 # Update repo dictionary.
-                self.repo_dict = self.es.snapshot.get_repository()
+                self.repo_dict = get_repo_list(self.es)
 
                 if repo_name in self.repo_dict:
                     err_flag = True
