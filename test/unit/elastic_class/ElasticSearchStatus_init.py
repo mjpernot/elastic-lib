@@ -44,7 +44,6 @@ class Elasticsearch(object):
 
     Methods:
         __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
         info -> Stub holder for Elasticsearch.info method.
 
     """
@@ -63,18 +62,6 @@ class Elasticsearch(object):
         self.port = port
         self.ping_status = True
         self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
 
     def info(self):
 
