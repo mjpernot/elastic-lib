@@ -183,7 +183,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info",
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
-                mock.Mock(return_value=(True, "Error Message"))
+                mock.Mock(return_value=(True, "Error Message")))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
@@ -217,7 +217,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info",
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
-                mock.Mock(return_value=(True, "Error Message"))
+                mock.Mock(return_value=(True, "Error Message")))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
@@ -251,7 +251,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info",
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
-                mock.Mock(return_value=(True, "Error Message"))
+                mock.Mock(return_value=(False, None)))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
@@ -283,7 +283,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info",
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
-                mock.Mock(return_value=(True, "Error Message"))
+                mock.Mock(return_value=(False, None)))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
