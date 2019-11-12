@@ -184,6 +184,7 @@ test/unit/elastic_class/ElasticSearch_update_status.py
 test/unit/elastic_class/ElasticSearchDump_init.py
 test/unit/elastic_class/ElasticSearchDump_chk_status.py
 test/unit/elastic_class/ElasticSearchDump_dump_db.py
+test/unit/elastic_class/ElasticSearchDump_update_dump_status.py
 test/unit/elastic_class/ElasticSearchRepo_create_repo.py
 test/unit/elastic_class/ElasticSearchRepo_delete_dump.py
 test/unit/elastic_class/ElasticSearchRepo_delete_dump_all.py
