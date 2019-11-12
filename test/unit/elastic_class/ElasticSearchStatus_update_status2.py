@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_update_status.py
+"""Program:  ElasticSearchStatus_update_status2.py
 
-    Description:  Unit testing of update_status in
+    Description:  Unit testing of update_status2 in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_update_status.py
+        test/unit/elastic_class/ElasticSearchStatus_update_status2.py
 
     Arguments:
 
@@ -120,7 +120,6 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
 
         es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.update_status()
         self.assertEqual((es.port, es.hosts, es.is_connected),
                          (9200, self.host_list, False))
 
@@ -152,7 +151,6 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_data
 
         es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.update_status()
         self.assertEqual((es.port, es.hosts, es.is_connected, es.shard_list),
                          (9200, self.host_list, True, self.shards_data))
 
