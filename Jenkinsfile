@@ -70,7 +70,7 @@ pipeline {
                 ./test/unit/elastic_class/ElasticSearchStatus_get_shrd_status.py
                 ./test/unit/elastic_class/ElasticSearchStatus_get_svr_status.py
                 ./test/unit/elastic_class/ElasticSearchStatus_init.py
-                ./test/unit/elastic_class/ElasticSearchStatus_update_status.py
+                ./test/unit/elastic_class/ElasticSearchStatus_update_status2.py
                 ./test/unit/elastic_class/ElasticStatus_chk_all.py
                 ./test/unit/elastic_class/ElasticStatus_chk_disk.py
                 ./test/unit/elastic_class/ElasticStatus_chk_mem.py
