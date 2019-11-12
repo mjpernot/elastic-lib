@@ -456,7 +456,7 @@ class ElasticSearchDump(ElasticSearch):
             self.dump_name = self.cluster_name.lower() + "_bkp_" + \
                 datetime.datetime.strftime(datetime.datetime.now(),
                                            "%Y%m%d-%H%M%S")
-            repo_dict = self.es.snapshot.get_repository()
+            repo_dict = get_repo_list(self.es)
 
             if self.repo_name and self.repo_name not in repo_dict:
                 self.repo_name = None
