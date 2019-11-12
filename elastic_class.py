@@ -407,7 +407,7 @@ class ElasticSearchDump(ElasticSearch):
 
     Methods:
         __init__ -> Class instance initilization.
-        update_status -> Update class attributes by querying Elasticsearch.
+        update_dump_status -> Update class attributes.
         dump_db -> Executes a dump of an ElasticSearch database.
 
     """
