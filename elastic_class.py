@@ -837,7 +837,7 @@ class ElasticSearchStatus(ElasticSearch):
 
     Methods:
         __init__ -> Class instance initilization.
-        update_status -> Update class attributes by querying Elasticsearch.
+        update_status2 -> Update class attributes.
         get_cluster -> Return formatted cluster name.
         get_nodes -> Return formatted list of node names.
         get_node_status -> Return status of nodes.
@@ -897,11 +897,11 @@ class ElasticSearchStatus(ElasticSearch):
         self.disk_list = []
         self.repo_dict = {}
 
-        self.update_status()
+        self.update_status2()
 
-    def update_status(self, **kwargs):
+    def update_status2(self, **kwargs):
 
-        """Method:  update_status
+        """Method:  update_status2
 
         Description:  Update class attributes by querying Elasticsearch.
 
