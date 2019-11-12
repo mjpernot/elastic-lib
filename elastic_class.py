@@ -439,11 +439,11 @@ class ElasticSearchDump(ElasticSearch):
         self.dump_name = None
         self.repo_name = repo
 
-        self.update_status()
+        self.update_dump_status()
 
-    def update_status(self, **kwargs):
+    def update_dump_status(self, **kwargs):
 
-        """Method:  update_status
+        """Method:  update_dump_status
 
         Description:  Update class attributes by querying Elasticsearch.
 
