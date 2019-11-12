@@ -407,6 +407,7 @@ class ElasticSearchDump(ElasticSearch):
 
     Methods:
         __init__ -> Class instance initilization.
+        update_status -> Update class attributes by querying Elasticsearch.
         dump_db -> Executes a dump of an ElasticSearch database.
 
     """
@@ -447,6 +448,53 @@ class ElasticSearchDump(ElasticSearch):
             repo_dict = self.es.snapshot.get_repository()
 
             # Repo does not exist in repository.
+            if self.repo_name and self.repo_name not in repo_dict:
+                self.repo_name = None
+
+            elif not self.repo_name:
+
+                # Use if only one repository exists.
+                if len(repo_dict.keys()) == 1:
+                    self.repo_name = next(iter(repo_dict))
+
+                # Cannot set if multiple repositories exist.
+                elif len(repo_dict.keys()) >= 1:
+                    self.repo_name = None
+
+            if self.repo_name:
+                self.type = repo_dict[self.repo_name]["type"]
+                self.dump_loc = \
+                    repo_dict[self.repo_name]["settings"]["location"]
+                self.dump_list = get_dump_list(self.es, self.repo_name)
+
+            if self.dump_list:
+                self.last_dump_name = \
+                    elastic_libs.get_latest_dump(self.dump_list)
+
+            # Make sure new dump name is unique.
+            if self.dump_name == self.last_dump_name:
+                time.sleep(1)
+                self.dump_name = self.cluster_name.lower() + "_bkp_" + \
+                    datetime.datetime.strftime(datetime.datetime.now(),
+                                               "%Y%m%d-%H%M%s")
+
+    def update_status(self, **kwargs):
+
+        """Method:  update_status
+
+        Description:  Update class attributes by querying Elasticsearch.
+
+        Arguments:
+
+        """
+
+        if is_active(self.es):
+            self.is_connected = True
+            self.dump_name = self.cluster_name.lower() + "_bkp_" + \
+                datetime.datetime.strftime(datetime.datetime.now(),
+                                           "%Y%m%d-%H%M%S")
+            repo_dict = self.es.snapshot.get_repository()
+
             if self.repo_name and self.repo_name not in repo_dict:
                 self.repo_name = None
 

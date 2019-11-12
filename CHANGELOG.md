@@ -20,6 +20,7 @@ Breaking Change
 - elastic_class.ElasticSearch.\_\_init\_\_:  Replaced attribute updates with call to update_status().
 
 ### Added
+- elastic_class.ElasticSearchDump.update_status:  Update class attributes by querying Elasticsearch.
 - elastic_class.ElasticSearchStatus:  Added class and associated methods.
 - elastic_class.ElasticSearch.update_status:  Update class attributes by querying Elasticsearch.
 - elastic_class.create_snapshot:  Runs a dump of a repository.
@@ -67,8 +68,8 @@ Breaking Change
 - elastic_class.ElasticSearch.\_\_init\_\_:  Removed check on host_list being a list.
 - elastic_class.ElasticSearch.\_\_init\_\_:  Replaced host_list with self.hosts attribute.
 - elastic_class.get_dump_list:  Changed ES to es for standard convention.
-- elastic_class.ElasticSearchDump.dump_db:  Changed parse() to _parse.
-- elastic_class.ElasticSearchDump.dump_db:  Reduced Cognitive Complexity to accepted standard level - moved section of code to private method: _chk_status.
+- elastic_class.ElasticSearchDump.dump_db:  Changed parse() to \_parse.
+- elastic_class.ElasticSearchDump.dump_db:  Reduced Cognitive Complexity to accepted standard level - moved section of code to private method: \_chk_status.
 - elastic_class.ElasticDump.\_\_init\_\_:  Reduced Cognitive Complexity to accepted standard level - initialized attributes in one area.
 - elastic_class.ElasticStatus.\_\_init\_\_:  Reduced Cognitive Complexity to accepted standard level - initalized data variable.
 - elastic_class.ElasticSearchDump.\_\_init\_\_:  Reduced Cognitive Complexity to accepted standard level - flatten if statements.
