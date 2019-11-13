@@ -102,7 +102,7 @@ class UnitTest(unittest.TestCase):
                               "TotalMemory": "223.70MB",
                               "MemoryUsage": self.mem_per_used2}}
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -125,7 +125,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_mem(cutoff_mem=85), self.results3)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -148,7 +148,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_mem(cutoff_mem=85), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -171,7 +171,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_mem(), self.results2)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
