@@ -88,7 +88,7 @@ class UnitTest(unittest.TestCase):
         self.failed_nodes = 0
         self.results = {"NodeStatus": {"TotalNodes": 3, "FailedNodes": 0}}
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
