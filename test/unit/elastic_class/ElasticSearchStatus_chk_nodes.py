@@ -94,7 +94,7 @@ class UnitTest(unittest.TestCase):
                             "FailedNodes": self.failed_nodes2,
                             "TotalNodes": self.total_nodes}}
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -117,7 +117,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_nodes(), self.results2)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
