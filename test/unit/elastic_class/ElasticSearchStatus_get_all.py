@@ -103,7 +103,7 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value={})) 
     @mock.patch("elastic_class.ElasticSearchStatus.get_disk_status",
                 mock.Mock(return_value={})) 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -140,7 +140,7 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value={})) 
     @mock.patch("elastic_class.ElasticSearchStatus.get_disk_status",
                 mock.Mock(return_value={})) 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
