@@ -106,7 +106,7 @@ class UnitTest(unittest.TestCase):
         self.usage2 = usage(56908316672, 15032385536, 70254592)
 
     @mock.patch("elastic_class.gen_libs.disk_usage")
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
