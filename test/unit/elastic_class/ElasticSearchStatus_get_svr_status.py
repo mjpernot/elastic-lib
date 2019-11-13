@@ -91,7 +91,7 @@ class UnitTest(unittest.TestCase):
             "Server": {"Uptime": "14 days 6 hours 56 minutes 7 seconds",
                        "AllocatedCPU": 3, "CPUActive": 2}}
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
