@@ -113,7 +113,7 @@ class UnitTest(unittest.TestCase):
                 "Reason": "Detected shards not in operational mode",
                 "ListofShards": [["shard2", "d1", "d1", "STOPPED"]]}}}
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -137,7 +137,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_shards(), self.results4)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -161,7 +161,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_shards(), self.results3)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -186,7 +186,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_shards(), self.results2)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
