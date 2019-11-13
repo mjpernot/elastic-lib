@@ -113,7 +113,7 @@ class UnitTest(unittest.TestCase):
                 "Used": "15gb",
                 "ESUsed": "68mb"}}}
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -135,7 +135,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_disk(cutoff_disk=87), self.results3)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -157,7 +157,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_disk(cutoff_disk=95), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -179,7 +179,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_disk(), self.results2)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
