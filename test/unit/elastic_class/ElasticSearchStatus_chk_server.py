@@ -102,7 +102,7 @@ class UnitTest(unittest.TestCase):
                               "TotalCPUs": self.alloc_cpu,
                               "CPUUsage": self.cpu_active2}}
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -125,7 +125,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_server(cutoff_cpu=78), self.results3)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -148,7 +148,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_server(cutoff_cpu=85), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -171,7 +171,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(es.chk_server(), self.results2)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
