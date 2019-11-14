@@ -606,6 +606,7 @@ class ElasticSearchRepo(ElasticSearch):
 
     Methods:
         __init__ -> Class instance initilization.
+        update_repo_status -> Update class attributes.
         create_repo -> Create an elasticsearch dump repository.
         delete_repo -> Delete an elasticsearch dump repository.
         delete_dump -> Delete a database dump in an Elasticsearch repository.
@@ -640,6 +641,22 @@ class ElasticSearchRepo(ElasticSearch):
 
             # Query dump repository
             self.repo_dict = self.es.snapshot.get_repository()
+
+    def update_repo_status(self, **kwargs):
+
+        """Method:  update_repo_status
+
+        Description:  Update class attributes.
+
+        Arguments:
+
+        """
+
+        if is_active(self.es):
+            self.is_connected = True
+
+            # Query dump repository
+            self.repo_dict = get_repo_list(self.es)
 
     def create_repo(self, repo_name=None, repo_dir=None, **kwargs):
 
