@@ -72,7 +72,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
-        test_repo_not_present -> Test with repo not present.
+        test_repo_not_active -> Test with Elasticsearch not active.
         test_default -> Test with default settings.
 
     """
@@ -90,7 +90,6 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.host_str = "host1, host2"
         self.repo = "reponame"
-        self.repo2 = "reponame2"
         self.es = Elasticsearch(self.host_list)
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
             {"location": "/dir/path/dump"}}}
@@ -100,11 +99,11 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_repo_not_present(self, mock_es):
+    def test_repo_not_active(self, mock_es):
 
-        """Function:  test_repo_not_present
+        """Function:  test_repo_not_active
 
-        Description:  Test with repo not present.
+        Description:  Test with Elasticsearch not active.
 
         Arguments:
 
@@ -112,9 +111,9 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.es
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo2)
-        self.assertEqual((es.hosts, es.repo_name, es.repo_dict),
-                         (self.host_list, None, {}))
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        self.assertEqual((es.hosts, es.repo, es.repo_dict),
+                         (self.host_list, self.repo, {}))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -135,9 +134,8 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        self.assertEqual((es.hosts, es.dump_list, es.repo_name, es.repo_dict),
-                         (self.host_list, self.dump_list, self.repo,
-                          self.repo_dict))
+        self.assertEqual((es.hosts, es.repo, es.repo_dict),
+                         (self.host_list, self.repo, self.repo_dict))
 
 
 if __name__ == "__main__":
