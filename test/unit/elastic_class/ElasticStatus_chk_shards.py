@@ -68,13 +68,13 @@ class UnitTest(unittest.TestCase):
                           {"settings":
                            {"path":
                             {"data": "data_dir2", "logs": "log_dir2"}}}}}
-        self.get_data2 = {"cluster_name":  "clustername",
-                          "nodes":  {"id1": {"name": "node1"}},
+        self.get_data2 = {"cluster_name": "clustername",
+                          "nodes": {"id1": {"name": "node1"}},
                           "_nodes": {"total": 1}}
         self.get_data3 = {"status": "green"}
         self.get_data4 = "id1 ip_address ip_address hostname\n"
         self.get_data5 = {"reponame1": {"settings": {"location": "/dir/data"}}}
-        self.get_data6 = {"unassigned_shards": 1, 
+        self.get_data6 = {"unassigned_shards": 1,
                           "active_shards_percent_as_number": 90,
                           "number_of_pending_tasks": 0,
                           "active_shards": 9,
@@ -107,17 +107,20 @@ class UnitTest(unittest.TestCase):
                                 self.get_data7, self.get_data8, self.get_data9]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.chk_shards(True), 
-            ({"Shard_Warning": {"Shard_Warning": {"Unassigned_Shards": {
-                "Reason": "Detected unassigned shards",
-                "Unassigned": 1, "Total": 9},
-                "Active_Shards_Percent":
-                    {"Reason": "Detected less than 100% active shards",
-                     "Percentage": 90},
-                "Non_Operation_Shards":
-                    {"Reason": "Detected shards not in operational mode",
-                     "List_Of_Shards":
-                         ['shard1', 'd1', 'd2', 'UNASSIGNED', 'host']}}}}))
+        self.assertEqual(
+            es.chk_shards(True), ({
+                "Shard_Warning": {
+                    "Shard_Warning": {
+                        "Unassigned_Shards": {
+                            "Reason": "Detected unassigned shards",
+                            "Unassigned": 1, "Total": 9},
+                        "Active_Shards_Percent": {
+                            "Reason": "Detected less than 100% active shards",
+                            "Percentage": 90},
+                        "Non_Operation_Shards": {
+                            "Reason": "Detected shards not in operational mode",
+                            "List_Of_Shards":
+                            ['shard1', 'd1', 'd2', 'UNASSIGNED', 'host']}}}}))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):
@@ -135,12 +138,13 @@ class UnitTest(unittest.TestCase):
                                 self.get_data7, self.get_data8, self.get_data9]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.chk_shards(),
-            ("Shard_Warning:\nWARNING: Detected 1 " \
-             + "unassigned shards out of 9 shards\n" \
-             + "WARNING: Currently active shards at 90%\n" \
-             + "WARNING: Detected shards in non-operation mode:" \
-             + "\n['shard1', 'd1', 'd2', 'UNASSIGNED', 'host']"))
+        self.assertEqual(
+            es.chk_shards(),
+            ("Shard_Warning:\nWARNING: Detected 1 " +
+             "unassigned shards out of 9 shards\n" +
+             "WARNING: Currently active shards at 90%\n" +
+             "WARNING: Detected shards in non-operation mode:" +
+             "\n['shard1', 'd1', 'd2', 'UNASSIGNED', 'host']"))
 
 
 if __name__ == "__main__":
