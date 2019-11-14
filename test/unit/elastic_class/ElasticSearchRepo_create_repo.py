@@ -343,9 +343,9 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo2,
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
-        self.assertEqual(es.create_repo(self.repo, self.repo_dir),
+        self.assertEqual(es.create_repo(self.repo2, self.repo_dir),
                          (False, None))
         self.assertEqual(es.repo_dict, self.repo_dict2)
 
