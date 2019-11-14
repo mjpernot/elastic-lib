@@ -635,7 +635,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         self.repo = repo
         self.repo_dir = repo_dir
-        self.repo_dict = None
+        self.repo_dict = {}
         self.update_repo_status()
 
     def update_repo_status(self, **kwargs):

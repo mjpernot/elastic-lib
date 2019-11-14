@@ -8,6 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Changed
+- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Changed self.repo_dict default setting from "None" to "{}".
 - elastic_class.ElasticSearchRepo.\_\_init\_\_:  Replaced attribute updates with call to update_repo_status().
 - elastic_class.ElasticSearchDump.\_\_init\_\_:  Replaced attribute updates with call to update_dump_status().
 - elastic_class.ElasticSearchRepo.delete_dump:  Replaced snapshot.delete with call to delete_snapshot().
