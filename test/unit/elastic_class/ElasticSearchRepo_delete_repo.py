@@ -97,13 +97,13 @@ class UnitTest(unittest.TestCase):
         self.es = Elasticsearch(self.host_list)
         self.err_msg = "ERROR:  Repository still detected:  reponame"
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump"}},
-            "reponame2": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump2"}}}
+                                       {"location": "/dir/path/dump"}},
+                          "reponame2": {"type": "dbdump", "settings":
+                                        {"location": "/dir/path/dump2"}}}
         self.repo_dict2 = {"reponame": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump"}}}
+                                        {"location": "/dir/path/dump"}}}
         self.repo_dict3 = {"reponame2": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump2"}}}
+                                         {"location": "/dir/path/dump2"}}}
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -128,7 +128,8 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo_dict[self.repo] = True
 
-        self.assertEqual(es.delete_repo(self.repo),
+        self.assertEqual(
+            es.delete_repo(self.repo),
             (True, "ERROR:  Repository deletion failed:  reponame"))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
@@ -154,7 +155,8 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo = None
 
-        self.assertEqual(es.delete_repo(),
+        self.assertEqual(
+            es.delete_repo(),
             (True, "ERROR: Missing repo or does not exist: None"))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",

@@ -97,19 +97,20 @@ class UnitTest(unittest.TestCase):
         self.es = Elasticsearch(self.host_list)
         self.repo_dir = "/dir/path/dump2"
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
-            {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
-            "serverid2": {"name": "hostname2", "settings":
-            {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
+                                         {"path": {"data": ["/dir/data1"],
+                                                   "logs": ["/dir/logs1"]}}},
+                           "serverid2": {"name": "hostname2", "settings":
+                                         {"path": {"data": ["/dir/data2"],
+                                                   "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
         self.repo_list = {"reponame": {"type": "dbdump", "settings":
-                {"location": "/dir/path/dump"}}}
+                                       {"location": "/dir/path/dump"}}}
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump"}}}
+                                       {"location": "/dir/path/dump"}}}
         self.repo_dict2 = {"reponame": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump"}},
-            "reponame2": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump2"}}}
-
+                                        {"location": "/dir/path/dump"}},
+                           "reponame2": {"type": "dbdump", "settings":
+                                         {"location": "/dir/path/dump2"}}}
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": False}))
@@ -134,9 +135,11 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
         es.repo_name = None
-        self.assertEqual(es.create_repo(self.repo3, self.repo_dir),
+        self.assertEqual(
+            es.create_repo(self.repo3, self.repo_dir),
             (True,
-            "ERROR:  Repository creation failure:  reponame3, /dir/path/dump2"))
+             "ERROR:  Repository creation failure: " +
+             " reponame3, /dir/path/dump2"))
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
@@ -161,9 +164,10 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
         es.repo_name = None
-        self.assertEqual(es.create_repo(self.repo3, self.repo_dir),
+        self.assertEqual(
+            es.create_repo(self.repo3, self.repo_dir),
             (True,
-            "ERROR:  Repository not detected:  reponame3, /dir/path/dump2"))
+             "ERROR:  Repository not detected:  reponame3, /dir/path/dump2"))
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": False}))
@@ -188,9 +192,11 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                              repo_dir=self.repo_dir)
         es.repo = None
-        self.assertEqual(es.create_repo(repo_dir=self.repo_dir),
+        self.assertEqual(
+            es.create_repo(repo_dir=self.repo_dir),
             (True,
-            "ERROR: Missing repo name or directory: 'None', '/dir/path/dump2'"))
+             "ERROR: Missing repo name or" +
+             " directory: 'None', '/dir/path/dump2'"))
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))

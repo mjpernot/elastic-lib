@@ -93,7 +93,7 @@ class UnitTest(unittest.TestCase):
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump"}}}
+                                       {"location": "/dir/path/dump"}}}
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -121,7 +121,7 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
         self.assertEqual(es.delete_dump_all(self.repo),
-            (True, "Error Message"))
+                         (True, "Error Message"))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -149,7 +149,8 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo = None
 
-        self.assertEqual(es.delete_dump_all(),
+        self.assertEqual(
+            es.delete_dump_all(),
             (True, "ERROR:  Repo:  None is not present or missing argument."))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",

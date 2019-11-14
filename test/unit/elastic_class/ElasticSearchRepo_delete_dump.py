@@ -97,7 +97,7 @@ class UnitTest(unittest.TestCase):
         self.es = Elasticsearch(self.host_list)
         self.dump_name = "dump3"
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump"}}}
+                                       {"location": "/dir/path/dump"}}}
 
     @mock.patch("elastic_class.delete_snapshot",
                 mock.Mock(return_value={"acknowledged": False}))
@@ -124,7 +124,8 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo = None
-        self.assertEqual(es.delete_dump(dump_name=self.dump_name),
+        self.assertEqual(
+            es.delete_dump(dump_name=self.dump_name),
             (True,
              "ERROR: Missing arg/repo not exist, Repo: None, Dump: dump3"))
 
@@ -152,7 +153,8 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        self.assertEqual(es.delete_dump(self.repo, self.dump_name),
+        self.assertEqual(
+            es.delete_dump(self.repo, self.dump_name),
             (True, "ERROR: Dump: dump3 not in Repository: reponame"))
 
     @mock.patch("elastic_class.delete_snapshot",
@@ -179,7 +181,8 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        self.assertEqual(es.delete_dump(self.repo, self.dump_name),
+        self.assertEqual(
+            es.delete_dump(self.repo, self.dump_name),
             (True, "ERROR: Dump still detected: reponame, dump3"))
 
     @mock.patch("elastic_class.delete_snapshot",
@@ -207,7 +210,8 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         es.repo_dict[self.repo2] = True
-        self.assertEqual(es.delete_dump(self.repo2, self.dump_name),
+        self.assertEqual(
+            es.delete_dump(self.repo2, self.dump_name),
             (True, "ERROR:  Dump deletion failed:  reponame2, dump3"))
 
     @mock.patch("elastic_class.delete_snapshot",

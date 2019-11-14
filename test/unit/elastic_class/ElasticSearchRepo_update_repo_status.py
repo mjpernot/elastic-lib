@@ -92,8 +92,7 @@ class UnitTest(unittest.TestCase):
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
-            {"location": "/dir/path/dump"}}}
-
+                                       {"location": "/dir/path/dump"}}}
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
