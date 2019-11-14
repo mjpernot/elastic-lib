@@ -88,21 +88,21 @@ class UnitTest(unittest.TestCase):
                          "Nodes": ["node1", "node2"]}
 
     @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={"cluster": "clustername"})) 
+                mock.Mock(return_value={"cluster": "clustername"}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_nodes",
-                mock.Mock(return_value={"Nodes": ["node1", "node2"]})) 
+                mock.Mock(return_value={"Nodes": ["node1", "node2"]}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_node_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_svr_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_mem_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_shrd_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_gen_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_disk_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
@@ -125,21 +125,21 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(es.get_all(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={"cluster": "clustername"})) 
+                mock.Mock(return_value={"cluster": "clustername"}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_nodes",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_node_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_svr_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_mem_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_shrd_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_gen_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_disk_status",
-                mock.Mock(return_value={})) 
+                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",

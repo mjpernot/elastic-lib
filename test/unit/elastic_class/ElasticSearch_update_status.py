@@ -101,17 +101,20 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.es = Elasticsearch(self.host_list)
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
-            {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
-            "serverid2": {"name": "hostname2", "settings":
-            {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
+                                         {"path": {"data": ["/dir/data1"],
+                                                   "logs": ["/dir/logs1"]}}},
+                           "serverid2": {"name": "hostname2", "settings":
+                                         {"path":
+                                          {"data": ["/dir/data2"],
+                                           "logs": ["/dir/logs2"]}}}}
         self.info_data = {"name": "localservername"}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
         self.master_name = "MasterName"
         self.cluster_data = {"_nodes": {"total": 3}}
         self.data_results = {"hostname1": ["/dir/data1"],
-            "hostname2": ["/dir/data2"]}
+                             "hostname2": ["/dir/data2"]}
         self.logs_results = {"hostname1": ["/dir/logs1"],
-            "hostname2": ["/dir/logs2"]}
+                             "hostname2": ["/dir/logs2"]}
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
