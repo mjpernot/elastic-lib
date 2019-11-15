@@ -68,8 +68,8 @@ class UnitTest(unittest.TestCase):
                           {"settings":
                            {"path":
                             {"data": "data_dir2", "logs": "log_dir2"}}}}}
-        self.get_data2 = {"cluster_name":  "clustername",
-                          "nodes":  {"id1": {"name": "node1"}},
+        self.get_data2 = {"cluster_name": "clustername",
+                          "nodes": {"id1": {"name": "node1"}},
                           "_nodes": {"total": 1}}
         self.get_data3 = {"status": "green"}
         self.get_data4 = "id1 ip_address ip_address hostname\n"

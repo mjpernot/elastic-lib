@@ -60,7 +60,7 @@ class Repo2(object):
         return {"reponame": {"type": "dbdump", "settings":
                              {"location": "/dir/path/dump"}},
                 "reponame2": {"type": "dbdump2", "settings":
-                             {"location": "/dir/path/dump2"}}}
+                              {"location": "/dir/path/dump2"}}}
 
 
 class Repo(object):
@@ -176,9 +176,11 @@ class UnitTest(unittest.TestCase):
         self.es = Elasticsearch(self.host_list)
         self.dump_list = ["dump1", "dump2"]
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
-            {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
-            "serverid2": {"name": "hostname2", "settings":
-            {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
+                                         {"path": {"data": ["/dir/data1"],
+                                                   "logs": ["/dir/logs1"]}}},
+                           "serverid2": {"name": "hostname2", "settings":
+                                         {"path": {"data": ["/dir/data2"],
+                                                   "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
         self.last_dump = "dump2"
 
@@ -189,7 +191,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info",
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
-                mock.Mock(return_value= "dump2"))
+                mock.Mock(return_value="dump2"))
     @mock.patch("elastic_class.ElasticSearchDump._chk_status",
                 mock.Mock(return_value=(False, None, True)))
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
@@ -216,10 +218,9 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
-                          es.last_dump_name),
-                         (self.host_list, self.dump_list, self.repo,
-                          self.last_dump))
+        self.assertEqual(
+            (es.hosts, es.dump_list, es.repo_name, es.last_dump_name),
+            (self.host_list, self.dump_list, self.repo, self.last_dump))
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
@@ -228,7 +229,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info",
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
-                mock.Mock(return_value= "dump2"))
+                mock.Mock(return_value="dump2"))
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
@@ -253,8 +254,9 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         es = elastic_class.ElasticSearchDump(self.host_list)
-        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
-                          es.last_dump_name), (self.host_list, [], None, None))
+        self.assertEqual(
+            (es.hosts, es.dump_list, es.repo_name, es.last_dump_name),
+            (self.host_list, [], None, None))
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
@@ -263,7 +265,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info",
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
-                mock.Mock(return_value= "dump2"))
+                mock.Mock(return_value="dump2"))
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
@@ -286,10 +288,9 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         es = elastic_class.ElasticSearchDump(self.host_list)
-        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
-                          es.last_dump_name),
-                         (self.host_list, self.dump_list, self.repo,
-                          self.last_dump))
+        self.assertEqual(
+            (es.hosts, es.dump_list, es.repo_name, es.last_dump_name),
+            (self.host_list, self.dump_list, self.repo, self.last_dump))
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
@@ -298,7 +299,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info",
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
-                mock.Mock(return_value= "dump2"))
+                mock.Mock(return_value="dump2"))
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
@@ -321,11 +322,12 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo2)
-        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
-                          es.last_dump_name), (self.host_list, [], None, None))
+        self.assertEqual(
+            (es.hosts, es.dump_list, es.repo_name, es.last_dump_name),
+            (self.host_list, [], None, None))
 
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
-                mock.Mock(return_value= "dump2"))
+                mock.Mock(return_value="dump2"))
     @mock.patch("elastic_class.get_master_name",
                 mock.Mock(return_value="MasterName"))
     @mock.patch("elastic_class.get_cluster_nodes",
