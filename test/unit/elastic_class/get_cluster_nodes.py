@@ -122,7 +122,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_class.get_cluster_nodes(self.es), self.results)
+        self.assertEqual(elastic_class.get_cluster_nodes(self.es),
+                         self.results)
 
 
 if __name__ == "__main__":

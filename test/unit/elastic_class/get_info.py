@@ -71,7 +71,6 @@ class Elasticsearch(object):
         return {"cluster_name": "ClusterName", "name": "ServerName"}
 
 
-
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest

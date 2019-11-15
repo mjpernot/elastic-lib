@@ -61,7 +61,8 @@ class Elasticsearch(object):
         self.hosts = host_list
         self.port = port
         self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
+        self.info_status = {"cluster_name":
+                            "ClusterName", "name": "servername"}
 
     def info(self):
 
@@ -134,7 +135,6 @@ class UnitTest(unittest.TestCase):
         Arguments:
 
         """
-
 
         es = elastic_class.ElasticSearchStatus(self.host_list, cutoff_cpu=20)
         self.assertEqual((es.hosts, es.cutoff_cpu), (self.host_list, 20))

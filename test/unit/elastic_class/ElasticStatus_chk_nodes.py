@@ -3,7 +3,8 @@
 
 """Program:  ElasticStatus_chk_nodes.py
 
-    Description:  Unit testing of chk_nodes in elastic_class.ElasticStatus class.
+    Description:  Unit testing of chk_nodes in elastic_class.ElasticStatus
+        class.
 
     Usage:
         test/unit/elastic_class/ElasticStatus_chk_nodes.py
@@ -69,13 +70,13 @@ class UnitTest(unittest.TestCase):
                           {"settings":
                            {"path":
                             {"data": "data_dir2", "logs": "log_dir2"}}}}}
-        self.get_data2 = {"cluster_name":  "clustername",
-                          "nodes":  {"id1": {"name": "node1"}},
+        self.get_data2 = {"cluster_name": "clustername",
+                          "nodes": {"id1": {"name": "node1"}},
                           "_nodes": {"total": 1}}
         self.get_data3 = {"status": "green"}
         self.get_data4 = "id1 ip_address ip_address hostname\n"
         self.get_data5 = {"reponame1": {"settings": {"location": "/dir/data"}}}
-        self.get_data6 = {"unassigned_shards": 1, 
+        self.get_data6 = {"unassigned_shards": 1,
                           "active_shards_percent_as_number": 90,
                           "number_of_pending_tasks": 0,
                           "active_shards": 9,
@@ -109,10 +110,11 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticStatus(self.host_name)
         es.failed_nodes = 1
-        self.assertEqual(es.chk_nodes(True),
-            ({"Node_Failure":
-                {"Reason": "Detected failure on one or more nodes",
-                 "Failed_Nodes": 1, "Total_Nodes": 1}}))
+        self.assertEqual(
+            es.chk_nodes(True), (
+                {"Node_Failure":
+                 {"Reason": "Detected failure on one or more nodes",
+                  "Failed_Nodes": 1, "Total_Nodes": 1}}))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_string_default(self, mock_get):
@@ -131,7 +133,8 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticStatus(self.host_name)
         es.failed_nodes = 1
-        self.assertEqual(es.chk_nodes(),
+        self.assertEqual(
+            es.chk_nodes(),
             ("WARNING:  Have detected 1 failed nodes out of 1 nodes"))
 
     @mock.patch("elastic_class.requests_libs.get_query")

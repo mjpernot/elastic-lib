@@ -72,13 +72,13 @@ class UnitTest(unittest.TestCase):
                           {"settings":
                            {"path":
                             {"data": "data_dir2", "logs": "log_dir2"}}}}}
-        self.get_data2 = {"cluster_name":  "clustername",
-                          "nodes":  {"id1": {"name": "node1"}},
+        self.get_data2 = {"cluster_name": "clustername",
+                          "nodes": {"id1": {"name": "node1"}},
                           "_nodes": {"total": 1}}
         self.get_data3 = {"status": "green"}
         self.get_data4 = "id1 ip_address ip_address hostname\n"
         self.get_data5 = {"reponame1": {"settings": {"location": "/dir/data"}}}
-        self.get_data6 = {"unassigned_shards": 1, 
+        self.get_data6 = {"unassigned_shards": 1,
                           "active_shards_percent_as_number": 90,
                           "number_of_pending_tasks": 0,
                           "active_shards": 9,
@@ -116,10 +116,11 @@ class UnitTest(unittest.TestCase):
         mock_disk.return_value = _usage(total=200, used=150, free=50)
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_dump_disk_status(True),
-            ({"Dump_Usage": {"reponame1": {
-                "Partition": "/dir/data", "Total": 200, "Used": 150,
-                "Free": 50, "Percent": 75}}}))
+        self.assertEqual(
+            es.get_dump_disk_status(True),
+            ({"Dump_Usage": {"reponame1": {"Partition": "/dir/data",
+                                           "Total": 200, "Used": 150,
+                                           "Free": 50, "Percent": 75}}}))
 
     @mock.patch("elastic_class.gen_libs.disk_usage")
     @mock.patch("elastic_class.gen_libs.bytes_2_readable")
@@ -142,10 +143,11 @@ class UnitTest(unittest.TestCase):
         mock_disk.return_value = _usage(total=200, used=150, free=50)
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_dump_disk_status(),
-            ("Dump Usage\n\tRepo: reponame1\n\t\tPartition: /dir/data\n" \
-             + "\t\tTotal: 200\n\t\tUsed: 150\n\t\tFree: 50\n" \
-             + "\t\tPercent: 75.00%"))
+        self.assertEqual(
+            es.get_dump_disk_status(),
+            ("Dump Usage\n\tRepo: reponame1\n\t\tPartition: /dir/data\n" +
+             "\t\tTotal: 200\n\t\tUsed: 150\n\t\tFree: 50\n" +
+             "\t\tPercent: 75.00%"))
 
 
 if __name__ == "__main__":

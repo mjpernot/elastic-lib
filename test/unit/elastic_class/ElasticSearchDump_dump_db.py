@@ -132,9 +132,11 @@ class UnitTest(unittest.TestCase):
         self.dbs = "dbname"
         self.dbs2 = ["dbname"]
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
-            {"path": {"data": ["/dir/data1"], "logs": ["/dir/logs1"]}}},
-            "serverid2": {"name": "hostname2", "settings":
-            {"path": {"data": ["/dir/data2"], "logs": ["/dir/logs2"]}}}}
+                                         {"path": {"data": ["/dir/data1"],
+                                                   "logs": ["/dir/logs1"]}}},
+                           "serverid2": {"name": "hostname2", "settings":
+                                         {"path": {"data": ["/dir/data2"],
+                                                   "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
@@ -171,7 +173,8 @@ class UnitTest(unittest.TestCase):
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.repo_name = None
-        self.assertEqual(es.dump_db(self.dbs),
+        self.assertEqual(
+            es.dump_db(self.dbs),
             (True, "ERROR:  Repository name not set."))
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
@@ -207,7 +210,8 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        self.assertEqual(es.dump_db(self.dbs2),
+        self.assertEqual(
+            es.dump_db(self.dbs2),
             (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))

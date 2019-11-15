@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchRepo_init.py
+"""Program:  ElasticSearchRepo_update_repo_status.py
 
-    Description:  Unit testing of __init__ in elastic_class.ElasticSearchRepo
-        class.
+    Description:  Unit testing of update_repo_status in
+        elastic_class.ElasticSearchDump.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchRepo_init.py
+        test/unit/elastic_class/ElasticSearchRepo_update_repo_status.py
 
     Arguments:
 
@@ -60,8 +60,8 @@ class Elasticsearch(object):
         self.hosts = host_list
         self.port = port
         self.ping_status = True
-        self.info_status = {"cluster_name":
-                            "ClusterName", "name": "servername"}
+        self.info_status = {"cluster_name": "ClusterName",
+                            "name": "servername"}
 
 
 class UnitTest(unittest.TestCase):
@@ -72,6 +72,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_repo_not_active -> Test with Elasticsearch not active.
         test_default -> Test with default settings.
 
     """
@@ -87,16 +88,38 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
+        self.host_str = "host1, host2"
         self.repo = "reponame"
         self.es = Elasticsearch(self.host_list)
-        self.repo_dir = "/dir/path/repo"
+        self.repo_dict = {"reponame": {"type": "dbdump", "settings":
+                                       {"location": "/dir/path/dump"}}}
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchRepo.update_repo_status",
-                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es):
+    def test_repo_not_active(self, mock_es):
+
+        """Function:  test_repo_not_active
+
+        Description:  Test with Elasticsearch not active.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.es
+
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        self.assertEqual((es.hosts, es.repo, es.repo_dict),
+                         (self.host_list, self.repo, {}))
+
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.get_repo_list")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_default(self, mock_es, mock_repo):
 
         """Function:  test_default
 
@@ -107,12 +130,11 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_repo.return_value = self.repo_dict
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
-                                             repo_dir=self.repo_dir)
-
-        self.assertEqual((es.hosts, es.repo, es.repo_dir),
-                         (self.host_list, self.repo, self.repo_dir))
+        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        self.assertEqual((es.hosts, es.repo, es.repo_dict),
+                         (self.host_list, self.repo, self.repo_dict))
 
 
 if __name__ == "__main__":

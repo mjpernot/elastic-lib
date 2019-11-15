@@ -58,7 +58,8 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
-        self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
+        self.info_status = {"cluster_name": "ClusterName",
+                            "name": "servername"}
 
 
 class UnitTest(unittest.TestCase):

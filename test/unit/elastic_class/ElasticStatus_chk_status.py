@@ -72,13 +72,13 @@ class UnitTest(unittest.TestCase):
                           {"settings":
                            {"path":
                             {"data": "data_dir2", "logs": "log_dir2"}}}}}
-        self.get_data2 = {"cluster_name":  "clustername",
-                          "nodes":  {"id1": {"name": "node1"}},
+        self.get_data2 = {"cluster_name": "clustername",
+                          "nodes": {"id1": {"name": "node1"}},
                           "_nodes": {"total": 1}}
         self.get_data3 = {"status": "green"}
         self.get_data4 = "id1 ip_address ip_address hostname\n"
         self.get_data5 = {"reponame1": {"settings": {"location": "/dir/data"}}}
-        self.get_data6 = {"unassigned_shards": 1, 
+        self.get_data6 = {"unassigned_shards": 1,
                           "active_shards_percent_as_number": 90,
                           "number_of_pending_tasks": 0,
                           "active_shards": 9,
@@ -113,14 +113,14 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticStatus(self.host_name)
         es.cluster_status = "Yellow"
         es.pending_tasks = 1
-        self.assertEqual(es.chk_status(json=True),
-            ({"Cluster_Warning": 
-                {"Cluster_Status":
-                    {"Reason": "Detected the cluster is not green",
-                     "Status": "Yellow"},
-                 "Pending_Tasks":
-                     {"Reason": "Detected cluster has pending tasks",
-                     "Tasks": 1}}}))
+        self.assertEqual(
+            es.chk_status(json=True),
+            ({"Cluster_Warning":
+              {"Cluster_Status":
+               {"Reason": "Detected the cluster is not green",
+                "Status": "Yellow"},
+               "Pending_Tasks":
+               {"Reason": "Detected cluster has pending tasks", "Tasks": 1}}}))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_string_default(self, mock_get):
@@ -140,9 +140,10 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticStatus(self.host_name)
         es.cluster_status = "Yellow"
         es.pending_tasks = 1
-        self.assertEqual(es.chk_status(),
-            ("WARNING: Detected Cluster status is Yellow\n" \
-             + "WARNING: Detected Cluster has 1 pending tasks"))
+        self.assertEqual(
+            es.chk_status(),
+            ("WARNING: Detected Cluster status is Yellow\n" +
+             "WARNING: Detected Cluster has 1 pending tasks"))
 
     @mock.patch("elastic_class.requests_libs.get_query")
     def test_default(self, mock_get):

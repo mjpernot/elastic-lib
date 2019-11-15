@@ -8,7 +8,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Changed
-- elastic_class.ElasticSearchDump.\_\_init\_\_:  Replaced attribute updates with call to update_status().
+- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Changed self.repo_dict default setting from "None" to "{}".
+- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Replaced attribute updates with call to update_repo_status().
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Replaced attribute updates with call to update_dump_status().
 - elastic_class.ElasticSearchRepo.delete_dump:  Replaced snapshot.delete with call to delete_snapshot().
 - elastic_class.ElasticSearchRepo.delete_repo:  Replaced es.snapshot.get_repository with call to get_repo_list().
 - elastic_class.ElasticSearchRepo.delete_repo:  Replaced snapshot.delete_repository with call to delete_snapshot_repo().
@@ -21,6 +23,7 @@ Breaking Change
 - elastic_class.ElasticSearch.\_\_init\_\_:  Replaced attribute updates with call to update_status().
 
 ### Added
+- elastic_class.ElasticSearchRepo.update_repo_status:  Update class attributes by querying Elasticsearch.
 - elastic_class.ElasticSearchDump.update_dump_status:  Update class attributes by querying Elasticsearch.
 - elastic_class.ElasticSearchStatus:  Added class and associated methods.
 - elastic_class.ElasticSearch.update_status:  Update class attributes by querying Elasticsearch.
