@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [2.0.0] - 2019-10-31
+Breaking Change
+
+### Changed
+- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Changed self.repo_dict default setting from "None" to "{}".
+- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Replaced attribute updates with call to update_repo_status().
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Replaced attribute updates with call to update_dump_status().
+- elastic_class.ElasticSearchRepo.delete_dump:  Replaced snapshot.delete with call to delete_snapshot().
+- elastic_class.ElasticSearchRepo.delete_repo:  Replaced es.snapshot.get_repository with call to get_repo_list().
+- elastic_class.ElasticSearchRepo.delete_repo:  Replaced snapshot.delete_repository with call to delete_snapshot_repo().
+- elastic_class.ElasticSearchRepo.create_repo:  Replaced es.snapshot.get_repository with call to get_repo_list().
+- elastic_class.ElasticSearchDump.dump_db:  Replaced snapshot.create with call to create_snapshot().
+- elastic_class.ElasticSearchRepo.create_repo:  Replaced snapshot.create_repository with call to create_snapshot_repo().
+- elastic_class.ElasticSearch.update_status:  Replaced call to ping with call to is_active().
+- elastic_class.ElasticSearch.\_\_init\_\_:  Integrated ElasticCluster class into ElasticSearch class.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Integrated Elastic class into ElasticSearch class.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Replaced attribute updates with call to update_status().
+
+### Added
+- elastic_class.ElasticSearchRepo.update_repo_status:  Update class attributes by querying Elasticsearch.
+- elastic_class.ElasticSearchDump.update_dump_status:  Update class attributes by querying Elasticsearch.
+- elastic_class.ElasticSearchStatus:  Added class and associated methods.
+- elastic_class.ElasticSearch.update_status:  Update class attributes by querying Elasticsearch.
+- elastic_class.create_snapshot:  Runs a dump of a repository.
+- elastic_class.create_snapshot_repo:  Creates a repository in Elasticsearch cluster.
+- elastic_class.delete_snapshot:  Deletes a dump in a repository.
+- elastic_class.delete_snapshot_repo:  Deletes a repository in Elasticsearch cluster.
+- elastic_class.get_cluster_health:  Dictionary of information on Elasticsearch cluster health.
+- elastic_class.get_cluster_nodes:  Dictionary of information on Elasticsearch cluster nodes.
+- elastic_class.get_cluster_stats:  Dictionary of information on Elasticsearch cluster stats.
+- elastic_class.get_cluster_status:  Status of the Elasticsearch cluster.
+- elastic_class.get_disks:  List of disks in Elasticsearch cluser.
+- elastic_class.get_info:  Dictionary of basic Elasticsearch info command.
+- elastic_class.get_master_name:  Name of the master node in Elasticsearch cluster.
+- elastic_class.get_nodes:  Dictionary of information on Elasticsearch nodes.
+- elastic_class.get_repo_list:  Dictionary of a list of Elasticsearch repositories.
+- elastic_class.get_shards:  List of shards in Elasticsearch cluser.
+- elastic_class.is_active:  True or False if the Elasticsearch cluster is up.
+
+### Deprecated
+- elastic_class.ElasticCluster:  Integrated into the ElasticSearch class.
+- elastic_class.ElasticStatus:  Replaced by the ElasticSearchAdmin class.
+
+
 ## [1.0.4] - 2019-09-02
 ### Fixed
 - elastic_class.chk_all:  Added return parameters for gen_libs.merge_two_dicts.
@@ -28,8 +72,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearch.\_\_init\_\_:  Removed check on host_list being a list.
 - elastic_class.ElasticSearch.\_\_init\_\_:  Replaced host_list with self.hosts attribute.
 - elastic_class.get_dump_list:  Changed ES to es for standard convention.
-- elastic_class.ElasticSearchDump.dump_db:  Changed parse() to _parse.
-- elastic_class.ElasticSearchDump.dump_db:  Reduced Cognitive Complexity to accepted standard level - moved section of code to private method: _chk_status.
+- elastic_class.ElasticSearchDump.dump_db:  Changed parse() to \_parse.
+- elastic_class.ElasticSearchDump.dump_db:  Reduced Cognitive Complexity to accepted standard level - moved section of code to private method: \_chk_status.
 - elastic_class.ElasticDump.\_\_init\_\_:  Reduced Cognitive Complexity to accepted standard level - initialized attributes in one area.
 - elastic_class.ElasticStatus.\_\_init\_\_:  Reduced Cognitive Complexity to accepted standard level - initalized data variable.
 - elastic_class.ElasticSearchDump.\_\_init\_\_:  Reduced Cognitive Complexity to accepted standard level - flatten if statements.

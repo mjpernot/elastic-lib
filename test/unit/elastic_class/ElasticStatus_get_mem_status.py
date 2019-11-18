@@ -69,13 +69,13 @@ class UnitTest(unittest.TestCase):
                           {"settings":
                            {"path":
                             {"data": "data_dir2", "logs": "log_dir2"}}}}}
-        self.get_data2 = {"cluster_name":  "clustername",
-                          "nodes":  {"id1": {"name": "node1"}},
+        self.get_data2 = {"cluster_name": "clustername",
+                          "nodes": {"id1": {"name": "node1"}},
                           "_nodes": {"total": 1}}
         self.get_data3 = {"status": "green"}
         self.get_data4 = "id1 ip_address ip_address hostname\n"
         self.get_data5 = {"reponame1": {"settings": {"location": "/dir/data"}}}
-        self.get_data6 = {"unassigned_shards": 1, 
+        self.get_data6 = {"unassigned_shards": 1,
                           "active_shards_percent_as_number": 90,
                           "number_of_pending_tasks": 0,
                           "active_shards": 9,
@@ -110,9 +110,10 @@ class UnitTest(unittest.TestCase):
         mock_lib.side_effect = [123, 12, 10]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_mem_status(True),
-            ({"Memory":
-                {"Percent": 55, "Total": 123, "Used": 12, "Free": 10}}))
+        self.assertEqual(
+            es.get_mem_status(True),
+            ({"Memory": {"Percent": 55, "Total": 123, "Used": 12,
+                         "Free": 10}}))
 
     @mock.patch("elastic_class.gen_libs.bytes_2_readable")
     @mock.patch("elastic_class.requests_libs.get_query")
@@ -132,7 +133,8 @@ class UnitTest(unittest.TestCase):
         mock_lib.side_effect = [123, 12, 10]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_mem_status(),
+        self.assertEqual(
+            es.get_mem_status(),
             ("Memory\n\tPer: 55\n\tTotal: 123\n\tUsed: 12\n\tFree: 10"))
 
 

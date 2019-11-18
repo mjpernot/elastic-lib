@@ -54,7 +54,7 @@ vim {Other_Python_Project}/README.md
 
 Add the system module requirements to the another program's requirements.txt file and remove any duplicates.
 
-``
+```
 cat requirements.txt >> {Other_Python_Project}/requirements.txt
 vim {Other_Python_Project}/requirements.txt
 ```
@@ -94,10 +94,11 @@ exit
   * ElasticSearch => Class which is a representation of an ElasticSearch database/cluster.  An ElasticSearch object is used as proxy to implement the connecting to an execute commands in an ElasticSearch database/cluster.
   * ElasticSearchDump => Class which is a representation of ElasticSearch database dump.  An ElasticSearchDump object is used as proxy to implement a database dump of an ElasticSearch database/cluster.
   * ElasticSearchRepo => Class which is a representation of ElasticSearchRepo repositories.  An ElasticSearchRepo object is used as proxy to implement respositories within an Elasticsearch cluster.
+  * ElasticSearchStatus => Class which is a representation of an Elasticsearch cluster status which contains attributes to show the general health of the Elasticsearch cluster.  An ElasticStatus is used as a proxy to implement connecting to an Elasticsearch database cluster and executing status commands.
   * (Deprecated)  Elastic => Class which is a representation of an Elasticsearch database node.  An Elastic object is used as proxy to implement the connecting to an execute commands in an Elasticsearch database node.
-  * ElasticCluster => Class which is a representation of a cluster of Elasticsearch database nodes.  An ElasticCluster object is used as a proxy to implement connecting to an Elasticsearch database cluster.
+  * (Deprecated)  ElasticCluster => Class which is a representation of a cluster of Elasticsearch database nodes.  An ElasticCluster object is used as a proxy to implement connecting to an Elasticsearch database cluster.
   * (Deprecated)  ElasticDump => Class which is a representation of Elasticsearch database dump.  An ElasticDump object is used as proxy to implement a database dump of an Elasticsearch database node.
-  * ElasticStatus => Class which is a representation of an Elasticsearch cluster status which contains attributes to show the general health of the Elasticsearch cluster.  An ElasticStatus is used as a proxy to implement connecting to an Elasticsearch database cluster and executing status commands.
+  * (Deprecated)  ElasticStatus => Class which is a representation of an Elasticsearch cluster status which contains attributes to show the general health of the Elasticsearch cluster.  An ElasticStatus is used as a proxy to implement connecting to an Elasticsearch database cluster and executing status commands.
 
 ### Program: elastic_lib.py
 ##### Description: Library of function calls for a Elasticsearch database/cluster system.
@@ -160,18 +161,56 @@ test/unit/elastic_libs/code_coverage.sh
 # Unit test runs for elastic_libs.py:
 
 ```
+test/unit/elastic_class/create_snapshot.py
+test/unit/elastic_class/create_snapshot_repo.py
+test/unit/elastic_class/delete_snapshot.py
+test/unit/elastic_class/delete_snapshot_repo.py
+test/unit/elastic_class/get_cluster_health.py
+test/unit/elastic_class/get_cluster_nodes.py
+test/unit/elastic_class/get_cluster_stats.py
+test/unit/elastic_class/get_cluster_status.py
+test/unit/elastic_class/get_disks.py
+test/unit/elastic_class/get_dump_list.py
+test/unit/elastic_class/get_info.py
+test/unit/elastic_class/get_master_name.py
+test/unit/elastic_class/get_nodes.py
+test/unit/elastic_class/get_repo_list.py
+test/unit/elastic_class/get_shards.py
+test/unit/elastic_class/is_active.py
 test/unit/elastic_class/Elastic_init.py
 test/unit/elastic_class/ElasticCluster_init.py
 test/unit/elastic_class/ElasticSearch_init.py
+test/unit/elastic_class/ElasticSearch_update_status.py
 test/unit/elastic_class/ElasticSearchDump_init.py
 test/unit/elastic_class/ElasticSearchDump_chk_status.py
 test/unit/elastic_class/ElasticSearchDump_dump_db.py
+test/unit/elastic_class/ElasticSearchDump_update_dump_status.py
 test/unit/elastic_class/ElasticSearchRepo_create_repo.py
 test/unit/elastic_class/ElasticSearchRepo_delete_dump.py
 test/unit/elastic_class/ElasticSearchRepo_delete_dump_all.py
 test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
 test/unit/elastic_class/ElasticSearchRepo_init.py
+test/unit/elastic_class/ElasticSearchRepo_update_repo_status.py
 test/unit/elastic_class/ElasticStatus_chk_all.py
+test/unit/elastic_class/ElasticSearchStatus_chk_all.py
+test/unit/elastic_class/ElasticSearchStatus_chk_disk.py
+test/unit/elastic_class/ElasticSearchStatus_chk_mem.py
+test/unit/elastic_class/ElasticSearchStatus_chk_nodes.py
+test/unit/elastic_class/ElasticSearchStatus_chk_server.py
+test/unit/elastic_class/ElasticSearchStatus_chk_shards.py
+test/unit/elastic_class/ElasticSearchStatus_chk_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_all.py
+test/unit/elastic_class/ElasticSearchStatus_get_cluster.py
+test/unit/elastic_class/ElasticSearchStatus_get_disk_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_dump_disk_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_gen_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_mem_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_node_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_nodes.py
+test/unit/elastic_class/ElasticSearchStatus_get_shrd_status.py
+test/unit/elastic_class/ElasticSearchStatus_get_svr_status.py
+test/unit/elastic_class/ElasticSearchStatus_init.py
+test/unit/elastic_class/ElasticSearchStatus_update_status2.py
 test/unit/elastic_class/ElasticStatus_chk_disk.py
 test/unit/elastic_class/ElasticStatus_chk_mem.py
 test/unit/elastic_class/ElasticStatus_chk_nodes.py
@@ -272,53 +311,13 @@ sudo chown elasticsearch:elasticsearch elastic.py
 sudo bash
 su - elasticsearch
 cd {Python_Project}/elastic_lib
-```
-
-### Integration:  ElasticSearch class
-
-```
 test/integration/elastic_class/elastic_search.py
-```
-
-### Integration:  ElasticSearchDump class
-
-```
 test/integration/elastic_class/elasticsearchdump.py
-```
-
-### Integration:  ElasticSearchDump.dump_db method
-
-```
 test/integration/elastic_class/elasticsearchdump_dumpdb.py
-```
-
-### Integration:  ElasticSearchRepo class
-
-```
 test/integration/elastic_class/elasticsearchrepo.py
-```
-
-### Integration:  ElasticSearchRepo.create_repo method
-
-```
 test/integration/elastic_class/elasticsearchrepo_createrepo.py
-```
-
-### Integration:  ElasticSearchRepo.delete_repo method
-
-```
 test/integration/elastic_class/elasticsearchrepo_deleterepo.py
-```
-
-### Integration:  ElasticSearchRepo.delete_dump method
-
-```
 test/integration/elastic_class/elasticsearchrepo_deletedump.py
-```
-
-### Integration:  ElasticSearchRepo.delete_dump_all method
-
-```
 test/integration/elastic_class/elasticsearchrepo_deletedumpall.py
 ```
 
