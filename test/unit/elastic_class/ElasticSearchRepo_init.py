@@ -36,31 +36,6 @@ import version
 __version__ = version.__version__
 
 
-class Repo(object):
-
-    """Class:  Repo
-
-    Description:  Class representation of the snapshot class.
-
-    Methods:
-        get_repository -> Stub holder for snapshot.get_repository method.
-
-    """
-
-    def get_repository(self):
-
-        """Method:  get_repository
-
-        Description:  Stub holder for snapshot.get_repository method.
-
-        Arguments:
-
-        """
-
-        return {"reponame": {"type": "dbdump", "settings":
-                             {"location": "/dir/path/dump"}}}
-
-
 class Elasticsearch(object):
 
     """Class:  ElasticSearch
@@ -69,8 +44,6 @@ class Elasticsearch(object):
 
     Methods:
         __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
-        info -> Stub holder for Elasticsearch.info method.
 
     """
 
@@ -87,32 +60,8 @@ class Elasticsearch(object):
         self.hosts = host_list
         self.port = port
         self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
-        self.snapshot = Repo()
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
-
-    def info(self):
-
-        """Method:  info
-
-        Description:  Stub holder for Elasticsearch.info method.
-
-        Arguments:
-
-        """
-
-        return self.info_status
+        self.info_status = {"cluster_name":
+                            "ClusterName", "name": "servername"}
 
 
 class UnitTest(unittest.TestCase):
@@ -142,6 +91,10 @@ class UnitTest(unittest.TestCase):
         self.es = Elasticsearch(self.host_list)
         self.repo_dir = "/dir/path/repo"
 
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearchRepo.update_repo_status",
+                mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es):
 

@@ -36,62 +36,6 @@ import version
 __version__ = version.__version__
 
 
-class Repo(object):
-
-    """Class:  Repo
-
-    Description:  Class representation of the snapshot class.
-
-    Methods:
-        get_repository -> Stub holder for snapshot.get_repository method.
-        create_repository -> Stub holder for snapshot.create_repository method.
-        delete_repository -> Stub holder for snapshot.delete_repository method.
-
-    """
-
-    def delete_repository(self, repository):
-
-        """Method:  delete_repository
-
-        Description:  Stub holder for snapshot.delete_repository method.
-
-        Arguments:
-            (input) repository -> Name of repository to delete.
-
-        """
-
-        if repository == "reponame3":
-            return {"acknowledged": False}
-
-        else:
-            return {"acknowledged": True}
-
-    def create_repository(self):
-
-        """Method:  create_repository
-
-        Description:  Stub holder for snapshot.create_repository method.
-
-        Arguments:
-
-        """
-
-        return {"acknowledged": True}
-
-    def get_repository(self):
-
-        """Method:  get_repository
-
-        Description:  Stub holder for snapshot.get_repository method.
-
-        Arguments:
-
-        """
-
-        return {"reponame": {"type": "dbdump", "settings":
-                             {"location": "/dir/path/dump"}}}
-
-
 class Elasticsearch(object):
 
     """Class:  ElasticSearch
@@ -100,8 +44,6 @@ class Elasticsearch(object):
 
     Methods:
         __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
-        info -> Stub holder for Elasticsearch.info method.
 
     """
 
@@ -118,32 +60,8 @@ class Elasticsearch(object):
         self.hosts = host_list
         self.port = port
         self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
-        self.snapshot = Repo()
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
-
-    def info(self):
-
-        """Method:  info
-
-        Description:  Stub holder for Elasticsearch.info method.
-
-        Arguments:
-
-        """
-
-        return self.info_status
+        self.info_status = {"cluster_name":
+                            "ClusterName", "name": "servername"}
 
 
 class UnitTest(unittest.TestCase):
@@ -178,9 +96,23 @@ class UnitTest(unittest.TestCase):
         self.repo3 = "reponame3"
         self.es = Elasticsearch(self.host_list)
         self.err_msg = "ERROR:  Repository still detected:  reponame"
+        self.repo_dict = {"reponame": {"type": "dbdump", "settings":
+                                       {"location": "/dir/path/dump"}},
+                          "reponame2": {"type": "dbdump", "settings":
+                                        {"location": "/dir/path/dump2"}}}
+        self.repo_dict2 = {"reponame": {"type": "dbdump", "settings":
+                                        {"location": "/dir/path/dump"}}}
+        self.repo_dict3 = {"reponame2": {"type": "dbdump", "settings":
+                                         {"location": "/dir/path/dump2"}}}
 
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": False}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_repo_name_failed(self, mock_es):
+    def test_repo_name_failed(self, mock_es, mock_repo):
 
         """Function:  test_repo_name_failed
 
@@ -191,21 +123,23 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_repo.side_effect = [self.repo_dict, self.repo_dict]
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo_dict = {"reponame":
-                        {"type": "dbdump", "settings":
-                         {"location": "/dir/path/dump"}},
-                        "reponame2":
-                        {"type": "dbdump", "settings":
-                         {"location": "/dir/path/dump2"}}}
-        es.repo_dict[self.repo3] = True
+        es.repo_dict[self.repo] = True
 
-        self.assertEqual(es.delete_repo(self.repo3),
-            (True, "ERROR:  Repository deletion failed:  reponame3"))
+        self.assertEqual(
+            es.delete_repo(self.repo),
+            (True, "ERROR:  Repository deletion failed:  reponame"))
 
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_repo_name_none(self, mock_es):
+    def test_repo_name_none(self, mock_es, mock_repo):
 
         """Function:  test_repo_name_none
 
@@ -216,21 +150,23 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_repo.side_effect = [self.repo_dict, self.repo_dict3]
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo_dict = {"reponame":
-                        {"type": "dbdump", "settings":
-                         {"location": "/dir/path/dump"}},
-                        "reponame2":
-                        {"type": "dbdump", "settings":
-                         {"location": "/dir/path/dump2"}}}
         es.repo = None
 
-        self.assertEqual(es.delete_repo(),
+        self.assertEqual(
+            es.delete_repo(),
             (True, "ERROR: Missing repo or does not exist: None"))
 
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_no_repo_name(self, mock_es):
+    def test_no_repo_name(self, mock_es, mock_repo):
 
         """Function:  test_no_repo_name
 
@@ -241,19 +177,21 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_repo.side_effect = [self.repo_dict, self.repo_dict3]
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo_dict = {"reponame":
-                        {"type": "dbdump", "settings":
-                         {"location": "/dir/path/dump"}},
-                        "reponame2":
-                        {"type": "dbdump", "settings":
-                         {"location": "/dir/path/dump2"}}}
 
-        self.assertEqual(es.delete_repo(self.repo2), (False, None))
+        self.assertEqual(es.delete_repo(), (False, None))
+        self.assertEqual(es.repo_dict, self.repo_dict3)
 
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_not_deleted(self, mock_es):
+    def test_not_deleted(self, mock_es, mock_repo):
 
         """Function:  test_not_deleted
 
@@ -264,13 +202,21 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_repo.side_effect = [self.repo_dict, self.repo_dict]
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
         self.assertEqual(es.delete_repo(self.repo), (True, self.err_msg))
+        self.assertEqual(es.repo_dict, self.repo_dict)
 
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.delete_snapshot_repo",
+                mock.Mock(return_value={"acknowledged": True}))
+    @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es):
+    def test_default(self, mock_es, mock_repo):
 
         """Function:  test_default
 
@@ -281,16 +227,12 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.es
+        mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
         es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo_dict = {"reponame":
-                        {"type": "dbdump", "settings":
-                         {"location": "/dir/path/dump"}},
-                        "reponame2":
-                        {"type": "dbdump", "settings":
-                         {"location": "/dir/path/dump2"}}}
 
         self.assertEqual(es.delete_repo(self.repo2), (False, None))
+        self.assertEqual(es.repo_dict, self.repo_dict2)
 
 
 if __name__ == "__main__":

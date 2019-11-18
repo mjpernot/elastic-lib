@@ -68,13 +68,13 @@ class UnitTest(unittest.TestCase):
                           {"settings":
                            {"path":
                             {"data": "data_dir2", "logs": "log_dir2"}}}}}
-        self.get_data2 = {"cluster_name":  "clustername",
-                          "nodes":  {"id1": {"name": "node1"}},
+        self.get_data2 = {"cluster_name": "clustername",
+                          "nodes": {"id1": {"name": "node1"}},
                           "_nodes": {"total": 1}}
         self.get_data3 = {"status": "green"}
         self.get_data4 = "id1 ip_address ip_address hostname\n"
         self.get_data5 = {"reponame1": {"settings": {"location": "/dir/data"}}}
-        self.get_data6 = {"unassigned_shards": 1, 
+        self.get_data6 = {"unassigned_shards": 1,
                           "active_shards_percent_as_number": 90,
                           "number_of_pending_tasks": 0,
                           "active_shards": 9,
@@ -91,18 +91,26 @@ class UnitTest(unittest.TestCase):
                                            "allocated_processors": 2}}}
         self.get_data9 = "995 69mb 16gb 53gb 69gb 23 ip1 ip2 hostname\n"
 
-    @mock.patch("elastic_class.ElasticStatus.get_cluster")
-    @mock.patch("elastic_class.ElasticStatus.get_dump_disk_status")
-    @mock.patch("elastic_class.ElasticStatus.get_disk_status")
-    @mock.patch("elastic_class.ElasticStatus.get_gen_status")
-    @mock.patch("elastic_class.ElasticStatus.get_shrd_status")
-    @mock.patch("elastic_class.ElasticStatus.get_mem_status")
-    @mock.patch("elastic_class.ElasticStatus.get_svr_status")
-    @mock.patch("elastic_class.ElasticStatus.get_node_status")
-    @mock.patch("elastic_class.ElasticStatus.get_nodes")
+    @mock.patch("elastic_class.ElasticStatus.get_cluster",
+                mock.Mock(return_value={"clustername": {}}))
+    @mock.patch("elastic_class.ElasticStatus.get_dump_disk_status",
+                mock.Mock(return_value={"dump": "good"}))
+    @mock.patch("elastic_class.ElasticStatus.get_disk_status",
+                mock.Mock(return_value={"disk": "50"}))
+    @mock.patch("elastic_class.ElasticStatus.get_gen_status",
+                mock.Mock(return_value={"gen": "ok"}))
+    @mock.patch("elastic_class.ElasticStatus.get_shrd_status",
+                mock.Mock(return_value={"shrd": "red"}))
+    @mock.patch("elastic_class.ElasticStatus.get_mem_status",
+                mock.Mock(return_value={"mem": "90"}))
+    @mock.patch("elastic_class.ElasticStatus.get_svr_status",
+                mock.Mock(return_value={"svr": "yellow"}))
+    @mock.patch("elastic_class.ElasticStatus.get_node_status",
+                mock.Mock(return_value={"stat": "green"}))
+    @mock.patch("elastic_class.ElasticStatus.get_nodes",
+                mock.Mock(return_value={"nodes": "nodes"}))
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_json(self, mock_get, mock_nodes, mock_stat, mock_svr, mock_mem,
-                  mock_shrd, mock_gen, mock_disk, mock_dump, mock_cluster):
+    def test_json(self, mock_get):
 
         """Function:  test_json
 
@@ -115,35 +123,34 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_nodes.return_value = {"nodes": "nodes"}
-        mock_stat.return_value = {"stat": "green"}
-        mock_svr.return_value = {"svr": "yellow"}
-        mock_mem.return_value = {"mem": "90"}
-        mock_shrd.return_value = {"shrd": "red"}
-        mock_gen.return_value = {"gen": "ok"}
-        mock_disk.return_value = {"disk": "50"}
-        mock_dump.return_value = {"dump": "good"}
-        mock_cluster.return_value = {"clustername": {}}
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_all (True),
+        self.assertEqual(
+            es.get_all(True),
             ({"clustername": {}, "dump": "good", "disk": "50", "gen": "ok",
-                "shrd": "red", "mem": "90", "svr": "yellow", "stat": "green",
-                "nodes": "nodes"}))
+              "shrd": "red", "mem": "90", "svr": "yellow", "stat": "green",
+              "nodes": "nodes"}))
 
-    @mock.patch("elastic_class.ElasticStatus.get_cluster")
-    @mock.patch("elastic_class.ElasticStatus.get_dump_disk_status")
-    @mock.patch("elastic_class.ElasticStatus.get_disk_status")
-    @mock.patch("elastic_class.ElasticStatus.get_gen_status")
-    @mock.patch("elastic_class.ElasticStatus.get_shrd_status")
-    @mock.patch("elastic_class.ElasticStatus.get_mem_status")
-    @mock.patch("elastic_class.ElasticStatus.get_svr_status")
-    @mock.patch("elastic_class.ElasticStatus.get_node_status")
-    @mock.patch("elastic_class.ElasticStatus.get_nodes")
+    @mock.patch("elastic_class.ElasticStatus.get_cluster",
+                mock.Mock(return_value="clustername"))
+    @mock.patch("elastic_class.ElasticStatus.get_dump_disk_status",
+                mock.Mock(return_value="good"))
+    @mock.patch("elastic_class.ElasticStatus.get_disk_status",
+                mock.Mock(return_value="50"))
+    @mock.patch("elastic_class.ElasticStatus.get_gen_status",
+                mock.Mock(return_value="ok"))
+    @mock.patch("elastic_class.ElasticStatus.get_shrd_status",
+                mock.Mock(return_value="red"))
+    @mock.patch("elastic_class.ElasticStatus.get_mem_status",
+                mock.Mock(return_value="90"))
+    @mock.patch("elastic_class.ElasticStatus.get_svr_status",
+                mock.Mock(return_value="yellow"))
+    @mock.patch("elastic_class.ElasticStatus.get_node_status",
+                mock.Mock(return_value="green"))
+    @mock.patch("elastic_class.ElasticStatus.get_nodes",
+                mock.Mock(return_value="nodes"))
     @mock.patch("elastic_class.requests_libs.get_query")
-    def test_default(self, mock_get, mock_nodes, mock_stat, mock_svr,
-                     mock_mem, mock_shrd, mock_gen, mock_disk, mock_dump,
-                     mock_cluster):
+    def test_default(self, mock_get):
 
         """Function:  test_default
 
@@ -156,18 +163,10 @@ class UnitTest(unittest.TestCase):
         mock_get.side_effect = [self.get_data, self.get_data2, self.get_data3,
                                 self.get_data4, self.get_data5, self.get_data6,
                                 self.get_data7, self.get_data8, self.get_data9]
-        mock_nodes.return_value = "nodes"
-        mock_stat.return_value = "green"
-        mock_svr.return_value = "yellow"
-        mock_mem.return_value = "90"
-        mock_shrd.return_value = "red"
-        mock_gen.return_value = "ok"
-        mock_disk.return_value = "50"
-        mock_dump.return_value = "good"
-        mock_cluster.return_value = "clustername"
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_all (),
+        self.assertEqual(
+            es.get_all(),
             ("clustername\nnodes\ngreen\nyellow\n90\nred\nok\n50\ngood"))
 
 

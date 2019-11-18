@@ -69,13 +69,13 @@ class UnitTest(unittest.TestCase):
                           {"settings":
                            {"path":
                             {"data": "data_dir2", "logs": "log_dir2"}}}}}
-        self.get_data2 = {"cluster_name":  "clustername",
-                          "nodes":  {"id1": {"name": "node1"}},
+        self.get_data2 = {"cluster_name": "clustername",
+                          "nodes": {"id1": {"name": "node1"}},
                           "_nodes": {"total": 1}}
         self.get_data3 = {"status": "green"}
         self.get_data4 = "id1 ip_address ip_address hostname\n"
         self.get_data5 = {"reponame1": {"settings": {"location": "/dir/data"}}}
-        self.get_data6 = {"unassigned_shards": 1, 
+        self.get_data6 = {"unassigned_shards": 1,
                           "active_shards_percent_as_number": 90,
                           "number_of_pending_tasks": 0,
                           "active_shards": 9,
@@ -108,7 +108,8 @@ class UnitTest(unittest.TestCase):
                                 self.get_data7, self.get_data8, self.get_data9]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_node_status(True),
+        self.assertEqual(
+            es.get_node_status(True),
             ({"Node_Status": {"Total_Nodes": 1, "Failed_Nodes": 0}}))
 
     @mock.patch("elastic_class.requests_libs.get_query")
@@ -127,7 +128,8 @@ class UnitTest(unittest.TestCase):
                                 self.get_data7, self.get_data8, self.get_data9]
 
         es = elastic_class.ElasticStatus(self.host_name)
-        self.assertEqual(es.get_node_status(),
+        self.assertEqual(
+            es.get_node_status(),
             ("Node_Status\n\tTotal Nodes:  1\n\tFailed Nodes:  0"))
 
 

@@ -43,7 +43,6 @@ class Repo(object):
 
     Methods:
         get_repository -> Stub holder for snapshot.get_repository method.
-        create -> Stub holder for snapshot.create method.
 
     """
 
@@ -60,21 +59,6 @@ class Repo(object):
         return {"reponame": {"type": "dbdump", "settings":
                              {"location": "/dir/path/dump"}}}
 
-    def create(self, repository, body, snapshot):
-
-        """Method:  create
-
-        Description:  Stub holder for snapshot.create method.
-
-        Arguments:
-            (input) repository -> Repository name.
-            (input) body -> Database dump command.
-            (input) snapshot -> Database dump respository information.
-
-        """
-
-        return True
-
 
 class Elasticsearch(object):
 
@@ -84,7 +68,6 @@ class Elasticsearch(object):
 
     Methods:
         __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
         info -> Stub holder for Elasticsearch.info method.
 
     """
@@ -101,21 +84,9 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
-        self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName", "name": "servername"}
+        self.info_status = {"cluster_name": "ClusterName",
+                            "name": "servername"}
         self.snapshot = Repo()
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
 
     def info(self):
 
@@ -160,12 +131,31 @@ class UnitTest(unittest.TestCase):
         self.es = Elasticsearch(self.host_list)
         self.dbs = "dbname"
         self.dbs2 = ["dbname"]
+        self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
+                                         {"path": {"data": ["/dir/data1"],
+                                                   "logs": ["/dir/logs1"]}}},
+                           "serverid2": {"name": "hostname2", "settings":
+                                         {"path": {"data": ["/dir/data2"],
+                                                   "logs": ["/dir/logs2"]}}}}
+        self.health_data = {"status": "green", "cluster_name": "ClusterName"}
 
-    @mock.patch("elastic_class.ElasticSearchDump._chk_status")
-    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.create_snapshot", mock.Mock())
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump",
+                mock.Mock(side_effect=["dump2", "dump3"]))
+    @mock.patch("elastic_class.ElasticSearchDump._chk_status",
+                mock.Mock(return_value=(False, None, True)))
+    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_no_repo_name(self, mock_es, mock_list, mock_latest, mock_chk):
+    def test_no_repo_name(self, mock_es, mock_list, mock_nodes, mock_health):
 
         """Function:  test_no_repo_name
 
@@ -178,19 +168,32 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
         mock_list.side_effect = [["dump1", "dump2"],
                                  ["dump1", "dump2", "dump3"]]
-        mock_latest.side_effect = ["dump2", "dump3"]
-        mock_chk.return_value = (False, None, True)
+        mock_nodes.return_value = self.nodes_data
+        mock_health.return_value = self.health_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         es.repo_name = None
-        self.assertEqual(es.dump_db(self.dbs),
+        self.assertEqual(
+            es.dump_db(self.dbs),
             (True, "ERROR:  Repository name not set."))
 
-    @mock.patch("elastic_class.ElasticSearchDump._chk_status")
-    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.create_snapshot", mock.Mock())
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump",
+                mock.Mock(side_effect=["dump2", "dump3"]))
+    @mock.patch("elastic_class.ElasticSearchDump._chk_status",
+                mock.Mock(return_value=(False, None, True)))
+    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_bad_db_name(self, mock_es, mock_list, mock_latest, mock_chk):
+    def test_bad_db_name(self, mock_es, mock_list, mock_nodes, mock_health):
 
         """Function:  test_bad_db_name
 
@@ -203,18 +206,31 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
         mock_list.side_effect = [["dump1", "dump2"],
                                  ["dump1", "dump2", "dump3"]]
-        mock_latest.side_effect = ["dump2", "dump3"]
-        mock_chk.return_value = (False, None, True)
+        mock_nodes.return_value = self.nodes_data
+        mock_health.return_value = self.health_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        self.assertEqual(es.dump_db(self.dbs2),
+        self.assertEqual(
+            es.dump_db(self.dbs2),
             (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
 
-    @mock.patch("elastic_class.ElasticSearchDump._chk_status")
-    @mock.patch("elastic_class.elastic_libs.get_latest_dump")
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.create_snapshot", mock.Mock())
+    @mock.patch("elastic_class.get_cluster_nodes",
+                mock.Mock(return_value={"_nodes": {"total": 3}}))
+    @mock.patch("elastic_class.get_master_name",
+                mock.Mock(return_value="MasterName"))
+    @mock.patch("elastic_class.get_info",
+                mock.Mock(return_value={"name": "localservername"}))
+    @mock.patch("elastic_class.elastic_libs.get_latest_dump",
+                mock.Mock(side_effect=["dump2", "dump3"]))
+    @mock.patch("elastic_class.ElasticSearchDump._chk_status",
+                mock.Mock(return_value=(False, None, True)))
+    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es, mock_list, mock_latest, mock_chk):
+    def test_default(self, mock_es, mock_list, mock_nodes, mock_health):
 
         """Function:  test_default
 
@@ -227,8 +243,8 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.es
         mock_list.side_effect = [["dump1", "dump2"],
                                  ["dump1", "dump2", "dump3"]]
-        mock_latest.side_effect = ["dump2", "dump3"]
-        mock_chk.return_value = (False, None, True)
+        mock_nodes.return_value = self.nodes_data
+        mock_health.return_value = self.health_data
 
         es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         self.assertEqual(es.dump_db(self.dbs), (False, None))
