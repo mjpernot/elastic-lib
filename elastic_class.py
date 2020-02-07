@@ -939,7 +939,7 @@ class ElasticSearchStatus(ElasticSearch):
             self.shard_list = get_shards(self.es)
 
             # Get cluster status
-            status = get_cluster_status(self.es)
+            status = get_cluster_stats(self.es)
 
             self.failed_nodes = status["_nodes"]["failed"]
             self.mem_per_used = status["nodes"]["os"]["mem"]["used_percent"]
