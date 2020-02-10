@@ -22,7 +22,6 @@ test/unit/elastic_class/get_nodes.py
 test/unit/elastic_class/get_repo_list.py
 test/unit/elastic_class/get_shards.py
 test/unit/elastic_class/is_active.py
-test/unit/elastic_class/Elastic_init.py
 test/unit/elastic_class/ElasticSearch_init.py
 test/unit/elastic_class/ElasticSearch_update_status.py
 test/unit/elastic_class/ElasticSearchDump_chk_status.py
