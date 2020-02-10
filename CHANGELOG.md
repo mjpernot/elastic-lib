@@ -5,7 +5,11 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 
 ## [2.0.1] - 2020-02-07
+### Changed
+- requirements.txt:  Set elasticsearch between 7.0.0 and 8.0.0.
+
 ### Fixed
+- requirements.txt:  Changed urllib3 to be 1.24.3 to work with curator.
 - elastic_class.ElasticSearchStatus.update_status2:  Fixed incorrect method call.
 
 
