@@ -33,7 +33,6 @@
         Elastic (deprecated)
             ElasticCluster (deprecated)
                 ElasticDump (deprecated)
-                ElasticStatus (deprecated)
 
 """
 
