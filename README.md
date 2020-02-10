@@ -97,7 +97,6 @@ exit
   * ElasticSearchStatus => Class which is a representation of an Elasticsearch cluster status which contains attributes to show the general health of the Elasticsearch cluster.  An ElasticSearchStatus is used as a proxy to implement connecting to an Elasticsearch database cluster and executing status commands.
   * (Deprecated)  Elastic => Class which is a representation of an Elasticsearch database node.  An Elastic object is used as proxy to implement the connecting to an execute commands in an Elasticsearch database node.
   * (Deprecated)  ElasticCluster => Class which is a representation of a cluster of Elasticsearch database nodes.  An ElasticCluster object is used as a proxy to implement connecting to an Elasticsearch database cluster.
-  * (Deprecated)  ElasticDump => Class which is a representation of Elasticsearch database dump.  An ElasticDump object is used as proxy to implement a database dump of an Elasticsearch database node.
 
 ### Program: elastic_lib.py
 ##### Description: Library of function calls for a Elasticsearch database/cluster system.
