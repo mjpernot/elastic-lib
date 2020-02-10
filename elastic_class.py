@@ -30,8 +30,6 @@
             ElasticSearchRepo
             ElasticSearchStatus
 
-        Elastic (deprecated)
-
 """
 
 # Libraries and Global Variables
@@ -1343,39 +1341,3 @@ class ElasticSearchStatus(ElasticSearch):
                 data, status, msg = gen_libs.merge_two_dicts(data, results)
 
         return data if err_flag else {}
-
-
-class Elastic(object):
-
-    """Class:  Elastic (deprecated:  Replaced by Elasticsearch class)
-
-    Description:  Class which is a representation of an Elasticsearch database
-        node.  An Elastic object is used as proxy to implement the connecting
-        to an execute commands in an Elasticsearch database node.
-    Methods:
-        __init__ -> Class instance initilization.
-
-    """
-
-    def __init__(self, hostname, port=9200, **kwargs):
-
-        """Method:  __init__
-
-        Description:  Initialization of an instance of the Elastic class.
-
-        Arguments:
-            (input) hostname -> Hostname of Elasticsearch database node.
-            (input) port -> Elasticsearch database port.  Default = 9200.
-
-        """
-
-        self.node = hostname
-        self.port = port
-
-        # Query single node
-        data = requests_libs.get_query(self.node, self.port,
-                                       "/_nodes/" + self.node, "json")["nodes"]
-
-        # Get the Elastic server's node key to acces the settings dictionary.
-        self.data = data[next(iter(data))]["settings"]["path"]["data"]
-        self.logs = data[next(iter(data))]["settings"]["path"]["logs"]
