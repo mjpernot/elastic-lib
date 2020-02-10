@@ -12,6 +12,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - requirements.txt:  Changed urllib3 to be 1.24.3 to work with curator.
 - elastic_class.ElasticSearchStatus.update_status2:  Fixed incorrect method call.
 
+### Removed
+- elastic_class.ElasticStatus:  Removed ElasticStatus class and associated methods.
+
 
 ## [2.0.0] - 2019-10-31
 Breaking Change
