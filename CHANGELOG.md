@@ -13,6 +13,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearchStatus.update_status2:  Fixed incorrect method call.
 
 ### Removed
+- elastic_class.ElasticDump:  Removed ElasticDump class and associated methods.
 - elastic_class.ElasticStatus:  Removed ElasticStatus class and associated methods.
 
 
