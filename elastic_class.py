@@ -31,7 +31,6 @@
             ElasticSearchStatus
 
         Elastic (deprecated)
-            ElasticCluster (deprecated)
 
 """
 
@@ -1380,54 +1379,3 @@ class Elastic(object):
         # Get the Elastic server's node key to acces the settings dictionary.
         self.data = data[next(iter(data))]["settings"]["path"]["data"]
         self.logs = data[next(iter(data))]["settings"]["path"]["logs"]
-
-
-class ElasticCluster(Elastic):
-
-    """Class:  ElasticCluster (deprecated:  Integrated into ElasticSearch)
-
-    Description:  Class which is a representation of a cluster of
-        Elasticsearch database nodes.  An ElasticCluster object is used as a
-        proxy to implement connecting to an Elasticsearch database cluster.
-
-    Methods:
-        __init__ -> Class instance initilization.
-
-    """
-
-    def __init__(self, hostname, port=9200, **kwargs):
-
-        """Method:  __init__
-
-        Description:  Initialization of an instance of ElasticCluster class.
-
-        Arguments:
-            (input) hostname -> Hostname of Elasticsearch database node.
-            (input) port -> Elasticsearch database port.  Default = 9200.
-
-        """
-
-        super(ElasticCluster, self).__init__(hostname, port, **kwargs)
-
-        # Query cluster nodes
-        data = requests_libs.get_query(self.node, self.port, "/_nodes", "json")
-
-        self.cluster = data["cluster_name"]
-        self.nodes = [data["nodes"][x]["name"] for x in data["nodes"]]
-        self.total_nodes = data["_nodes"]["total"]
-
-        # Query cluster health
-        self.cluster_status = requests_libs.get_query(self.node, self.port,
-                                                      "/_cluster/health",
-                                                      "json")["status"]
-
-        # Query cluster master
-        self.master = [x for x in requests_libs.get_query(self.node,
-                                                          self.port,
-                                                          "/_cat/master",
-                                                          "text")
-                       .strip().split(" ")][-1]
-
-        # Query for repositories
-        self.repo_list = requests_libs.get_query(self.node, self.port,
-                                                 "/_snapshot", "json")
