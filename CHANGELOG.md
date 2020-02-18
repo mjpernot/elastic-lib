@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [2.0.1] - 2020-02-07
+### Changed
+- elastic_class.ElasticSearchStatus.chk_server:  Refactored method to have only one return.
+- elastic_class.ElasticSearchStatus.chk_nodes:  Refactored method to have only one return.
+- elastic_class.ElasticSearchStatus.chk_mem:  Refactored method to have only one return.
+- requirements.txt:  Set elasticsearch between 7.0.0 and 8.0.0.
+
+### Fixed
+- requirements.txt:  Changed urllib3 to be 1.24.3 to work with curator.
+- elastic_class.ElasticSearchStatus.update_status2:  Fixed incorrect method call.
+
+### Removed
+- elastic_class.Elastic:  Removed Elastic class and associated methods.
+- elastic_class.ElasticCluster:  Removed ElasticCluster class and associated methods.
+- elastic_class.ElasticDump:  Removed ElasticDump class and associated methods.
+- elastic_class.ElasticStatus:  Removed ElasticStatus class and associated methods.
+
+
 ## [2.0.0] - 2019-10-31
 Breaking Change
 
