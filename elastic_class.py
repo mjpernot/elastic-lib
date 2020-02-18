@@ -1166,14 +1166,15 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
+        data = {}
+
         if self.failed_nodes > 0:
-            return {"NodeFailure":
+            data = {"NodeFailure":
                     {"Reason": "Detected failure on one or more nodes",
                      "FailedNodes": self.failed_nodes,
                      "TotalNodes": self.total_nodes}}
 
-        else:
-            return {}
+        return data
 
     def chk_shards(self, **kwargs):
 
