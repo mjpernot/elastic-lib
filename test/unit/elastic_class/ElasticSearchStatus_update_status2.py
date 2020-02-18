@@ -129,7 +129,7 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_repo_list")
     @mock.patch("elastic_class.get_disks")
-    @mock.patch("elastic_class.get_cluster_status")
+    @mock.patch("elastic_class.get_cluster_stats")
     @mock.patch("elastic_class.get_shards")
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
