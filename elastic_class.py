@@ -1232,18 +1232,19 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
+        data = {}
+
         if cutoff_cpu:
             self.cutoff_cpu = cutoff_cpu
 
         if self.cpu_active >= self.cutoff_cpu:
-            return {"ServerWarning":
+            data = {"ServerWarning":
                     {"Reason": "Have reach cpu threshold",
                      "Threshold": self.cutoff_cpu,
                      "TotalCPUs": self.alloc_cpu,
                      "CPUUsage": self.cpu_active}}
 
-        else:
-            return {}
+        return data
 
     def chk_status(self, **kwargs):
 
