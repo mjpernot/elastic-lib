@@ -1140,19 +1140,20 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
+        data = {}
+
         if cutoff_mem:
             self.cutoff_mem = cutoff_mem
 
         if self.mem_per_used >= self.cutoff_mem:
-            return {"MemoryWarning":
+            data = {"MemoryWarning":
                     {"Reason": "Have reach memory threshold",
                      "Threshold": self.cutoff_mem,
                      "TotalMemory":
                          gen_libs.bytes_2_readable(self.mem_total),
                      "MemoryUsage": self.mem_per_used}}
 
-        else:
-            return {}
+        return data
 
     def chk_nodes(self, **kwargs):
 
