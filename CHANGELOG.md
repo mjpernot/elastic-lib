@@ -6,6 +6,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [2.0.1] - 2020-02-07
 ### Changed
+- elastic_class.ElasticSearchStatus.chk_server:  Refactored method to have only one return.
 - elastic_class.ElasticSearchStatus.chk_nodes:  Refactored method to have only one return.
 - elastic_class.ElasticSearchStatus.chk_mem:  Refactored method to have only one return.
 - requirements.txt:  Set elasticsearch between 7.0.0 and 8.0.0.
