@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [2.0.2] - 2020-06-12
+### Changed
+- elastic_class.py:  Removed unused external library module.
+
+
 ## [2.0.1] - 2020-02-07
 ### Changed
 - elastic_class.ElasticSearchStatus.chk_server:  Refactored method to have only one return.
