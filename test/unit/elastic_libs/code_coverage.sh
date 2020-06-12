@@ -10,6 +10,7 @@ echo ""
 echo "Running unit test modules in conjunction with coverage"
 coverage run -a --source=elastic_libs test/unit/elastic_libs/get_latest_dump.py
 coverage run -a --source=elastic_libs test/unit/elastic_libs/list_dumps.py
+coverage run -a --source=elastic_libs test/unit/elastic_libs/list_repos2.py
 
 echo ""
 echo "Producing code coverage report"
