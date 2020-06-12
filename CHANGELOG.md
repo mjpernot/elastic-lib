@@ -5,9 +5,12 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 
 ## [2.0.2] - 2020-06-12
+### Fixed
+- elastic_class.ElasticSearchStatus.get_disk_status:  Skips any disks that are listed as UNASSIGNED.
+
 ### Changed
-- elastic_libs.py:  Removed unused external library module.
-- elastic_class.py:  Removed unused external library module.
+- elastic_libs:  Removed unused external library module.
+- elastic_class:  Removed unused external library module.
 
 
 ## [2.0.1] - 2020-02-07
