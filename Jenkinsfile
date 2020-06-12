@@ -100,25 +100,25 @@ pipeline {
                                 "pattern": "./*.py",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/elastic-lib/"
+                                "target": "pypi-proj-local/highpoint/elastic-lib/"
                             },
                             {
                                 "pattern": "./*.txt",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/elastic-lib/"
+                                "target": "pypi-proj-local/highpoint/elastic-lib/"
                             },
                             {
                                 "pattern": "./*.md",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/elastic-lib/"
+                                "target": "pypi-proj-local/highpoint/elastic-lib/"
                             },
                             {
                                 "pattern": "*.TEMPLATE",
                                 "recursive": true,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/elastic-lib/config/"
+                                "target": "pypi-proj-local/highpoint/elastic-lib/config/"
                             }
                         ]
                     }"""
