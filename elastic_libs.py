@@ -17,7 +17,7 @@
 # Standard
 
 # Local
-import requests_lib.requests_libs as requests_libs
+#import requests_lib.requests_libs as requests_libs
 import version
 
 __version__ = version.__version__
