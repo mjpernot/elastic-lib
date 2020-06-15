@@ -10,6 +10,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearchStatus.chk_disk:  Does not check any disk listed as UNASSIGNED.
 
 ### Changed
+- elastic_class.ElasticSearchStatus.chk_mem:  Added MemoryUsed to output and clarified two other components.
 - elastic_libs:  Removed unused external library module.
 - elastic_class:  Removed unused external library module.
 

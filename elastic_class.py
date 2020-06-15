@@ -1149,10 +1149,11 @@ class ElasticSearchStatus(ElasticSearch):
         if self.mem_per_used >= self.cutoff_mem:
             data = {"MemoryWarning":
                     {"Reason": "Have reach memory threshold",
-                     "Threshold": self.cutoff_mem,
+                     "ThresholdPercent": self.cutoff_mem,
                      "TotalMemory":
                          gen_libs.bytes_2_readable(self.mem_total),
-                     "MemoryUsage": self.mem_per_used}}
+                     "MemoryPercentUsage": self.mem_per_used,
+                     "MemoryUsed": gen_libs.bytes_2_readable(self.mem_used)}}
 
         return data
 
