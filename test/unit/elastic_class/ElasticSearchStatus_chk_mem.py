@@ -90,17 +90,20 @@ class UnitTest(unittest.TestCase):
         self.mem_per_used = 80
         self.mem_per_used2 = 95
         self.mem_total = 234567890
+        self.mem_used = 210000000
         self.results = {}
         self.results2 = {
             "MemoryWarning": {"Reason": "Have reach memory threshold",
-                              "Threshold": 90,
+                              "ThresholdPercent": 90,
                               "TotalMemory": "223.70MB",
-                              "MemoryUsage": self.mem_per_used2}}
+                              "MemoryPercentUsage": self.mem_per_used2,
+                              "MemoryUsed": "200.27MB"}}
         self.results3 = {
             "MemoryWarning": {"Reason": "Have reach memory threshold",
-                              "Threshold": 85,
+                              "ThresholdPercent": 85,
                               "TotalMemory": "223.70MB",
-                              "MemoryUsage": self.mem_per_used2}}
+                              "MemoryPercentUsage": self.mem_per_used2,
+                              "MemoryUsed": "200.27MB"}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -122,6 +125,7 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchStatus(self.host_list)
         es.mem_per_used = self.mem_per_used2
         es.mem_total = self.mem_total
+        es.mem_used = self.mem_used
 
         self.assertEqual(es.chk_mem(cutoff_mem=85), self.results3)
 
@@ -168,6 +172,7 @@ class UnitTest(unittest.TestCase):
         es = elastic_class.ElasticSearchStatus(self.host_list)
         es.mem_per_used = self.mem_per_used2
         es.mem_total = self.mem_total
+        es.mem_used = self.mem_used
 
         self.assertEqual(es.chk_mem(), self.results2)
 
