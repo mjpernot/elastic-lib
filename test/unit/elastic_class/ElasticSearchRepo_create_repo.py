@@ -103,12 +103,13 @@ class UnitTest(unittest.TestCase):
                                          {"path": {"data": ["/dir/data2"],
                                                    "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
+        self.dump = "/dir/path/dump"
         self.repo_list = {"reponame": {"type": "dbdump", "settings":
-                                       {"location": "/dir/path/dump"}}}
+                                       {"location": self.dump}}}
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
-                                       {"location": "/dir/path/dump"}}}
+                                       {"location": self.dump}}}
         self.repo_dict2 = {"reponame": {"type": "dbdump", "settings":
-                                        {"location": "/dir/path/dump"}},
+                                        {"location": self.dump}},
                            "reponame2": {"type": "dbdump", "settings":
                                          {"location": "/dir/path/dump2"}}}
 
