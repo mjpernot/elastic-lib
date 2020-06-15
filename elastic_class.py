@@ -1302,19 +1302,16 @@ class ElasticSearchStatus(ElasticSearch):
 
         for node in self.disk_list:
 
-            if node[1] != "UNASSIGNED":
-
-                if int(node[5]) >= self.cutoff_disk:
-
-                    err_flag = True
-                    data["DiskWarning"][node[8]] = {
-                        "Reason": "Have reached disk usage threshold",
-                        "ThresholdPercent": self.cutoff_disk,
-                        "UsedPercent": node[5],
-                        "TotalDisk": node[4],
-                        "TotalUsed": node[2],
-                        "Available": node[3],
-                        "ElasticSearchUsed": node[1]}
+            if node[1] != "UNASSIGNED" and int(node[5]) >= self.cutoff_disk:
+                err_flag = True
+                data["DiskWarning"][node[8]] = {
+                     "Reason": "Have reached disk usage threshold",
+                     "ThresholdPercent": self.cutoff_disk,
+                     "UsedPercent": node[5],
+                     "TotalDisk": node[4],
+                     "TotalUsed": node[2],
+                     "Available": node[3],
+                     "ElasticSearchUsed": node[1]}
 
         return data if err_flag else {}
 
