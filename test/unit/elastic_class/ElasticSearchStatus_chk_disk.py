@@ -115,17 +115,21 @@ class UnitTest(unittest.TestCase):
         self.results2 = {
             "DiskWarning": {"hostname2": {
                 "Reason": "Have reached disk usage threshold",
-                "Threshold": 85,
-                "Total": "68gb",
-                "Used": "15gb",
-                "ESUsed": "68mb"}}}
+                "ThresholdPercent": 85,
+                "UsedPercent": "90",
+                "TotalDisk": "68gb",
+                "TotalUsed": "15gb",
+                "Available": "53gb",
+                "ElasticSearchUsed": "68mb"}}}
         self.results3 = {
             "DiskWarning": {"hostname2": {
                 "Reason": "Have reached disk usage threshold",
-                "Threshold": 87,
-                "Total": "68gb",
-                "Used": "15gb",
-                "ESUsed": "68mb"}}}
+                "ThresholdPercent": 87,
+                "UsedPercent": "90",
+                "TotalDisk": "68gb",
+                "TotalUsed": "15gb",
+                "Available": "53gb",
+                "ElasticSearchUsed": "68mb"}}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
