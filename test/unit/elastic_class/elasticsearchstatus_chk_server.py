@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_chk_server.py
+"""Program:  elasticsearchstatus_chk_server.py
 
     Description:  Unit testing of chk_server in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_chk_server.py
+        test/unit/elastic_class/elasticsearchstatus_chk_server.py
 
     Arguments:
 
@@ -86,7 +86,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.alloc_cpu = 5
         self.cpu_active = 50
         self.cpu_active2 = 80
@@ -117,13 +117,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.alloc_cpu = self.alloc_cpu
-        es.cpu_active = self.cpu_active2
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active2
 
-        self.assertEqual(es.chk_server(cutoff_cpu=78), self.results3)
+        self.assertEqual(els.chk_server(cutoff_cpu=78), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -140,13 +140,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.alloc_cpu = self.alloc_cpu
-        es.cpu_active = self.cpu_active
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active
 
-        self.assertEqual(es.chk_server(cutoff_cpu=85), self.results)
+        self.assertEqual(els.chk_server(cutoff_cpu=85), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -163,13 +163,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.alloc_cpu = self.alloc_cpu
-        es.cpu_active = self.cpu_active2
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active2
 
-        self.assertEqual(es.chk_server(), self.results2)
+        self.assertEqual(els.chk_server(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -186,13 +186,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.alloc_cpu = self.alloc_cpu
-        es.cpu_active = self.cpu_active
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active
 
-        self.assertEqual(es.chk_server(), self.results)
+        self.assertEqual(els.chk_server(), self.results)
 
 
 if __name__ == "__main__":

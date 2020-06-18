@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_chk_mem.py
+"""Program:  elasticsearchstatus_chk_mem.py
 
     Description:  Unit testing of chk_mem in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_chk_mem.py
+        test/unit/elastic_class/elasticsearchstatus_chk_mem.py
 
     Arguments:
 
@@ -86,7 +86,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.mem_per_used = 80
         self.mem_per_used2 = 95
         self.mem_total = 234567890
@@ -120,14 +120,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used2
-        es.mem_total = self.mem_total
-        es.mem_used = self.mem_used
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.mem_per_used = self.mem_per_used2
+        els.mem_total = self.mem_total
+        els.mem_used = self.mem_used
 
-        self.assertEqual(es.chk_mem(cutoff_mem=85), self.results3)
+        self.assertEqual(els.chk_mem(cutoff_mem=85), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -144,13 +144,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used
-        es.mem_total = self.mem_total
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.mem_per_used = self.mem_per_used
+        els.mem_total = self.mem_total
 
-        self.assertEqual(es.chk_mem(cutoff_mem=85), self.results)
+        self.assertEqual(els.chk_mem(cutoff_mem=85), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -167,14 +167,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used2
-        es.mem_total = self.mem_total
-        es.mem_used = self.mem_used
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.mem_per_used = self.mem_per_used2
+        els.mem_total = self.mem_total
+        els.mem_used = self.mem_used
 
-        self.assertEqual(es.chk_mem(), self.results2)
+        self.assertEqual(els.chk_mem(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -191,13 +191,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used
-        es.mem_total = self.mem_total
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.mem_per_used = self.mem_per_used
+        els.mem_total = self.mem_total
 
-        self.assertEqual(es.chk_mem(), self.results)
+        self.assertEqual(els.chk_mem(), self.results)
 
 
 if __name__ == "__main__":
