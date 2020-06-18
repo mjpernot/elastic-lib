@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_update_status2.py
+"""Program:  elasticsearchstatus_update_status2.py
 
     Description:  Unit testing of update_status2 in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_update_status2.py
+        test/unit/elastic_class/elasticsearchstatus_update_status2.py
 
     Arguments:
 
@@ -86,7 +86,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.health_data = {"unassigned_shards": 10,
                             "active_shards_percent_as_number": 20,
                             "number_of_pending_tasks": 1,
@@ -118,10 +118,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        self.assertEqual((es.port, es.hosts, es.is_connected),
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        self.assertEqual((els.port, els.hosts, els.is_connected),
                          (9200, self.host_list, False))
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
@@ -144,16 +144,17 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_health.return_value = self.health_data
         mock_shards.return_value = self.shards_data
         mock_status.return_value = self.status_data
         mock_disks.return_value = self.disks_data
         mock_repo.return_value = self.repo_data
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        self.assertEqual((es.port, es.hosts, es.is_connected, es.shard_list),
-                         (9200, self.host_list, True, self.shards_data))
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        self.assertEqual(
+            (els.port, els.hosts, els.is_connected, els.shard_list),
+            (9200, self.host_list, True, self.shards_data))
 
 
 if __name__ == "__main__":

@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_svr_status.py
+"""Program:  elasticsearchstatus_get_svr_status.py
 
     Description:  Unit testing of get_svr_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_svr_status.py
+        test/unit/elastic_class/elasticsearchstatus_get_svr_status.py
 
     Arguments:
 
@@ -83,7 +83,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.uptime = 1234567890
         self.alloc_cpu = 3
         self.cpu_active = 2
@@ -106,14 +106,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.uptime = self.uptime
-        es.alloc_cpu = self.alloc_cpu
-        es.cpu_active = self.cpu_active
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.uptime = self.uptime
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active
 
-        self.assertEqual(es.get_svr_status(), self.results)
+        self.assertEqual(els.get_svr_status(), self.results)
 
 
 if __name__ == "__main__":

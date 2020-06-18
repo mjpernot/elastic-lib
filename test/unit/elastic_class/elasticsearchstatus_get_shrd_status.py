@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_shrd_status.py
+"""Program:  elasticsearchstatus_get_shrd_status.py
 
     Description:  Unit testing of get_shrd_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_shrd_status.py
+        test/unit/elastic_class/elasticsearchstatus_get_shrd_status.py
 
     Arguments:
 
@@ -83,7 +83,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.active_shards_percent = 80
         self.unassigned_shards = 11
         self.num_shards = 111
@@ -108,15 +108,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.active_shards_percent = self.active_shards_percent
-        es.unassigned_shards = self.unassigned_shards
-        es.num_shards = self.num_shards
-        es.num_primary = self.num_primary
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.active_shards_percent = self.active_shards_percent
+        els.unassigned_shards = self.unassigned_shards
+        els.num_shards = self.num_shards
+        els.num_primary = self.num_primary
 
-        self.assertEqual(es.get_shrd_status(), self.results)
+        self.assertEqual(els.get_shrd_status(), self.results)
 
 
 if __name__ == "__main__":
