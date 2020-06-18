@@ -24,7 +24,6 @@ else:
     import unittest
 
 # Third-party
-import mock
 
 # Local
 sys.path.append(os.getcwd())
@@ -76,11 +75,11 @@ class UnitTest(unittest.TestCase):
         """
 
         with gen_libs.no_std_out():
-            ES = elastic_class.ElasticSearch(self.cfg.host, port=9201)
+            els = elastic_class.ElasticSearch(self.cfg.host, port=9201)
 
         print("Ignore above message, part of the test.")
 
-        if not ES.es:
+        if not els.es:
             status = True
 
         else:
@@ -98,9 +97,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ES = elastic_class.ElasticSearch(self.cfg.host)
+        els = elastic_class.ElasticSearch(self.cfg.host)
 
-        if ES.cluster_name:
+        if els.cluster_name:
             status = True
 
         else:
@@ -118,9 +117,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ES = elastic_class.ElasticSearch(self.cfg.host)
+        els = elastic_class.ElasticSearch(self.cfg.host)
 
-        if ES.hosts == self.cfg.host:
+        if els.hosts == self.cfg.host:
             status = True
 
         else:
@@ -141,9 +140,9 @@ class UnitTest(unittest.TestCase):
         host_list = "Host_Name"
 
         with gen_libs.no_std_out():
-            ES = elastic_class.ElasticSearch(host_list)
+            els = elastic_class.ElasticSearch(host_list)
 
-        if ES.hosts == host_list:
+        if els.hosts == host_list:
             status = True
 
         else:
