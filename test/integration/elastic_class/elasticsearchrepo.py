@@ -17,7 +17,6 @@
 # Standard
 import sys
 import os
-import shutil
 
 if sys.version_info < (2, 7):
     import unittest2 as unittest
@@ -25,7 +24,6 @@ else:
     import unittest
 
 # Third-party
-import mock
 
 # Local
 sys.path.append(os.getcwd())
@@ -67,10 +65,10 @@ class UnitTest(unittest.TestCase):
         self.repo_name = "TEST_INTR_REPO"
         self.repo_dir = os.path.join(self.cfg.base_repo_dir, self.repo_name)
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name)
+        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
+                                              repo=self.repo_name)
 
-        if ER.repo_dict:
+        if esr.repo_dict:
             print("ERROR: Test environment not clean - repositories exist.")
             self.skipTest("Pre-conditions not met.")
 
@@ -84,11 +82,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        if ER.repo == self.repo_name and ER.repo_dir == self.repo_dir:
+        if esr.repo == self.repo_name and esr.repo_dir == self.repo_dir:
             status = True
 
         else:
@@ -106,9 +103,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host)
+        esr = elastic_class.ElasticSearchRepo(self.cfg.host)
 
-        if not ER.repo and not ER.repo_dict:
+        if not esr.repo and not esr.repo_dict:
             status = True
 
         else:
@@ -129,9 +126,9 @@ class UnitTest(unittest.TestCase):
         host_list = "Host_Name"
 
         with gen_libs.no_std_out():
-            ER = elastic_class.ElasticSearchRepo(host_list)
+            esr = elastic_class.ElasticSearchRepo(host_list)
 
-        if not ER.repo:
+        if not esr.repo:
             status = True
 
         else:
