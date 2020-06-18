@@ -95,7 +95,7 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.results = {"cluster_name": "ClusterName", "name": "ServerName"}
 
     def test_default(self):
@@ -108,7 +108,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_class.get_info(self.es), self.results)
+        self.assertEqual(elastic_class.get_info(self.els), self.results)
 
 
 if __name__ == "__main__":

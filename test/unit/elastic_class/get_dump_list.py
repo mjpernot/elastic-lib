@@ -40,9 +40,22 @@ class Repo(object):
     Description:  Class representation of the cat class.
 
     Methods:
+        __init__ -> Class initialization.
         snapshots -> Stub holder for cat.snapshots method.
 
     """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.repository = None
 
     def snapshots(self, repository):
 
@@ -53,6 +66,8 @@ class Repo(object):
         Arguments:
 
         """
+
+        self.repository = repository
 
         return "bkp_name SUCCESS start end\nbkp_name2 SUCCESS start end\n"
 
@@ -107,7 +122,7 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.results = [["bkp_name", "SUCCESS", "start", "end"],
                         ["bkp_name2", "SUCCESS", "start", "end"]]
 
@@ -121,7 +136,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_class.get_dump_list(self.es, repo=self.repo),
+        self.assertEqual(elastic_class.get_dump_list(self.els, repo=self.repo),
                          self.results)
 
 

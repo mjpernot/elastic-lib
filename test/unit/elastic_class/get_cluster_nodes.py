@@ -108,7 +108,7 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.results = {"node1": {"data": "/dir/data", "logs": "/dir/logs"},
                         "node2": {"data": "/dir/data2", "logs": "/dir/logs2"}}
 
@@ -122,7 +122,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_class.get_cluster_nodes(self.es),
+        self.assertEqual(elastic_class.get_cluster_nodes(self.els),
                          self.results)
 
 
