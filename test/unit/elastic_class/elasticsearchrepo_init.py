@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchRepo_init.py
+"""Program:  elasticsearchrepo_init.py
 
     Description:  Unit testing of __init__ in elastic_class.ElasticSearchRepo
         class.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchRepo_init.py
+        test/unit/elastic_class/elasticsearchrepo_init.py
 
     Arguments:
 
@@ -30,7 +30,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -88,7 +87,7 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.repo_dir = "/dir/path/repo"
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
@@ -106,12 +105,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
-                                             repo_dir=self.repo_dir)
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                              repo_dir=self.repo_dir)
 
-        self.assertEqual((es.hosts, es.repo, es.repo_dir),
+        self.assertEqual((els.hosts, els.repo, els.repo_dir),
                          (self.host_list, self.repo, self.repo_dir))
 
 

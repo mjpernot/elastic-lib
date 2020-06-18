@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_chk_disk.py
+"""Program:  elasticsearchstatus_chk_disk.py
 
     Description:  Unit testing of chk_disk in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_chk_disk.py
+        test/unit/elastic_class/elasticsearchstatus_chk_disk.py
 
     Arguments:
 
@@ -88,7 +88,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.disk_list = [
             ["995", "69mb", "16gb", "53gb", "69gb", "23", "ip1", "ip2",
              "hostname1"],
@@ -146,12 +146,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list4
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list4
 
-        self.assertEqual(es.chk_disk(), self.results2)
+        self.assertEqual(els.chk_disk(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -168,12 +168,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list3
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list3
 
-        self.assertEqual(es.chk_disk(), self.results)
+        self.assertEqual(els.chk_disk(), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -190,12 +190,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list2
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list2
 
-        self.assertEqual(es.chk_disk(cutoff_disk=87), self.results3)
+        self.assertEqual(els.chk_disk(cutoff_disk=87), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -212,12 +212,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list2
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list2
 
-        self.assertEqual(es.chk_disk(cutoff_disk=95), self.results)
+        self.assertEqual(els.chk_disk(cutoff_disk=95), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -234,12 +234,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list2
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list2
 
-        self.assertEqual(es.chk_disk(), self.results2)
+        self.assertEqual(els.chk_disk(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -256,12 +256,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list
 
-        self.assertEqual(es.chk_disk(), self.results)
+        self.assertEqual(els.chk_disk(), self.results)
 
 
 if __name__ == "__main__":

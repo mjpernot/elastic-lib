@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchRepo_create_repo.py
+"""Program:  elasticsearchrepo_create_repo.py
 
     Description:  Unit testing of create_repo in
         elastic_class.ElasticSearchRepo class.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchRepo_create_repo.py
+        test/unit/elastic_class/elasticsearchrepo_create_repo.py
 
     Arguments:
 
@@ -30,7 +30,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -94,7 +93,7 @@ class UnitTest(unittest.TestCase):
         self.repo = "reponame"
         self.repo2 = "reponame2"
         self.repo3 = "reponame3"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.repo_dir = "/dir/path/dump2"
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
                                          {"path": {"data": ["/dir/data1"],
@@ -130,14 +129,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
-                                             repo_dir=self.repo_dir)
-        es.repo_name = None
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                              repo_dir=self.repo_dir)
+        els.repo_name = None
         self.assertEqual(
-            es.create_repo(self.repo3, self.repo_dir),
+            els.create_repo(self.repo3, self.repo_dir),
             (True,
              "ERROR:  Repository creation failure: " +
              " reponame3, /dir/path/dump2"))
@@ -159,14 +158,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
-                                             repo_dir=self.repo_dir)
-        es.repo_name = None
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                              repo_dir=self.repo_dir)
+        els.repo_name = None
         self.assertEqual(
-            es.create_repo(self.repo3, self.repo_dir),
+            els.create_repo(self.repo3, self.repo_dir),
             (True,
              "ERROR:  Repository not detected:  reponame3, /dir/path/dump2"))
 
@@ -187,14 +186,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
-                                             repo_dir=self.repo_dir)
-        es.repo = None
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                              repo_dir=self.repo_dir)
+        els.repo = None
         self.assertEqual(
-            es.create_repo(repo_dir=self.repo_dir),
+            els.create_repo(repo_dir=self.repo_dir),
             (True,
              "ERROR: Missing repo name or" +
              " directory: 'None', '/dir/path/dump2'"))
@@ -216,13 +215,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
-                                             repo_dir=self.repo_dir)
-        self.assertEqual(es.create_repo(self.repo), (False, None))
-        self.assertEqual(es.repo_dict, self.repo_dict2)
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                              repo_dir=self.repo_dir)
+        self.assertEqual(els.create_repo(self.repo), (False, None))
+        self.assertEqual(els.repo_dict, self.repo_dict2)
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
@@ -241,14 +240,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo2,
-                                             repo_dir=self.repo_dir)
-        self.assertEqual(es.create_repo(repo_dir=self.repo_dir),
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo2,
+                                              repo_dir=self.repo_dir)
+        self.assertEqual(els.create_repo(repo_dir=self.repo_dir),
                          (False, None))
-        self.assertEqual(es.repo_dict, self.repo_dict2)
+        self.assertEqual(els.repo_dict, self.repo_dict2)
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
@@ -267,14 +266,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
-                                             repo_dir=self.repo_dir)
-        self.assertEqual(es.create_repo(self.repo2, self.repo_dir),
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                              repo_dir=self.repo_dir)
+        self.assertEqual(els.create_repo(self.repo2, self.repo_dir),
                          (False, None))
-        self.assertEqual(es.repo_dict, self.repo_dict2)
+        self.assertEqual(els.repo_dict, self.repo_dict2)
 
 
 if __name__ == "__main__":
