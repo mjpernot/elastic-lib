@@ -10,6 +10,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearchStatus.chk_disk:  Does not check any disk listed as UNASSIGNED.
 
 ### Changed
+- elastic_libs.list_dumps:  Changed variable to standard naming convention.
+- elastic_libs.get_latest_dump:  Changed variable to standard naming convention.
 - elastic_class.ElasticSearchStatus.chk_disk:  Added UsedPercent and Available and clarified four other components.
 - elastic_class.ElasticSearchStatus.chk_mem:  Added MemoryUsed to output and clarified two other components.
 - elastic_libs:  Removed unused external library module.
