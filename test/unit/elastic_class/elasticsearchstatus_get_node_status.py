@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_node_status.py
+"""Program:  elasticsearchstatus_get_node_status.py
 
     Description:  Unit testing of get_node_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_node_status.py
+        test/unit/elastic_class/elasticsearchstatus_get_node_status.py
 
     Arguments:
 
@@ -83,7 +83,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.total_nodes = 3
         self.failed_nodes = 0
         self.results = {"NodeStatus": {"TotalNodes": 3, "FailedNodes": 0}}
@@ -103,13 +103,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.total_nodes = self.total_nodes
-        es.failed_nodes = self.failed_nodes
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.total_nodes = self.total_nodes
+        els.failed_nodes = self.failed_nodes
 
-        self.assertEqual(es.get_node_status(), self.results)
+        self.assertEqual(els.get_node_status(), self.results)
 
 
 if __name__ == "__main__":

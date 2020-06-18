@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_dump_disk_status.py
+"""Program:  elasticsearchstatus_get_dump_disk_status.py
 
     Description:  Unit testing of get_dump_disk_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_dump_disk_status.py
+        test/unit/elastic_class/elasticsearchstatus_get_dump_disk_status.py
 
     Arguments:
 
@@ -25,8 +25,8 @@ else:
     import unittest
 
 # Third-party
-import mock
 import collections
+import mock
 
 # Local
 sys.path.append(os.getcwd())
@@ -86,7 +86,7 @@ class UnitTest(unittest.TestCase):
         # This is set to allow to show large differences.
         self.maxDiff = None
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.repo_dict = {"repo1": {"settings": {"location": "/dir/repo1"}},
                           "repo2": {"settings": {"location": "/dir/repo2"}}}
         self.results = {
@@ -121,13 +121,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_libs.side_effect = [self.usage1, self.usage2]
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.repo_dict = self.repo_dict
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.repo_dict = self.repo_dict
 
-        self.assertEqual(es.get_dump_disk_status(), self.results)
+        self.assertEqual(els.get_dump_disk_status(), self.results)
 
 
 if __name__ == "__main__":

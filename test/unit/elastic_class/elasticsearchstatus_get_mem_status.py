@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_mem_status.py
+"""Program:  elasticsearchstatus_get_mem_status.py
 
     Description:  Unit testing of get_mem_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_mem_status.py
+        test/unit/elastic_class/elasticsearchstatus_get_mem_status.py
 
     Arguments:
 
@@ -83,7 +83,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.mem_per_used = 80
         self.mem_total = 234567890
         self.mem_used = 123456789
@@ -107,15 +107,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used
-        es.mem_total = self.mem_total
-        es.mem_used = self.mem_used
-        es.mem_free = self.mem_free
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.mem_per_used = self.mem_per_used
+        els.mem_total = self.mem_total
+        els.mem_used = self.mem_used
+        els.mem_free = self.mem_free
 
-        self.assertEqual(es.get_mem_status(), self.results)
+        self.assertEqual(els.get_mem_status(), self.results)
 
 
 if __name__ == "__main__":

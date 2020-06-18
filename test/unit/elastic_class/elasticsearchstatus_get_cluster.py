@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_cluster.py
+"""Program:  elasticsearchstatus_get_cluster.py
 
     Description:  Unit testing of get_cluster in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_cluster.py
+        test/unit/elastic_class/elasticsearchstatus_get_cluster.py
 
     Arguments:
 
@@ -83,7 +83,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.cluster_name = "ClusterName"
         self.results = {"Cluster": "ClusterName"}
 
@@ -102,12 +102,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.cluster_name = self.cluster_name
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.cluster_name = self.cluster_name
 
-        self.assertEqual(es.get_cluster(), self.results)
+        self.assertEqual(els.get_cluster(), self.results)
 
 
 if __name__ == "__main__":
