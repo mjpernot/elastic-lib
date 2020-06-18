@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearch_init.py
+"""Program:  elasticsearch_init.py
 
     Description:  Unit testing of __init__ in elastic_class.ElasticSearch.
 
     Usage:
-        test/unit/elastic_class/ElasticSearch_init.py
+        test/unit/elastic_class/elasticsearch_init.py
 
     Arguments:
 
