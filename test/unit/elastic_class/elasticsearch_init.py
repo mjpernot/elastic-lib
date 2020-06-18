@@ -113,7 +113,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
                                          {"path": {"data": ["/dir/data1"],
                                                    "logs": ["/dir/logs1"]}}},
@@ -140,12 +140,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.es.ping_status = False
-        mock_es.return_value = self.es
+        self.els.ping_status = False
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts, es.is_connected, es.data,
-                          es.logs),
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual((els.port, els.hosts, els.is_connected, els.data,
+                          els.logs),
                          (9200, self.host_list, False, {}, {}))
 
     @mock.patch("elastic_class.get_cluster_nodes")
@@ -165,18 +165,18 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_nodes.return_value = self.nodes_data
         mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
         mock_master.return_value = self.master_name
         mock_cluster.return_value = self.cluster_data
 
-        es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts, es.is_connected, es.data,
-                          es.logs),
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual((els.port, els.hosts, els.is_connected, els.data,
+                          els.logs),
                          (9200, self.host_list, True, self.data_results,
-                         self.logs_results))
+                          self.logs_results))
 
     @mock.patch("elastic_class.get_cluster_nodes")
     @mock.patch("elastic_class.get_master_name")
@@ -195,15 +195,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_nodes.return_value = self.nodes_data
         mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
         mock_master.return_value = self.master_name
         mock_cluster.return_value = self.cluster_data
 
-        es = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((es.port, es.hosts), (9200, self.host_list))
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual((els.port, els.hosts), (9200, self.host_list))
 
 
 if __name__ == "__main__":
