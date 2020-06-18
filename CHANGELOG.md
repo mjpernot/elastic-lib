@@ -10,6 +10,27 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearchStatus.chk_disk:  Does not check any disk listed as UNASSIGNED.
 
 ### Changed
+- elastic_class.ElasticSearchStatus:  Changed variable to standard naming convention.
+- elastic_class.ElasticSearchRepo:  Changed variable to standard naming convention.
+- elastic_class.ElasticSearchDump:  Changed variable to standard naming convention.
+- elastic_class.ElasticSearch:  Changed variable to standard naming convention.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Removed duplication code of setting self.els attribute.
+- elastic_class.get_shards:  Changed variable to standard naming convention.
+- elastic_class.is_active:  Changed variable to standard naming convention.
+- elastic_class.get_master_name:  Changed variable to standard naming convention.
+- elastic_class.get_nodes:  Changed variable to standard naming convention.
+- elastic_class.get_repo_list:  Changed variable to standard naming convention.
+- elastic_class.get_disks:  Changed variable to standard naming convention.
+- elastic_class.get_dump_list:  Changed variable to standard naming convention.
+- elastic_class.get_info:  Changed variable to standard naming convention.
+- elastic_class.get_cluster_nodes:  Changed variable to standard naming convention.
+- elastic_class.get_cluster_stats:  Changed variable to standard naming convention.
+- elastic_class.get_cluster_status:  Changed variable to standard naming convention.
+- elastic_class.delete_snapshot:  Changed variable to standard naming convention.
+- elastic_class.delete_snapshot_repo:  Changed variable to standard naming convention.
+- elastic_class.get_cluster_health:  Changed variable to standard naming convention.
+- elastic_class.create_snapshot_repo:  Changed variable to standard naming convention.
+- elastic_class.create_snapshot:  Changed variable to standard naming convention.
 - elastic_libs.list_dumps:  Changed variable to standard naming convention.
 - elastic_libs.get_latest_dump:  Changed variable to standard naming convention.
 - elastic_class.ElasticSearchStatus.chk_disk:  Added UsedPercent and Available and clarified four other components.
