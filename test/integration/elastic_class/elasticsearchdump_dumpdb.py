@@ -70,7 +70,8 @@ class UnitTest(unittest.TestCase):
         self.config_path = os.path.join(self.test_path, "config")
         self.cfg = gen_libs.load_module("elastic", self.config_path)
         self.repo_name = "TEST_INTR_REPO"
-        self.repo_dir = os.path.join(self.cfg.base_repo_dir, self.repo_name)
+        self.repo_dir = os.path.join(self.cfg.log_repo_dir, self.repo_name)
+        self.phy_repo_dir = os.path.join(self.cfg.phy_repo_dir, self.repo_name)
         self.msg = "ERROR:  Repository name not set."
         self.dbs_err = ["test_dump_error"]
         self.msg2 = \
@@ -96,11 +97,11 @@ class UnitTest(unittest.TestCase):
         # Capture 2 databases/indices name in Elasticsearch.
         dbs = ','.join(
             [str(y[2]) for y in [
-                x.split() for x in esd.es.cat.indices().splitlines()]][0:2])
+                x.split() for x in esd.els.cat.indices().splitlines()]][0:2])
 
         err_flag, _ = esd.dump_db(dbs)
 
-        dir_path = os.path.join(self.repo_dir, "indices")
+        dir_path = os.path.join(self.phy_repo_dir, "indices")
 
         # Count number of databases/indices dumped to repository.
         cnt = len([name for name in os.listdir(dir_path)
@@ -113,7 +114,7 @@ class UnitTest(unittest.TestCase):
 
     def test_dbs_is_successful(self):
 
-        """Function:  test_dump_succesful
+        """Function:  test_dbs_is_successful
 
         Description:  Test dumping single database.
 
@@ -129,7 +130,8 @@ class UnitTest(unittest.TestCase):
                                               repo=self.repo_name)
 
         # Capture the first database/indice name in Elasticsearch.
-        dbs = str([x.split() for x in esd.es.cat.indices().splitlines()][0][2])
+        dbs = str([name.split()
+                   for name in esd.els.cat.indices().splitlines()][0][2])
 
         err_flag, _ = esd.dump_db(dbs)
 
@@ -258,8 +260,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if os.path.isdir(self.repo_dir):
-            shutil.rmtree(self.repo_dir)
+        if os.path.isdir(self.phy_repo_dir):
+            shutil.rmtree(self.phy_repo_dir)
 
 
 if __name__ == "__main__":
