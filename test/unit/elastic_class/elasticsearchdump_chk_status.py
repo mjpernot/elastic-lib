@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchDump_chk_status.py
+"""Program:  elasticsearchdump_chk_status.py
 
     Description:  Unit testing of _chk_status in
         elastic_class.ElasticSearchDump class.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchDump_chk_status.py
+        test/unit/elastic_class/elasticsearchdump_chk_status.py
 
     Arguments:
 
@@ -30,7 +30,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -43,10 +42,25 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
+        __init__ -> Class initialization.
         get_repository -> Stub holder for snapshot.get_repository method.
         create -> Stub holder for snapshot.create method.
 
     """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.repository = None
+        self.body = None
+        self.snapshot = None
 
     def get_repository(self):
 
@@ -73,6 +87,10 @@ class Repo(object):
             (input) snapshot -> Database dump respository information.
 
         """
+
+        self.repository = repository
+        self.body = body
+        self.snapshot = snapshot
 
         return True
 
@@ -162,7 +180,7 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.host_str = "host1, host2"
         self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.break_flag = False
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
                                          {"path": {"data": ["/dir/data1"],
@@ -194,7 +212,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [
             ["dump1", "dump2"],
             [["dump1"], ["dump2"],
@@ -203,10 +221,10 @@ class UnitTest(unittest.TestCase):
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        es.dump_name = "dump3"
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.dump_name = "dump3"
         self.assertEqual(
-            es._chk_status(self.break_flag),
+            els._chk_status(self.break_flag),
             (True, "Unknown error detected on reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -231,7 +249,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [
             ["dump1", "dump2"],
             [["dump1"], ["dump2"],
@@ -239,10 +257,10 @@ class UnitTest(unittest.TestCase):
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        es.dump_name = "dump3"
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.dump_name = "dump3"
         self.assertEqual(
-            es._chk_status(self.break_flag),
+            els._chk_status(self.break_flag),
             (True, "Dump failed to finish on reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -267,7 +285,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [
             ["dump1", "dump2"],
             [["dump1"], ["dump2"],
@@ -276,10 +294,10 @@ class UnitTest(unittest.TestCase):
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        es.dump_name = "dump3"
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.dump_name = "dump3"
         self.assertEqual(
-            es._chk_status(self.break_flag),
+            els._chk_status(self.break_flag),
             (True, "Partial dump completed on reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -305,7 +323,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [
             ["dump1", "dump2"],
             [["dump1"], ["dump2"],
@@ -314,10 +332,10 @@ class UnitTest(unittest.TestCase):
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        es.dump_name = "dump3"
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.dump_name = "dump3"
         self.assertEqual(
-            es._chk_status(self.break_flag),
+            els._chk_status(self.break_flag),
             (True, "Older version of ES detected: reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -343,7 +361,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [
             ["dump1", "dump2"],
             [["dump1"], ["dump2"],
@@ -354,9 +372,9 @@ class UnitTest(unittest.TestCase):
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        es.dump_name = "dump3"
-        self.assertEqual(es._chk_status(self.break_flag), (False, None, True))
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.dump_name = "dump3"
+        self.assertEqual(els._chk_status(self.break_flag), (False, None, True))
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
@@ -380,7 +398,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [
             ["dump1", "dump2"],
             [["dump1"], ["dump2"],
@@ -389,9 +407,9 @@ class UnitTest(unittest.TestCase):
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        es.dump_name = "dump3"
-        self.assertEqual(es._chk_status(self.break_flag), (False, None, True))
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.dump_name = "dump3"
+        self.assertEqual(els._chk_status(self.break_flag), (False, None, True))
 
 
 if __name__ == "__main__":

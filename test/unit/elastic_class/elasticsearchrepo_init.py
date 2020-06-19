@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_mem_status.py
+"""Program:  elasticsearchrepo_init.py
 
-    Description:  Unit testing of get_mem_status in
-        elastic_class.ElasticSearchStatus.
+    Description:  Unit testing of __init__ in elastic_class.ElasticSearchRepo
+        class.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_mem_status.py
+        test/unit/elastic_class/elasticsearchrepo_init.py
 
     Arguments:
 
@@ -58,6 +58,9 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
+        self.ping_status = True
+        self.info_status = {"cluster_name":
+                            "ClusterName", "name": "servername"}
 
 
 class UnitTest(unittest.TestCase):
@@ -83,18 +86,13 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
-        self.mem_per_used = 80
-        self.mem_total = 234567890
-        self.mem_used = 123456789
-        self.mem_free = 12345678
-        self.results = {
-            "Memory": {"Percent": self.mem_per_used, "Total": "223.70MB",
-                       "Used": "117.74MB", "Free": "11.77MB"}}
+        self.repo = "reponame"
+        self.els = Elasticsearch(self.host_list)
+        self.repo_dir = "/dir/path/repo"
 
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
-                mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearchRepo.update_repo_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es):
@@ -107,15 +105,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used
-        es.mem_total = self.mem_total
-        es.mem_used = self.mem_used
-        es.mem_free = self.mem_free
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
+                                              repo_dir=self.repo_dir)
 
-        self.assertEqual(es.get_mem_status(), self.results)
+        self.assertEqual((els.hosts, els.repo, els.repo_dir),
+                         (self.host_list, self.repo, self.repo_dir))
 
 
 if __name__ == "__main__":

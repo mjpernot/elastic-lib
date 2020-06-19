@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_nodes.py
+"""Program:  elasticsearchstatus_get_cluster.py
 
-    Description:  Unit testing of get_nodes in
+    Description:  Unit testing of get_cluster in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_nodes.py
+        test/unit/elastic_class/elasticsearchstatus_get_cluster.py
 
     Arguments:
 
@@ -83,9 +83,9 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
-        self.nodes = ["node1", "node2"]
-        self.results = {"Nodes": ["node1", "node2"]}
+        self.els = Elasticsearch(self.host_list)
+        self.cluster_name = "ClusterName"
+        self.results = {"Cluster": "ClusterName"}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -102,12 +102,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.nodes = self.nodes
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.cluster_name = self.cluster_name
 
-        self.assertEqual(es.get_nodes(), self.results)
+        self.assertEqual(els.get_cluster(), self.results)
 
 
 if __name__ == "__main__":

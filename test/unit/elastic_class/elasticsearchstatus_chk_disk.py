@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_chk_disk.py
+"""Program:  elasticsearchstatus_chk_disk.py
 
     Description:  Unit testing of chk_disk in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_chk_disk.py
+        test/unit/elastic_class/elasticsearchstatus_chk_disk.py
 
     Arguments:
 
@@ -68,6 +68,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_unassigned_warn -> Test with unassigned disk and warning.
+        test_unassigned_no_warn -> Test with unassigned disk and no warning.
         test_new_arg_warn -> Test with new cutoff with warning.
         test_new_arg_no_warn -> Test with new cutoff and no warning.
         test_default_warn -> Test with default settings with warning.
@@ -86,7 +88,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.disk_list = [
             ["995", "69mb", "16gb", "53gb", "69gb", "23", "ip1", "ip2",
              "hostname1"],
@@ -97,21 +99,81 @@ class UnitTest(unittest.TestCase):
              "hostname1"],
             ["990", "68mb", "15gb", "53gb", "68gb", "90", "ip3", "ip4",
              "hostname2"]]
+        self.disk_list3 = [
+            ["995", "69mb", "16gb", "53gb", "69gb", "23", "ip1", "ip2",
+             "hostname1"],
+            ["2", "UNASSIGNED"],
+            ["990", "68mb", "15gb", "53gb", "68gb", "22", "ip3", "ip4",
+             "hostname2"]]
+        self.disk_list4 = [
+            ["995", "69mb", "16gb", "53gb", "69gb", "23", "ip1", "ip2",
+             "hostname1"],
+            ["2", "UNASSIGNED"],
+            ["990", "68mb", "15gb", "53gb", "68gb", "90", "ip3", "ip4",
+             "hostname2"]]
         self.results = {}
         self.results2 = {
             "DiskWarning": {"hostname2": {
                 "Reason": "Have reached disk usage threshold",
-                "Threshold": 85,
-                "Total": "68gb",
-                "Used": "15gb",
-                "ESUsed": "68mb"}}}
+                "ThresholdPercent": 85,
+                "UsedPercent": "90",
+                "TotalDisk": "68gb",
+                "TotalUsed": "15gb",
+                "Available": "53gb",
+                "ElasticSearchUsed": "68mb"}}}
         self.results3 = {
             "DiskWarning": {"hostname2": {
                 "Reason": "Have reached disk usage threshold",
-                "Threshold": 87,
-                "Total": "68gb",
-                "Used": "15gb",
-                "ESUsed": "68mb"}}}
+                "ThresholdPercent": 87,
+                "UsedPercent": "90",
+                "TotalDisk": "68gb",
+                "TotalUsed": "15gb",
+                "Available": "53gb",
+                "ElasticSearchUsed": "68mb"}}}
+
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_unassigned_warn(self, mock_es):
+
+        """Function:  test_unassigned_warn
+
+        Description:  Test with unassigned disk and warning.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list4
+
+        self.assertEqual(els.chk_disk(), self.results2)
+
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_unassigned_no_warn(self, mock_es):
+
+        """Function:  test_unassigned_no_warn
+
+        Description:  Test with unassigned disk and no warning.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list3
+
+        self.assertEqual(els.chk_disk(), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -128,12 +190,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list2
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list2
 
-        self.assertEqual(es.chk_disk(cutoff_disk=87), self.results3)
+        self.assertEqual(els.chk_disk(cutoff_disk=87), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -150,19 +212,19 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list2
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list2
 
-        self.assertEqual(es.chk_disk(cutoff_disk=95), self.results)
+        self.assertEqual(els.chk_disk(cutoff_disk=95), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default_no_warn(self, mock_es):
+    def test_default_warn(self, mock_es):
 
         """Function:  test_default_warn
 
@@ -172,12 +234,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list2
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list2
 
-        self.assertEqual(es.chk_disk(), self.results2)
+        self.assertEqual(els.chk_disk(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -194,12 +256,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list
 
-        self.assertEqual(es.chk_disk(), self.results)
+        self.assertEqual(els.chk_disk(), self.results)
 
 
 if __name__ == "__main__":

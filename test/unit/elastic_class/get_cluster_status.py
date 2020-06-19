@@ -107,7 +107,7 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.results = "green"
 
     def test_default(self):
@@ -120,7 +120,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_class.get_cluster_status(self.es),
+        self.assertEqual(elastic_class.get_cluster_status(self.els),
                          self.results)
 
 

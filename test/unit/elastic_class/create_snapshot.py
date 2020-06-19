@@ -112,7 +112,7 @@ class UnitTest(unittest.TestCase):
         self.repo_name = "reponame"
         self.body = {"indices": "dbs", "ignore_unavailable": True}
         self.dump_name = "dumpname"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
 
     def test_default(self):
 
@@ -125,7 +125,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.assertFalse(elastic_class.create_snapshot(
-            self.es, self.repo_name, self.body, self.dump_name))
+            self.els, self.repo_name, self.body, self.dump_name))
 
 
 if __name__ == "__main__":

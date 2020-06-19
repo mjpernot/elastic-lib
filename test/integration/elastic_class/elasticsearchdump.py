@@ -25,7 +25,6 @@ else:
     import unittest
 
 # Third-party
-import mock
 
 # Local
 sys.path.append(os.getcwd())
@@ -74,14 +73,15 @@ class UnitTest(unittest.TestCase):
         self.cfg = gen_libs.load_module("elastic", self.config_path)
         self.repo_name = "TEST_INTR_REPO"
         self.repo_name2 = "TEST_INTR_REPO2"
-        self.repo_dir = os.path.join(self.cfg.base_repo_dir, self.repo_name)
-        self.repo_dir2 = os.path.join(self.cfg.base_repo_dir, self.repo_name2)
+        self.repo_dir = os.path.join(self.cfg.log_repo_dir, self.repo_name)
+        self.repo_dir2 = os.path.join(self.cfg.log_repo_dir, self.repo_name2)
+        self.phy_repo_dir = os.path.join(self.cfg.phy_repo_dir, self.repo_name)
+        self.phy_repo_dir2 = os.path.join(self.cfg.phy_repo_dir,
+                                          self.repo_name2)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
-
-        if ER.repo_dict:
+        if esr.repo_dict:
             print("ERROR: Test environment not clean - repositories exist.")
             self.skipTest("Pre-conditions not met.")
 
@@ -95,26 +95,25 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER.create_repo()
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host,
-                                             repo=self.repo_name)
-        ES.dump_db()
-
-        ES2 = elastic_class.ElasticSearchDump(self.cfg.host,
+        esd = elastic_class.ElasticSearchDump(self.cfg.host,
                                               repo=self.repo_name)
+        esd.dump_db()
 
-        if ES2.dump_list:
+        esd2 = elastic_class.ElasticSearchDump(self.cfg.host,
+                                               repo=self.repo_name)
+
+        if esd2.dump_list:
             status = True
 
         else:
             status = False
 
-        ER.delete_repo()
+        esr.delete_repo()
 
         self.assertTrue(status)
 
@@ -128,21 +127,20 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER.create_repo()
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if not ES.dump_list:
+        if not esd.dump_list:
             status = True
 
         else:
             status = False
 
-        ER.delete_repo()
+        esr.delete_repo()
 
         self.assertTrue(status)
 
@@ -156,21 +154,20 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER.create_repo()
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if ES.dump_loc == self.repo_dir:
+        if esd.dump_loc == self.repo_dir:
             status = True
 
         else:
             status = False
 
-        ER.delete_repo()
+        esr.delete_repo()
 
         self.assertTrue(status)
 
@@ -184,9 +181,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if not ES.type:
+        if not esd.type:
             status = True
 
         else:
@@ -204,23 +201,22 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER.create_repo()
-        ER.create_repo(repo_name=self.repo_name2, repo_dir=self.repo_dir2)
+        esr.create_repo()
+        esr.create_repo(repo_name=self.repo_name2, repo_dir=self.repo_dir2)
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if ES.repo_name is None:
+        if esd.repo_name is None:
             status = True
 
         else:
             status = False
 
-        ER.delete_repo()
-        ER.delete_repo(repo_name=self.repo_name2)
+        esr.delete_repo()
+        esr.delete_repo(repo_name=self.repo_name2)
 
         self.assertTrue(status)
 
@@ -234,21 +230,20 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER.create_repo()
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if ES.repo_name == self.repo_name:
+        if esd.repo_name == self.repo_name:
             status = True
 
         else:
             status = False
 
-        ER.delete_repo()
+        esr.delete_repo()
 
         self.assertTrue(status)
 
@@ -262,9 +257,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if not ES.repo_name and not ES.type:
+        if not esd.repo_name and not esd.type:
             status = True
 
         else:
@@ -282,10 +277,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host,
-                                             repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host,
+                                              repo=self.repo_name)
 
-        if not ES.repo_name and not ES.type:
+        if not esd.repo_name and not esd.type:
             status = True
 
         else:
@@ -303,9 +298,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if not ES.repo_name and not ES.type:
+        if not esd.repo_name and not esd.type:
             status = True
 
         else:
@@ -326,9 +321,9 @@ class UnitTest(unittest.TestCase):
         host_list = "Host_Name"
 
         with gen_libs.no_std_out():
-            ES = elastic_class.ElasticSearchDump(host_list)
+            esd = elastic_class.ElasticSearchDump(host_list)
 
-        if not ES.dump_name:
+        if not esd.dump_name:
             status = True
 
         else:
@@ -346,11 +341,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if os.path.isdir(self.repo_dir):
-            shutil.rmtree(self.repo_dir)
+        if os.path.isdir(self.phy_repo_dir):
+            shutil.rmtree(self.phy_repo_dir)
 
-        if os.path.isdir(self.repo_dir2):
-            shutil.rmtree(self.repo_dir2)
+        if os.path.isdir(self.phy_repo_dir2):
+            shutil.rmtree(self.phy_repo_dir2)
 
 
 if __name__ == "__main__":

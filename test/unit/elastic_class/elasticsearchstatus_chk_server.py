@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_chk_mem.py
+"""Program:  elasticsearchstatus_chk_server.py
 
-    Description:  Unit testing of chk_mem in
+    Description:  Unit testing of chk_server in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_chk_mem.py
+        test/unit/elastic_class/elasticsearchstatus_chk_server.py
 
     Arguments:
 
@@ -86,21 +86,21 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
-        self.mem_per_used = 80
-        self.mem_per_used2 = 95
-        self.mem_total = 234567890
+        self.els = Elasticsearch(self.host_list)
+        self.alloc_cpu = 5
+        self.cpu_active = 50
+        self.cpu_active2 = 80
         self.results = {}
         self.results2 = {
-            "MemoryWarning": {"Reason": "Have reach memory threshold",
-                              "Threshold": 90,
-                              "TotalMemory": "223.70MB",
-                              "MemoryUsage": self.mem_per_used2}}
+            "ServerWarning": {"Reason": "Have reach cpu threshold",
+                              "Threshold": 75,
+                              "TotalCPUs": self.alloc_cpu,
+                              "CPUUsage": self.cpu_active2}}
         self.results3 = {
-            "MemoryWarning": {"Reason": "Have reach memory threshold",
-                              "Threshold": 85,
-                              "TotalMemory": "223.70MB",
-                              "MemoryUsage": self.mem_per_used2}}
+            "ServerWarning": {"Reason": "Have reach cpu threshold",
+                              "Threshold": 78,
+                              "TotalCPUs": self.alloc_cpu,
+                              "CPUUsage": self.cpu_active2}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -117,13 +117,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used2
-        es.mem_total = self.mem_total
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active2
 
-        self.assertEqual(es.chk_mem(cutoff_mem=85), self.results3)
+        self.assertEqual(els.chk_server(cutoff_cpu=78), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -140,13 +140,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used
-        es.mem_total = self.mem_total
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active
 
-        self.assertEqual(es.chk_mem(cutoff_mem=85), self.results)
+        self.assertEqual(els.chk_server(cutoff_cpu=85), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -163,13 +163,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used2
-        es.mem_total = self.mem_total
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active2
 
-        self.assertEqual(es.chk_mem(), self.results2)
+        self.assertEqual(els.chk_server(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -186,13 +186,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.mem_per_used = self.mem_per_used
-        es.mem_total = self.mem_total
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active
 
-        self.assertEqual(es.chk_mem(), self.results)
+        self.assertEqual(els.chk_server(), self.results)
 
 
 if __name__ == "__main__":

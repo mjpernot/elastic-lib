@@ -40,9 +40,23 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
+        __init__ -> Initialization of class.
         delete -> Stub holder for snapshot.delete method.
 
     """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization of class.
+
+        Arguments:
+
+        """
+
+        self.repository = None
+        self.snapshot = None
 
     def delete(self, repository, snapshot):
 
@@ -56,6 +70,9 @@ class Repo(object):
             (output) Return exit status of command.
 
         """
+
+        self.repository = repository
+        self.snapshot = snapshot
 
         return {"acknowledged": True}
 
@@ -111,7 +128,7 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo_name = "reponame"
         self.dump_name = "dumpname"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.results = {"acknowledged": True}
 
     def test_default(self):
@@ -125,7 +142,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.assertEqual(elastic_class.delete_snapshot(
-            self.es, self.repo_name, self.dump_name), self.results)
+            self.els, self.repo_name, self.dump_name), self.results)
 
 
 if __name__ == "__main__":

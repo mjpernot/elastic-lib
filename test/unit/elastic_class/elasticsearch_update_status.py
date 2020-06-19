@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearch_update_status.py
+"""Program:  elasticsearch_update_status.py
 
     Description:  Unit testing of update_status in elastic_class.ElasticSearch.
 
     Usage:
-        test/unit/elastic_class/ElasticSearch_update_status.py
+        test/unit/elastic_class/elasticsearch_update_status.py
 
     Arguments:
 
@@ -99,7 +99,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
                                          {"path": {"data": ["/dir/data1"],
                                                    "logs": ["/dir/logs1"]}}},
@@ -128,13 +128,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.es.ping_status = False
-        mock_es.return_value = self.es
+        self.els.ping_status = False
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearch(self.host_list)
-        es.update_status()
-        self.assertEqual((es.port, es.hosts, es.is_connected, es.data,
-                          es.logs),
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.update_status()
+        self.assertEqual((els.port, els.hosts, els.is_connected, els.data,
+                          els.logs),
                          (9200, self.host_list, False, {}, {}))
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
@@ -155,17 +155,17 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_nodes.return_value = self.nodes_data
         mock_info.return_value = self.info_data
         mock_health.return_value = self.health_data
         mock_master.return_value = self.master_name
         mock_cluster.return_value = self.cluster_data
 
-        es = elastic_class.ElasticSearch(self.host_list)
-        es.update_status()
-        self.assertEqual((es.port, es.hosts, es.is_connected, es.data,
-                          es.logs),
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.update_status()
+        self.assertEqual((els.port, els.hosts, els.is_connected, els.data,
+                          els.logs),
                          (9200, self.host_list, True, self.data_results,
                           self.logs_results))
 

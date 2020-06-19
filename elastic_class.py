@@ -44,20 +44,19 @@ import elasticsearch
 # Local
 import elastic_libs
 import lib.gen_libs as gen_libs
-import requests_lib.requests_libs as requests_libs
 import version
 
 __version__ = version.__version__
 
 
-def create_snapshot(es, reponame, body, dumpname, **kwargs):
+def create_snapshot(els, reponame, body, dumpname, **kwargs):
 
     """Function:  create_snapshot
 
     Description:  Runs a dump of a named repository.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (input) reponame -> Name of repository.
         (input) body -> Contains arguments for the dump command.
         (input) dumpname -> Dump name which it will be dumped too.
@@ -65,17 +64,17 @@ def create_snapshot(es, reponame, body, dumpname, **kwargs):
     """
 
     body = dict(body)
-    es.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
+    els.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
 
 
-def create_snapshot_repo(es, reponame, body, verify=True, **kwargs):
+def create_snapshot_repo(els, reponame, body, verify=True, **kwargs):
 
     """Function:  create_snapshot_repo
 
     Description:  Creates a repository in Elasticsearch cluster.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (input) reponame -> Name of repository.
         (input) body -> Contains arguments for the dump command.
         (input) verify -> True|False - Validate the repository.
@@ -84,222 +83,223 @@ def create_snapshot_repo(es, reponame, body, verify=True, **kwargs):
     """
 
     body = dict(body)
-    return es.snapshot.create_repository(repository=reponame, body=body,
-                                         verify=verify)
+    return els.snapshot.create_repository(repository=reponame, body=body,
+                                          verify=verify)
 
 
-def delete_snapshot(es, reponame, dumpname, **kwargs):
+def delete_snapshot(els, reponame, dumpname, **kwargs):
 
     """Function:  delete_snapshot
 
     Description:  Deltes a dump in a named repository.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (input) reponame -> Name of repository.
         (input) dumpname -> Dump name to be deleted.
         (output) Return exit status of delete_repository command.
 
     """
 
-    return es.snapshot.delete(repository=reponame, snapshot=dumpname)
+    return els.snapshot.delete(repository=reponame, snapshot=dumpname)
 
 
-def delete_snapshot_repo(es, reponame, **kwargs):
+def delete_snapshot_repo(els, reponame, **kwargs):
 
     """Function:  delete_snapshot_repo
 
     Description:  Deletes named repository in Elasticsearch cluster.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (input) reponame -> Name of repository.
         (output) Return exit status of delete_repository command.
 
     """
 
-    return es.snapshot.delete_repository(repository=reponame)
+    return els.snapshot.delete_repository(repository=reponame)
 
 
-def get_cluster_health(es, **kwargs):
+def get_cluster_health(els, **kwargs):
 
     """Function:  get_cluster_health
 
     Description:  Return a dict of information on Elasticsearch cluster health.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) Dictionary of information on Elasticsearch cluster health.
 
     """
 
-    return es.cluster.health()
+    return els.cluster.health()
 
 
-def get_cluster_nodes(es, **kwargs):
+def get_cluster_nodes(els, **kwargs):
 
     """Function:  get_cluster_nodes
 
     Description:  Return a dict of information on Elasticsearch cluster nodes.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) Dictionary of information on Elasticsearch cluster nodes.
 
     """
 
-    return es.nodes.info()
+    return els.nodes.info()
 
 
-def get_cluster_stats(es, **kwargs):
+def get_cluster_stats(els, **kwargs):
 
     """Function:  get_cluster_stats
 
     Description:  Return a dict of information on Elasticsearch cluster stats.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) Dictionary of information on Elasticsearch cluster stats.
 
     """
 
-    return es.cluster.stats()
+    return els.cluster.stats()
 
 
-def get_cluster_status(es, **kwargs):
+def get_cluster_status(els, **kwargs):
 
     """Function:  get_cluster_status
 
     Description:  Return status of the Elasticsearch cluster.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) Status of the Elasticsearch cluster.
 
     """
 
-    return es.cluster.health()["status"]
+    return els.cluster.health()["status"]
 
 
-def get_disks(es, **kwargs):
+def get_disks(els, **kwargs):
 
     """Function:  get_disks
 
     Description:  Return a list of disks within the Elasticsearch cluster.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) List of ElasticSearch disks.
 
     """
 
-    return [x.split() for x in es.cat.allocation().splitlines()]
+    return [item.split() for item in els.cat.allocation().splitlines()]
 
 
-def get_dump_list(es, repo, **kwargs):
+def get_dump_list(els, repo, **kwargs):
 
     """Function:  get_dump_list
 
     Description:  Return a list of dumps within a named repository.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (input) repo -> Name of repository.
         (output) List of ElasticSearch dumps.
 
     """
 
-    return [x.split() for x in es.cat.snapshots(repository=repo).splitlines()]
+    return [item.split()
+            for item in els.cat.snapshots(repository=repo).splitlines()]
 
 
-def get_info(es, **kwargs):
+def get_info(els, **kwargs):
 
     """Function:  get_info
 
     Description:  Return a dictionary of a basic Elasticsearch info command.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) Dictionary of basic Elasticsearch info command.
 
     """
 
-    return es.info()
+    return els.info()
 
 
-def get_master_name(es, **kwargs):
+def get_master_name(els, **kwargs):
 
     """Function:  get_master_name
 
     Description:  Return name of the master node in a Elasticsearch cluster.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) Name of master node in ElasticSearch cluster.
 
     """
 
-    return es.cat.master().strip().split(" ")[-1]
+    return els.cat.master().strip().split(" ")[-1]
 
 
-def get_nodes(es, **kwargs):
+def get_nodes(els, **kwargs):
 
     """Function:  get_nodes
 
     Description:  Return a dictionary of information on Elasticsearch nodes.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) Dictionary of information on Elasticsearch nodes.
 
     """
 
-    return es.nodes.info()["nodes"]
+    return els.nodes.info()["nodes"]
 
 
-def get_repo_list(es, **kwargs):
+def get_repo_list(els, **kwargs):
 
     """Function:  get_repo_list
 
     Description:  Return a dictionary of a list of Elasticsearch repositories.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) Dictionary of a list of Elasticsearch repositories.
 
     """
 
-    return es.snapshot.get_repository()
+    return els.snapshot.get_repository()
 
 
-def get_shards(es, **kwargs):
+def get_shards(els, **kwargs):
 
     """Function:  get_shards
 
     Description:  Return a list of shards within the Elasticsearch cluster.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) List of ElasticSearch shards.
 
     """
 
-    return [x.split() for x in es.cat.shards().splitlines()]
+    return [item.split() for item in els.cat.shards().splitlines()]
 
 
-def is_active(es, **kwargs):
+def is_active(els, **kwargs):
 
     """Function:  is_active
 
     Description:  Returns True or False if the Elasticsearch cluster is up.
 
     Arguments:
-        (input) es -> ElasticSearch instance.
+        (input) els -> ElasticSearch instance.
         (output) True|False - Elasticsearch cluster is up.
 
     """
 
-    return es.ping()
+    return els.ping()
 
 
 class ElasticSearch(object):
@@ -333,7 +333,6 @@ class ElasticSearch(object):
         self.hosts = list(host_list)
         self.cluster_name = None
         self.node_connected_to = None
-        self.es = None
         self.is_connected = False
         self.data = {}
         self.logs = {}
@@ -341,7 +340,7 @@ class ElasticSearch(object):
         self.total_nodes = None
         self.cluster_status = None
         self.master = None
-        self.es = elasticsearch.Elasticsearch(self.hosts, port=self.port)
+        self.els = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
         self.update_status()
 
@@ -355,38 +354,38 @@ class ElasticSearch(object):
 
         """
 
-        if is_active(self.es):
+        if is_active(self.els):
             self.is_connected = True
 
             # Basic information
-            info = get_info(self.es)
+            info = get_info(self.els)
 
             self.node_connected_to = info["name"]
 
             # Node information
-            data = get_nodes(self.es)
+            data = get_nodes(self.els)
 
-            for x in data:
-                self.data[data[x]["name"]] = \
-                    data[x]["settings"]["path"]["data"]
-                self.logs[data[x]["name"]] = \
-                    data[x]["settings"]["path"]["logs"]
+            for item in data:
+                self.data[data[item]["name"]] = \
+                    data[item]["settings"]["path"]["data"]
+                self.logs[data[item]["name"]] = \
+                    data[item]["settings"]["path"]["logs"]
 
-            self.nodes = [data[x]["name"] for x in data]
+            self.nodes = [data[item]["name"] for item in data]
 
             # Cluster node information
-            cluster = get_cluster_nodes(self.es)
+            cluster = get_cluster_nodes(self.els)
 
             self.total_nodes = cluster["_nodes"]["total"]
 
             # Cluster health information
-            health = get_cluster_health(self.es)
+            health = get_cluster_health(self.els)
 
             self.cluster_status = health["status"]
             self.cluster_name = health["cluster_name"]
 
             # Master information
-            self.master = get_master_name(self.es)
+            self.master = get_master_name(self.els)
 
         else:
             self.is_connected = False
@@ -446,12 +445,12 @@ class ElasticSearchDump(ElasticSearch):
 
         """
 
-        if is_active(self.es):
+        if is_active(self.els):
             self.is_connected = True
             self.dump_name = self.cluster_name.lower() + "_bkp_" + \
                 datetime.datetime.strftime(datetime.datetime.now(),
                                            "%Y%m%d-%H%M%S")
-            repo_dict = get_repo_list(self.es)
+            repo_dict = get_repo_list(self.els)
 
             if self.repo_name and self.repo_name not in repo_dict:
                 self.repo_name = None
@@ -470,7 +469,7 @@ class ElasticSearchDump(ElasticSearch):
                 self.type = repo_dict[self.repo_name]["type"]
                 self.dump_loc = \
                     repo_dict[self.repo_name]["settings"]["location"]
-                self.dump_list = get_dump_list(self.es, self.repo_name)
+                self.dump_list = get_dump_list(self.els, self.repo_name)
 
             if self.dump_list:
                 self.last_dump_name = \
@@ -509,13 +508,13 @@ class ElasticSearchDump(ElasticSearch):
             status_msg = "ERROR:  Database name(s) is not a string: %s" % dbs
 
         if self.repo_name and not err_flag:
-            create_snapshot(self.es, self.repo_name, body, self.dump_name)
+            create_snapshot(self.els, self.repo_name, body, self.dump_name)
 
             while not break_flag and not err_flag:
 
                 err_flag, status_msg, break_flag = self._chk_status(break_flag)
 
-            self.dump_list = get_dump_list(self.es, self.repo_name)
+            self.dump_list = get_dump_list(self.els, self.repo_name)
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
 
         elif not err_flag:
@@ -541,7 +540,7 @@ class ElasticSearchDump(ElasticSearch):
         err_flag = False
         status_msg = None
 
-        for dump in get_dump_list(self.es, self.repo_name):
+        for dump in get_dump_list(self.els, self.repo_name):
 
             if self.dump_name == dump[0]:
 
@@ -643,11 +642,11 @@ class ElasticSearchRepo(ElasticSearch):
 
         """
 
-        if is_active(self.es):
+        if is_active(self.els):
             self.is_connected = True
 
             # Query dump repository
-            self.repo_dict = get_repo_list(self.es)
+            self.repo_dict = get_repo_list(self.els)
 
     def create_repo(self, repo_name=None, repo_dir=None, **kwargs):
 
@@ -677,7 +676,7 @@ class ElasticSearchRepo(ElasticSearch):
             data_dict = {"type": "fs", "settings": {"location": repo_dir,
                                                     "compress": True}}
 
-            status = create_snapshot_repo(self.es, repo_name, data_dict, True)
+            status = create_snapshot_repo(self.els, repo_name, data_dict, True)
 
             if not status["acknowledged"]:
                 err_flag = True
@@ -686,7 +685,7 @@ class ElasticSearchRepo(ElasticSearch):
 
             else:
                 # Update repo dictionary.
-                self.repo_dict = get_repo_list(self.es)
+                self.repo_dict = get_repo_list(self.els)
 
                 if repo_name not in self.repo_dict:
                     err_flag = True
@@ -721,7 +720,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         if repo_name and repo_name in self.repo_dict:
 
-            status = delete_snapshot_repo(self.es, repo_name)
+            status = delete_snapshot_repo(self.els, repo_name)
 
             if not status["acknowledged"]:
                 err_flag = True
@@ -730,7 +729,7 @@ class ElasticSearchRepo(ElasticSearch):
 
             else:
                 # Update repo dictionary.
-                self.repo_dict = get_repo_list(self.es)
+                self.repo_dict = get_repo_list(self.els)
 
                 if repo_name in self.repo_dict:
                     err_flag = True
@@ -766,9 +765,9 @@ class ElasticSearchRepo(ElasticSearch):
         if repo_name and dump_name and repo_name in self.repo_dict:
 
             # See if the dump exists.
-            if dump_name in [x[0] for x in get_dump_list(self.es, repo_name)]:
+            if dump_name in [x[0] for x in get_dump_list(self.els, repo_name)]:
 
-                status = delete_snapshot(self.es, repo_name, dump_name)
+                status = delete_snapshot(self.els, repo_name, dump_name)
 
                 if not status["acknowledged"]:
                     err_flag = True
@@ -777,7 +776,7 @@ class ElasticSearchRepo(ElasticSearch):
 
                 else:
                     # See if the dump still exists.
-                    if dump_name in [x[0] for x in get_dump_list(self.es,
+                    if dump_name in [x[0] for x in get_dump_list(self.els,
                                                                  repo_name)]:
 
                         err_flag = True
@@ -817,7 +816,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         if repo_name and repo_name in self.repo_dict:
 
-            for dump in [x[0] for x in get_dump_list(self.es, repo_name)]:
+            for dump in [x[0] for x in get_dump_list(self.els, repo_name)]:
 
                 err_flag, err_msg = self.delete_dump(repo_name=repo_name,
                                                      dump_name=dump)
@@ -917,11 +916,11 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        if is_active(self.es):
+        if is_active(self.els):
             self.is_connected = True
 
             # Get cluster health
-            health = get_cluster_health(self.es)
+            health = get_cluster_health(self.els)
 
             self.unassigned_shards = health["unassigned_shards"]
             self.active_shards_percent = \
@@ -931,10 +930,10 @@ class ElasticSearchStatus(ElasticSearch):
             self.num_primary = health["active_primary_shards"]
 
             # Get cluster shards
-            self.shard_list = get_shards(self.es)
+            self.shard_list = get_shards(self.els)
 
             # Get cluster status
-            status = get_cluster_stats(self.es)
+            status = get_cluster_stats(self.els)
 
             self.failed_nodes = status["_nodes"]["failed"]
             self.mem_per_used = status["nodes"]["os"]["mem"]["used_percent"]
@@ -946,10 +945,10 @@ class ElasticSearchStatus(ElasticSearch):
             self.cpu_active = status["nodes"]["process"]["cpu"]["percent"]
 
             # Get disks usage
-            self.disk_list = get_disks(self.es)
+            self.disk_list = get_disks(self.els)
 
             # Get repository list
-            self.repo_dict = get_repo_list(self.es)
+            self.repo_dict = get_repo_list(self.els)
 
         else:
             self.is_connected = False
@@ -1071,9 +1070,11 @@ class ElasticSearchStatus(ElasticSearch):
         data = {"DiskUsage": {}}
 
         for node in self.disk_list:
-            data["DiskUsage"][node[8]] = {
-                "Total": node[4], "Available": node[3],
-                "TotalUsed": node[2], "ESUsed": node[1], "Percent": node[5]}
+            if node[1] != "UNASSIGNED":
+                data["DiskUsage"][node[8]] = {
+                    "Total": node[4], "Available": node[3],
+                    "TotalUsed": node[2], "ESUsed": node[1],
+                    "Percent": node[5]}
 
         return data
 
@@ -1124,7 +1125,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         for func in func_list:
             results = func()
-            data, status, msg = gen_libs.merge_two_dicts(data, results)
+            data, _, _ = gen_libs.merge_two_dicts(data, results)
 
         return data
 
@@ -1148,10 +1149,11 @@ class ElasticSearchStatus(ElasticSearch):
         if self.mem_per_used >= self.cutoff_mem:
             data = {"MemoryWarning":
                     {"Reason": "Have reach memory threshold",
-                     "Threshold": self.cutoff_mem,
+                     "ThresholdPercent": self.cutoff_mem,
                      "TotalMemory":
                          gen_libs.bytes_2_readable(self.mem_total),
-                     "MemoryUsage": self.mem_per_used}}
+                     "MemoryPercentUsage": self.mem_per_used,
+                     "MemoryUsed": gen_libs.bytes_2_readable(self.mem_used)}}
 
         return data
 
@@ -1300,15 +1302,16 @@ class ElasticSearchStatus(ElasticSearch):
 
         for node in self.disk_list:
 
-            if int(node[5]) >= self.cutoff_disk:
+            if node[1] != "UNASSIGNED" and int(node[5]) >= self.cutoff_disk:
                 err_flag = True
-
                 data["DiskWarning"][node[8]] = {
                     "Reason": "Have reached disk usage threshold",
-                    "Threshold": self.cutoff_disk,
-                    "Total": node[4],
-                    "Used": node[2],
-                    "ESUsed": node[1]}
+                    "ThresholdPercent": self.cutoff_disk,
+                    "UsedPercent": node[5],
+                    "TotalDisk": node[4],
+                    "TotalUsed": node[2],
+                    "Available": node[3],
+                    "ElasticSearchUsed": node[1]}
 
         return data if err_flag else {}
 
@@ -1341,6 +1344,6 @@ class ElasticSearchStatus(ElasticSearch):
             if results:
                 err_flag = True
 
-                data, status, msg = gen_libs.merge_two_dicts(data, results)
+                data, _, _ = gen_libs.merge_two_dicts(data, results)
 
         return data if err_flag else {}

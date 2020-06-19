@@ -40,9 +40,24 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
+        __init__ -> Initialization of class.
         create_repository -> Stub for snapshot.create_repository method.
 
     """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization of class.
+
+        Arguments:
+
+        """
+
+        self.repository = None
+        self.body = None
+        self.verify = None
 
     def create_repository(self, repository, body, verify):
 
@@ -57,6 +72,10 @@ class Repo(object):
             (output) Return exit status of command.
 
         """
+
+        self.repository = repository
+        self.body = body
+        self.verify = verify
 
         return {"acknowledged": True}
 
@@ -113,7 +132,7 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo_name = "reponame"
         self.body = {"indices": "dbs", "ignore_unavailable": True}
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.results = {"acknowledged": True}
 
     def test_default(self):
@@ -127,7 +146,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.assertEqual(elastic_class.create_snapshot_repo(
-            self.es, self.repo_name, self.body, True), self.results)
+            self.els, self.repo_name, self.body, True), self.results)
 
 
 if __name__ == "__main__":

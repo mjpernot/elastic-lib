@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchRepo_init.py
+"""Program:  elasticsearchstatus_get_svr_status.py
 
-    Description:  Unit testing of __init__ in elastic_class.ElasticSearchRepo
-        class.
+    Description:  Unit testing of get_svr_status in
+        elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchRepo_init.py
+        test/unit/elastic_class/elasticsearchstatus_get_svr_status.py
 
     Arguments:
 
@@ -30,7 +30,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -59,9 +58,6 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
-        self.ping_status = True
-        self.info_status = {"cluster_name":
-                            "ClusterName", "name": "servername"}
 
 
 class UnitTest(unittest.TestCase):
@@ -87,13 +83,17 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
-        self.repo_dir = "/dir/path/repo"
+        self.els = Elasticsearch(self.host_list)
+        self.uptime = 1234567890
+        self.alloc_cpu = 3
+        self.cpu_active = 2
+        self.results = {
+            "Server": {"Uptime": "14 days 6 hours 56 minutes 7 seconds",
+                       "AllocatedCPU": 3, "CPUActive": 2}}
 
-    @mock.patch("elastic_class.ElasticSearch.update_status",
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchRepo.update_repo_status",
+    @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es):
@@ -106,13 +106,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
-                                             repo_dir=self.repo_dir)
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.uptime = self.uptime
+        els.alloc_cpu = self.alloc_cpu
+        els.cpu_active = self.cpu_active
 
-        self.assertEqual((es.hosts, es.repo, es.repo_dir),
-                         (self.host_list, self.repo, self.repo_dir))
+        self.assertEqual(els.get_svr_status(), self.results)
 
 
 if __name__ == "__main__":

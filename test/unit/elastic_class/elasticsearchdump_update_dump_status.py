@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchDump_update_dump_status.py
+"""Program:  elasticsearchdump_update_dump_status.py
 
     Description:  Unit testing of update_dump_status in
         elastic_class.ElasticSearchDump.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchDump_update_dump_status.py
+        test/unit/elastic_class/elasticsearchdump_update_dump_status.py
 
     Arguments:
 
@@ -30,7 +30,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -173,7 +172,7 @@ class UnitTest(unittest.TestCase):
         self.host_str = "host1, host2"
         self.repo = "reponame"
         self.repo2 = "reponame2"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.dump_list = ["dump1", "dump2"]
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
                                          {"path": {"data": ["/dir/data1"],
@@ -211,15 +210,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.return_value = self.dump_list
         mock_date.strftime.side_effect = ["dump2", "dump3"]
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         self.assertEqual(
-            (es.hosts, es.dump_list, es.repo_name, es.last_dump_name),
+            (els.hosts, els.dump_list, els.repo_name, els.last_dump_name),
             (self.host_list, self.dump_list, self.repo, self.last_dump))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -246,16 +245,16 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.es.snapshot = Repo2()
+        self.els.snapshot = Repo2()
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.return_value = self.dump_list
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list)
+        els = elastic_class.ElasticSearchDump(self.host_list)
         self.assertEqual(
-            (es.hosts, es.dump_list, es.repo_name, es.last_dump_name),
+            (els.hosts, els.dump_list, els.repo_name, els.last_dump_name),
             (self.host_list, [], None, None))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -282,14 +281,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.return_value = self.dump_list
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list)
+        els = elastic_class.ElasticSearchDump(self.host_list)
         self.assertEqual(
-            (es.hosts, es.dump_list, es.repo_name, es.last_dump_name),
+            (els.hosts, els.dump_list, els.repo_name, els.last_dump_name),
             (self.host_list, self.dump_list, self.repo, self.last_dump))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -316,14 +315,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.return_value = self.dump_list
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo2)
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo2)
         self.assertEqual(
-            (es.hosts, es.dump_list, es.repo_name, es.last_dump_name),
+            (els.hosts, els.dump_list, els.repo_name, els.last_dump_name),
             (self.host_list, [], None, None))
 
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
@@ -349,14 +348,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.return_value = self.dump_list
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
-                          es.last_dump_name),
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        self.assertEqual((els.hosts, els.dump_list, els.repo_name,
+                          els.last_dump_name),
                          (self.host_list, self.dump_list, self.repo,
                           self.last_dump))
 

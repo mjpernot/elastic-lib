@@ -95,7 +95,7 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
 
     def test_default(self):
 
@@ -107,7 +107,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertTrue(elastic_class.is_active(self.es))
+        self.assertTrue(elastic_class.is_active(self.els))
 
 
 if __name__ == "__main__":

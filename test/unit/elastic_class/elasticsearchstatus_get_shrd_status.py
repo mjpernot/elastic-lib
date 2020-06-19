@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_gen_status.py
+"""Program:  elasticsearchstatus_get_shrd_status.py
 
-    Description:  Unit testing of get_gen_status in
+    Description:  Unit testing of get_shrd_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_gen_status.py
+        test/unit/elastic_class/elasticsearchstatus_get_shrd_status.py
 
     Arguments:
 
@@ -83,14 +83,15 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
-        self.master = "MasterNode"
-        self.cluster_status = "green"
-        self.pending_tasks = 11
+        self.els = Elasticsearch(self.host_list)
+        self.active_shards_percent = 80
+        self.unassigned_shards = 11
+        self.num_shards = 111
+        self.num_primary = 75
         self.results = {
-            "ClusterStatus": {"Master": self.master,
-                              "Status": self.cluster_status,
-                              "PendingTasks": self.pending_tasks}}
+            "Shards": {"Percent": self.active_shards_percent,
+                       "Unassigned": self.unassigned_shards,
+                       "Total": self.num_shards, "Primary": self.num_primary}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -107,14 +108,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.master = self.master
-        es.cluster_status = self.cluster_status
-        es.pending_tasks = self.pending_tasks
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.active_shards_percent = self.active_shards_percent
+        els.unassigned_shards = self.unassigned_shards
+        els.num_shards = self.num_shards
+        els.num_primary = self.num_primary
 
-        self.assertEqual(es.get_gen_status(), self.results)
+        self.assertEqual(els.get_shrd_status(), self.results)
 
 
 if __name__ == "__main__":
