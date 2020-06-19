@@ -70,8 +70,8 @@ class UnitTest(unittest.TestCase):
         self.cfg = gen_libs.load_module("elastic", self.config_path)
         self.repo_name = "TEST_REPO"
         self.dump_name = "test_dump"
-        self.repo_dir = os.path.join(self.cfg.base_repo_dir, self.repo_name)
-
+        self.repo_dir = os.path.join(self.cfg.log_repo_dir, self.repo_name)
+        self.phy_repo_dir = os.path.join(self.cfg.phy_repo_dir, self.repo_name)
         esr = elastic_class.ElasticSearchRepo(self.cfg.host,
                                               repo=self.repo_name)
 
@@ -216,8 +216,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if os.path.isdir(self.repo_dir):
-            shutil.rmtree(self.repo_dir)
+        if os.path.isdir(self.phy_repo_dir):
+            shutil.rmtree(self.phy_repo_dir)
 
 
 if __name__ == "__main__":
