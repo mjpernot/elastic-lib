@@ -196,8 +196,11 @@ cp elastic.py.TEMPLATE elastic.py
 Make the appropriate changes to the Elasticsearch environment.
   * Change these entries in the elastic.py file:
     - host = ["HOST_NAME1", "HOST_NAME2"]
-    - repo_dir = "BASE_REPO_DIRECTORY/"
-  * NOTE:  **BASE_REPO_DIRECTORY** is a directory path to a shared file system by all Elasticsearch databases in the cluster.
+    - log_repo_dir = "LOGICAL_DIR_PATH"
+    - phy_repo_dir = "PHYSICAL_DIR_PATH"
+  * **LOGICAL_DIR_PATH** is the logical directory path to the share file system.
+  * **phy_repo_dir** is the physical directory path to the share file system.
+    -  NOTE:  If running ElasticSearch as Docker setup, then these paths will be different.  If running as a standard setup, they will be the same.
 
 ```
 vim elastic.py
