@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_disk_status.py
+"""Program:  elasticsearchstatus_get_disk_status.py
 
     Description:  Unit testing of get_disk_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_disk_status.py
+        test/unit/elastic_class/elasticsearchstatus_get_disk_status.py
 
     Arguments:
 
@@ -68,6 +68,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp -> Initialization for unit testing.
+        test_unassigned -> Test with unassigned disk.
         test_default -> Test with default settings.
 
     """
@@ -85,10 +86,16 @@ class UnitTest(unittest.TestCase):
         # This is set to allow to show large differences.
         self.maxDiff = None
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.disk_list = [
             ["995", "69mb", "16gb", "53gb", "69gb", "23", "ip1", "ip2",
              "hostname1"],
+            ["990", "68mb", "15gb", "53gb", "68gb", "22", "ip3", "ip4",
+             "hostname2"]]
+        self.disk_list2 = [
+            ["995", "69mb", "16gb", "53gb", "69gb", "23", "ip1", "ip2",
+             "hostname1"],
+            ["2", "UNASSIGNED"],
             ["990", "68mb", "15gb", "53gb", "68gb", "22", "ip3", "ip4",
              "hostname2"]]
         self.results = {
@@ -108,6 +115,28 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_unassigned(self, mock_es):
+
+        """Function:  test_unassigned
+
+        Description:  Test with unassigned disk.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list2
+
+        self.assertEqual(els.get_disk_status(), self.results)
+
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es):
 
         """Function:  test_default
@@ -118,12 +147,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.disk_list = self.disk_list
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.disk_list = self.disk_list
 
-        self.assertEqual(es.get_disk_status(), self.results)
+        self.assertEqual(els.get_disk_status(), self.results)
 
 
 if __name__ == "__main__":

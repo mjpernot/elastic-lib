@@ -26,7 +26,6 @@ else:
     import unittest
 
 # Third-party
-import mock
 
 # Local
 sys.path.append(os.getcwd())
@@ -71,7 +70,8 @@ class UnitTest(unittest.TestCase):
         self.config_path = os.path.join(self.test_path, "config")
         self.cfg = gen_libs.load_module("elastic", self.config_path)
         self.repo_name = "TEST_INTR_REPO"
-        self.repo_dir = os.path.join(self.cfg.base_repo_dir, self.repo_name)
+        self.repo_dir = os.path.join(self.cfg.log_repo_dir, self.repo_name)
+        self.phy_repo_dir = os.path.join(self.cfg.phy_repo_dir, self.repo_name)
         self.msg = "ERROR:  Repository name not set."
         self.dbs_err = ["test_dump_error"]
         self.msg2 = \
@@ -87,34 +87,34 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
-        ER.create_repo()
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host,
-                                             repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host,
+                                              repo=self.repo_name)
 
         # Capture 2 databases/indices name in Elasticsearch.
-        dbs = ','.join([str(y[2])
-                        for y in [x.split()
-                        for x in ES.es.cat.indices().splitlines()]][0:2])
+        dbs = ','.join(
+            [str(y[2]) for y in [
+                x.split() for x in esd.els.cat.indices().splitlines()]][0:2])
 
-        err_flag, status_msg = ES.dump_db(dbs)
+        err_flag, _ = esd.dump_db(dbs)
 
-        dir_path = os.path.join(self.repo_dir, "indices")
+        dir_path = os.path.join(self.phy_repo_dir, "indices")
 
         # Count number of databases/indices dumped to repository.
         cnt = len([name for name in os.listdir(dir_path)
                    if os.path.isdir(os.path.join(dir_path, name))])
 
-        ER.delete_repo()
+        esr.delete_repo()
 
+        self.assertFalse(err_flag)
         self.assertEqual(cnt, 2)
 
     def test_dbs_is_successful(self):
 
-        """Function:  test_dump_succesful
+        """Function:  test_dbs_is_successful
 
         Description:  Test dumping single database.
 
@@ -122,18 +122,18 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
-        ER.create_repo()
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host,
-                                             repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host,
+                                              repo=self.repo_name)
 
         # Capture the first database/indice name in Elasticsearch.
-        dbs = str([x.split() for x in ES.es.cat.indices().splitlines()][0][2])
+        dbs = str([name.split()
+                   for name in esd.els.cat.indices().splitlines()][0][2])
 
-        err_flag, status_msg = ES.dump_db(dbs)
+        err_flag, _ = esd.dump_db(dbs)
 
         dir_path = os.path.join(self.repo_dir, "indices")
 
@@ -141,8 +141,9 @@ class UnitTest(unittest.TestCase):
         cnt = len([name for name in os.listdir(dir_path)
                    if os.path.isdir(os.path.join(dir_path, name))])
 
-        ER.delete_repo()
+        esr.delete_repo()
 
+        self.assertFalse(err_flag)
         self.assertEqual(cnt, 1)
 
     def test_dbs_is_not_str(self):
@@ -155,16 +156,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER.create_repo()
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host,
-                                             repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host,
+                                              repo=self.repo_name)
 
-        err_flag, status_msg = ES.dump_db(self.dbs_err)
+        err_flag, status_msg = esd.dump_db(self.dbs_err)
 
         self.assertEqual((err_flag, status_msg), (True, self.msg2))
 
@@ -178,20 +178,20 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER.create_repo()
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host,
-                                             repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host,
+                                              repo=self.repo_name)
 
-        err_flag, status_msg = ES.dump_db()
+        err_flag, _ = esd.dump_db()
 
-        ER.delete_repo()
+        esr.delete_repo()
 
-        self.assertEqual(len(ES.dump_list), 1)
+        self.assertFalse(err_flag)
+        self.assertEqual(len(esd.dump_list), 1)
 
     def test_dump_succesful(self):
 
@@ -203,18 +203,17 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER.create_repo()
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host,
-                                             repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host,
+                                              repo=self.repo_name)
 
-        err_flag, status_msg = ES.dump_db()
+        err_flag, status_msg = esd.dump_db()
 
-        ER.delete_repo()
+        esr.delete_repo()
 
         self.assertEqual((err_flag, status_msg), (False, None))
 
@@ -228,10 +227,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host,
-                                             repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host,
+                                              repo=self.repo_name)
 
-        err_flag, status_msg = ES.dump_db()
+        err_flag, status_msg = esd.dump_db()
 
         self.assertEqual((err_flag, status_msg), (True, self.msg))
 
@@ -245,9 +244,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        err_flag, status_msg = ES.dump_db()
+        err_flag, status_msg = esd.dump_db()
 
         self.assertEqual((err_flag, status_msg), (True, self.msg))
 
@@ -261,8 +260,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if os.path.isdir(self.repo_dir):
-            shutil.rmtree(self.repo_dir)
+        if os.path.isdir(self.phy_repo_dir):
+            shutil.rmtree(self.phy_repo_dir)
 
 
 if __name__ == "__main__":

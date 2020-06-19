@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchRepo_delete_dump.py
+"""Program:  elasticsearchrepo_delete_dump.py
 
     Description:  Unit testing of delete_dump in
         elastic_class.ElasticSearchRepo class.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchRepo_delete_dump.py
+        test/unit/elastic_class/elasticsearchrepo_delete_dump.py
 
     Arguments:
 
@@ -30,7 +30,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -94,7 +93,7 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.repo2 = "reponame2"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.dump_name = "dump3"
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
                                        {"location": "/dir/path/dump"}}}
@@ -117,15 +116,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
                                  [["dump1"], ["dump2"]]]
         mock_repo.return_value = self.repo_dict
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo = None
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.repo = None
         self.assertEqual(
-            es.delete_dump(dump_name=self.dump_name),
+            els.delete_dump(dump_name=self.dump_name),
             (True,
              "ERROR: Missing arg/repo not exist, Repo: None, Dump: dump3"))
 
@@ -147,14 +146,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [[["dump1"], ["dump2"]],
                                  [["dump1"], ["dump2"]]]
         mock_repo.return_value = self.repo_dict
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         self.assertEqual(
-            es.delete_dump(self.repo, self.dump_name),
+            els.delete_dump(self.repo, self.dump_name),
             (True, "ERROR: Dump: dump3 not in Repository: reponame"))
 
     @mock.patch("elastic_class.delete_snapshot",
@@ -175,14 +174,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
                                  [["dump1"], ["dump2"], ["dump3"]]]
         mock_repo.return_value = self.repo_dict
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
         self.assertEqual(
-            es.delete_dump(self.repo, self.dump_name),
+            els.delete_dump(self.repo, self.dump_name),
             (True, "ERROR: Dump still detected: reponame, dump3"))
 
     @mock.patch("elastic_class.delete_snapshot",
@@ -203,15 +202,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
                                  [["dump1"], ["dump2"]]]
         mock_repo.return_value = self.repo_dict
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo_dict[self.repo2] = True
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.repo_dict[self.repo2] = True
         self.assertEqual(
-            es.delete_dump(self.repo2, self.dump_name),
+            els.delete_dump(self.repo2, self.dump_name),
             (True, "ERROR:  Dump deletion failed:  reponame2, dump3"))
 
     @mock.patch("elastic_class.delete_snapshot",
@@ -232,13 +231,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
                                  [["dump1"], ["dump2"]]]
         mock_repo.return_value = self.repo_dict
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        self.assertEqual(es.delete_dump(dump_name=self.dump_name),
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        self.assertEqual(els.delete_dump(dump_name=self.dump_name),
                          (False, None))
 
     @mock.patch("elastic_class.delete_snapshot",
@@ -259,13 +258,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
                                  [["dump1"], ["dump2"]]]
         mock_repo.return_value = self.repo_dict
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        self.assertEqual(es.delete_dump(self.repo, self.dump_name),
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        self.assertEqual(els.delete_dump(self.repo, self.dump_name),
                          (False, None))
 
 

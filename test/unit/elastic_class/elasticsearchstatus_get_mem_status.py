@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_svr_status.py
+"""Program:  elasticsearchstatus_get_mem_status.py
 
-    Description:  Unit testing of get_svr_status in
+    Description:  Unit testing of get_mem_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_svr_status.py
+        test/unit/elastic_class/elasticsearchstatus_get_mem_status.py
 
     Arguments:
 
@@ -83,13 +83,14 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
-        self.uptime = 1234567890
-        self.alloc_cpu = 3
-        self.cpu_active = 2
+        self.els = Elasticsearch(self.host_list)
+        self.mem_per_used = 80
+        self.mem_total = 234567890
+        self.mem_used = 123456789
+        self.mem_free = 12345678
         self.results = {
-            "Server": {"Uptime": "14 days 6 hours 56 minutes 7 seconds",
-                       "AllocatedCPU": 3, "CPUActive": 2}}
+            "Memory": {"Percent": self.mem_per_used, "Total": "223.70MB",
+                       "Used": "117.74MB", "Free": "11.77MB"}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -106,14 +107,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.uptime = self.uptime
-        es.alloc_cpu = self.alloc_cpu
-        es.cpu_active = self.cpu_active
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.mem_per_used = self.mem_per_used
+        els.mem_total = self.mem_total
+        els.mem_used = self.mem_used
+        els.mem_free = self.mem_free
 
-        self.assertEqual(es.get_svr_status(), self.results)
+        self.assertEqual(els.get_mem_status(), self.results)
 
 
 if __name__ == "__main__":

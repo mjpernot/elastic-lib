@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_chk_nodes.py
+"""Program:  elasticsearchstatus_chk_nodes.py
 
     Description:  Unit testing of chk_nodes in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_chk_nodes.py
+        test/unit/elastic_class/elasticsearchstatus_chk_nodes.py
 
     Arguments:
 
@@ -84,7 +84,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.failed_nodes = 0
         self.failed_nodes2 = 1
         self.total_nodes = 3
@@ -109,13 +109,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.failed_nodes = self.failed_nodes2
-        es.total_nodes = self.total_nodes
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.failed_nodes = self.failed_nodes2
+        els.total_nodes = self.total_nodes
 
-        self.assertEqual(es.chk_nodes(), self.results2)
+        self.assertEqual(els.chk_nodes(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -132,13 +132,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.failed_nodes = self.failed_nodes
-        es.total_nodes = self.total_nodes
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.failed_nodes = self.failed_nodes
+        els.total_nodes = self.total_nodes
 
-        self.assertEqual(es.chk_nodes(), self.results)
+        self.assertEqual(els.chk_nodes(), self.results)
 
 
 if __name__ == "__main__":

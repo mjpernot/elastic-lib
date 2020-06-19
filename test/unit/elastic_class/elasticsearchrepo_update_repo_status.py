@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchRepo_update_repo_status.py
+"""Program:  elasticsearchrepo_update_repo_status.py
 
     Description:  Unit testing of update_repo_status in
         elastic_class.ElasticSearchDump.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchRepo_update_repo_status.py
+        test/unit/elastic_class/elasticsearchrepo_update_repo_status.py
 
     Arguments:
 
@@ -30,7 +30,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -90,7 +89,7 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.host_str = "host1, host2"
         self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
                                        {"location": "/dir/path/dump"}}}
 
@@ -108,10 +107,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        self.assertEqual((es.hosts, es.repo, es.repo_dict),
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        self.assertEqual((els.hosts, els.repo, els.repo_dict),
                          (self.host_list, self.repo, {}))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
@@ -129,11 +128,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.return_value = self.repo_dict
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        self.assertEqual((es.hosts, es.repo, es.repo_dict),
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        self.assertEqual((els.hosts, els.repo, els.repo_dict),
                          (self.host_list, self.repo, self.repo_dict))
 
 

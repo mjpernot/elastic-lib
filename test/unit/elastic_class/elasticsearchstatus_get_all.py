@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_all.py
+"""Program:  elasticsearchstatus_get_all.py
 
     Description:  Unit testing of get_all in elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_all.py
+        test/unit/elastic_class/elasticsearchstatus_get_all.py
 
     Arguments:
 
@@ -82,7 +82,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.results = {"cluster": "clustername"}
         self.results2 = {"cluster": "clustername",
                          "Nodes": ["node1", "node2"]}
@@ -118,11 +118,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
+        els = elastic_class.ElasticSearchStatus(self.host_list)
 
-        self.assertEqual(es.get_all(), self.results2)
+        self.assertEqual(els.get_all(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
                 mock.Mock(return_value={"cluster": "clustername"}))
@@ -155,11 +155,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
+        els = elastic_class.ElasticSearchStatus(self.host_list)
 
-        self.assertEqual(es.get_all(), self.results)
+        self.assertEqual(els.get_all(), self.results)
 
 
 if __name__ == "__main__":

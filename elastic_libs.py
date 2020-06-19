@@ -17,7 +17,6 @@
 # Standard
 
 # Local
-import requests_lib.requests_libs as requests_libs
 import version
 
 __version__ = version.__version__
@@ -38,11 +37,11 @@ def get_latest_dump(dump_list, **kwargs):
     dump_list = list(dump_list)
 
     if dump_list:
-        search = max([x[4] for x in dump_list])
+        search = max([item[4] for item in dump_list])
 
-        for x in dump_list:
-            if x[4] == search:
-                return x[0]
+        for item in dump_list:
+            if item[4] == search:
+                return item[0]
 
     else:
         return None
@@ -67,9 +66,10 @@ def list_dumps(dump_list, **kwargs):
     print("{0:25} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
           .format("", "", "", "Indexes", "Success", "Fail", "Total"))
 
-    for x in dump_list:
+    for item in dump_list:
         print("{0:25} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
-              .format(x[0], x[1], x[6], x[7], x[8], x[9], x[10]))
+              .format(item[0], item[1], item[6], item[7], item[8], item[9],
+                      item[10]))
 
 
 def list_repos2(repo_list, **kwargs):

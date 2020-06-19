@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchRepo_delete_repo.py
+"""Program:  elasticsearchrepo_delete_repo.py
 
     Description:  Unit testing of delete_repo in
         elastic_class.ElasticSearchRepo class.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
+        test/unit/elastic_class/elasticsearchrepo_delete_repo.py
 
     Arguments:
 
@@ -30,7 +30,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -94,7 +93,7 @@ class UnitTest(unittest.TestCase):
         self.repo = "reponame"
         self.repo2 = "reponame2"
         self.repo3 = "reponame3"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.err_msg = "ERROR:  Repository still detected:  reponame"
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
                                        {"location": "/dir/path/dump"}},
@@ -122,14 +121,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo_dict[self.repo] = True
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.repo_dict[self.repo] = True
 
         self.assertEqual(
-            es.delete_repo(self.repo),
+            els.delete_repo(self.repo),
             (True, "ERROR:  Repository deletion failed:  reponame"))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
@@ -149,14 +148,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict3]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
-        es.repo = None
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.repo = None
 
         self.assertEqual(
-            es.delete_repo(),
+            els.delete_repo(),
             (True, "ERROR: Missing repo or does not exist: None"))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
@@ -176,13 +175,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict3]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
-        self.assertEqual(es.delete_repo(), (False, None))
-        self.assertEqual(es.repo_dict, self.repo_dict3)
+        self.assertEqual(els.delete_repo(), (False, None))
+        self.assertEqual(els.repo_dict, self.repo_dict3)
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -201,13 +200,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
-        self.assertEqual(es.delete_repo(self.repo), (True, self.err_msg))
-        self.assertEqual(es.repo_dict, self.repo_dict)
+        self.assertEqual(els.delete_repo(self.repo), (True, self.err_msg))
+        self.assertEqual(els.repo_dict, self.repo_dict)
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -226,13 +225,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
-        es = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
 
-        self.assertEqual(es.delete_repo(self.repo2), (False, None))
-        self.assertEqual(es.repo_dict, self.repo_dict2)
+        self.assertEqual(els.delete_repo(self.repo2), (False, None))
+        self.assertEqual(els.repo_dict, self.repo_dict2)
 
 
 if __name__ == "__main__":

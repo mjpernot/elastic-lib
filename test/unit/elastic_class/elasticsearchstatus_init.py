@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_init.py
+"""Program:  elasticsearchstatus_init.py
 
     Description:  Unit testing of __init__ in elastic_class.ElasticSearchStatus
         class.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_init.py
+        test/unit/elastic_class/elasticsearchstatus_init.py
 
     Arguments:
 
@@ -30,7 +30,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -103,7 +102,7 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -119,8 +118,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        es = elastic_class.ElasticSearchStatus(self.host_list, cutoff_disk=30)
-        self.assertEqual((es.hosts, es.cutoff_disk), (self.host_list, 30))
+        els = elastic_class.ElasticSearchStatus(self.host_list, cutoff_disk=30)
+        self.assertEqual((els.hosts, els.cutoff_disk), (self.host_list, 30))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -136,8 +135,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        es = elastic_class.ElasticSearchStatus(self.host_list, cutoff_cpu=20)
-        self.assertEqual((es.hosts, es.cutoff_cpu), (self.host_list, 20))
+        els = elastic_class.ElasticSearchStatus(self.host_list, cutoff_cpu=20)
+        self.assertEqual((els.hosts, els.cutoff_cpu), (self.host_list, 20))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -153,8 +152,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        es = elastic_class.ElasticSearchStatus(self.host_list, cutoff_mem=10)
-        self.assertEqual((es.hosts, es.cutoff_mem), (self.host_list, 10))
+        els = elastic_class.ElasticSearchStatus(self.host_list, cutoff_mem=10)
+        self.assertEqual((els.hosts, els.cutoff_mem), (self.host_list, 10))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -170,9 +169,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        self.assertEqual((es.hosts, es.failed_nodes, es.alloc_cpu,
-                          es.cpu_active, es.pending_tasks),
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        self.assertEqual((els.hosts, els.failed_nodes, els.alloc_cpu,
+                          els.cpu_active, els.pending_tasks),
                          (self.host_list, None, None, None, None))
 
 

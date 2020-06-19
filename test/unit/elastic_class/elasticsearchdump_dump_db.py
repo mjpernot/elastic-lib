@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchDump_dump_db.py
+"""Program:  elasticsearchdump_dump_db.py
 
     Description:  Unit testing of dump_db in elastic_class.ElasticSearchDump.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchDump_dump_db.py
+        test/unit/elastic_class/elasticsearchdump_dump_db.py
 
     Arguments:
 
@@ -29,7 +29,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -128,7 +127,7 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.host_str = "host1, host2"
         self.repo = "reponame"
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.dbs = "dbname"
         self.dbs2 = ["dbname"]
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
@@ -165,16 +164,16 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [["dump1", "dump2"],
                                  ["dump1", "dump2", "dump3"]]
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        es.repo_name = None
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.repo_name = None
         self.assertEqual(
-            es.dump_db(self.dbs),
+            els.dump_db(self.dbs),
             (True, "ERROR:  Repository name not set."))
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
@@ -203,15 +202,15 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [["dump1", "dump2"],
                                  ["dump1", "dump2", "dump3"]]
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         self.assertEqual(
-            es.dump_db(self.dbs2),
+            els.dump_db(self.dbs2),
             (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
@@ -240,14 +239,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
         mock_list.side_effect = [["dump1", "dump2"],
                                  ["dump1", "dump2", "dump3"]]
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        self.assertEqual(es.dump_db(self.dbs), (False, None))
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        self.assertEqual(els.dump_db(self.dbs), (False, None))
 
 
 if __name__ == "__main__":

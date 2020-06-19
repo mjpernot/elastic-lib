@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchDump_init.py
+"""Program:  elasticsearchdump_init.py
 
     Description:  Unit testing of __init__ in elastic_class.ElasticSearchDump.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchDump_init.py
+        test/unit/elastic_class/elasticsearchdump_init.py
 
     Arguments:
 
@@ -29,7 +29,6 @@ import mock
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
@@ -76,9 +75,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        es = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
-        self.assertEqual((es.hosts, es.dump_list, es.repo_name,
-                          es.last_dump_name),
+        els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        self.assertEqual((els.hosts, els.dump_list, els.repo_name,
+                          els.last_dump_name),
                          (self.host_list, self.dump_list, self.repo,
                           self.last_dump))
 

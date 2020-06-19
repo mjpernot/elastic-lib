@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_chk_status.py
+"""Program:  elasticsearchstatus_chk_status.py
 
     Description:  Unit testing of chk_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_chk_status.py
+        test/unit/elastic_class/elasticsearchstatus_chk_status.py
 
     Arguments:
 
@@ -87,7 +87,7 @@ class UnitTest(unittest.TestCase):
         # This is set to allow to show large differences.
         self.maxDiff = None
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
+        self.els = Elasticsearch(self.host_list)
         self.cluster_status = "green"
         self.cluster_status2 = "yellow"
         self.pending_tasks = 0
@@ -117,13 +117,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.cluster_status = self.cluster_status
-        es.pending_tasks = self.pending_tasks2
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.cluster_status = self.cluster_status
+        els.pending_tasks = self.pending_tasks2
 
-        self.assertEqual(es.chk_status(), self.results3)
+        self.assertEqual(els.chk_status(), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -140,13 +140,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.cluster_status = self.cluster_status2
-        es.pending_tasks = self.pending_tasks
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.cluster_status = self.cluster_status2
+        els.pending_tasks = self.pending_tasks
 
-        self.assertEqual(es.chk_status(), self.results2)
+        self.assertEqual(els.chk_status(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -163,13 +163,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.cluster_status = self.cluster_status
-        es.pending_tasks = self.pending_tasks
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.cluster_status = self.cluster_status
+        els.pending_tasks = self.pending_tasks
 
-        self.assertEqual(es.chk_status(), self.results)
+        self.assertEqual(els.chk_status(), self.results)
 
 
 if __name__ == "__main__":

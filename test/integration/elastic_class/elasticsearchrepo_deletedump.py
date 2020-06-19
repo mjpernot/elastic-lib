@@ -26,7 +26,6 @@ else:
     import unittest
 
 # Third-party
-import mock
 
 # Local
 sys.path.append(os.getcwd())
@@ -71,12 +70,12 @@ class UnitTest(unittest.TestCase):
         self.cfg = gen_libs.load_module("elastic", self.config_path)
         self.repo_name = "TEST_REPO"
         self.dump_name = "test_dump"
-        self.repo_dir = os.path.join(self.cfg.base_repo_dir, self.repo_name)
+        self.repo_dir = os.path.join(self.cfg.log_repo_dir, self.repo_name)
+        self.phy_repo_dir = os.path.join(self.cfg.phy_repo_dir, self.repo_name)
+        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
+                                              repo=self.repo_name)
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name)
-
-        if ER.repo_dict:
+        if esr.repo_dict:
             print("ERROR: Test environment not clean - repositories exist.")
             self.skipTest("Pre-conditions not met.")
 
@@ -90,19 +89,18 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
-        ER.create_repo()
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+        esr.create_repo()
 
-        ES = elastic_class.ElasticSearchDump(self.cfg.host,
-                                             repo=self.repo_name)
-        ES.dump_name = self.dump_name
-        ES.dump_db()
+        esd = elastic_class.ElasticSearchDump(self.cfg.host,
+                                              repo=self.repo_name)
+        esd.dump_name = self.dump_name
+        esd.dump_db()
 
-        status, msg = ER.delete_dump(dump_name=self.dump_name)
+        status, msg = esr.delete_dump(dump_name=self.dump_name)
 
-        ER.delete_repo()
+        esr.delete_repo()
 
         self.assertEqual((status, msg), (False, None))
 
@@ -116,15 +114,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name,
-                                             repo_dir=self.repo_dir)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        ER.create_repo()
+        esr.create_repo()
 
-        status, msg = ER.delete_dump(dump_name=self.dump_name)
+        status, msg = esr.delete_dump(dump_name=self.dump_name)
 
-        ER.delete_repo()
+        esr.delete_repo()
 
         self.assertEqual(
             (status, msg),
@@ -140,10 +137,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name)
+        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
+                                              repo=self.repo_name)
 
-        status, msg = ER.delete_dump(dump_name=self.dump_name)
+        status, msg = esr.delete_dump(dump_name=self.dump_name)
 
         self.assertEqual(
             (status, msg),
@@ -161,9 +158,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host)
+        esr = elastic_class.ElasticSearchRepo(self.cfg.host)
 
-        status, msg = ER.delete_dump(repo_name=self.repo_name)
+        status, msg = esr.delete_dump(repo_name=self.repo_name)
 
         self.assertEqual(
             (status, msg),
@@ -180,10 +177,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                             repo=self.repo_name)
+        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
+                                              repo=self.repo_name)
 
-        status, msg = ER.delete_dump()
+        status, msg = esr.delete_dump()
 
         self.assertEqual(
             (status, msg),
@@ -200,9 +197,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        ER = elastic_class.ElasticSearchRepo(self.cfg.host)
+        esr = elastic_class.ElasticSearchRepo(self.cfg.host)
 
-        status, msg = ER.delete_dump()
+        status, msg = esr.delete_dump()
 
         self.assertEqual(
             (status, msg),
@@ -219,8 +216,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        if os.path.isdir(self.repo_dir):
-            shutil.rmtree(self.repo_dir)
+        if os.path.isdir(self.phy_repo_dir):
+            shutil.rmtree(self.phy_repo_dir)
 
 
 if __name__ == "__main__":

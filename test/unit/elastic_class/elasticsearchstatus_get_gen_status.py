@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  ElasticSearchStatus_get_node_status.py
+"""Program:  elasticsearchstatus_get_gen_status.py
 
-    Description:  Unit testing of get_node_status in
+    Description:  Unit testing of get_gen_status in
         elastic_class.ElasticSearchStatus.
 
     Usage:
-        test/unit/elastic_class/ElasticSearchStatus_get_node_status.py
+        test/unit/elastic_class/elasticsearchstatus_get_gen_status.py
 
     Arguments:
 
@@ -83,10 +83,14 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.es = Elasticsearch(self.host_list)
-        self.total_nodes = 3
-        self.failed_nodes = 0
-        self.results = {"NodeStatus": {"TotalNodes": 3, "FailedNodes": 0}}
+        self.els = Elasticsearch(self.host_list)
+        self.master = "MasterNode"
+        self.cluster_status = "green"
+        self.pending_tasks = 11
+        self.results = {
+            "ClusterStatus": {"Master": self.master,
+                              "Status": self.cluster_status,
+                              "PendingTasks": self.pending_tasks}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -103,13 +107,14 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.es
+        mock_es.return_value = self.els
 
-        es = elastic_class.ElasticSearchStatus(self.host_list)
-        es.total_nodes = self.total_nodes
-        es.failed_nodes = self.failed_nodes
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.master = self.master
+        els.cluster_status = self.cluster_status
+        els.pending_tasks = self.pending_tasks
 
-        self.assertEqual(es.get_node_status(), self.results)
+        self.assertEqual(els.get_gen_status(), self.results)
 
 
 if __name__ == "__main__":

@@ -39,37 +39,37 @@ pipeline {
                 ./test/unit/elastic_class/get_repo_list.py
                 ./test/unit/elastic_class/get_shards.py
                 ./test/unit/elastic_class/is_active.py
-                ./test/unit/elastic_class/ElasticSearch_init.py
-                ./test/unit/elastic_class/ElasticSearch_update_status.py
-                ./test/unit/elastic_class/ElasticSearchDump_init.py
-                ./test/unit/elastic_class/ElasticSearchDump_chk_status.py
-                ./test/unit/elastic_class/ElasticSearchDump_dump_db.py
-                ./test/unit/elastic_class/ElasticSearchDump_update_dump_status.py
-                ./test/unit/elastic_class/ElasticSearchRepo_create_repo.py
-                ./test/unit/elastic_class/ElasticSearchRepo_delete_dump.py
-                ./test/unit/elastic_class/ElasticSearchRepo_delete_dump_all.py
-                ./test/unit/elastic_class/ElasticSearchRepo_delete_repo.py
-                ./test/unit/elastic_class/ElasticSearchRepo_init.py
-                ./test/unit/elastic_class/ElasticSearchRepo_update_repo_status.py
-                ./test/unit/elastic_class/ElasticSearchStatus_chk_all.py
-                ./test/unit/elastic_class/ElasticSearchStatus_chk_disk.py
-                ./test/unit/elastic_class/ElasticSearchStatus_chk_mem.py
-                ./test/unit/elastic_class/ElasticSearchStatus_chk_nodes.py
-                ./test/unit/elastic_class/ElasticSearchStatus_chk_server.py
-                ./test/unit/elastic_class/ElasticSearchStatus_chk_shards.py
-                ./test/unit/elastic_class/ElasticSearchStatus_chk_status.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_all.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_cluster.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_disk_status.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_dump_disk_status.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_gen_status.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_mem_status.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_node_status.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_nodes.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_shrd_status.py
-                ./test/unit/elastic_class/ElasticSearchStatus_get_svr_status.py
-                ./test/unit/elastic_class/ElasticSearchStatus_init.py
-                ./test/unit/elastic_class/ElasticSearchStatus_update_status2.py
+                ./test/unit/elastic_class/elasticsearch_init.py
+                ./test/unit/elastic_class/elasticsearch_update_status.py
+                ./test/unit/elastic_class/elasticsearchdump_init.py
+                ./test/unit/elastic_class/elasticsearchdump_chk_status.py
+                ./test/unit/elastic_class/elasticsearchdump_dump_db.py
+                ./test/unit/elastic_class/elasticsearchdump_update_dump_status.py
+                ./test/unit/elastic_class/elasticsearchrepo_create_repo.py
+                ./test/unit/elastic_class/elasticsearchrepo_delete_dump.py
+                ./test/unit/elastic_class/elasticsearchrepo_delete_dump_all.py
+                ./test/unit/elastic_class/elasticsearchrepo_delete_repo.py
+                ./test/unit/elastic_class/elasticsearchrepo_init.py
+                ./test/unit/elastic_class/elasticsearchrepo_update_repo_status.py
+                ./test/unit/elastic_class/elasticsearchstatus_chk_all.py
+                ./test/unit/elastic_class/elasticsearchstatus_chk_disk.py
+                ./test/unit/elastic_class/elasticsearchstatus_chk_mem.py
+                ./test/unit/elastic_class/elasticsearchstatus_chk_nodes.py
+                ./test/unit/elastic_class/elasticsearchstatus_chk_server.py
+                ./test/unit/elastic_class/elasticsearchstatus_chk_shards.py
+                ./test/unit/elastic_class/elasticsearchstatus_chk_status.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_all.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_cluster.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_disk_status.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_dump_disk_status.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_gen_status.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_mem_status.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_node_status.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_nodes.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_shrd_status.py
+                ./test/unit/elastic_class/elasticsearchstatus_get_svr_status.py
+                ./test/unit/elastic_class/elasticsearchstatus_init.py
+                ./test/unit/elastic_class/elasticsearchstatus_update_status2.py
                 deactivate
                 rm -rf test_env
                 """
@@ -93,32 +93,32 @@ pipeline {
             steps {
                 script {
                     server = Artifactory.server('Artifactory')
-                    server.credentialsId = 'svc-highpoint-artifactory'
+                    server.credentialsId = 'art-svc-highpoint-dev'
                     uploadSpec = """{
                         "files": [
                             {
                                 "pattern": "./*.py",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/elastic-lib/"
+                                "target": "pypi-proj-local/highpoint/elastic-lib/"
                             },
                             {
                                 "pattern": "./*.txt",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/elastic-lib/"
+                                "target": "pypi-proj-local/highpoint/elastic-lib/"
                             },
                             {
                                 "pattern": "./*.md",
                                 "recursive": false,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/elastic-lib/"
+                                "target": "pypi-proj-local/highpoint/elastic-lib/"
                             },
                             {
                                 "pattern": "*.TEMPLATE",
                                 "recursive": true,
                                 "excludePatterns": [],
-                                "target": "generic-local/highpoint/elastic-lib/config/"
+                                "target": "pypi-proj-local/highpoint/elastic-lib/config/"
                             }
                         ]
                     }"""
