@@ -79,7 +79,7 @@ class UnitTest(unittest.TestCase):
 
         print("Ignore above message, part of the test.")
 
-        if not els.es:
+        if not els.els:
             status = True
 
         else:
