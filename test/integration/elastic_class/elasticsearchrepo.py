@@ -63,8 +63,7 @@ class UnitTest(unittest.TestCase):
         self.config_path = os.path.join(self.test_path, "config")
         self.cfg = gen_libs.load_module("elastic", self.config_path)
         self.repo_name = "TEST_INTR_REPO"
-        self.repo_dir = os.path.join(self.cfg.base_repo_dir, self.repo_name)
-
+        self.repo_dir = os.path.join(self.cfg.log_repo_dir, self.repo_name)
         esr = elastic_class.ElasticSearchRepo(self.cfg.host,
                                               repo=self.repo_name)
 
@@ -124,9 +123,7 @@ class UnitTest(unittest.TestCase):
         """
 
         host_list = "Host_Name"
-
-        with gen_libs.no_std_out():
-            esr = elastic_class.ElasticSearchRepo(host_list)
+        esr = elastic_class.ElasticSearchRepo(host_list)
 
         if not esr.repo:
             status = True
