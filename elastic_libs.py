@@ -35,16 +35,17 @@ def get_latest_dump(dump_list, **kwargs):
     """
 
     dump_list = list(dump_list)
+    last_dump = None
 
     if dump_list:
         search = max([item[4] for item in dump_list])
 
         for item in dump_list:
             if item[4] == search:
-                return item[0]
+                last_dump = item[0]
+                break
 
-    else:
-        return None
+    return last_dump
 
 
 def list_dumps(dump_list, **kwargs):

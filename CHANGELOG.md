@@ -8,6 +8,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ### Fixed
 - elastic_libs.list_dumps:  Fixed formatting error.
 
+### Changed
+- elastic_libs.get_latest_dump:  Refactored function and removed multiple returns and else clause.
+
 
 ## [2.0.2] - 2020-06-12
 ### Fixed
