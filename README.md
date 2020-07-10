@@ -32,21 +32,25 @@
 ###### Create requirements file in another program's project to install elastic-lib as a library module.
 
 Create requirements-elastic-lib.txt file:
+
 ```
 vim {Other_Python_Project}/requirements-elastic-lib.txt
 ```
 
 Add the following lines to the requirements-elastic-lib.txt file:
+
 ```
 git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/elastic-lib.git#egg=elastic-lib
 ```
 
 Create requirements-python-lib.txt file:
+
 ```
 vim {Other_Python_Project}/requirements-python-lib.txt
 ```
 
 Add the following lines to the requirements-python-lib.txt file:
+
 ```
 git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/python-lib.git#egg=python-lib
 ```
@@ -54,11 +58,13 @@ git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/python-lib.git#egg=python-lib
 ##### Modify the other program's README.md file to add the pip commands under the "Install supporting classes and libraries" section.
 
 Modify the README.md file:
+
 ```
 vim {Other_Python_Project}/README.md
 ```
 
 Add the following lines under the "Install supporting classes and libraries" section.
+
 ```
 pip install -r requirements-elastic-lib.txt --target elastic_lib --trusted-host pypi.appdev.proj.coe.ic.gov
 pip install -r requirements-python-lib.txt --target elastic_lib/lib --trusted-host pypi.appdev.proj.coe.ic.gov
@@ -67,11 +73,13 @@ pip install -r requirements-python-lib.txt --target elastic_lib/lib --trusted-ho
 ##### Add the general elastic-lib requirements to the other program's requirements.txt file.  Remove any duplicates.
 
 Modify the requirements.txt file:
+
 ```
 vim {Other_Python_Project}/requirements.txt
 ```
 
 Add the following lines to the requirements.txt file:
+
 ```
 elasticsearch>=7.0.0,<8.0.0
 urllib3==1.24.3
