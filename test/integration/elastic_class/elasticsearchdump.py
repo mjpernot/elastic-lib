@@ -97,25 +97,16 @@ class UnitTest(unittest.TestCase):
 
         esr = elastic_class.ElasticSearchRepo(
             self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
         esr.create_repo()
-
         esd = elastic_class.ElasticSearchDump(self.cfg.host,
                                               repo=self.repo_name)
         esd.dump_db()
-
         esd2 = elastic_class.ElasticSearchDump(self.cfg.host,
                                                repo=self.repo_name)
 
-        if esd2.dump_list:
-            status = True
-
-        else:
-            status = False
+        self.assertTrue(esd2.dump_list)
 
         esr.delete_repo()
-
-        self.assertTrue(status)
 
     def test_dump_list_is_empty(self):
 
@@ -129,20 +120,12 @@ class UnitTest(unittest.TestCase):
 
         esr = elastic_class.ElasticSearchRepo(
             self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
         esr.create_repo()
-
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if not esd.dump_list:
-            status = True
-
-        else:
-            status = False
+        self.assertTrue(not esd.dump_list)
 
         esr.delete_repo()
-
-        self.assertTrue(status)
 
     def test_repo_is_set(self):
 
@@ -156,20 +139,12 @@ class UnitTest(unittest.TestCase):
 
         esr = elastic_class.ElasticSearchRepo(
             self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
         esr.create_repo()
-
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if esd.dump_loc == self.repo_dir:
-            status = True
-
-        else:
-            status = False
+        self.assertTrue(esd.dump_loc == self.repo_dir)
 
         esr.delete_repo()
-
-        self.assertTrue(status)
 
     def test_repo_not_set(self):
 
@@ -183,13 +158,7 @@ class UnitTest(unittest.TestCase):
 
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if not esd.type:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(not esd.type)
 
     def test_multi_repo(self):
 
@@ -203,22 +172,14 @@ class UnitTest(unittest.TestCase):
 
         esr = elastic_class.ElasticSearchRepo(
             self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
         esr.create_repo()
         esr.create_repo(repo_name=self.repo_name2, repo_dir=self.repo_dir2)
-
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if esd.repo_name is None:
-            status = True
-
-        else:
-            status = False
+        self.assertTrue(esd.repo_name is None)
 
         esr.delete_repo()
         esr.delete_repo(repo_name=self.repo_name2)
-
-        self.assertTrue(status)
 
     def test_single_repo(self):
 
@@ -232,20 +193,12 @@ class UnitTest(unittest.TestCase):
 
         esr = elastic_class.ElasticSearchRepo(
             self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
         esr.create_repo()
-
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if esd.repo_name == self.repo_name:
-            status = True
-
-        else:
-            status = False
+        self.assertTrue(esd.repo_name == self.repo_name)
 
         esr.delete_repo()
-
-        self.assertTrue(status)
 
     def test_repo_not_passed(self):
 
@@ -259,13 +212,7 @@ class UnitTest(unittest.TestCase):
 
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if not esd.repo_name and not esd.type:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(not esd.repo_name and not esd.type)
 
     def test_repo_not_exist(self):
 
@@ -280,13 +227,7 @@ class UnitTest(unittest.TestCase):
         esd = elastic_class.ElasticSearchDump(self.cfg.host,
                                               repo=self.repo_name)
 
-        if not esd.repo_name and not esd.type:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(not esd.repo_name and not esd.type)
 
     def test_connect(self):
 
@@ -300,13 +241,7 @@ class UnitTest(unittest.TestCase):
 
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        if not esd.repo_name and not esd.type:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(not esd.repo_name and not esd.type)
 
     def test_init(self):
 
@@ -323,13 +258,7 @@ class UnitTest(unittest.TestCase):
         with gen_libs.no_std_out():
             esd = elastic_class.ElasticSearchDump(host_list)
 
-        if not esd.dump_name:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(not esd.dump_name)
 
     def tearDown(self):
 
