@@ -35,16 +35,17 @@ def get_latest_dump(dump_list, **kwargs):
     """
 
     dump_list = list(dump_list)
+    last_dump = None
 
     if dump_list:
         search = max([item[4] for item in dump_list])
 
         for item in dump_list:
             if item[4] == search:
-                return item[0]
+                last_dump = item[0]
+                break
 
-    else:
-        return None
+    return last_dump
 
 
 def list_dumps(dump_list, **kwargs):
@@ -60,14 +61,14 @@ def list_dumps(dump_list, **kwargs):
 
     dump_list = list(dump_list)
 
-    print("{0:25} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
+    print("{0:45} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
           .format("Database Dump Name", "Status", "Time", "Number",
                   "Shard Information", "", ""))
-    print("{0:25} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
+    print("{0:45} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
           .format("", "", "", "Indexes", "Success", "Fail", "Total"))
 
     for item in dump_list:
-        print("{0:25} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
+        print("{0:45} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
               .format(item[0], item[1], item[6], item[7], item[8], item[9],
                       item[10]))
 

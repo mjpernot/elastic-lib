@@ -84,13 +84,8 @@ class UnitTest(unittest.TestCase):
         esr = elastic_class.ElasticSearchRepo(
             self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        if esr.repo == self.repo_name and esr.repo_dir == self.repo_dir:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(
+            esr.repo == self.repo_name and esr.repo_dir == self.repo_dir)
 
     def test_connect(self):
 
@@ -104,13 +99,7 @@ class UnitTest(unittest.TestCase):
 
         esr = elastic_class.ElasticSearchRepo(self.cfg.host)
 
-        if not esr.repo and not esr.repo_dict:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(not esr.repo and not esr.repo_dict)
 
     def test_init(self):
 
@@ -125,13 +114,7 @@ class UnitTest(unittest.TestCase):
         host_list = "Host_Name"
         esr = elastic_class.ElasticSearchRepo(host_list)
 
-        if not esr.repo:
-            status = True
-
-        else:
-            status = False
-
-        self.assertTrue(status)
+        self.assertTrue(not esr.repo)
 
 
 if __name__ == "__main__":
