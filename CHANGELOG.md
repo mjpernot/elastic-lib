@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [2.0.3] - 2020-07-10
+### Fixed
+- elastic_libs.list_dumps:  Fixed formatting error.
+
+### Changed
+- elastic_libs.get_latest_dump:  Refactored function and removed multiple returns and else clause.
+
+
 ## [2.0.2] - 2020-06-12
 ### Fixed
 - elastic_class.ElasticSearchStatus.get_disk_status:  Skips any disks that are listed as UNASSIGNED.

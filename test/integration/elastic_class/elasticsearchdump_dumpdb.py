@@ -135,7 +135,7 @@ class UnitTest(unittest.TestCase):
 
         err_flag, _ = esd.dump_db(dbs)
 
-        dir_path = os.path.join(self.repo_dir, "indices")
+        dir_path = os.path.join(self.phy_repo_dir, "indices")
 
         # Count number of databases/indices dumped to repository.
         cnt = len([name for name in os.listdir(dir_path)
