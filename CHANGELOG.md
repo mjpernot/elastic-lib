@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.0.0] - 2021-10-18
+Breaking Change
+
+
 ## [2.0.3] - 2020-07-10
 ### Fixed
 - elastic_libs.list_dumps:  Fixed formatting error.
