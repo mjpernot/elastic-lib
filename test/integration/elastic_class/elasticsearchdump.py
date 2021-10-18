@@ -42,18 +42,18 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_dump_list_is_set -> Test if dump list has data in it.
-        test_dump_list_is_empty -> Test if dump list is empty.
-        test_repo_is_set -> Test if dump location is set.
-        test_repo_not_set -> Test if repo name is not set and type is not set.
-        test_multi_repo -> Test if multiple repos are present.
-        test_single_repo -> Test if single repo is present.
-        test_repo_not_passed -> Test if repo name is not passed to program.
-        test_repo_not_exist -> Test if repo name does not exist.
-        test_connect -> Test to successfully connect to Elasticsearch.
-        test_init -> Test to see if class instance is created.
-        tearDown -> Clean up of integration testing.
+        setUp
+        test_dump_list_is_set
+        test_dump_list_is_empty
+        test_repo_is_set
+        test_repo_not_set
+        test_multi_repo
+        test_single_repo
+        test_repo_not_passed
+        test_repo_not_exist
+        test_connect
+        test_init
+        tearDown
 
     """
 
