@@ -22,7 +22,7 @@ import version
 __version__ = version.__version__
 
 
-def get_latest_dump(dump_list, **kwargs):
+def get_latest_dump(dump_list):
 
     """Function:  get_latest_dump
 
@@ -48,7 +48,7 @@ def get_latest_dump(dump_list, **kwargs):
     return last_dump
 
 
-def list_dumps(dump_list, **kwargs):
+def list_dumps(dump_list):
 
     """Function:  list_dumps
 
@@ -73,7 +73,7 @@ def list_dumps(dump_list, **kwargs):
                       item[10]))
 
 
-def list_repos2(repo_list, **kwargs):
+def list_repos2(repo_list):
 
     """Function:  list_repos2
 
