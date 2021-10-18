@@ -43,14 +43,14 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_dump_is_deleted -> Test to see if dump is deleted.
-        test_dump_not_found -> Test to see if dump is not found.
-        test_repo_not_found -> Test to see if repository is not found.
-        test_repo_name_is_passed -> Test to see if repo name is passed.
-        test_repo_name_is_set -> Test to see if repo name is set.
-        test_repo_name_not_set -> Test to see if repo name is not set.
-        tearDown -> Clean up of integration testing.
+        setUp
+        test_dump_is_deleted
+        test_dump_not_found
+        test_repo_not_found
+        test_repo_name_is_passed
+        test_repo_name_is_set
+        test_repo_name_not_set
+        tearDown
 
     """
 
