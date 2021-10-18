@@ -8,7 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Changed
-- elastic_libs:  Removed non-required \*\*kwargs entries.
+- elastic_libs, elastc_class:  Removed non-required \*\*kwargs entries.
 
 
 ## [2.0.3] - 2020-07-10

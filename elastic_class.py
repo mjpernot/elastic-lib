@@ -49,7 +49,7 @@ import version
 __version__ = version.__version__
 
 
-def create_snapshot(els, reponame, body, dumpname, **kwargs):
+def create_snapshot(els, reponame, body, dumpname):
 
     """Function:  create_snapshot
 
@@ -67,7 +67,7 @@ def create_snapshot(els, reponame, body, dumpname, **kwargs):
     els.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
 
 
-def create_snapshot_repo(els, reponame, body, verify=True, **kwargs):
+def create_snapshot_repo(els, reponame, body, verify=True):
 
     """Function:  create_snapshot_repo
 
@@ -87,7 +87,7 @@ def create_snapshot_repo(els, reponame, body, verify=True, **kwargs):
                                           verify=verify)
 
 
-def delete_snapshot(els, reponame, dumpname, **kwargs):
+def delete_snapshot(els, reponame, dumpname):
 
     """Function:  delete_snapshot
 
@@ -104,7 +104,7 @@ def delete_snapshot(els, reponame, dumpname, **kwargs):
     return els.snapshot.delete(repository=reponame, snapshot=dumpname)
 
 
-def delete_snapshot_repo(els, reponame, **kwargs):
+def delete_snapshot_repo(els, reponame):
 
     """Function:  delete_snapshot_repo
 
@@ -120,7 +120,7 @@ def delete_snapshot_repo(els, reponame, **kwargs):
     return els.snapshot.delete_repository(repository=reponame)
 
 
-def get_cluster_health(els, **kwargs):
+def get_cluster_health(els):
 
     """Function:  get_cluster_health
 
@@ -135,7 +135,7 @@ def get_cluster_health(els, **kwargs):
     return els.cluster.health()
 
 
-def get_cluster_nodes(els, **kwargs):
+def get_cluster_nodes(els):
 
     """Function:  get_cluster_nodes
 
@@ -150,7 +150,7 @@ def get_cluster_nodes(els, **kwargs):
     return els.nodes.info()
 
 
-def get_cluster_stats(els, **kwargs):
+def get_cluster_stats(els):
 
     """Function:  get_cluster_stats
 
@@ -165,7 +165,7 @@ def get_cluster_stats(els, **kwargs):
     return els.cluster.stats()
 
 
-def get_cluster_status(els, **kwargs):
+def get_cluster_status(els):
 
     """Function:  get_cluster_status
 
@@ -180,7 +180,7 @@ def get_cluster_status(els, **kwargs):
     return els.cluster.health()["status"]
 
 
-def get_disks(els, **kwargs):
+def get_disks(els):
 
     """Function:  get_disks
 
@@ -195,7 +195,7 @@ def get_disks(els, **kwargs):
     return [item.split() for item in els.cat.allocation().splitlines()]
 
 
-def get_dump_list(els, repo, **kwargs):
+def get_dump_list(els, repo):
 
     """Function:  get_dump_list
 
@@ -212,7 +212,7 @@ def get_dump_list(els, repo, **kwargs):
             for item in els.cat.snapshots(repository=repo).splitlines()]
 
 
-def get_info(els, **kwargs):
+def get_info(els):
 
     """Function:  get_info
 
@@ -227,7 +227,7 @@ def get_info(els, **kwargs):
     return els.info()
 
 
-def get_master_name(els, **kwargs):
+def get_master_name(els):
 
     """Function:  get_master_name
 
@@ -242,7 +242,7 @@ def get_master_name(els, **kwargs):
     return els.cat.master().strip().split(" ")[-1]
 
 
-def get_nodes(els, **kwargs):
+def get_nodes(els):
 
     """Function:  get_nodes
 
@@ -257,7 +257,7 @@ def get_nodes(els, **kwargs):
     return els.nodes.info()["nodes"]
 
 
-def get_repo_list(els, **kwargs):
+def get_repo_list(els):
 
     """Function:  get_repo_list
 
@@ -272,7 +272,7 @@ def get_repo_list(els, **kwargs):
     return els.snapshot.get_repository()
 
 
-def get_shards(els, **kwargs):
+def get_shards(els):
 
     """Function:  get_shards
 
@@ -287,7 +287,7 @@ def get_shards(els, **kwargs):
     return [item.split() for item in els.cat.shards().splitlines()]
 
 
-def is_active(els, **kwargs):
+def is_active(els):
 
     """Function:  is_active
 
@@ -344,7 +344,7 @@ class ElasticSearch(object):
 
         self.update_status()
 
-    def update_status(self, **kwargs):
+    def update_status(self):
 
         """Method:  update_status
 
@@ -435,7 +435,7 @@ class ElasticSearchDump(ElasticSearch):
 
         self.update_dump_status()
 
-    def update_dump_status(self, **kwargs):
+    def update_dump_status(self):
 
         """Method:  update_dump_status
 
@@ -482,7 +482,7 @@ class ElasticSearchDump(ElasticSearch):
                     datetime.datetime.strftime(datetime.datetime.now(),
                                                "%Y%m%d-%H%M%s")
 
-    def dump_db(self, dbs=None, **kwargs):
+    def dump_db(self, dbs=None):
 
         """Method:  dump_db
 
@@ -574,7 +574,7 @@ class ElasticSearchDump(ElasticSearch):
 
         return err_flag, status_msg, break_flag
 
-    def _parse(self, dump, **kwargs):
+    def _parse(self, dump):
 
         """Function:  _parse
 
@@ -632,7 +632,7 @@ class ElasticSearchRepo(ElasticSearch):
         self.repo_dict = {}
         self.update_repo_status()
 
-    def update_repo_status(self, **kwargs):
+    def update_repo_status(self):
 
         """Method:  update_repo_status
 
@@ -648,7 +648,7 @@ class ElasticSearchRepo(ElasticSearch):
             # Query dump repository
             self.repo_dict = get_repo_list(self.els)
 
-    def create_repo(self, repo_name=None, repo_dir=None, **kwargs):
+    def create_repo(self, repo_name=None, repo_dir=None):
 
         """Method:  create_repo
 
@@ -699,7 +699,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         return err_flag, err_msg
 
-    def delete_repo(self, repo_name=None, **kwargs):
+    def delete_repo(self, repo_name=None):
 
         """Method:  delete_repo
 
@@ -742,7 +742,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         return err_flag, err_msg
 
-    def delete_dump(self, repo_name=None, dump_name=None, **kwargs):
+    def delete_dump(self, repo_name=None, dump_name=None):
 
         """Method:  delete_dump
 
@@ -795,7 +795,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         return err_flag, err_msg
 
-    def delete_dump_all(self, repo_name=None, **kwargs):
+    def delete_dump_all(self, repo_name=None):
 
         """Method:  delete_dump_all
 
@@ -906,7 +906,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         self.update_status2()
 
-    def update_status2(self, **kwargs):
+    def update_status2(self):
 
         """Method:  update_status2
 
@@ -953,7 +953,7 @@ class ElasticSearchStatus(ElasticSearch):
         else:
             self.is_connected = False
 
-    def get_cluster(self, **kwargs):
+    def get_cluster(self):
 
         """Method:  get_cluster
 
@@ -966,7 +966,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return {"Cluster": self.cluster_name}
 
-    def get_nodes(self, **kwargs):
+    def get_nodes(self):
 
         """Method:  get_nodes
 
@@ -979,7 +979,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return {"Nodes": [str(x) for x in self.nodes]}
 
-    def get_node_status(self, **kwargs):
+    def get_node_status(self):
 
         """Method:  get_node_status
 
@@ -993,7 +993,7 @@ class ElasticSearchStatus(ElasticSearch):
         return {"NodeStatus": {"TotalNodes": self.total_nodes,
                                "FailedNodes": self.failed_nodes}}
 
-    def get_svr_status(self, **kwargs):
+    def get_svr_status(self):
 
         """Method:  get_svr_status
 
@@ -1008,7 +1008,7 @@ class ElasticSearchStatus(ElasticSearch):
                            "AllocatedCPU": self.alloc_cpu,
                            "CPUActive": self.cpu_active}}
 
-    def get_mem_status(self, **kwargs):
+    def get_mem_status(self):
 
         """Method:  get_mem_status
 
@@ -1024,7 +1024,7 @@ class ElasticSearchStatus(ElasticSearch):
                            "Used": gen_libs.bytes_2_readable(self.mem_used),
                            "Free": gen_libs.bytes_2_readable(self.mem_free)}}
 
-    def get_shrd_status(self, **kwargs):
+    def get_shrd_status(self):
 
         """Method:  get_shrd_status
 
@@ -1040,7 +1040,7 @@ class ElasticSearchStatus(ElasticSearch):
                            "Total": self.num_shards,
                            "Primary": self.num_primary}}
 
-    def get_gen_status(self, **kwargs):
+    def get_gen_status(self):
 
         """Method:  get_shard_status
 
@@ -1055,7 +1055,7 @@ class ElasticSearchStatus(ElasticSearch):
                                   "Status": self.cluster_status,
                                   "PendingTasks": self.pending_tasks}}
 
-    def get_disk_status(self, **kwargs):
+    def get_disk_status(self):
 
         """Method:  get_disk_status
 
@@ -1078,7 +1078,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def get_dump_disk_status(self, **kwargs):
+    def get_dump_disk_status(self):
 
         """Method:  get_dump_disk_status
 
@@ -1105,7 +1105,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def get_all(self, **kwargs):
+    def get_all(self):
 
         """Method:  get_all
 
@@ -1129,7 +1129,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_mem(self, cutoff_mem=None, **kwargs):
+    def chk_mem(self, cutoff_mem=None):
 
         """Method:  chk_mem
 
@@ -1157,7 +1157,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_nodes(self, **kwargs):
+    def chk_nodes(self):
 
         """Method:  chk_nodes
 
@@ -1178,7 +1178,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_shards(self, **kwargs):
+    def chk_shards(self):
 
         """Method:  chk_shards
 
@@ -1222,7 +1222,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data if err_flag else {}
 
-    def chk_server(self, cutoff_cpu=None, **kwargs):
+    def chk_server(self, cutoff_cpu=None):
 
         """Method:  chk_server
 
@@ -1248,7 +1248,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_status(self, **kwargs):
+    def chk_status(self):
 
         """Method:  chk_status
 
@@ -1281,7 +1281,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data if err_flag else {}
 
-    def chk_disk(self, cutoff_disk=None, **kwargs):
+    def chk_disk(self, cutoff_disk=None):
 
         """Method:  chk_disk
 
@@ -1315,8 +1315,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data if err_flag else {}
 
-    def chk_all(self, cutoff_cpu=None, cutoff_mem=None, cutoff_disk=None,
-                **kwargs):
+    def chk_all(self, cutoff_cpu=None, cutoff_mem=None, cutoff_disk=None):
 
         """Method:  chk_all
 
