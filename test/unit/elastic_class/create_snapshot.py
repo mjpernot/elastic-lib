@@ -40,7 +40,7 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
-        create -> Stub holder for snapshot.create method.
+        create
 
     """
 
@@ -51,9 +51,6 @@ class Repo(object):
         Description:  Stub holder for snapshot.create method.
 
         Arguments:
-            (input) repository -> Name of repository.
-            (input) body -> Dictionary of arguments.
-            (input) snapshot -> Dump name.
 
         """
 
@@ -67,7 +64,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -93,8 +90,8 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_default -> Test with default settings.
+        setUp
+        test_default
 
     """
 
