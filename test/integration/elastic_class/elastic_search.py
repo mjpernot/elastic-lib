@@ -41,10 +41,10 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_ping_success -> Test to if ping is successful.
-        test_host_is_list -> Test to see if host is a list.
-        test_init -> Test to see if class instance is created.
+        setUp
+        test_ping_success
+        test_host_is_list
+        test_init
 
     """
 
