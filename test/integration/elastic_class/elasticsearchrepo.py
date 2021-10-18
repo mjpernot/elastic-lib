@@ -41,10 +41,10 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_repo_is_set -> Test if repo attributes are set properly.
-        test_connect -> Test to successfully connect to Elasticsearch.
-        test_init -> Test to see if class instance is created.
+        setUp
+        test_repo_is_set
+        test_connect
+        test_init
 
     """
 
