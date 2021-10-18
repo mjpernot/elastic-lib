@@ -9,6 +9,7 @@ Breaking Change
 
 ### Changed
 - elastic_libs, elastc_class:  Removed non-required \*\*kwargs entries.
+- Documentation updates
 
 
 ## [2.0.3] - 2020-07-10
