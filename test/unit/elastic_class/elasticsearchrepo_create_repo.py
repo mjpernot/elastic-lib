@@ -42,7 +42,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -69,13 +69,13 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_not_created_repo -> Test with repository not created.
-        test_not_detected_repo -> Test with repository not detected.
-        test_missing_repo_name -> Test with missing repo named.
-        test_no_repo_dir -> Test with no repo directory passed.
-        test_no_repo_name -> Test with no repo named passed.
-        test_default -> Test with default settings.
+        setUp
+        test_not_created_repo
+        test_not_detected_repo
+        test_missing_repo_name
+        test_no_repo_dir
+        test_no_repo_name
+        test_default
 
     """
 
