@@ -312,8 +312,8 @@ class ElasticSearch(object):
         database/cluster.
 
     Methods:
-        __init__ -> Class instance initialization.
-        update_status -> Update class attributes by querying Elasticsearch.
+        __init__
+        update_status
 
     """
 
@@ -400,9 +400,9 @@ class ElasticSearchDump(ElasticSearch):
         database dump of an ElasticSearch database/cluster.
 
     Methods:
-        __init__ -> Class instance initilization.
-        update_dump_status -> Update class attributes.
-        dump_db -> Executes a dump of an ElasticSearch database.
+        __init__
+        update_dump_status
+        dump_db
 
     """
 
@@ -599,12 +599,12 @@ class ElasticSearchRepo(ElasticSearch):
         implement respositories within an Elasticsearch cluster.
 
     Methods:
-        __init__ -> Class instance initilization.
-        update_repo_status -> Update class attributes.
-        create_repo -> Create an elasticsearch dump repository.
-        delete_repo -> Delete an elasticsearch dump repository.
-        delete_dump -> Delete a database dump in an Elasticsearch repository.
-        delete_dump_all -> Delete all dumps in a repository.
+        __init__
+        update_repo_status
+        create_repo
+        delete_repo
+        delete_dump
+        delete_dump_all
 
     """
 
@@ -843,24 +843,24 @@ class ElasticSearchStatus(ElasticSearch):
         connecting to an elasticsearch cluster and executing status commands.
 
     Methods:
-        __init__ -> Class instance initilization.
-        update_status2 -> Update class attributes.
-        get_cluster -> Return formatted cluster name.
-        get_nodes -> Return formatted list of node names.
-        get_node_status -> Return status of nodes.
-        get_svr_status -> Return status of server.
-        get_mem_status -> Return status of memory on the server.
-        get_shrd_status -> Return status of shards in the cluster.
-        get_gen_status -> Return general status in the cluster.
-        get_disk_status -> Return status of disk usage for each node.
-        get_dump_disk_status -> Return status of dump disk usage for each repo.
-        get_all -> Call get_ functions and return as single result set.
-        chk_mem -> Checks the memory percentage used against a cutoff value.
-        chk_nodes -> Check status of nodes in cluster.
-        chk_shards -> Check status of shards in cluster.
-        chk_server -> Check status of the server.
-        chk_status -> Check status of the cluster.
-        chk_disk -> Check status of disk usage on each node.
+        __init__
+        update_status2
+        get_cluster
+        get_nodes
+        get_node_status
+        get_svr_status
+        get_mem_status
+        get_shrd_status
+        get_gen_status
+        get_disk_status
+        get_dump_disk_status
+        get_all
+        chk_mem
+        chk_nodes
+        chk_shards
+        chk_server
+        chk_status
+        chk_disk
         chk_all - Calls all chk_ functions and return as a single result set.
 
     """
