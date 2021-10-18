@@ -43,15 +43,15 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_dbs_multi_names -> Test dumping two databases.
-        test_dbs_is_successful -> Test dumping single database.
-        test_dbs_is_not_str -> Test database name is not a string.
-        test_dump_list_updated -> Test dump list is updated after dump.
-        test_dump_succesful -> Test dump of database is successful.
-        test_repo_name_is_set -> Test repo name is set, but not present.
-        test_repo_name_not_set -> Test repo name is not set for dump.
-        tearDown -> Clean up of integration testing.
+        setUp
+        test_dbs_multi_names
+        test_dbs_is_successful
+        test_dbs_is_not_str
+        test_dump_list_updated
+        test_dump_succesful
+        test_repo_name_is_set
+        test_repo_name_not_set
+        tearDown
 
     """
 
