@@ -371,41 +371,35 @@ class ElasticSearch(object):
 
         """
 
-        if is_active(self.els):
-            self.is_connected = True
+        # Basic information
+        info = get_info(self.els)
 
-            # Basic information
-            info = get_info(self.els)
+        self.node_connected_to = info["name"]
 
-            self.node_connected_to = info["name"]
+        # Node information
+        data = get_nodes(self.els)
 
-            # Node information
-            data = get_nodes(self.els)
+        for item in data:
+            self.data[data[item]["name"]] = \
+                data[item]["settings"]["path"]["data"]
+            self.logs[data[item]["name"]] = \
+                data[item]["settings"]["path"]["logs"]
 
-            for item in data:
-                self.data[data[item]["name"]] = \
-                    data[item]["settings"]["path"]["data"]
-                self.logs[data[item]["name"]] = \
-                    data[item]["settings"]["path"]["logs"]
+        self.nodes = [data[item]["name"] for item in data]
 
-            self.nodes = [data[item]["name"] for item in data]
+        # Cluster node information
+        cluster = get_cluster_nodes(self.els)
 
-            # Cluster node information
-            cluster = get_cluster_nodes(self.els)
+        self.total_nodes = cluster["_nodes"]["total"]
 
-            self.total_nodes = cluster["_nodes"]["total"]
+        # Cluster health information
+        health = get_cluster_health(self.els)
 
-            # Cluster health information
-            health = get_cluster_health(self.els)
+        self.cluster_status = health["status"]
+        self.cluster_name = health["cluster_name"]
 
-            self.cluster_status = health["status"]
-            self.cluster_name = health["cluster_name"]
-
-            # Master information
-            self.master = get_master_name(self.els)
-
-        else:
-            self.is_connected = False
+        # Master information
+        self.master = get_master_name(self.els)
 
 
 class ElasticSearchDump(ElasticSearch):
