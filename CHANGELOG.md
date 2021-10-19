@@ -7,6 +7,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [3.0.0] - 2021-10-18
 Breaking Change
 
+### Added
+- elastic_class.ElasticSearch.connect:  Connection method to ElasticSearch server/cluster.
+
 ### Changed
 - elastic_libs, elastc_class:  Removed non-required \*\*kwargs entries.
 - Documentation updates

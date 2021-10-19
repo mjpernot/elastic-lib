@@ -313,6 +313,7 @@ class ElasticSearch(object):
 
     Methods:
         __init__
+        connect
         update_status
 
     """
@@ -342,6 +343,19 @@ class ElasticSearch(object):
         self.master = None
         self.els = elasticsearch.Elasticsearch(self.hosts, port=self.port)
 
+        self.update_status()
+
+    def connect(self):
+
+        """Method:  connect
+
+        Description:  Connection to ElasticSearch server/cluster.
+
+        Arguments:
+
+        """
+
+        self.els = elasticsearch.Elasticsearch(self.hosts, port=self.port)
         self.update_status()
 
     def update_status(self):
