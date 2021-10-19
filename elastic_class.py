@@ -356,7 +356,13 @@ class ElasticSearch(object):
         """
 
         self.els = elasticsearch.Elasticsearch(self.hosts, port=self.port)
-        self.update_status()
+
+        if is_active(self.els):
+            self.is_connected = True
+            self.update_status()
+
+        else:
+            self.is_connected = False
 
     def update_status(self):
 
