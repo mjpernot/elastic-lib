@@ -70,7 +70,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
-        test_connect
+        test_connect_false
+        test_connect_true
 
     """
 
@@ -87,13 +88,14 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.els = Elasticsearch(self.host_list)
 
+    @mock.patch("elastic_class.is_active")
     @mock.patch("elastic_class.ElasticSearch.update_status")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_connect(self, mock_es, mock_status):
+    def test_connect_false(self, mock_es, mock_status, mock_active):
 
-        """Function:  test_connect
+        """Function:  test_connect_false
 
-        Description:  Test with connection to Elasticsearch.
+        Description:  Test with failed connection to Elasticsearch.
 
         Arguments:
 
@@ -101,12 +103,32 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.els
         mock_status.return_value = True
+        mock_active.return_value = False
 
         els = elastic_class.ElasticSearch(self.host_list)
         els.connect()
-        self.assertEqual(
-            (els.port, els.hosts, els.is_connected, els.data, els.logs),
-            (9200, self.host_list, False, {}, {}))
+        self.assertFalse(els.is_connected)
+
+    @mock.patch("elastic_class.is_active")
+    @mock.patch("elastic_class.ElasticSearch.update_status")
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_connect_true(self, mock_es, mock_status, mock_active):
+
+        """Function:  test_connect_true
+
+        Description:  Test with successful connection to Elasticsearch.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+        mock_status.return_value = True
+        mock_active.return_value = True
+
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+        self.assertTrue(els.is_connected)
 
 
 if __name__ == "__main__":
