@@ -341,9 +341,6 @@ class ElasticSearch(object):
         self.total_nodes = None
         self.cluster_status = None
         self.master = None
-        self.els = elasticsearch.Elasticsearch(self.hosts, port=self.port)
-
-        self.update_status()
 
     def connect(self):
 
