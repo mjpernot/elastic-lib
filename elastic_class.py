@@ -652,6 +652,21 @@ class ElasticSearchRepo(ElasticSearch):
         self.repo_dict = {}
         self.update_repo_status()
 
+    def connect(self):
+
+        """Method:  connect
+
+        Description:  Connection to ElasticSearch server/cluster.
+
+        Arguments:
+
+        """
+
+        super(ElasticSearchRepo, self).connect()
+
+        if self.is_connected:
+            self.update_repo_status()
+
     def update_repo_status(self):
 
         """Method:  update_repo_status
