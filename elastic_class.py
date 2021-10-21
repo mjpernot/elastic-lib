@@ -934,8 +934,6 @@ class ElasticSearchStatus(ElasticSearch):
         self.disk_list = []
         self.repo_dict = {}
 
-        self.update_status2()
-
     def connect(self):
 
         """Method:  connect
