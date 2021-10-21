@@ -25,8 +25,9 @@ test/unit/elastic_class/is_active.py
 test/unit/elastic_class/elasticsearch_init.py
 test/unit/elastic_class/elasticsearch_connect.py
 test/unit/elastic_class/elasticsearch_update_status.py
-test/unit/elastic_class/elasticsearchdump_chk_status.py
 test/unit/elastic_class/elasticsearchdump_init.py
+test/unit/elastic_class/elasticsearchdump_chk_status.py
+test/unit/elastic_class/elasticsearchdump_connect.py
 test/unit/elastic_class/elasticsearchdump_dump_db.py
 test/unit/elastic_class/elasticsearchdump_update_dump_status.py
 test/unit/elastic_class/elasticsearchrepo_create_repo.py
