@@ -959,42 +959,36 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        if is_active(self.els):
-            self.is_connected = True
+        # Get cluster health
+        health = get_cluster_health(self.els)
 
-            # Get cluster health
-            health = get_cluster_health(self.els)
+        self.unassigned_shards = health["unassigned_shards"]
+        self.active_shards_percent = \
+            health["active_shards_percent_as_number"]
+        self.pending_tasks = health["number_of_pending_tasks"]
+        self.num_shards = health["active_shards"]
+        self.num_primary = health["active_primary_shards"]
 
-            self.unassigned_shards = health["unassigned_shards"]
-            self.active_shards_percent = \
-                health["active_shards_percent_as_number"]
-            self.pending_tasks = health["number_of_pending_tasks"]
-            self.num_shards = health["active_shards"]
-            self.num_primary = health["active_primary_shards"]
+        # Get cluster shards
+        self.shard_list = get_shards(self.els)
 
-            # Get cluster shards
-            self.shard_list = get_shards(self.els)
+        # Get cluster status
+        status = get_cluster_stats(self.els)
 
-            # Get cluster status
-            status = get_cluster_stats(self.els)
+        self.failed_nodes = status["_nodes"]["failed"]
+        self.mem_per_used = status["nodes"]["os"]["mem"]["used_percent"]
+        self.mem_total = status["nodes"]["os"]["mem"]["total_in_bytes"]
+        self.mem_used = status["nodes"]["os"]["mem"]["used_in_bytes"]
+        self.mem_free = status["nodes"]["os"]["mem"]["free_in_bytes"]
+        self.uptime = status["nodes"]["jvm"]["max_uptime_in_millis"]
+        self.alloc_cpu = status["nodes"]["os"]["allocated_processors"]
+        self.cpu_active = status["nodes"]["process"]["cpu"]["percent"]
 
-            self.failed_nodes = status["_nodes"]["failed"]
-            self.mem_per_used = status["nodes"]["os"]["mem"]["used_percent"]
-            self.mem_total = status["nodes"]["os"]["mem"]["total_in_bytes"]
-            self.mem_used = status["nodes"]["os"]["mem"]["used_in_bytes"]
-            self.mem_free = status["nodes"]["os"]["mem"]["free_in_bytes"]
-            self.uptime = status["nodes"]["jvm"]["max_uptime_in_millis"]
-            self.alloc_cpu = status["nodes"]["os"]["allocated_processors"]
-            self.cpu_active = status["nodes"]["process"]["cpu"]["percent"]
+        # Get disks usage
+        self.disk_list = get_disks(self.els)
 
-            # Get disks usage
-            self.disk_list = get_disks(self.els)
-
-            # Get repository list
-            self.repo_dict = get_repo_list(self.els)
-
-        else:
-            self.is_connected = False
+        # Get repository list
+        self.repo_dict = get_repo_list(self.els)
 
     def get_cluster(self):
 
