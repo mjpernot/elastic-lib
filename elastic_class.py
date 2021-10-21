@@ -446,6 +446,21 @@ class ElasticSearchDump(ElasticSearch):
 
         self.update_dump_status()
 
+    def connect(self):
+
+        """Method:  connect
+
+        Description:  Connection to ElasticSearch server/cluster.
+
+        Arguments:
+
+        """
+
+        super(ElasticSearchDump, self).connect()
+
+        if self.is_connected:
+            self.update_dump_status()
+
     def update_dump_status(self):
 
         """Method:  update_dump_status
