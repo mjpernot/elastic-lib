@@ -118,6 +118,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_dump_all(self.repo),
                          (True, "Error Message"))
@@ -146,6 +147,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         els.repo = None
 
         self.assertEqual(
@@ -176,6 +178,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_dump_all(), (False, None))
 
@@ -203,6 +206,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_dump_all(self.repo), (False, None))
 
