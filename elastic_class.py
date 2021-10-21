@@ -936,6 +936,21 @@ class ElasticSearchStatus(ElasticSearch):
 
         self.update_status2()
 
+    def connect(self):
+
+        """Method:  connect
+
+        Description:  Connection to ElasticSearch server/cluster.
+
+        Arguments:
+
+        """
+
+        super(ElasticSearchStatus, self).connect()
+
+        if self.is_connected:
+            self.update_status2()
+
     def update_status2(self):
 
         """Method:  update_status2

@@ -8,6 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Added
+- elastic_class.ElasticSearchStatus.connect:  Connection method for ElasticSearchStatus class.
 - elastic_class.ElasticSearchRepo.connect:  Connection method for ElasticSearchRepo class.
 - elastic_class.ElasticSearchDump.connect:  Connection method for ElasticSearchDump class.
 - elastic_class.ElasticSearch.connect:  Connection method to ElasticSearch server/cluster.
