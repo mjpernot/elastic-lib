@@ -444,8 +444,6 @@ class ElasticSearchDump(ElasticSearch):
         self.dump_name = None
         self.repo_name = repo
 
-        self.update_dump_status()
-
     def connect(self):
 
         """Method:  connect
