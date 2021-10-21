@@ -171,6 +171,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.repo_name = None
         self.assertEqual(
             els.dump_db(self.dbs),
@@ -209,6 +210,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual(
             els.dump_db(self.dbs2),
             (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
@@ -246,6 +248,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual(els.dump_db(self.dbs), (False, None))
 
 
