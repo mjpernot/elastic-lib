@@ -46,6 +46,7 @@ coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchstat
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchstatus_chk_server.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchstatus_chk_shards.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchstatus_chk_status.py
+coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchstatus_connect.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchstatus_get_all.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchstatus_get_cluster.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchstatus_get_disk_status.py
