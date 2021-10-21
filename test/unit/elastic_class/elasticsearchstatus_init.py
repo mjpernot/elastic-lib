@@ -106,8 +106,6 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
-                mock.Mock(return_value=True))
     def test_disk_arg(self):
 
         """Function:  test_disk_arg
@@ -122,8 +120,6 @@ class UnitTest(unittest.TestCase):
         self.assertEqual((els.hosts, els.cutoff_disk), (self.host_list, 30))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
-                mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     def test_cpu_arg(self):
 
@@ -140,8 +136,6 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
-                mock.Mock(return_value=True))
     def test_mem_arg(self):
 
         """Function:  test_mem_arg
@@ -156,8 +150,6 @@ class UnitTest(unittest.TestCase):
         self.assertEqual((els.hosts, els.cutoff_mem), (self.host_list, 10))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
-                mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     def test_default(self):
 
