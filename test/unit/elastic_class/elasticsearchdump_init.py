@@ -63,8 +63,6 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchDump.update_dump_status",
-                mock.Mock(return_value=True))
     def test_default(self):
 
         """Function:  test_default
