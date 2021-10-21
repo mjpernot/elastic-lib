@@ -44,6 +44,7 @@ test/unit/elastic_class/elasticsearchstatus_chk_nodes.py
 test/unit/elastic_class/elasticsearchstatus_chk_server.py
 test/unit/elastic_class/elasticsearchstatus_chk_shards.py
 test/unit/elastic_class/elasticsearchstatus_chk_status.py
+test/unit/elastic_class/elasticsearchstatus_connect.py
 test/unit/elastic_class/elasticsearchstatus_get_all.py
 test/unit/elastic_class/elasticsearchstatus_get_cluster.py
 test/unit/elastic_class/elasticsearchstatus_get_disk_status.py
