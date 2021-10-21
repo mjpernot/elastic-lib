@@ -29,6 +29,7 @@ coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_con
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_update_status.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchdump_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchdump_chk_status.py
+coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchdump_connect.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchdump_dump_db.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchdump_update_dump_status.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearchrepo_create_repo.py
