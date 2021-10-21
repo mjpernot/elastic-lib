@@ -469,42 +469,38 @@ class ElasticSearchDump(ElasticSearch):
 
         """
 
-        if is_active(self.els):
-            self.is_connected = True
-            self.dump_name = self.cluster_name.lower() + "_bkp_" + \
-                datetime.datetime.strftime(datetime.datetime.now(),
-                                           "%Y%m%d-%H%M%S")
-            repo_dict = get_repo_list(self.els)
+        self.dump_name = self.cluster_name.lower() + "_bkp_" + \
+            datetime.datetime.strftime(
+                datetime.datetime.now(), "%Y%m%d-%H%M%S")
+        repo_dict = get_repo_list(self.els)
 
-            if self.repo_name and self.repo_name not in repo_dict:
+        if self.repo_name and self.repo_name not in repo_dict:
+            self.repo_name = None
+
+        elif not self.repo_name:
+
+            # Use if only one repository exists.
+            if len(repo_dict.keys()) == 1:
+                self.repo_name = next(iter(repo_dict))
+
+            # Cannot set if multiple repositories exist.
+            elif len(repo_dict.keys()) >= 1:
                 self.repo_name = None
 
-            elif not self.repo_name:
+        if self.repo_name:
+            self.type = repo_dict[self.repo_name]["type"]
+            self.dump_loc = repo_dict[self.repo_name]["settings"]["location"]
+            self.dump_list = get_dump_list(self.els, self.repo_name)
 
-                # Use if only one repository exists.
-                if len(repo_dict.keys()) == 1:
-                    self.repo_name = next(iter(repo_dict))
+        if self.dump_list:
+            self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
 
-                # Cannot set if multiple repositories exist.
-                elif len(repo_dict.keys()) >= 1:
-                    self.repo_name = None
-
-            if self.repo_name:
-                self.type = repo_dict[self.repo_name]["type"]
-                self.dump_loc = \
-                    repo_dict[self.repo_name]["settings"]["location"]
-                self.dump_list = get_dump_list(self.els, self.repo_name)
-
-            if self.dump_list:
-                self.last_dump_name = \
-                    elastic_libs.get_latest_dump(self.dump_list)
-
-            # Make sure new dump name is unique.
-            if self.dump_name == self.last_dump_name:
-                time.sleep(1)
-                self.dump_name = self.cluster_name.lower() + "_bkp_" + \
-                    datetime.datetime.strftime(datetime.datetime.now(),
-                                               "%Y%m%d-%H%M%s")
+        # Make sure new dump name is unique.
+        if self.dump_name == self.last_dump_name:
+            time.sleep(1)
+            self.dump_name = self.cluster_name.lower() + "_bkp_" + \
+                datetime.datetime.strftime(
+                    datetime.datetime.now(), "%Y%m%d-%H%M%s")
 
     def dump_db(self, dbs=None):
 
