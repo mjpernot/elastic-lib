@@ -122,6 +122,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         els.repo = None
         self.assertEqual(
             els.delete_dump(dump_name=self.dump_name),
@@ -152,6 +153,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual(
             els.delete_dump(self.repo, self.dump_name),
             (True, "ERROR: Dump: dump3 not in Repository: reponame"))
@@ -180,6 +182,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual(
             els.delete_dump(self.repo, self.dump_name),
             (True, "ERROR: Dump still detected: reponame, dump3"))
@@ -208,6 +211,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         els.repo_dict[self.repo2] = True
         self.assertEqual(
             els.delete_dump(self.repo2, self.dump_name),
@@ -237,6 +241,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual(els.delete_dump(dump_name=self.dump_name),
                          (False, None))
 
@@ -264,6 +269,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual(els.delete_dump(self.repo, self.dump_name),
                          (False, None))
 
