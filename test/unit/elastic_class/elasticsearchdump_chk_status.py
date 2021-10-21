@@ -219,6 +219,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
             els._chk_status(self.break_flag),
@@ -255,6 +256,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
             els._chk_status(self.break_flag),
@@ -292,6 +294,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
             els._chk_status(self.break_flag),
@@ -330,6 +333,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
             els._chk_status(self.break_flag),
@@ -370,6 +374,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(els._chk_status(self.break_flag), (False, None, True))
 
@@ -405,6 +410,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(els._chk_status(self.break_flag), (False, None, True))
 
