@@ -110,6 +110,7 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.els
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual((els.hosts, els.repo, els.repo_dict),
                          (self.host_list, self.repo, {}))
 
@@ -132,6 +133,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual((els.hosts, els.repo, els.repo_dict),
                          (self.host_list, self.repo, self.repo_dict))
 
