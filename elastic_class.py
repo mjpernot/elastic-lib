@@ -670,17 +670,13 @@ class ElasticSearchRepo(ElasticSearch):
 
         """Method:  update_repo_status
 
-        Description:  Update class attributes.
+        Description:  Query dump repository and update class attributes.
 
         Arguments:
 
         """
 
-        if is_active(self.els):
-            self.is_connected = True
-
-            # Query dump repository
-            self.repo_dict = get_repo_list(self.els)
+        self.repo_dict = get_repo_list(self.els)
 
     def create_repo(self, repo_name=None, repo_dir=None):
 
