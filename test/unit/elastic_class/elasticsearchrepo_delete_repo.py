@@ -125,6 +125,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         els.repo_dict[self.repo] = True
 
         self.assertEqual(
@@ -152,6 +153,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict3]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         els.repo = None
 
         self.assertEqual(
@@ -179,6 +181,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict3]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_repo(), (False, None))
         self.assertEqual(els.repo_dict, self.repo_dict3)
@@ -204,6 +207,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_repo(self.repo), (True, self.err_msg))
         self.assertEqual(els.repo_dict, self.repo_dict)
@@ -229,6 +233,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_repo(self.repo2), (False, None))
         self.assertEqual(els.repo_dict, self.repo_dict2)
