@@ -121,6 +121,7 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.els
 
         els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.connect()
         self.assertEqual((els.port, els.hosts, els.is_connected),
                          (9200, self.host_list, False))
 
@@ -152,6 +153,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_data
 
         els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.connect()
         self.assertEqual(
             (els.port, els.hosts, els.is_connected, els.shard_list),
             (9200, self.host_list, True, self.shards_data))
