@@ -134,6 +134,7 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                               repo_dir=self.repo_dir)
+        els.connect()
         els.repo_name = None
         self.assertEqual(
             els.create_repo(self.repo3, self.repo_dir),
@@ -163,6 +164,7 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                               repo_dir=self.repo_dir)
+        els.connect()
         els.repo_name = None
         self.assertEqual(
             els.create_repo(self.repo3, self.repo_dir),
@@ -191,6 +193,7 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                               repo_dir=self.repo_dir)
+        els.connect()
         els.repo = None
         self.assertEqual(
             els.create_repo(repo_dir=self.repo_dir),
@@ -220,6 +223,7 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                               repo_dir=self.repo_dir)
+        els.connect()
         self.assertEqual(els.create_repo(self.repo), (False, None))
         self.assertEqual(els.repo_dict, self.repo_dict2)
 
@@ -245,6 +249,7 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo2,
                                               repo_dir=self.repo_dir)
+        els.connect()
         self.assertEqual(els.create_repo(repo_dir=self.repo_dir),
                          (False, None))
         self.assertEqual(els.repo_dict, self.repo_dict2)
@@ -271,6 +276,7 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                               repo_dir=self.repo_dir)
+        els.connect()
         self.assertEqual(els.create_repo(self.repo2, self.repo_dir),
                          (False, None))
         self.assertEqual(els.repo_dict, self.repo_dict2)
