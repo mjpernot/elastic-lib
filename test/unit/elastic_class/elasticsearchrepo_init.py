@@ -92,8 +92,7 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es):
+    def test_default(self):
 
         """Function:  test_default
 
@@ -102,8 +101,6 @@ class UnitTest(unittest.TestCase):
         Arguments:
 
         """
-
-        mock_es.return_value = self.els
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                               repo_dir=self.repo_dir)
