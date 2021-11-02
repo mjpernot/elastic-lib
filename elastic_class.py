@@ -361,7 +361,8 @@ class ElasticSearch(object):
 
         """
 
-        self.els = elasticsearch.Elasticsearch(self.hosts, port=self.port)
+        self.els = elasticsearch.Elasticsearch(
+            self.hosts, port=self.port, **self.config)
 
         if is_active(self.els):
             self.is_connected = True
