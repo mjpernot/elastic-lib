@@ -42,6 +42,10 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_login_info_passed2
+        test_japd_only_passed2
+        test_user_only_passed2
+        test_login_info_not_passed2
         test_login_info_passed
         test_login_info_not_passed
         test_port_change
@@ -62,6 +66,61 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.user = 'user'
         self.japd = 'japd'
+        self.results = {}
+        self.results2 = {"http_auth": (self.user, self.japd)}
+
+    def test_login_info_passed2(self):
+
+        """Function:  test_login_info_passed2
+
+        Description:  Test with login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(
+            self.host_list, user=self.user, japd=self.japd)
+        self.assertEqual(els.config, self.results2)
+
+    def test_japd_only_passed2(self):
+
+        """Function:  test_japd_only_passed2
+
+        Description:  Test with only japd argument passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, japd=self.japd)
+        self.assertEqual(els.config, self.results)
+
+    def test_user_only_passed2(self):
+
+        """Function:  test_user_only_passed2
+
+        Description:  Test with only user argument passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, user=self.user)
+        self.assertEqual(els.config, self.results)
+
+    def test_login_info_not_passed2(self):
+
+        """Function:  test_login_info_not_passed2
+
+        Description:  Test with no login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual(els.config, self.results)
 
     def test_login_info_passed(self):
 
