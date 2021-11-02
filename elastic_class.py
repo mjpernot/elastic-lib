@@ -327,6 +327,9 @@ class ElasticSearch(object):
         Arguments:
             (input) host_list -> List of host(s) within ElasticSearch cluster.
             (input) port -> ElasticSearch port to connect to.
+            (input) kwargs:
+                user -> User login name.
+                japd -> User pswd.
 
         """
 
@@ -341,6 +344,9 @@ class ElasticSearch(object):
         self.total_nodes = None
         self.cluster_status = None
         self.master = None
+        self.http_auth = {}
+        self.user = kwargs.get("user", None)
+        self.japd = kwargs.get("japd", None)
 
     def connect(self):
 

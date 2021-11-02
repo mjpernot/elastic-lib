@@ -14,11 +14,11 @@ Breaking Change
 - elastic_class.ElasticSearch.connect:  Connection method to ElasticSearch server/cluster.
 
 ### Changed
+- elastic_class.ElasticSearch.\_\_init\_\_:  Removed connection and update_status calls and added login information attributes.
 - elastic_class.ElasticSearchStatus.\_\_init\_\_:  Removed update_status2 call.
 - elastic_class.ElasticSearchRepo.\_\_init\_\_:  Removed update_repo_status call.
 - elastic_class.ElasticSearchDump.\_\_init\_\_:  Removed update_dump_status call.
 - elastic_class.ElasticSearchStatus.update_status2, elastic_class.ElasticSearchRepo.update_repo_status, elastic_class.ElasticSearch.update_status, elastic_class.ElasticSearchDump.update_dump_status:  Removed is_active check and setting of is_connected attribute.
-- elastic_class.ElasticSearch.\_\_init\_\_:  Removed connection and update_status calls.
 - elastic_libs, elastc_class:  Removed non-required \*\*kwargs entries.
 - Documentation updates
 
