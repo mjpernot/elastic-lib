@@ -344,7 +344,7 @@ class ElasticSearch(object):
         self.total_nodes = None
         self.cluster_status = None
         self.master = None
-        self.http_auth = {}
+        self.config = {}
         self.user = kwargs.get("user", None)
         self.japd = kwargs.get("japd", None)
 
@@ -366,6 +366,19 @@ class ElasticSearch(object):
 
         else:
             self.is_connected = False
+
+    def set_login_config(self):
+
+        """Method:  set_login_config
+
+        Description:  Set the login config attributes.
+
+        Arguments:
+
+        """
+
+        if self.user and self.japd:
+            self.config['http_auth'] = (self.user, self.japd)
 
     def update_status(self):
 
