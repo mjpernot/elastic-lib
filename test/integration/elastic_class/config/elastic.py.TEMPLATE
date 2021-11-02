@@ -2,8 +2,17 @@
 # Classification (U)
 # Unclassified until filled.
 
+# List of elasticsearch nodes in cluster
 host = ["HOST_NAME1", "HOST_NAME2"]
+# Elasticsearch port - default is port 9200
 port = 9200
+# User name
+# If no user name is required then use None
+# Example:  user = "username"
+user = None
+# User pswd
+# Example:  japd = "xxx"
+japd = None
 
 # Name of the test repository directory path
 # Must be a shared mount between all Elasticsearch databases in the cluster.
