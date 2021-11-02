@@ -452,6 +452,9 @@ class ElasticSearchDump(ElasticSearch):
             (input) port -> ElasticSearch database port.
             (input) repo -> Name of repository.  Required if multiple
                 repositories are present in the cluster.
+            (input) kwargs:
+                user -> User login name.
+                japd -> User pswd.
 
         """
 
@@ -664,6 +667,9 @@ class ElasticSearchRepo(ElasticSearch):
             (input) port -> ElasticSearch database port.
             (input) repo -> Name of repository.
             (input) repo_dir -> Directory path to respository.
+            (input) kwargs:
+                user -> User login name.
+                japd -> User pswd.
 
         """
 
@@ -932,6 +938,9 @@ class ElasticSearchStatus(ElasticSearch):
             (input) cutoff_mem -> Threshold cutoff for memory check.
             (input) cutoff_cpu -> Threshold cutoff for cpu usage check.
             (input) cutoff_disk -> Threshold cutoff for disk usage check.
+            (input) kwargs:
+                user -> User login name.
+                japd -> User pswd.
 
         """
 
