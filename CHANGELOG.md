@@ -15,7 +15,7 @@ Breaking Change
 - elastic_class.ElasticSearch.connect:  Connection method to ElasticSearch server/cluster.
 
 ### Changed
-- elastic_class.ElasticSearch.\_\_init\_\_:  Removed connection and update_status calls and added login information attributes.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Removed connection and update_status calls and added login information attributes and added set_login_config call.
 - elastic_class.ElasticSearchStatus.\_\_init\_\_:  Removed update_status2 call.
 - elastic_class.ElasticSearchRepo.\_\_init\_\_:  Removed update_repo_status call.
 - elastic_class.ElasticSearchDump.\_\_init\_\_:  Removed update_dump_status call.

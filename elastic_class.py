@@ -344,9 +344,12 @@ class ElasticSearch(object):
         self.total_nodes = None
         self.cluster_status = None
         self.master = None
+
+        # Login configuration setup
         self.config = {}
         self.user = kwargs.get("user", None)
         self.japd = kwargs.get("japd", None)
+        self.set_login_config()
 
     def connect(self):
 
