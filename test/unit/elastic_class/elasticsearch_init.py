@@ -42,6 +42,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_login_info_passed
+        test_login_info_not_passed
         test_port_change
         test_host_list
 
@@ -58,6 +60,35 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
+        self.user = 'user'
+        self.japd = 'japd'
+
+    def test_login_info_passed(self):
+
+        """Function:  test_login_info_passed
+
+        Description:  Test with login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(
+            self.host_list, user=self.user, japd=self.japd)
+        self.assertEqual((els.user, els.japd), (self.user, self.japd))
+
+    def test_login_info_not_passed(self):
+
+        """Function:  test_login_info_not_passed
+
+        Description:  Test with no login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual((els.user, els.japd), (None, None))
 
     def test_port_change(self):
 
