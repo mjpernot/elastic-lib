@@ -73,9 +73,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        els = elastic_class.ElasticSearch(self.cfg.host)
+        els = elastic_class.ElasticSearch(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        els.connect()
 
-        self.assertTrue(els.cluster_name)
+        self.assertTrue(els.is_connected)
 
     def test_host_is_list(self):
 
@@ -87,7 +89,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        els = elastic_class.ElasticSearch(self.cfg.host)
+        els = elastic_class.ElasticSearch(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        els.connect()
 
         self.assertTrue(els.hosts == self.cfg.host)
 
