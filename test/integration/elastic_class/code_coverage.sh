@@ -12,6 +12,7 @@ coverage run -a --source=elastic_class test/integration/elastic_class/elasticsea
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearch_connect.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearch_update.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchdump.py
+coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchdump_connect.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchdump_dumpdb.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchrepo.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchrepo_createrepo.py
