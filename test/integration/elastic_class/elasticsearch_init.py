@@ -43,7 +43,11 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
-        test_ping_success
+        test_login_info_passed
+        test_japd_only_passed
+        test_user_only_passed
+        test_login_info_not_passed
+        test_no_login_info
         test_host_is_list
         test_init
 
@@ -64,21 +68,59 @@ class UnitTest(unittest.TestCase):
         self.config_path = os.path.join(self.test_path, "config")
         self.cfg = gen_libs.load_module("elastic", self.config_path)
 
-    def test_ping_success(self):
+    def test_login_info_passed(self):
 
-        """Function:  test_ping_success
+        """Function:  test_login_info_passed
 
-        Description:  Test to if ping is successful.
+        Description:  Test with login information passed.
 
         Arguments:
 
         """
 
+        results = {"http_auth": (self.cfg.user, self.cfg.japd)}
         els = elastic_class.ElasticSearch(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
-        els.connect()
+        self.assertEqual(els.config, results)
 
-        self.assertTrue(els.is_connected)
+    def test_japd_only_passed(self):
+
+        """Function:  test_japd_only_passed
+
+        Description:  Test with only japd argument passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.cfg.host, japd=self.cfg.japd)
+        self.assertEqual(els.config, {})
+
+    def test_user_only_passed(self):
+
+        """Function:  test_user_only_passed
+
+        Description:  Test with only user argument passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.cfg.host, user=self.cfg.user)
+        self.assertEqual(els.config, {})
+
+    def test_login_info_not_passed(self):
+
+        """Function:  test_login_info_not_passed
+
+        Description:  Test with no login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.cfg.host)
+        self.assertEqual(els.config, {})
 
     def test_host_is_list(self):
 
@@ -92,7 +134,6 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearch(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
-        els.connect()
 
         self.assertTrue(els.hosts == self.cfg.host)
 
