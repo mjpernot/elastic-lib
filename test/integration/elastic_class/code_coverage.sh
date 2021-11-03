@@ -10,6 +10,7 @@ echo ""
 echo "Running unit test modules in conjunction with coverage"
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearch_init.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearch_connect.py
+coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearch_update.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchdump.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchdump_dumpdb.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchrepo.py
