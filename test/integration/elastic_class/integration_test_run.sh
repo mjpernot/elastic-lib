@@ -8,6 +8,7 @@ echo ""
 echo "Integration test:  elastic_class"
 test/integration/elastic_class/elasticsearch_init.py
 test/integration/elastic_class/elasticsearch_connect.py
+test/integration/elastic_class/elasticsearch_update.py
 test/integration/elastic_class/elasticsearchdump.py
 test/integration/elastic_class/elasticsearchdump_dumpdb.py
 test/integration/elastic_class/elasticsearchrepo.py
