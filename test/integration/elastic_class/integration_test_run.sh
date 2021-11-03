@@ -6,7 +6,7 @@
 
 echo ""
 echo "Integration test:  elastic_class"
-test/integration/elastic_class/elastic_search.py
+test/integration/elastic_class/elasticsearch_init.py
 test/integration/elastic_class/elasticsearchdump.py
 test/integration/elastic_class/elasticsearchdump_dumpdb.py
 test/integration/elastic_class/elasticsearchrepo.py
