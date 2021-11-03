@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  elastic_search.py
+"""Program:  elasticsearch_init.py
 
-    Description:  Integration testing of ElasticSearch in elastic_class.py.
+    Description:  Integration testing of initialization of the ElasticSearch
+        class in elastic_class.py.
 
     Usage:
-        test/integration/elastic_class/elastic_search.py
+        test/integration/elastic_class/elasticsearch_init.py
 
     Arguments:
 
