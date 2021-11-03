@@ -3,8 +3,8 @@
 
 """Program:  elasticsearch_connect.py
 
-    Description:  Integration testing of initialization of the ElasticSearch
-        class in elastic_class.py.
+    Description:  Integration testing of connect of the ElasticSearch class in
+        elastic_class.py.
 
     Usage:
         test/integration/elastic_class/elasticsearch_connect.py
