@@ -96,13 +96,19 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
         esd.dump_db()
-        esd2 = elastic_class.ElasticSearchDump(self.cfg.host,
-                                               repo=self.repo_name)
+        esd2 = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd2.connect()
 
         self.assertTrue(esd2.dump_list)
 
@@ -119,9 +125,13 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
-        esd = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        esd.connect()
 
         self.assertTrue(not esd.dump_list)
 
@@ -138,9 +148,13 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
-        esd = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        esd.connect()
 
         self.assertTrue(esd.dump_loc == self.repo_dir)
 
@@ -156,7 +170,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        esd.connect()
 
         self.assertTrue(not esd.type)
 
@@ -171,10 +187,14 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
         esr.create_repo(repo_name=self.repo_name2, repo_dir=self.repo_dir2)
-        esd = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        esd.connect()
 
         self.assertTrue(esd.repo_name is None)
 
