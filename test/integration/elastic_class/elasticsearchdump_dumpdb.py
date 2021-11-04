@@ -123,11 +123,15 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
 
         # Capture the first database/indice name in Elasticsearch.
         dbs = str([name.split()
@@ -157,13 +161,15 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
-
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
         err_flag, status_msg = esd.dump_db(self.dbs_err)
 
         self.assertEqual((err_flag, status_msg), (True, self.msg2))
@@ -179,13 +185,15 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
-
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
         err_flag, _ = esd.dump_db()
 
         esr.delete_repo()
@@ -204,12 +212,15 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
 
         err_flag, status_msg = esd.dump_db()
 
@@ -227,8 +238,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
 
         err_flag, status_msg = esd.dump_db()
 
@@ -244,7 +257,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        esd.connect()
 
         err_flag, status_msg = esd.dump_db()
 
