@@ -111,7 +111,10 @@ test/unit/elastic_class/code_coverage.sh
 
 # Integration Testing:
 
-NOTE:  These tests require that the Elasticsearch database/cluster do not have any repositories setup, otherwise the tests will be skipped.
+NOTES:
+  * These tests need to run as the same user who is running the elasticsearch database, normally the elasticsearch user.
+  * These tests require that the Elasticsearch database/cluster do not have any created repositories, otherwise the tests will be skipped.  
+  * The path.repo needs to be set in the elasticsearch.yml file to register a path for any repositories to be created.
 
 ### Installation:
 
@@ -133,6 +136,7 @@ Make the appropriate changes to the Elasticsearch environment.
     - phy_repo_dir = "PHYSICAL_DIR_PATH"
   * **LOGICAL_DIR_PATH** is the logical directory path to the share file system.
   * **phy_repo_dir** is the physical directory path to the share file system.
+    - See the path.repo entry in the elasticsearch.yml for log_repo_dir and phy_repo_dir values.
 
 ```
 vim elastic.py
@@ -141,7 +145,6 @@ sudo chown elasticsearch:elasticsearch elastic.py
 ```
 
 ### Testing:
-  * These tests must be run as the elasticsearch account:
 
 ```
 cd {Python_Project}/elastic_lib
