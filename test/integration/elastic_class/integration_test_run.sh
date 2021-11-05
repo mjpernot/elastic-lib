@@ -14,6 +14,7 @@ test/integration/elastic_class/elasticsearchdump_connect.py
 test/integration/elastic_class/elasticsearchdump_dumpdb.py
 test/integration/elastic_class/elasticsearchdump_update_dump_status.py
 test/integration/elastic_class/elasticsearchrepo.py
+test/integration/elastic_class/elasticsearchrepo_connect.py
 test/integration/elastic_class/elasticsearchrepo_createrepo.py
 test/integration/elastic_class/elasticsearchrepo_deleterepo.py
 test/integration/elastic_class/elasticsearchrepo_deletedump.py
