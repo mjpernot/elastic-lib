@@ -435,8 +435,11 @@ class ElasticSearchDump(ElasticSearch):
 
     Methods:
         __init__
+        connect
         update_dump_status
         dump_db
+        _chk_status
+        _parse
 
     """
 
@@ -646,6 +649,7 @@ class ElasticSearchRepo(ElasticSearch):
 
     Methods:
         __init__
+        connect
         update_repo_status
         create_repo
         delete_repo
