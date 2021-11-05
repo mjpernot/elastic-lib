@@ -19,4 +19,5 @@ test/integration/elastic_class/elasticsearchrepo_createrepo.py
 test/integration/elastic_class/elasticsearchrepo_deleterepo.py
 test/integration/elastic_class/elasticsearchrepo_deletedump.py
 test/integration/elastic_class/elasticsearchrepo_deletedumpall.py
+test/integration/elastic_class/elasticsearchrepo_update_repo_status.py
 
