@@ -1,0 +1,176 @@
+#!/usr/bin/python
+# Classification (U)
+
+"""Program:  elasticsearchstatus.py
+
+    Description:  Integration testing of ElasticSearchStatus class in
+        elastic_class.py.
+
+    Usage:
+        test/integration/elastic_class/elasticsearchstatus.py
+
+    Arguments:
+
+"""
+
+# Libraries and Global Variables
+
+# Standard
+import sys
+import os
+
+if sys.version_info < (2, 7):
+    import unittest2 as unittest
+else:
+    import unittest
+
+# Third-party
+
+# Local
+sys.path.append(os.getcwd())
+import lib.gen_libs as gen_libs
+import elastic_class
+import version
+
+__version__ = version.__version__
+
+
+class UnitTest(unittest.TestCase):
+
+    """Class:  UnitTest
+
+    Description:  Class which is a representation of a unit testing.
+
+    Methods:
+        setUp
+        test_login_info_passed
+        test_japd_only_passed
+        test_user_only_passed
+        test_login_info_not_passed
+        test_cutoff_mem_set
+        test_cutoff_mem_default
+        test_init
+
+    """
+
+    def setUp(self):
+
+        """Function:  setUp
+
+        Description:  Initialization for unit testing.
+
+        Arguments:
+
+        """
+
+        self.base_dir = "test/integration/elastic_class"
+        self.test_path = os.path.join(os.getcwd(), self.base_dir)
+        self.config_path = os.path.join(self.test_path, "config")
+        self.cfg = gen_libs.load_module("elastic", self.config_path)
+        self.repo_name = "TEST_INTR_REPO"
+        self.repo_dir = os.path.join(self.cfg.log_repo_dir, self.repo_name)
+
+    def test_login_info_passed(self):
+
+        """Function:  test_login_info_passed
+
+        Description:  Test with login information passed.
+
+        Arguments:
+
+        """
+
+        results = {"http_auth": (self.cfg.user, self.cfg.japd)}
+        els = elastic_class.ElasticSearchStatus(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        self.assertEqual(els.config, results)
+
+    def test_japd_only_passed(self):
+
+        """Function:  test_japd_only_passed
+
+        Description:  Test with only japd argument passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearchStatus(
+            self.cfg.host, japd=self.cfg.japd)
+        self.assertEqual(els.config, {})
+
+    def test_user_only_passed(self):
+
+        """Function:  test_user_only_passed
+
+        Description:  Test with only user argument passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearchStatus(
+            self.cfg.host, user=self.cfg.user)
+        self.assertEqual(els.config, {})
+
+    def test_login_info_not_passed(self):
+
+        """Function:  test_login_info_not_passed
+
+        Description:  Test with no login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearchStatus(self.cfg.host)
+        self.assertEqual(els.config, {})
+
+    def test_cutoff_mem_set(self):
+
+        """Function:  test_cutoff_mem_set
+
+        Description:  Test with cutoff_mem set to value.
+
+        Arguments:
+
+        """
+
+        esr = elastic_class.ElasticSearchStatus(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            cutoff_mem=95)
+
+        self.assertEqual(esr.cutoff_mem, 95)
+
+    def test_cutoff_mem_default(self):
+
+        """Function:  test_cutoff_mem_default
+
+        Description:  Test with cutoff_mem set to default.
+
+        Arguments:
+
+        """
+
+        esr = elastic_class.ElasticSearchStatus(
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+
+        self.assertEqual(esr.cutoff_mem, 90)
+
+    def test_init(self):
+
+        """Function:  test_init
+
+        Description:  Test to see if class instance is created.
+
+        Arguments:
+
+        """
+
+        esr = elastic_class.ElasticSearchStatus(self.cfg.host)
+
+        self.assertTrue(not esr.unassigned_shards)
+
+
+if __name__ == "__main__":
+    unittest.main()
