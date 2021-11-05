@@ -21,6 +21,7 @@ coverage run -a --source=elastic_class test/integration/elastic_class/elasticsea
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchrepo_deleterepo.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchrepo_deletedump.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchrepo_deletedumpall.py
+coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchrepo_update_repo_status.py
 
 echo ""
 echo "Producing code coverage report"
