@@ -83,16 +83,24 @@ class UnitTest(unittest.TestCase):
 
         Description:  Test dumping two databases.
 
+        Note:  In Elasticsearch v7.4.0, one dump was equal to one dump
+            directory.  However, in Elasticsearch v7.12.0. one dump has
+            multiple dump directories.
+
         Arguments:
 
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
 
         # Capture 2 databases/indices name in Elasticsearch.
         dbs = ','.join(
@@ -100,7 +108,6 @@ class UnitTest(unittest.TestCase):
                 x.split() for x in esd.els.cat.indices().splitlines()]][0:2])
 
         err_flag, _ = esd.dump_db(dbs)
-
         dir_path = os.path.join(self.phy_repo_dir, "indices")
 
         # Count number of databases/indices dumped to repository.
@@ -110,13 +117,17 @@ class UnitTest(unittest.TestCase):
         esr.delete_repo()
 
         self.assertFalse(err_flag)
-        self.assertEqual(cnt, 2)
+        self.assertTrue(cnt > 1)
 
     def test_dbs_is_successful(self):
 
         """Function:  test_dbs_is_successful
 
         Description:  Test dumping single database.
+
+        Note:  In Elasticsearch v7.4.0, one dump was equal to one dump
+            directory.  However, in Elasticsearch v7.12.0. one dump has
+            multiple dump directories.
 
         Arguments:
 
@@ -138,7 +149,6 @@ class UnitTest(unittest.TestCase):
                    for name in esd.els.cat.indices().splitlines()][0][2])
 
         err_flag, _ = esd.dump_db(dbs)
-
         dir_path = os.path.join(self.phy_repo_dir, "indices")
 
         # Count number of databases/indices dumped to repository.
@@ -148,7 +158,7 @@ class UnitTest(unittest.TestCase):
         esr.delete_repo()
 
         self.assertFalse(err_flag)
-        self.assertEqual(cnt, 1)
+        self.assertTrue(cnt > 0)
 
     def test_dbs_is_not_str(self):
 
