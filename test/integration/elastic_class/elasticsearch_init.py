@@ -47,7 +47,6 @@ class UnitTest(unittest.TestCase):
         test_japd_only_passed
         test_user_only_passed
         test_login_info_not_passed
-        test_no_login_info
         test_host_is_list
         test_init
 
