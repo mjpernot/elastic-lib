@@ -70,8 +70,8 @@ class UnitTest(unittest.TestCase):
         self.dump_name2 = "test_dump2"
         self.repo_dir = os.path.join(self.cfg.log_repo_dir, self.repo_name)
         self.phy_repo_dir = os.path.join(self.cfg.phy_repo_dir, self.repo_name)
-        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                              repo=self.repo_name)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name)
 
         if esr.repo_dict:
             print("ERROR: Test environment not clean - repositories exist.")
@@ -88,21 +88,24 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
-
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
         esd.dump_name = self.dump_name
         esd.dump_db()
         esd.dump_name = self.dump_name2
         esd.dump_db()
+        status, msg = esr.delete_dump_all()
 
-        status, msg = esr.delete_dump_all(dump_name=self.dump_name)
-
-        esd2 = elastic_class.ElasticSearchDump(self.cfg.host,
-                                               repo=self.repo_name)
-
+        esd2 = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd2.connect()
         esr.delete_repo()
 
         self.assertEqual((status, msg, len(esd2.dump_list)), (False, None, 0))
@@ -117,10 +120,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                              repo=self.repo_name)
-
-        status, msg = esr.delete_dump_all()
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esr.connect()
+        status, msg = esr.delete_dump_all(repo_name=self.repo_name)
 
         self.assertEqual(
             (status, msg),
@@ -137,8 +141,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchRepo(self.cfg.host)
-
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         status, msg = esr.delete_dump_all()
 
         self.assertEqual(
