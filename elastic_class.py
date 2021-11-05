@@ -924,7 +924,7 @@ class ElasticSearchStatus(ElasticSearch):
         chk_server
         chk_status
         chk_disk
-        chk_all - Calls all chk_ functions and return as a single result set.
+        chk_all
 
     """
 
