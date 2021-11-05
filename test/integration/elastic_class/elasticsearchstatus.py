@@ -81,9 +81,9 @@ class UnitTest(unittest.TestCase):
         """
 
         results = {"http_auth": (self.cfg.user, self.cfg.japd)}
-        els = elastic_class.ElasticSearchStatus(
+        ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
-        self.assertEqual(els.config, results)
+        self.assertEqual(ess.config, results)
 
     def test_japd_only_passed(self):
 
@@ -95,9 +95,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        els = elastic_class.ElasticSearchStatus(
+        ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, japd=self.cfg.japd)
-        self.assertEqual(els.config, {})
+        self.assertEqual(ess.config, {})
 
     def test_user_only_passed(self):
 
@@ -109,9 +109,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        els = elastic_class.ElasticSearchStatus(
+        ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, user=self.cfg.user)
-        self.assertEqual(els.config, {})
+        self.assertEqual(ess.config, {})
 
     def test_login_info_not_passed(self):
 
@@ -123,8 +123,8 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        els = elastic_class.ElasticSearchStatus(self.cfg.host)
-        self.assertEqual(els.config, {})
+        ess = elastic_class.ElasticSearchStatus(self.cfg.host)
+        self.assertEqual(ess.config, {})
 
     def test_cutoff_mem_set(self):
 
@@ -136,11 +136,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchStatus(
+        ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
             cutoff_mem=95)
 
-        self.assertEqual(esr.cutoff_mem, 95)
+        self.assertEqual(ess.cutoff_mem, 95)
 
     def test_cutoff_mem_default(self):
 
@@ -152,10 +152,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchStatus(
+        ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
 
-        self.assertEqual(esr.cutoff_mem, 90)
+        self.assertEqual(ess.cutoff_mem, 90)
 
     def test_init(self):
 
@@ -167,9 +167,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchStatus(self.cfg.host)
+        ess = elastic_class.ElasticSearchStatus(self.cfg.host)
 
-        self.assertTrue(not esr.unassigned_shards)
+        self.assertTrue(not ess.unassigned_shards)
 
 
 if __name__ == "__main__":
