@@ -907,6 +907,7 @@ class ElasticSearchStatus(ElasticSearch):
 
     Methods:
         __init__
+        connect
         update_status2
         get_cluster
         get_nodes
