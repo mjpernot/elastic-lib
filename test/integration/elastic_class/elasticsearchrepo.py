@@ -150,8 +150,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        host_list = "Host_Name"
-        esr = elastic_class.ElasticSearchRepo(host_list)
+        esr = elastic_class.ElasticSearchRepo(self.cfg.host)
 
         self.assertTrue(not esr.repo)
 
