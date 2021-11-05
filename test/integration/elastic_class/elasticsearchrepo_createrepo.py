@@ -74,8 +74,8 @@ class UnitTest(unittest.TestCase):
         self.phy_repo_dir = os.path.join(self.cfg.phy_repo_dir, self.repo_name)
         self.repo_dir2 = "/REP_DIR"
         self.repo_dir3 = "/REP_DIR3"
-        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                              repo=self.repo_name)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name)
 
         if esr.repo_dict:
             print("ERROR: Test environment not clean - repositories exist.")
@@ -92,8 +92,9 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         status, msg = esr.create_repo()
 
         self.assertEqual((status, msg), (False, None))
@@ -110,8 +111,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                              repo_dir=self.repo_dir2)
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo_dir=self.repo_dir2, user=self.cfg.user,
+            japd=self.cfg.japd)
 
         status, msg = esr.create_repo(repo_dir=self.repo_dir3)
 
@@ -130,9 +132,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                              repo_dir=self.repo_dir2)
-
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo_dir=self.repo_dir2, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esr.connect()
         status, msg = esr.create_repo()
 
         self.assertEqual(
@@ -150,9 +153,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                              repo=self.repo_name)
-
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esr.connect()
         status, msg = esr.create_repo(repo_name=self.repo_name2)
 
         self.assertEqual(
@@ -170,9 +174,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchRepo(self.cfg.host,
-                                              repo=self.repo_name)
-
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esr.connect()
         status, msg = esr.create_repo()
 
         self.assertEqual(
@@ -190,8 +195,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esr = elastic_class.ElasticSearchRepo(self.cfg.host)
-
+        esr = elastic_class.ElasticSearchRepo(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         status, msg = esr.create_repo()
 
         self.assertEqual(
