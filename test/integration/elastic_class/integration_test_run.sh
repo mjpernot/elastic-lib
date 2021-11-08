@@ -24,6 +24,7 @@ test/integration/elastic_class/elasticsearchstatus.py
 test/integration/elastic_class/elasticsearchstatus_connect.py
 test/integration/elastic_class/elasticsearchstatus_get_cluster.py
 test/integration/elastic_class/elasticsearchstatus_get_disk_status.py
+test/integration/elastic_class/elasticsearchstatus_get_dump_disk_status.py
 test/integration/elastic_class/elasticsearchstatus_get_gen_status.py
 test/integration/elastic_class/elasticsearchstatus_get_mem_status.py
 test/integration/elastic_class/elasticsearchstatus_get_nodes.py
