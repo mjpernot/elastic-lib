@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  elasticsearchstatus_get_clusternodes.py
+"""Program:  elasticsearchstatus_get_nodes.py
 
-    Description:  Integration testing of get_clusternodes method in
+    Description:  Integration testing of get_nodes method in
         ElasticSearchStatus class in elastic_class.py.
 
     Usage:
