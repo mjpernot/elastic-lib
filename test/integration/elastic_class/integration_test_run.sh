@@ -25,5 +25,6 @@ test/integration/elastic_class/elasticsearchstatus_connect.py
 test/integration/elastic_class/elasticsearchstatus_get_cluster.py
 test/integration/elastic_class/elasticsearchstatus_get_nodes.py
 test/integration/elastic_class/elasticsearchstatus_get_node_status.py
+test/integration/elastic_class/elasticsearchstatus_get_svr_status.py
 test/integration/elastic_class/elasticsearchstatus_update_status2.py
 
