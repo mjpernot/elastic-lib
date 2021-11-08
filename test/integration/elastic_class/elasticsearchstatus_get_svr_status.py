@@ -87,8 +87,8 @@ class UnitTest(unittest.TestCase):
                 % (days, hours, minutes, seconds)
         results = {
             "Server": {
-                "Uptime": uptime, "AllocatedCPU": self.alloc_cpu,
-                "CPUActive": self.cpu_active}}
+                "Uptime": uptime, "AllocatedCPU": ess.alloc_cpu,
+                "CPUActive": ess.cpu_active}}
 
         self.assertEqual(ess.get_svr_status(), results)
 
