@@ -77,10 +77,10 @@ class UnitTest(unittest.TestCase):
         ess.connect()
 
         if ess.failed_nodes > 0:
-            self.assertTrue(ess.chk_nodes(cutoff_mem=1)["NodeFailure"])
+            self.assertTrue(ess.chk_nodes()["NodeFailure"])
 
         else:
-            self.assertFalse(ess.chk_nodes(cutoff_mem=1)["NodeFailure"])
+            self.assertFalse(ess.chk_nodes())
 
 
 if __name__ == "__main__":
