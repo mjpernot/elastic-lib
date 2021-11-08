@@ -75,7 +75,7 @@ class UnitTest(unittest.TestCase):
         ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         ess.connect()
-        results = {"NodesCluster": ess.nodes}
+        results = {"Nodes": ess.nodes}
 
         self.assertEqual(ess.get_nodes(), results)
 
