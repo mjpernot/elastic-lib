@@ -75,8 +75,12 @@ class UnitTest(unittest.TestCase):
         ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         ess.connect()
+        results = {
+            "ClusterStatus": {
+                "Master": ess.master, "Status": ess.cluster_status,
+                "PendingTasks": ess.pending_tasks}}
 
-        self.assertTrue(ess.get_gen_status()["DiskUsage"])
+        self.assertEqual(ess.get_gen_status(), results)
 
 
 if __name__ == "__main__":
