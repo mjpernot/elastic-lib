@@ -75,8 +75,9 @@ class UnitTest(unittest.TestCase):
         ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         ess.connect()
+        data = ess.chk_server(cutoff_cpu=1)
 
-        self.assertTrue(ess.chk_server(cutoff_cpu=0)["ServerWarning"])
+        self.assertTrue(not data or data["ServerWarning"])
 
 
 if __name__ == "__main__":
