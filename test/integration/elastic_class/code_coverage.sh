@@ -25,6 +25,7 @@ coverage run -a --source=elastic_class test/integration/elastic_class/elasticsea
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_connect.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_get_cluster.py
+coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_get_nodes.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_update_status2.py
 
 echo ""
