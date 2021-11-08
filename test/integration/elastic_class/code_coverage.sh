@@ -25,6 +25,7 @@ coverage run -a --source=elastic_class test/integration/elastic_class/elasticsea
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_connect.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_get_cluster.py
+coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_get_disk_status.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_get_gen_status.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_get_mem_status.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_get_nodes.py
