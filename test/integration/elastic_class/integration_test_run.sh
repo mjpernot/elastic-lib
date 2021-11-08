@@ -22,6 +22,7 @@ test/integration/elastic_class/elasticsearchrepo_deletedumpall.py
 test/integration/elastic_class/elasticsearchrepo_update_repo_status.py
 test/integration/elastic_class/elasticsearchstatus.py
 test/integration/elastic_class/elasticsearchstatus_connect.py
+test/integration/elastic_class/elasticsearchstatus_get_all.py
 test/integration/elastic_class/elasticsearchstatus_get_cluster.py
 test/integration/elastic_class/elasticsearchstatus_get_disk_status.py
 test/integration/elastic_class/elasticsearchstatus_get_dump_disk_status.py
