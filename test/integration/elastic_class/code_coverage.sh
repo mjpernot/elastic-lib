@@ -23,6 +23,7 @@ coverage run -a --source=elastic_class test/integration/elastic_class/elasticsea
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchrepo_deletedumpall.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchrepo_update_repo_status.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus.py
+coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_chk_disk.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_chk_mem.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_chk_nodes.py
 coverage run -a --source=elastic_class test/integration/elastic_class/elasticsearchstatus_chk_server.py
