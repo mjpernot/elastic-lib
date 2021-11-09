@@ -77,7 +77,11 @@ class UnitTest(unittest.TestCase):
         ess.connect()
         data = ess.chk_server(cutoff_cpu=1)
 
-        self.assertTrue(not data or data["ServerWarning"])
+        if ess.cpu_active >= 1:
+            self.assertTrue(data["ServerWarning"])
+
+        else:
+            self.assertFalse(data)
 
 
 if __name__ == "__main__":
