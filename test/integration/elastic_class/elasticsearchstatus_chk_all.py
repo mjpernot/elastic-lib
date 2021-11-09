@@ -76,9 +76,8 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         ess.connect()
         data = ess.chk_all(cutoff_cpu=0, cutoff_mem=0, cutoff_disk=0)
-        print(data)
 
-        self.assertTrue(not data)
+        self.assertTrue(data["MemoryWarning"])
 
 
 if __name__ == "__main__":
