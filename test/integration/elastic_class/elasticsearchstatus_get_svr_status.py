@@ -83,8 +83,8 @@ class UnitTest(unittest.TestCase):
         hours = data % 24
         data /= 24
         days = data
-        uptime= "%d days %d hours %d minutes %d seconds" \
-                % (days, hours, minutes, seconds)
+        uptime = "%d days %d hours %d minutes %d seconds" \
+                 % (days, hours, minutes, seconds)
         results = {
             "Server": {
                 "Uptime": uptime, "AllocatedCPU": ess.alloc_cpu,
