@@ -344,6 +344,7 @@ class ElasticSearch(object):
         self.total_nodes = None
         self.cluster_status = None
         self.master = None
+        self.els = None
 
         # Login configuration setup
         self.config = {}
