@@ -182,7 +182,7 @@ class UnitTest(unittest.TestCase):
         esd = elastic_class.ElasticSearchDump(
             self.cfg.host, repo=self.repo_name)
 
-        self.assertEqual(esd.repo_name,  self.repo_name)
+        self.assertEqual(esd.repo_name, self.repo_name)
 
     def test_init(self):
 
