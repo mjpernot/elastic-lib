@@ -1203,7 +1203,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_mem(self, cutoff_mem=None):
+    def chk_mem(self, cutoff_mem=None, **kwargs):
 
         """Method:  chk_mem
 
@@ -1211,6 +1211,9 @@ class ElasticSearchStatus(ElasticSearch):
 
         Arguments:
             (input) cutoff_mem -> Percentage threshold on memory used.
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on memory usage.
 
         """
@@ -1231,13 +1234,17 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_nodes(self):
+    def chk_nodes(self, **kwargs):
 
         """Method:  chk_nodes
 
         Description:  Check for failed nodes in a cluster.
 
         Arguments:
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_mem -> Percentage threshold on memory used.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on failed nodes.
 
         """
@@ -1252,13 +1259,17 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_shards(self):
+    def chk_shards(self, **kwargs):
 
         """Method:  chk_shards
 
         Description:  Check on status of shards in cluster.
 
         Arguments:
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_mem -> Percentage threshold on memory used.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on shard problems.
 
         """
@@ -1296,7 +1307,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data if err_flag else {}
 
-    def chk_server(self, cutoff_cpu=None):
+    def chk_server(self, cutoff_cpu=None, **kwargs):
 
         """Method:  chk_server
 
@@ -1304,6 +1315,9 @@ class ElasticSearchStatus(ElasticSearch):
 
         Arguments:
             (input) cutoff_cpu -> Percentage threshold on cpu usage.
+            (input) kwargs:
+                cutoff_mem -> Percentage threshold on memory used.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on server status.
 
         """
@@ -1322,13 +1336,17 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_status(self):
+    def chk_status(self, **kwargs):
 
         """Method:  chk_status
 
         Description:  Checks the cluster status.
 
         Arguments:
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_mem -> Percentage threshold on memory used.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on cluster status.
 
         """
@@ -1355,7 +1373,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data if err_flag else {}
 
-    def chk_disk(self, cutoff_disk=None):
+    def chk_disk(self, cutoff_disk=None, **kwargs):
 
         """Method:  chk_disk
 
@@ -1363,6 +1381,9 @@ class ElasticSearchStatus(ElasticSearch):
 
         Arguments:
             (input) cutoff_disk -> Percentage threshold on disk usage.
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_mem -> Percentage threshold on memory used.
             (output) data -> Warning messages on disk usage status.
 
         """
