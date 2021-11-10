@@ -16,7 +16,7 @@ Breaking Change
 
 ### Changed
 - elastic_class.ElasticSearch.connect:  Added config to the connection call.
-- elastic_class.ElasticSearch.\_\_init\_\_:  Removed connection and update_status calls and added login information attributes and added set_login_config call.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Added SSL and login attributes and set up of SSL and login in config and removed connection and update_status calls.
 - elastic_class.ElasticSearchStatus.\_\_init\_\_:  Removed update_status2 call.
 - elastic_class.ElasticSearchRepo.\_\_init\_\_:  Removed update_repo_status call.
 - elastic_class.ElasticSearchDump.\_\_init\_\_:  Removed update_dump_status call.

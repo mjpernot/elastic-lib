@@ -352,6 +352,12 @@ class ElasticSearch(object):
         self.japd = kwargs.get("japd", None)
         self.set_login_config()
 
+        # SSL configuration setup
+        self.ca_cert = kwargs.get("ca_cert", None)
+        self.use_ssl = False
+        self.scheme = "https"
+        self.set_ssl_config()
+
     def connect(self):
 
         """Method:  connect
@@ -383,7 +389,7 @@ class ElasticSearch(object):
         """
 
         if self.user and self.japd:
-            self.config['http_auth'] = (self.user, self.japd)
+            self.config["http_auth"] = (self.user, self.japd)
 
     def update_status(self):
 
