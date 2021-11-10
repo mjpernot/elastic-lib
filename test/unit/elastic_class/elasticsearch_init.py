@@ -41,6 +41,11 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_ca_cert_login_passed
+        test_ca_cert_passed2
+        test_ca_cert_passed
+        test_ca_cert_not_passed2
+        test_ca_cert_not_passed
         test_login_info_passed2
         test_japd_only_passed2
         test_user_only_passed2
@@ -63,10 +68,81 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.user = 'user'
-        self.japd = 'japd'
+        self.user = "user"
+        self.japd = "japd"
+        self.ca_cert = "ca.crt"
         self.results = {}
         self.results2 = {"http_auth": (self.user, self.japd)}
+        self.results3 = {"use_ssl": True, "ca_certs": self.ca_cert,
+                         "scheme": "https"}
+        self.results4 = {"http_auth": (self.user, self.japd), "use_ssl": True,
+                         "ca_certs": self.ca_cert, "scheme": "https"}
+
+    def test_ca_cert_login_passed(self):
+
+        """Function:  test_ca_cert_login_passed
+
+        Description:  Test with ca_cert and login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert,
+                                          user=self.user, japd=self.japd)
+        self.assertEqual(self.config, self.results4)
+
+    def test_ca_cert_passed2(self):
+
+        """Function:  test_ca_cert_passed2
+
+        Description:  Test with ca_cert passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert)
+        self.assertEqual(self.config, self.results3)
+
+    def test_ca_cert_passed(self):
+
+        """Function:  test_ca_cert_passed
+
+        Description:  Test with ca_cert passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert)
+        self.assertEqual(els.ca_cert, self.ca_cert)
+
+    def test_ca_cert_not_passed2(self):
+
+        """Function:  test_ca_cert_not_passed2
+
+        Description:  Test with no ca_cert passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual(self.config, self.results)
+
+    def test_ca_cert_not_passed(self):
+
+        """Function:  test_ca_cert_not_passed
+
+        Description:  Test with no ca_cert passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual(els.ca_cert, None)
 
     def test_login_info_passed2(self):
 
