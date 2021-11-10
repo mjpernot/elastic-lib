@@ -90,7 +90,7 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert,
                                           user=self.user, japd=self.japd)
-        self.assertEqual(self.config, self.results4)
+        self.assertEqual(els.config, self.results4)
 
     def test_ca_cert_passed2(self):
 
@@ -103,7 +103,7 @@ class UnitTest(unittest.TestCase):
         """
 
         els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert)
-        self.assertEqual(self.config, self.results3)
+        self.assertEqual(els.config, self.results3)
 
     def test_ca_cert_passed(self):
 
@@ -129,7 +129,7 @@ class UnitTest(unittest.TestCase):
         """
 
         els = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual(self.config, self.results)
+        self.assertEqual(els.config, self.results)
 
     def test_ca_cert_not_passed(self):
 
