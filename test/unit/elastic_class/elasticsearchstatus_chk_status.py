@@ -84,8 +84,6 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        # This is set to allow to show large differences.
-        self.maxDiff = None
         self.host_list = ["host1", "host2"]
         self.els = Elasticsearch(self.host_list)
         self.cluster_status = "green"
