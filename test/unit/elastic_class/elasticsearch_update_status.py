@@ -99,25 +99,27 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        dir_data = "/dir/data1"
+        dir_log = "/dir/logs1"
         self.host_list = ["host1", "host2"]
         self.els = Elasticsearch(self.host_list)
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
-                                         {"path": {"data": ["/dir/data1"],
-                                                   "logs": ["/dir/logs1"]}}},
+                                         {"path": {"data": [dir_data],
+                                                   "logs": [dir_log]}}},
                            "serverid2": {"name": "hostname2", "settings":
                                          {"path":
                                           {"data": ["/dir/data2"],
                                            "logs": ["/dir/logs2"]}}}}
         self.nodes_data2 = {"serverid1": {"name": "hostname1", "settings":
-                                          {"path": {"data": ["/dir/data1"],
-                                                    "logs": ["/dir/logs1"]}}}}
+                                          {"path": {"data": [dir_data],
+                                                    "logs": [dir_log]}}}}
         self.info_data = {"name": "localservername"}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
         self.master_name = "MasterName"
         self.cluster_data = {"_nodes": {"total": 3}}
-        self.data_results = {"hostname1": ["/dir/data1"],
+        self.data_results = {"hostname1": [dir_data],
                              "hostname2": ["/dir/data2"]}
-        self.logs_results = {"hostname1": ["/dir/logs1"],
+        self.logs_results = {"hostname1": [dir_log],
                              "hostname2": ["/dir/logs2"]}
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
