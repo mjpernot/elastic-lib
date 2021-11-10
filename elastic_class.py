@@ -314,6 +314,8 @@ class ElasticSearch(object):
     Methods:
         __init__
         connect
+        set_login_config
+        set_ssl_config
         update_status
 
     """
@@ -354,7 +356,6 @@ class ElasticSearch(object):
 
         # SSL configuration setup
         self.ca_cert = kwargs.get("ca_cert", None)
-        self.use_ssl = False
         self.scheme = "https"
         self.set_ssl_config()
 
@@ -390,6 +391,21 @@ class ElasticSearch(object):
 
         if self.user and self.japd:
             self.config["http_auth"] = (self.user, self.japd)
+
+    def set_ssl_config(self):
+
+        """Method:  set_ssl_config
+
+        Description:  Set the SSL config attributes.
+
+        Arguments:
+
+        """
+
+        if self.ca_cert:
+            self.config["use_ssl"] = True
+            self.config["ca_certs"] = self.ca_cert
+            self.config["scheme"] = self.scheme
 
     def update_status(self):
 

@@ -8,6 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Added
+- elastic_class.ElasticSearch.set_ssl_config:  Set the SSL config attributes.
 - elastic_class.ElasticSearch.set_login_config:  Set the login config attributes.
 - elastic_class.ElasticSearchStatus.connect:  Connection method for ElasticSearchStatus class.
 - elastic_class.ElasticSearchRepo.connect:  Connection method for ElasticSearchRepo class.
