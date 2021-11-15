@@ -42,6 +42,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_ca_cert_passed
+        test_no_ca_cert_passed
         test_login_info_passed
         test_japd_only_passed
         test_user_only_passed
@@ -69,6 +71,42 @@ class UnitTest(unittest.TestCase):
         self.config_path = os.path.join(self.test_path, "config")
         self.cfg = gen_libs.load_module("elastic", self.config_path)
         self.repo_name = "TEST_INTR_REPO"
+
+    def test_ca_cert_passed(self):
+
+        """Function:  test_ca_cert_passed
+
+        Description:  Test with ca certificate authority passed.
+
+        Arguments:
+
+        """
+
+        temp_val = self.cfg.ssl_client_ca
+        self.cfg.ssl_client_ca = "ca_cert.pem"
+        els = elastic_class.ElasticSearchDump(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
+            ca_cert=self.cfg.ssl_client_ca)
+        self.cfg.ssl_client_ca = temp_val
+
+        self.assertEqual(els.config["use_ssl"], True)
+
+    def test_no_ca_cert_passed(self):
+
+        """Function:  test_no_ca_cert_passed
+
+        Description:  Test with no ca certificate authority passed.
+
+        Arguments:
+
+        """
+
+        results = {"http_auth": (self.cfg.user, self.cfg.japd)}
+        els = elastic_class.ElasticSearchDump(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
+            ca_cert=self.cfg.ssl_client_ca)
+
+        self.assertEqual(els.config, results)
 
     def test_login_info_passed(self):
 
