@@ -49,7 +49,7 @@ import version
 __version__ = version.__version__
 
 
-def create_snapshot(els, reponame, body, dumpname, **kwargs):
+def create_snapshot(els, reponame, body, dumpname):
 
     """Function:  create_snapshot
 
@@ -67,7 +67,7 @@ def create_snapshot(els, reponame, body, dumpname, **kwargs):
     els.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
 
 
-def create_snapshot_repo(els, reponame, body, verify=True, **kwargs):
+def create_snapshot_repo(els, reponame, body, verify=True):
 
     """Function:  create_snapshot_repo
 
@@ -87,7 +87,7 @@ def create_snapshot_repo(els, reponame, body, verify=True, **kwargs):
                                           verify=verify)
 
 
-def delete_snapshot(els, reponame, dumpname, **kwargs):
+def delete_snapshot(els, reponame, dumpname):
 
     """Function:  delete_snapshot
 
@@ -104,7 +104,7 @@ def delete_snapshot(els, reponame, dumpname, **kwargs):
     return els.snapshot.delete(repository=reponame, snapshot=dumpname)
 
 
-def delete_snapshot_repo(els, reponame, **kwargs):
+def delete_snapshot_repo(els, reponame):
 
     """Function:  delete_snapshot_repo
 
@@ -120,7 +120,7 @@ def delete_snapshot_repo(els, reponame, **kwargs):
     return els.snapshot.delete_repository(repository=reponame)
 
 
-def get_cluster_health(els, **kwargs):
+def get_cluster_health(els):
 
     """Function:  get_cluster_health
 
@@ -135,7 +135,7 @@ def get_cluster_health(els, **kwargs):
     return els.cluster.health()
 
 
-def get_cluster_nodes(els, **kwargs):
+def get_cluster_nodes(els):
 
     """Function:  get_cluster_nodes
 
@@ -150,7 +150,7 @@ def get_cluster_nodes(els, **kwargs):
     return els.nodes.info()
 
 
-def get_cluster_stats(els, **kwargs):
+def get_cluster_stats(els):
 
     """Function:  get_cluster_stats
 
@@ -165,7 +165,7 @@ def get_cluster_stats(els, **kwargs):
     return els.cluster.stats()
 
 
-def get_cluster_status(els, **kwargs):
+def get_cluster_status(els):
 
     """Function:  get_cluster_status
 
@@ -180,7 +180,7 @@ def get_cluster_status(els, **kwargs):
     return els.cluster.health()["status"]
 
 
-def get_disks(els, **kwargs):
+def get_disks(els):
 
     """Function:  get_disks
 
@@ -195,7 +195,7 @@ def get_disks(els, **kwargs):
     return [item.split() for item in els.cat.allocation().splitlines()]
 
 
-def get_dump_list(els, repo, **kwargs):
+def get_dump_list(els, repo):
 
     """Function:  get_dump_list
 
@@ -212,7 +212,7 @@ def get_dump_list(els, repo, **kwargs):
             for item in els.cat.snapshots(repository=repo).splitlines()]
 
 
-def get_info(els, **kwargs):
+def get_info(els):
 
     """Function:  get_info
 
@@ -227,7 +227,7 @@ def get_info(els, **kwargs):
     return els.info()
 
 
-def get_master_name(els, **kwargs):
+def get_master_name(els):
 
     """Function:  get_master_name
 
@@ -242,7 +242,7 @@ def get_master_name(els, **kwargs):
     return els.cat.master().strip().split(" ")[-1]
 
 
-def get_nodes(els, **kwargs):
+def get_nodes(els):
 
     """Function:  get_nodes
 
@@ -257,7 +257,7 @@ def get_nodes(els, **kwargs):
     return els.nodes.info()["nodes"]
 
 
-def get_repo_list(els, **kwargs):
+def get_repo_list(els):
 
     """Function:  get_repo_list
 
@@ -272,7 +272,7 @@ def get_repo_list(els, **kwargs):
     return els.snapshot.get_repository()
 
 
-def get_shards(els, **kwargs):
+def get_shards(els):
 
     """Function:  get_shards
 
@@ -287,7 +287,7 @@ def get_shards(els, **kwargs):
     return [item.split() for item in els.cat.shards().splitlines()]
 
 
-def is_active(els, **kwargs):
+def is_active(els):
 
     """Function:  is_active
 
@@ -312,8 +312,11 @@ class ElasticSearch(object):
         database/cluster.
 
     Methods:
-        __init__ -> Class instance initialization.
-        update_status -> Update class attributes by querying Elasticsearch.
+        __init__
+        connect
+        set_login_config
+        set_ssl_config
+        update_status
 
     """
 
@@ -326,6 +329,9 @@ class ElasticSearch(object):
         Arguments:
             (input) host_list -> List of host(s) within ElasticSearch cluster.
             (input) port -> ElasticSearch port to connect to.
+            (input) kwargs:
+                user -> User login name.
+                japd -> User pswd.
 
         """
 
@@ -340,11 +346,68 @@ class ElasticSearch(object):
         self.total_nodes = None
         self.cluster_status = None
         self.master = None
-        self.els = elasticsearch.Elasticsearch(self.hosts, port=self.port)
+        self.els = None
 
-        self.update_status()
+        # Login configuration setup
+        self.config = {}
+        self.user = kwargs.get("user", None)
+        self.japd = kwargs.get("japd", None)
+        self.set_login_config()
 
-    def update_status(self, **kwargs):
+        # SSL configuration setup
+        self.ca_cert = kwargs.get("ca_cert", None)
+        self.scheme = "https"
+        self.set_ssl_config()
+
+    def connect(self):
+
+        """Method:  connect
+
+        Description:  Connection to ElasticSearch server/cluster.
+
+        Arguments:
+
+        """
+
+        self.els = elasticsearch.Elasticsearch(
+            self.hosts, port=self.port, **self.config)
+
+        if is_active(self.els):
+            self.is_connected = True
+            self.update_status()
+
+        else:
+            self.is_connected = False
+
+    def set_login_config(self):
+
+        """Method:  set_login_config
+
+        Description:  Set the login config attributes.
+
+        Arguments:
+
+        """
+
+        if self.user and self.japd:
+            self.config["http_auth"] = (self.user, self.japd)
+
+    def set_ssl_config(self):
+
+        """Method:  set_ssl_config
+
+        Description:  Set the SSL config attributes.
+
+        Arguments:
+
+        """
+
+        if self.ca_cert:
+            self.config["use_ssl"] = True
+            self.config["ca_certs"] = self.ca_cert
+            self.config["scheme"] = self.scheme
+
+    def update_status(self):
 
         """Method:  update_status
 
@@ -354,41 +417,35 @@ class ElasticSearch(object):
 
         """
 
-        if is_active(self.els):
-            self.is_connected = True
+        # Basic information
+        info = get_info(self.els)
 
-            # Basic information
-            info = get_info(self.els)
+        self.node_connected_to = info["name"]
 
-            self.node_connected_to = info["name"]
+        # Node information
+        data = get_nodes(self.els)
 
-            # Node information
-            data = get_nodes(self.els)
+        for item in data:
+            self.data[data[item]["name"]] = \
+                data[item]["settings"]["path"]["data"]
+            self.logs[data[item]["name"]] = \
+                data[item]["settings"]["path"]["logs"]
 
-            for item in data:
-                self.data[data[item]["name"]] = \
-                    data[item]["settings"]["path"]["data"]
-                self.logs[data[item]["name"]] = \
-                    data[item]["settings"]["path"]["logs"]
+        self.nodes = [data[item]["name"] for item in data]
 
-            self.nodes = [data[item]["name"] for item in data]
+        # Cluster node information
+        cluster = get_cluster_nodes(self.els)
 
-            # Cluster node information
-            cluster = get_cluster_nodes(self.els)
+        self.total_nodes = cluster["_nodes"]["total"]
 
-            self.total_nodes = cluster["_nodes"]["total"]
+        # Cluster health information
+        health = get_cluster_health(self.els)
 
-            # Cluster health information
-            health = get_cluster_health(self.els)
+        self.cluster_status = health["status"]
+        self.cluster_name = health["cluster_name"]
 
-            self.cluster_status = health["status"]
-            self.cluster_name = health["cluster_name"]
-
-            # Master information
-            self.master = get_master_name(self.els)
-
-        else:
-            self.is_connected = False
+        # Master information
+        self.master = get_master_name(self.els)
 
 
 class ElasticSearchDump(ElasticSearch):
@@ -400,9 +457,12 @@ class ElasticSearchDump(ElasticSearch):
         database dump of an ElasticSearch database/cluster.
 
     Methods:
-        __init__ -> Class instance initilization.
-        update_dump_status -> Update class attributes.
-        dump_db -> Executes a dump of an ElasticSearch database.
+        __init__
+        connect
+        update_dump_status
+        dump_db
+        _chk_status
+        _parse
 
     """
 
@@ -418,6 +478,9 @@ class ElasticSearchDump(ElasticSearch):
             (input) port -> ElasticSearch database port.
             (input) repo -> Name of repository.  Required if multiple
                 repositories are present in the cluster.
+            (input) kwargs:
+                user -> User login name.
+                japd -> User pswd.
 
         """
 
@@ -433,9 +496,22 @@ class ElasticSearchDump(ElasticSearch):
         self.dump_name = None
         self.repo_name = repo
 
-        self.update_dump_status()
+    def connect(self):
 
-    def update_dump_status(self, **kwargs):
+        """Method:  connect
+
+        Description:  Connection to ElasticSearch server/cluster.
+
+        Arguments:
+
+        """
+
+        super(ElasticSearchDump, self).connect()
+
+        if self.is_connected:
+            self.update_dump_status()
+
+    def update_dump_status(self):
 
         """Method:  update_dump_status
 
@@ -445,44 +521,40 @@ class ElasticSearchDump(ElasticSearch):
 
         """
 
-        if is_active(self.els):
-            self.is_connected = True
-            self.dump_name = self.cluster_name.lower() + "_bkp_" + \
-                datetime.datetime.strftime(datetime.datetime.now(),
-                                           "%Y%m%d-%H%M%S")
-            repo_dict = get_repo_list(self.els)
+        self.dump_name = self.cluster_name.lower() + "_bkp_" + \
+            datetime.datetime.strftime(
+                datetime.datetime.now(), "%Y%m%d-%H%M%S")
+        repo_dict = get_repo_list(self.els)
 
-            if self.repo_name and self.repo_name not in repo_dict:
+        if self.repo_name and self.repo_name not in repo_dict:
+            self.repo_name = None
+
+        elif not self.repo_name:
+
+            # Use if only one repository exists.
+            if len(repo_dict.keys()) == 1:
+                self.repo_name = next(iter(repo_dict))
+
+            # Cannot set if multiple repositories exist.
+            elif len(repo_dict.keys()) >= 1:
                 self.repo_name = None
 
-            elif not self.repo_name:
+        if self.repo_name:
+            self.type = repo_dict[self.repo_name]["type"]
+            self.dump_loc = repo_dict[self.repo_name]["settings"]["location"]
+            self.dump_list = get_dump_list(self.els, self.repo_name)
 
-                # Use if only one repository exists.
-                if len(repo_dict.keys()) == 1:
-                    self.repo_name = next(iter(repo_dict))
+        if self.dump_list:
+            self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
 
-                # Cannot set if multiple repositories exist.
-                elif len(repo_dict.keys()) >= 1:
-                    self.repo_name = None
+        # Make sure new dump name is unique.
+        if self.dump_name == self.last_dump_name:
+            time.sleep(1)
+            self.dump_name = self.cluster_name.lower() + "_bkp_" + \
+                datetime.datetime.strftime(
+                    datetime.datetime.now(), "%Y%m%d-%H%M%s")
 
-            if self.repo_name:
-                self.type = repo_dict[self.repo_name]["type"]
-                self.dump_loc = \
-                    repo_dict[self.repo_name]["settings"]["location"]
-                self.dump_list = get_dump_list(self.els, self.repo_name)
-
-            if self.dump_list:
-                self.last_dump_name = \
-                    elastic_libs.get_latest_dump(self.dump_list)
-
-            # Make sure new dump name is unique.
-            if self.dump_name == self.last_dump_name:
-                time.sleep(1)
-                self.dump_name = self.cluster_name.lower() + "_bkp_" + \
-                    datetime.datetime.strftime(datetime.datetime.now(),
-                                               "%Y%m%d-%H%M%s")
-
-    def dump_db(self, dbs=None, **kwargs):
+    def dump_db(self, dbs=None):
 
         """Method:  dump_db
 
@@ -574,7 +646,7 @@ class ElasticSearchDump(ElasticSearch):
 
         return err_flag, status_msg, break_flag
 
-    def _parse(self, dump, **kwargs):
+    def _parse(self, dump):
 
         """Function:  _parse
 
@@ -599,12 +671,13 @@ class ElasticSearchRepo(ElasticSearch):
         implement respositories within an Elasticsearch cluster.
 
     Methods:
-        __init__ -> Class instance initilization.
-        update_repo_status -> Update class attributes.
-        create_repo -> Create an elasticsearch dump repository.
-        delete_repo -> Delete an elasticsearch dump repository.
-        delete_dump -> Delete a database dump in an Elasticsearch repository.
-        delete_dump_all -> Delete all dumps in a repository.
+        __init__
+        connect
+        update_repo_status
+        create_repo
+        delete_repo
+        delete_dump
+        delete_dump_all
 
     """
 
@@ -621,6 +694,9 @@ class ElasticSearchRepo(ElasticSearch):
             (input) port -> ElasticSearch database port.
             (input) repo -> Name of repository.
             (input) repo_dir -> Directory path to respository.
+            (input) kwargs:
+                user -> User login name.
+                japd -> User pswd.
 
         """
 
@@ -630,25 +706,35 @@ class ElasticSearchRepo(ElasticSearch):
         self.repo = repo
         self.repo_dir = repo_dir
         self.repo_dict = {}
-        self.update_repo_status()
 
-    def update_repo_status(self, **kwargs):
+    def connect(self):
 
-        """Method:  update_repo_status
+        """Method:  connect
 
-        Description:  Update class attributes.
+        Description:  Connection to ElasticSearch server/cluster.
 
         Arguments:
 
         """
 
-        if is_active(self.els):
-            self.is_connected = True
+        super(ElasticSearchRepo, self).connect()
 
-            # Query dump repository
-            self.repo_dict = get_repo_list(self.els)
+        if self.is_connected:
+            self.update_repo_status()
 
-    def create_repo(self, repo_name=None, repo_dir=None, **kwargs):
+    def update_repo_status(self):
+
+        """Method:  update_repo_status
+
+        Description:  Query dump repository and update class attributes.
+
+        Arguments:
+
+        """
+
+        self.repo_dict = get_repo_list(self.els)
+
+    def create_repo(self, repo_name=None, repo_dir=None):
 
         """Method:  create_repo
 
@@ -699,7 +785,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         return err_flag, err_msg
 
-    def delete_repo(self, repo_name=None, **kwargs):
+    def delete_repo(self, repo_name=None):
 
         """Method:  delete_repo
 
@@ -742,7 +828,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         return err_flag, err_msg
 
-    def delete_dump(self, repo_name=None, dump_name=None, **kwargs):
+    def delete_dump(self, repo_name=None, dump_name=None):
 
         """Method:  delete_dump
 
@@ -795,7 +881,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         return err_flag, err_msg
 
-    def delete_dump_all(self, repo_name=None, **kwargs):
+    def delete_dump_all(self, repo_name=None):
 
         """Method:  delete_dump_all
 
@@ -843,25 +929,26 @@ class ElasticSearchStatus(ElasticSearch):
         connecting to an elasticsearch cluster and executing status commands.
 
     Methods:
-        __init__ -> Class instance initilization.
-        update_status2 -> Update class attributes.
-        get_cluster -> Return formatted cluster name.
-        get_nodes -> Return formatted list of node names.
-        get_node_status -> Return status of nodes.
-        get_svr_status -> Return status of server.
-        get_mem_status -> Return status of memory on the server.
-        get_shrd_status -> Return status of shards in the cluster.
-        get_gen_status -> Return general status in the cluster.
-        get_disk_status -> Return status of disk usage for each node.
-        get_dump_disk_status -> Return status of dump disk usage for each repo.
-        get_all -> Call get_ functions and return as single result set.
-        chk_mem -> Checks the memory percentage used against a cutoff value.
-        chk_nodes -> Check status of nodes in cluster.
-        chk_shards -> Check status of shards in cluster.
-        chk_server -> Check status of the server.
-        chk_status -> Check status of the cluster.
-        chk_disk -> Check status of disk usage on each node.
-        chk_all - Calls all chk_ functions and return as a single result set.
+        __init__
+        connect
+        update_status2
+        get_cluster
+        get_nodes
+        get_node_status
+        get_svr_status
+        get_mem_status
+        get_shrd_status
+        get_gen_status
+        get_disk_status
+        get_dump_disk_status
+        get_all
+        chk_mem
+        chk_nodes
+        chk_shards
+        chk_server
+        chk_status
+        chk_disk
+        chk_all
 
     """
 
@@ -879,6 +966,9 @@ class ElasticSearchStatus(ElasticSearch):
             (input) cutoff_mem -> Threshold cutoff for memory check.
             (input) cutoff_cpu -> Threshold cutoff for cpu usage check.
             (input) cutoff_disk -> Threshold cutoff for disk usage check.
+            (input) kwargs:
+                user -> User login name.
+                japd -> User pswd.
 
         """
 
@@ -904,9 +994,22 @@ class ElasticSearchStatus(ElasticSearch):
         self.disk_list = []
         self.repo_dict = {}
 
-        self.update_status2()
+    def connect(self):
 
-    def update_status2(self, **kwargs):
+        """Method:  connect
+
+        Description:  Connection to ElasticSearch server/cluster.
+
+        Arguments:
+
+        """
+
+        super(ElasticSearchStatus, self).connect()
+
+        if self.is_connected:
+            self.update_status2()
+
+    def update_status2(self):
 
         """Method:  update_status2
 
@@ -916,44 +1019,38 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        if is_active(self.els):
-            self.is_connected = True
+        # Get cluster health
+        health = get_cluster_health(self.els)
 
-            # Get cluster health
-            health = get_cluster_health(self.els)
+        self.unassigned_shards = health["unassigned_shards"]
+        self.active_shards_percent = \
+            health["active_shards_percent_as_number"]
+        self.pending_tasks = health["number_of_pending_tasks"]
+        self.num_shards = health["active_shards"]
+        self.num_primary = health["active_primary_shards"]
 
-            self.unassigned_shards = health["unassigned_shards"]
-            self.active_shards_percent = \
-                health["active_shards_percent_as_number"]
-            self.pending_tasks = health["number_of_pending_tasks"]
-            self.num_shards = health["active_shards"]
-            self.num_primary = health["active_primary_shards"]
+        # Get cluster shards
+        self.shard_list = get_shards(self.els)
 
-            # Get cluster shards
-            self.shard_list = get_shards(self.els)
+        # Get cluster status
+        status = get_cluster_stats(self.els)
 
-            # Get cluster status
-            status = get_cluster_stats(self.els)
+        self.failed_nodes = status["_nodes"]["failed"]
+        self.mem_per_used = status["nodes"]["os"]["mem"]["used_percent"]
+        self.mem_total = status["nodes"]["os"]["mem"]["total_in_bytes"]
+        self.mem_used = status["nodes"]["os"]["mem"]["used_in_bytes"]
+        self.mem_free = status["nodes"]["os"]["mem"]["free_in_bytes"]
+        self.uptime = status["nodes"]["jvm"]["max_uptime_in_millis"]
+        self.alloc_cpu = status["nodes"]["os"]["allocated_processors"]
+        self.cpu_active = status["nodes"]["process"]["cpu"]["percent"]
 
-            self.failed_nodes = status["_nodes"]["failed"]
-            self.mem_per_used = status["nodes"]["os"]["mem"]["used_percent"]
-            self.mem_total = status["nodes"]["os"]["mem"]["total_in_bytes"]
-            self.mem_used = status["nodes"]["os"]["mem"]["used_in_bytes"]
-            self.mem_free = status["nodes"]["os"]["mem"]["free_in_bytes"]
-            self.uptime = status["nodes"]["jvm"]["max_uptime_in_millis"]
-            self.alloc_cpu = status["nodes"]["os"]["allocated_processors"]
-            self.cpu_active = status["nodes"]["process"]["cpu"]["percent"]
+        # Get disks usage
+        self.disk_list = get_disks(self.els)
 
-            # Get disks usage
-            self.disk_list = get_disks(self.els)
+        # Get repository list
+        self.repo_dict = get_repo_list(self.els)
 
-            # Get repository list
-            self.repo_dict = get_repo_list(self.els)
-
-        else:
-            self.is_connected = False
-
-    def get_cluster(self, **kwargs):
+    def get_cluster(self):
 
         """Method:  get_cluster
 
@@ -966,7 +1063,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return {"Cluster": self.cluster_name}
 
-    def get_nodes(self, **kwargs):
+    def get_nodes(self):
 
         """Method:  get_nodes
 
@@ -979,7 +1076,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return {"Nodes": [str(x) for x in self.nodes]}
 
-    def get_node_status(self, **kwargs):
+    def get_node_status(self):
 
         """Method:  get_node_status
 
@@ -993,7 +1090,7 @@ class ElasticSearchStatus(ElasticSearch):
         return {"NodeStatus": {"TotalNodes": self.total_nodes,
                                "FailedNodes": self.failed_nodes}}
 
-    def get_svr_status(self, **kwargs):
+    def get_svr_status(self):
 
         """Method:  get_svr_status
 
@@ -1008,7 +1105,7 @@ class ElasticSearchStatus(ElasticSearch):
                            "AllocatedCPU": self.alloc_cpu,
                            "CPUActive": self.cpu_active}}
 
-    def get_mem_status(self, **kwargs):
+    def get_mem_status(self):
 
         """Method:  get_mem_status
 
@@ -1024,7 +1121,7 @@ class ElasticSearchStatus(ElasticSearch):
                            "Used": gen_libs.bytes_2_readable(self.mem_used),
                            "Free": gen_libs.bytes_2_readable(self.mem_free)}}
 
-    def get_shrd_status(self, **kwargs):
+    def get_shrd_status(self):
 
         """Method:  get_shrd_status
 
@@ -1040,7 +1137,7 @@ class ElasticSearchStatus(ElasticSearch):
                            "Total": self.num_shards,
                            "Primary": self.num_primary}}
 
-    def get_gen_status(self, **kwargs):
+    def get_gen_status(self):
 
         """Method:  get_shard_status
 
@@ -1055,7 +1152,7 @@ class ElasticSearchStatus(ElasticSearch):
                                   "Status": self.cluster_status,
                                   "PendingTasks": self.pending_tasks}}
 
-    def get_disk_status(self, **kwargs):
+    def get_disk_status(self):
 
         """Method:  get_disk_status
 
@@ -1078,7 +1175,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def get_dump_disk_status(self, **kwargs):
+    def get_dump_disk_status(self):
 
         """Method:  get_dump_disk_status
 
@@ -1105,7 +1202,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def get_all(self, **kwargs):
+    def get_all(self):
 
         """Method:  get_all
 
@@ -1137,6 +1234,9 @@ class ElasticSearchStatus(ElasticSearch):
 
         Arguments:
             (input) cutoff_mem -> Percentage threshold on memory used.
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on memory usage.
 
         """
@@ -1164,6 +1264,10 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Check for failed nodes in a cluster.
 
         Arguments:
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_mem -> Percentage threshold on memory used.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on failed nodes.
 
         """
@@ -1185,6 +1289,10 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Check on status of shards in cluster.
 
         Arguments:
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_mem -> Percentage threshold on memory used.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on shard problems.
 
         """
@@ -1230,6 +1338,9 @@ class ElasticSearchStatus(ElasticSearch):
 
         Arguments:
             (input) cutoff_cpu -> Percentage threshold on cpu usage.
+            (input) kwargs:
+                cutoff_mem -> Percentage threshold on memory used.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on server status.
 
         """
@@ -1255,6 +1366,10 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Checks the cluster status.
 
         Arguments:
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_mem -> Percentage threshold on memory used.
+                cutoff_disk -> Percentage threshold on disk usage.
             (output) Return warning message on cluster status.
 
         """
@@ -1289,6 +1404,9 @@ class ElasticSearchStatus(ElasticSearch):
 
         Arguments:
             (input) cutoff_disk -> Percentage threshold on disk usage.
+            (input) kwargs:
+                cutoff_cpu -> Percentage threshold on cpu usage.
+                cutoff_mem -> Percentage threshold on memory used.
             (output) data -> Warning messages on disk usage status.
 
         """
@@ -1315,8 +1433,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data if err_flag else {}
 
-    def chk_all(self, cutoff_cpu=None, cutoff_mem=None, cutoff_disk=None,
-                **kwargs):
+    def chk_all(self, cutoff_cpu=None, cutoff_mem=None, cutoff_disk=None):
 
         """Method:  chk_all
 

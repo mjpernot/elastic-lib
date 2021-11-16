@@ -42,8 +42,8 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
-        info -> Stub holder for Elasticsearch.info method.
+        __init__
+        info
 
     """
 
@@ -83,11 +83,11 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_disk_arg -> Test passing disk argument.
-        test_cpu_arg -> Test passing cpu argument.
-        test_mem_arg -> Test passing memory argument.
-        test_default -> Test with default settings.
+        setUp
+        test_disk_arg
+        test_cpu_arg
+        test_mem_arg
+        test_default
 
     """
 
@@ -106,8 +106,6 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
-                mock.Mock(return_value=True))
     def test_disk_arg(self):
 
         """Function:  test_disk_arg
@@ -122,8 +120,6 @@ class UnitTest(unittest.TestCase):
         self.assertEqual((els.hosts, els.cutoff_disk), (self.host_list, 30))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
-                mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     def test_cpu_arg(self):
 
@@ -140,8 +136,6 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
-                mock.Mock(return_value=True))
     def test_mem_arg(self):
 
         """Function:  test_mem_arg
@@ -156,8 +150,6 @@ class UnitTest(unittest.TestCase):
         self.assertEqual((els.hosts, els.cutoff_mem), (self.host_list, 10))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
-                mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
     def test_default(self):
 

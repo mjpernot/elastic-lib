@@ -42,7 +42,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -67,11 +67,11 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_nonop_warn -> Test with non-operation shard warning.
-        test_active_warn -> Test with active shard warning.
-        test_unassigned_warn -> Test with unassigned shard warning.
-        test_no_warn -> Test with no warnings.
+        setUp
+        test_nonop_warn
+        test_active_warn
+        test_unassigned_warn
+        test_no_warn
 
     """
 
@@ -85,8 +85,6 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        # This is set to allow to show large differences.
-        self.maxDiff = None
         self.host_list = ["host1", "host2"]
         self.els = Elasticsearch(self.host_list)
         self.unassigned_shards = 0

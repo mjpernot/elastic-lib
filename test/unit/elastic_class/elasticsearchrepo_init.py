@@ -42,7 +42,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -70,8 +70,8 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_default -> Test with default settings.
+        setUp
+        test_default
 
     """
 
@@ -92,10 +92,7 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchRepo.update_repo_status",
-                mock.Mock(return_value=True))
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es):
+    def test_default(self):
 
         """Function:  test_default
 
@@ -104,8 +101,6 @@ class UnitTest(unittest.TestCase):
         Arguments:
 
         """
-
-        mock_es.return_value = self.els
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo,
                                               repo_dir=self.repo_dir)

@@ -41,7 +41,7 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
-        get_repository -> Stub holder for snapshot.get_repository method.
+        get_repository
 
     """
 
@@ -66,8 +66,8 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
-        info -> Stub holder for Elasticsearch.info method.
+        __init__
+        info
 
     """
 
@@ -107,10 +107,10 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_no_repo_name -> Test with no repo name set.
-        test_bad_db_name -> Test with bad database name.
-        test_default -> Test with default settings.
+        setUp
+        test_no_repo_name
+        test_bad_db_name
+        test_default
 
     """
 
@@ -171,6 +171,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.repo_name = None
         self.assertEqual(
             els.dump_db(self.dbs),
@@ -209,6 +210,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual(
             els.dump_db(self.dbs2),
             (True, "ERROR:  Database name(s) is not a string: ['dbname']"))
@@ -246,6 +248,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual(els.dump_db(self.dbs), (False, None))
 
 

@@ -40,8 +40,8 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
-        __init__ -> Initialization of class.
-        delete_repository -> Stub for snapshot.delete_repository method.
+        __init__
+        delete_repository
 
     """
 
@@ -64,8 +64,6 @@ class Repo(object):
         Description:  Stub for snapshot.delete_repository method.
 
         Arguments:
-            (input) repository -> Name of repository.
-            (output) Return exit status of command.
 
         """
 
@@ -81,7 +79,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -107,8 +105,8 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_default -> Test with default settings.
+        setUp
+        test_default
 
     """
 

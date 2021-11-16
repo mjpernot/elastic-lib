@@ -42,7 +42,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -67,13 +67,13 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_unassigned_warn -> Test with unassigned disk and warning.
-        test_unassigned_no_warn -> Test with unassigned disk and no warning.
-        test_new_arg_warn -> Test with new cutoff with warning.
-        test_new_arg_no_warn -> Test with new cutoff and no warning.
-        test_default_warn -> Test with default settings with warning.
-        test_default_no_warn -> Test with default settings and no warning.
+        setUp
+        test_unassigned_warn
+        test_unassigned_no_warn
+        test_new_arg_warn
+        test_new_arg_no_warn
+        test_default_warn
+        test_default_no_warn
 
     """
 

@@ -42,7 +42,7 @@ class Repo2(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
-        get_repository -> Stub holder for snapshot.get_repository method.
+        get_repository
 
     """
 
@@ -69,7 +69,7 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
-        get_repository -> Stub holder for snapshot.get_repository method.
+        get_repository
 
     """
 
@@ -94,9 +94,9 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
-        info -> Stub holder for Elasticsearch.info method.
+        __init__
+        ping
+        info
 
     """
 
@@ -149,12 +149,12 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_dupe_name -> Test with duplicate dump name.
-        test_repo_not_passed2 -> Test with repo not passed and multiple repos.
-        test_repo_not_passed -> Test with repo not passed as argument.
-        test_repo_not_present -> Test with repo not present.
-        test_default -> Test with default settings.
+        setUp
+        test_dupe_name
+        test_repo_not_passed2
+        test_repo_not_passed
+        test_repo_not_present
+        test_default
 
     """
 
@@ -193,7 +193,6 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value="dump2"))
     @mock.patch("elastic_class.ElasticSearchDump._chk_status",
                 mock.Mock(return_value=(False, None, True)))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.datetime.datetime")
@@ -217,6 +216,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual(
             (els.hosts, els.dump_list, els.repo_name, els.last_dump_name),
             (self.host_list, self.dump_list, self.repo, self.last_dump))
@@ -229,7 +229,6 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(return_value="dump2"))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
@@ -253,6 +252,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list)
+        els.connect()
         self.assertEqual(
             (els.hosts, els.dump_list, els.repo_name, els.last_dump_name),
             (self.host_list, [], None, None))
@@ -265,7 +265,6 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(return_value="dump2"))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
@@ -287,6 +286,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list)
+        els.connect()
         self.assertEqual(
             (els.hosts, els.dump_list, els.repo_name, els.last_dump_name),
             (self.host_list, self.dump_list, self.repo, self.last_dump))
@@ -299,7 +299,6 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(return_value="dump2"))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
@@ -321,6 +320,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo2)
+        els.connect()
         self.assertEqual(
             (els.hosts, els.dump_list, els.repo_name, els.last_dump_name),
             (self.host_list, [], None, None))
@@ -333,7 +333,6 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
     @mock.patch("elastic_class.get_info",
                 mock.Mock(return_value={"name": "localservername"}))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.get_dump_list")
@@ -354,6 +353,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         self.assertEqual((els.hosts, els.dump_list, els.repo_name,
                           els.last_dump_name),
                          (self.host_list, self.dump_list, self.repo,

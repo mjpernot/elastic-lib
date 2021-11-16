@@ -41,9 +41,9 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_print_empty -> Test printing of empty list.
-        test_print_dump -> Test printing of dump list.
+        setUp
+        test_print_empty
+        test_print_dump
 
     """
 

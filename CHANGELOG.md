@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [3.0.0] - 2021-10-18
+Breaking Change
+
+### Added
+- elastic_class.ElasticSearch.set_ssl_config:  Set the SSL config attributes.
+- elastic_class.ElasticSearch.set_login_config:  Set the login config attributes.
+- elastic_class.ElasticSearchStatus.connect:  Connection method for ElasticSearchStatus class.
+- elastic_class.ElasticSearchRepo.connect:  Connection method for ElasticSearchRepo class.
+- elastic_class.ElasticSearchDump.connect:  Connection method for ElasticSearchDump class.
+- elastic_class.ElasticSearch.connect:  Connection method to ElasticSearch server/cluster.
+
+### Changed
+- elastic_class.ElasticSearch.connect:  Added config to the connection call.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Added SSL and login attributes and set up of SSL and login in config and removed connection and update_status calls.
+- elastic_class.ElasticSearchStatus.\_\_init\_\_:  Removed update_status2 call.
+- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Removed update_repo_status call.
+- elastic_class.ElasticSearchDump.\_\_init\_\_:  Removed update_dump_status call.
+- elastic_class.ElasticSearchStatus.update_status2, elastic_class.ElasticSearchRepo.update_repo_status, elastic_class.ElasticSearch.update_status, elastic_class.ElasticSearchDump.update_dump_status:  Removed is_active check and setting of is_connected attribute.
+- elastic_libs, elastc_class:  Removed non-required \*\*kwargs entries.
+- Documentation updates
+
+
 ## [2.0.3] - 2020-07-10
 ### Fixed
 - elastic_libs.list_dumps:  Fixed formatting error.
@@ -18,40 +40,16 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearchStatus.chk_disk:  Does not check any disk listed as UNASSIGNED.
 
 ### Changed
-- elastic_class.ElasticSearchStatus:  Changed variable to standard naming convention.
-- elastic_class.ElasticSearchRepo:  Changed variable to standard naming convention.
-- elastic_class.ElasticSearchDump:  Changed variable to standard naming convention.
-- elastic_class.ElasticSearch:  Changed variable to standard naming convention.
 - elastic_class.ElasticSearch.\_\_init\_\_:  Removed duplication code of setting self.els attribute.
-- elastic_class.get_shards:  Changed variable to standard naming convention.
-- elastic_class.is_active:  Changed variable to standard naming convention.
-- elastic_class.get_master_name:  Changed variable to standard naming convention.
-- elastic_class.get_nodes:  Changed variable to standard naming convention.
-- elastic_class.get_repo_list:  Changed variable to standard naming convention.
-- elastic_class.get_disks:  Changed variable to standard naming convention.
-- elastic_class.get_dump_list:  Changed variable to standard naming convention.
-- elastic_class.get_info:  Changed variable to standard naming convention.
-- elastic_class.get_cluster_nodes:  Changed variable to standard naming convention.
-- elastic_class.get_cluster_stats:  Changed variable to standard naming convention.
-- elastic_class.get_cluster_status:  Changed variable to standard naming convention.
-- elastic_class.delete_snapshot:  Changed variable to standard naming convention.
-- elastic_class.delete_snapshot_repo:  Changed variable to standard naming convention.
-- elastic_class.get_cluster_health:  Changed variable to standard naming convention.
-- elastic_class.create_snapshot_repo:  Changed variable to standard naming convention.
-- elastic_class.create_snapshot:  Changed variable to standard naming convention.
-- elastic_libs.list_dumps:  Changed variable to standard naming convention.
-- elastic_libs.get_latest_dump:  Changed variable to standard naming convention.
+- Changed variable to standard naming convention in many methods.
 - elastic_class.ElasticSearchStatus.chk_disk:  Added UsedPercent and Available and clarified four other components.
 - elastic_class.ElasticSearchStatus.chk_mem:  Added MemoryUsed to output and clarified two other components.
-- elastic_libs:  Removed unused external library module.
-- elastic_class:  Removed unused external library module.
+- elastic_libs, elastic_class:  Removed unused external library module.
 
 
 ## [2.0.1] - 2020-02-07
 ### Changed
-- elastic_class.ElasticSearchStatus.chk_server:  Refactored method to have only one return.
-- elastic_class.ElasticSearchStatus.chk_nodes:  Refactored method to have only one return.
-- elastic_class.ElasticSearchStatus.chk_mem:  Refactored method to have only one return.
+- elastic_class.ElasticSearchStatus.chk_server, elastic_class.ElasticSearchStatus.chk_nodes, elastic_class.ElasticSearchStatus.chk_mem:  Refactored method to have only one return.
 - requirements.txt:  Set elasticsearch between 7.0.0 and 8.0.0.
 
 ### Fixed
@@ -59,10 +57,10 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearchStatus.update_status2:  Fixed incorrect method call.
 
 ### Removed
-- elastic_class.Elastic:  Removed Elastic class and associated methods.
-- elastic_class.ElasticCluster:  Removed ElasticCluster class and associated methods.
-- elastic_class.ElasticDump:  Removed ElasticDump class and associated methods.
-- elastic_class.ElasticStatus:  Removed ElasticStatus class and associated methods.
+- elastic_class.Elastic class
+- elastic_class.ElasticCluster class
+- elastic_class.ElasticDump class
+- elastic_class.ElasticStatus class
 
 
 ## [2.0.0] - 2019-10-31
@@ -73,9 +71,8 @@ Breaking Change
 - elastic_class.ElasticSearchRepo.\_\_init\_\_:  Replaced attribute updates with call to update_repo_status().
 - elastic_class.ElasticSearchDump.\_\_init\_\_:  Replaced attribute updates with call to update_dump_status().
 - elastic_class.ElasticSearchRepo.delete_dump:  Replaced snapshot.delete with call to delete_snapshot().
-- elastic_class.ElasticSearchRepo.delete_repo:  Replaced es.snapshot.get_repository with call to get_repo_list().
+- elastic_class.ElasticSearchRepo.delete_repo, elastic_class.ElasticSearchRepo.create_repo:  Replaced es.snapshot.get_repository with call to get_repo_list().
 - elastic_class.ElasticSearchRepo.delete_repo:  Replaced snapshot.delete_repository with call to delete_snapshot_repo().
-- elastic_class.ElasticSearchRepo.create_repo:  Replaced es.snapshot.get_repository with call to get_repo_list().
 - elastic_class.ElasticSearchDump.dump_db:  Replaced snapshot.create with call to create_snapshot().
 - elastic_class.ElasticSearchRepo.create_repo:  Replaced snapshot.create_repository with call to create_snapshot_repo().
 - elastic_class.ElasticSearch.update_status:  Replaced call to ping with call to is_active().
@@ -111,16 +108,10 @@ Breaking Change
 
 ## [1.0.4] - 2019-09-02
 ### Fixed
-- elastic_class.chk_all:  Added return parameters for gen_libs.merge_two_dicts.
-- elastic_class.get_all:  Added return parameters for gen_libs.merge_two_dicts.
+- elastic_class.chk_all, elastic_class.get_all:  Added return parameters for gen_libs.merge_two_dicts.
 - elastic_class.ElasticStatus.chk_disk:  Corrected formatting error.
 - elastic_class.ElasticSearch.\_\_init\_\_: Created is_connected attr to maintain connection status.
-- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
-- elastic_class.ElasticSearchDump.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
-- elastic_class.ElasticSearch.\_\_init\_\_:  Fixed problem with mutable default arguments issue.
-- elastic_libs.get_latest_dump:  Fixed problem with mutable default arguments issue.
-- elastic_libs.list_dumps:  Fixed problem with mutable default arguments issue.
-- elastic_libs.list_repos2:  Fixed problem with mutable default arguments issue.
+- elastic_class.ElasticSearchRepo.\_\_init\_\_, elastic_class.ElasticSearchDump.\_\_init\_\_, elastic_class.ElasticSearch.\_\_init\_\_, elastic_libs.get_latest_dump, elastic_libs.list_dumps, elastic_libs.list_repos2:  Fixed problem with mutable default arguments issue.
 - elastic_class.ElasticStatus.chk_shards:  Corrected string concentation error.
 - elastic_class.ElasticSearchDump.dump_db:  Corrected call syntax to \_chk_status method.
 - elastic_class.ElasticSearchDump.\_chk_status:  Corrected call syntax to \_parse method.
@@ -157,8 +148,8 @@ Breaking Change
 - elastic_libs.list_repos2:  Changed length of repo name field from 25 to 30.
 
 ### Removed
-- elastic_libs.list_repos:  All references to function have been removed.
-- elastic_libs.list_dump_format:  All references to function have been removed.
+- elastic_libs.list_repos function
+- elastic_libs.list_dump_format function
 
 
 ## [1.0.0] - 2018-11-02
@@ -170,8 +161,8 @@ Breaking Change
 
 ## [0.3.15] - 2018-08-12
 ### Removed
-- elastic_libs.delete_repo:  Function was previously deprecated.
-- elastic_libs.create_repo:  Function was previously deprecated.
+- elastic_libs.delete_repo function
+- elastic_libs.create_repo function
 
 
 ## [0.3.14] - 2018-08-06
@@ -214,19 +205,18 @@ Breaking Change
 ### Changed
 - elastic_class.ElasticSearchDump.dump_db:  Update self.dump_list after dump has completed.
 - elastic_class.ElasticSearch.\_\_init\_\_:  Initialize all attributes at the very least.
-- elastic_class.ElasticSearchDump.\_\_init\_\_:  Initialize all attributes at the very least.
 - elastic_class.ElasticSearchDump.\_\_init\_\_:  Refactored check on repository name argument.
-- elastic_class.ElasticSearchRepo.\_\_init\_\_:  Initialize all attributes at the very least.
+- elastic_class.ElasticSearchRepo.\_\_init\_\_, elastic_class.ElasticSearchDump.\_\_init\_\_:  Initialize all attributes at the very least.
 
 
 ## [0.3.7] - 2018-06-17
 ### Added
 - elastic_class.ElasticSearchDump.dump_db:  Created inner function "parse".
-- elastic_class.ElasticSearchRepo:  New Elasticsearch class.
+- elastic_class.ElasticSearchRepo class.
 - elastic_libs.get_latest_dump:  Function to get latest dump from a list of dumps.
 - elastic_class.get_dump_list:  Function to return list of Elasticsearch dumps.
-- elastic_class.ElasticSearchDump: New Elasticsearch class.
-- elastic_class.ElasticSearch:  New Elasticsearch class.
+- elastic_class.ElasticSearchDump class
+- elastic_class.ElasticSearch class
 - elastic_libs.list_repos2:  Lists the repositories in the Elasticsearch cluster.
 
 ### Changed
@@ -243,12 +233,12 @@ Breaking Change
 
 ## [0.3.6] - 2018-06-06
 ### Removed
-- elastic_libs.List_Dump_Format - Removed function.
-- elastic_libs.List_Dumps - Removed function.
-- elastic_libs.List_Repos - Removed function.
-- elastic_class.Elastic_Cluster - Removed class and methods.
-- elastic_class.Elastic_Dump - Removed class and methods.
-- elastic_class.Elastic_Status - Removed class and methods.
+- elastic_libs.List_Dump_Format function
+- elastic_libs.List_Dumps function
+- elastic_libs.List_Repos function
+- elastic_class.Elastic_Cluster class
+- elastic_class.Elastic_Dump class
+- elastic_class.Elastic_Status ckass
 
 
 ## [0.3.5] - 2018-04-16
@@ -277,13 +267,9 @@ Breaking Change
 - elastic_class.ElasticStatus.get_dump_disk_status:  Changed "Bytes_2_Readable" to "bytes_2_readable" and "Disk_Usage" to "disk_usage".
 - elastic_class.ElasticStatus.get_mem_status:  Changed "Bytes_2_Readable" to "bytes_2_readable".
 - elastic_class.ElasticStatus.get_svr_status:  Changed "Milli_2_Readadble" to "milli_2_readadble".
-- elastic_class.ElasticStatus.\_\_init\_\_: Changed "Get_Query" to "get_query".
 - elastic_class.ElasticDump.dump_db: Changed "Put_Cmd" to "put_cmd".
-- elastic_class.ElasticDump.\_\_init\_\_: Changed "Get_Query" to "get_query".
-- elastic_class.ElasticCluster.\_\_init\_\_: Changed "Get_Query" to "get_query".
-- elastic_class.Elastic.\_\_init\_\_: Changed "Get_Query" to "get_query".
-- elastic_class.py:  Setup single source version control.
-- elastic_libs.py:  Setup single source version control.
+- elastic_class.ElasticDump.\_\_init\_\_, elastic_class.ElasticCluster.\_\_init\_\_, elastic_class.Elastic.\_\_init\_\_, elastic_class.ElasticStatus.\_\_init\_\_: Changed "Get_Query" to "get_query".
+- elastic_class.py, elastic_libs.py:  Setup single source version control.
 
 ### Fixed
 - elastic_libs.py:  Corrected library module pointing to requests_lib/requests_libs.
@@ -358,8 +344,7 @@ Breaking Change
 ## [0.1.8] - 2017-09-28
 ### Changed
 - elastic_class.Elastic_Status.\_\_init\_\_:  Add new attributes for cpu and memory threshold cutoffs.
-- elastic_class.Elastic_Status.chk_mem:  Use class attribute as the default setting for threshold.
-- elastic_class.Elastic_Status.chk_server:  Use class attribute as the default setting for threshold.
+- elastic_class.Elastic_Status.chk_mem, elastic_class.Elastic_Status.chk_server:  Use class attribute as the default setting for threshold.
 
 
 ## [0.1.7] - 2017-09-25

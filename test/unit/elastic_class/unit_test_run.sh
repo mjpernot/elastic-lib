@@ -22,12 +22,17 @@ test/unit/elastic_class/get_nodes.py
 test/unit/elastic_class/get_repo_list.py
 test/unit/elastic_class/get_shards.py
 test/unit/elastic_class/is_active.py
+test/unit/elastic_class/elasticsearch_connect.py
 test/unit/elastic_class/elasticsearch_init.py
+test/unit/elastic_class/elasticsearch_set_login_config.py
+test/unit/elastic_class/elasticsearch_set_ssl_config.py
 test/unit/elastic_class/elasticsearch_update_status.py
 test/unit/elastic_class/elasticsearchdump_chk_status.py
-test/unit/elastic_class/elasticsearchdump_init.py
+test/unit/elastic_class/elasticsearchdump_connect.py
 test/unit/elastic_class/elasticsearchdump_dump_db.py
+test/unit/elastic_class/elasticsearchdump_init.py
 test/unit/elastic_class/elasticsearchdump_update_dump_status.py
+test/unit/elastic_class/elasticsearchrepo_connect.py
 test/unit/elastic_class/elasticsearchrepo_create_repo.py
 test/unit/elastic_class/elasticsearchrepo_delete_dump.py
 test/unit/elastic_class/elasticsearchrepo_delete_dump_all.py
@@ -41,6 +46,7 @@ test/unit/elastic_class/elasticsearchstatus_chk_nodes.py
 test/unit/elastic_class/elasticsearchstatus_chk_server.py
 test/unit/elastic_class/elasticsearchstatus_chk_shards.py
 test/unit/elastic_class/elasticsearchstatus_chk_status.py
+test/unit/elastic_class/elasticsearchstatus_connect.py
 test/unit/elastic_class/elasticsearchstatus_get_all.py
 test/unit/elastic_class/elasticsearchstatus_get_cluster.py
 test/unit/elastic_class/elasticsearchstatus_get_disk_status.py

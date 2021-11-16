@@ -42,9 +42,9 @@ class Repo(object):
     Description:  Class representation of the snapshot class.
 
     Methods:
-        __init__ -> Class initialization.
-        get_repository -> Stub holder for snapshot.get_repository method.
-        create -> Stub holder for snapshot.create method.
+        __init__
+        get_repository
+        create
 
     """
 
@@ -82,9 +82,6 @@ class Repo(object):
         Description:  Stub holder for snapshot.create method.
 
         Arguments:
-            (input) repository -> Repository name.
-            (input) body -> Database dump command.
-            (input) snapshot -> Database dump respository information.
 
         """
 
@@ -102,9 +99,9 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
-        info -> Stub holder for Elasticsearch.info method.
+        __init__
+        ping
+        info
 
     """
 
@@ -157,13 +154,13 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_unknown_dump -> Test with dump returning Unknown error.
-        test_failed_dump -> Test with dump returning Failed.
-        test_partial_dump -> Test with dump returning Partial.
-        test_incompatible_dump -> Test with dump returning Incompatible.
-        test_in_progress_dump -> Test with dump returning In Progress/Success.
-        test_success_dump -> Test with dump returning Success.
+        setUp
+        test_unknown_dump
+        test_failed_dump
+        test_partial_dump
+        test_incompatible_dump
+        test_in_progress_dump
+        test_success_dump
 
     """
 
@@ -222,6 +219,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
             els._chk_status(self.break_flag),
@@ -258,6 +256,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
             els._chk_status(self.break_flag),
@@ -295,6 +294,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
             els._chk_status(self.break_flag),
@@ -333,6 +333,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
             els._chk_status(self.break_flag),
@@ -373,6 +374,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(els._chk_status(self.break_flag), (False, None, True))
 
@@ -408,6 +410,7 @@ class UnitTest(unittest.TestCase):
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
+        els.connect()
         els.dump_name = "dump3"
         self.assertEqual(els._chk_status(self.break_flag), (False, None, True))
 
