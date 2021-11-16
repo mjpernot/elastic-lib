@@ -24,7 +24,6 @@ else:
     import unittest
 
 # Third-party
-import mock
 
 # Local
 sys.path.append(os.getcwd())
@@ -34,60 +33,6 @@ import version
 __version__ = version.__version__
 
 
-class Elasticsearch(object):
-
-    """Class:  ElasticSearch
-
-    Description:  Class representation of the Elasticsearch class.
-
-    Methods:
-        __init__ -> Initialize configuration environment.
-        ping -> Stub holder for Elasticsearch.ping method.
-        info -> Stub holder for Elasticsearch.info method.
-
-    """
-
-    def __init__(self, host_list, port=9200):
-
-        """Method:  __init__
-
-        Description:  Initialization instance of the class.
-
-        Arguments:
-
-        """
-
-        self.hosts = host_list
-        self.port = port
-        self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName",
-                            "name": "servername"}
-
-    def ping(self):
-
-        """Method:  ping
-
-        Description:  Stub holder for Elasticsearch.ping method.
-
-        Arguments:
-
-        """
-
-        return self.ping_status
-
-    def info(self):
-
-        """Method:  info
-
-        Description:  Stub holder for Elasticsearch.info method.
-
-        Arguments:
-
-        """
-
-        return self.info_status
-
-
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -95,10 +40,20 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_ping_false -> Test ping of Elasticsearch server is False.
-        test_ping_true -> Test ping of Elasticsearch server is True.
-        test_host_list -> Test host_list is a list.
+        setUp
+        test_ca_cert_login_passed
+        test_ca_cert_passed2
+        test_ca_cert_passed
+        test_ca_cert_not_passed2
+        test_ca_cert_not_passed
+        test_login_info_passed2
+        test_japd_only_passed2
+        test_user_only_passed2
+        test_login_info_not_passed2
+        test_login_info_passed
+        test_login_info_not_passed
+        test_port_change
+        test_host_list
 
     """
 
@@ -113,79 +68,176 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.els = Elasticsearch(self.host_list)
-        self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
-                                         {"path": {"data": ["/dir/data1"],
-                                                   "logs": ["/dir/logs1"]}}},
-                           "serverid2": {"name": "hostname2", "settings":
-                                         {"path": {"data": ["/dir/data2"],
-                                                   "logs": ["/dir/logs2"]}}}}
-        self.info_data = {"name": "localservername"}
-        self.health_data = {"status": "green", "cluster_name": "ClusterName"}
-        self.master_name = "MasterName"
-        self.cluster_data = {"_nodes": {"total": 3}}
-        self.data_results = {"hostname1": ["/dir/data1"],
-                             "hostname2": ["/dir/data2"]}
-        self.logs_results = {"hostname1": ["/dir/logs1"],
-                             "hostname2": ["/dir/logs2"]}
+        self.user = "user"
+        self.japd = "japd"
+        self.ca_cert = "ca.crt"
+        self.results = {}
+        self.results2 = {"http_auth": (self.user, self.japd)}
+        self.results3 = {"use_ssl": True, "ca_certs": self.ca_cert,
+                         "scheme": "https"}
+        self.results4 = {"http_auth": (self.user, self.japd), "use_ssl": True,
+                         "ca_certs": self.ca_cert, "scheme": "https"}
 
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_ping_false(self, mock_es):
+    def test_ca_cert_login_passed(self):
 
-        """Function:  test_ping_false
+        """Function:  test_ca_cert_login_passed
 
-        Description:  Test ping of Elasticsearch server is False.
+        Description:  Test with ca_cert and login information passed.
 
         Arguments:
 
         """
 
-        self.els.ping_status = False
-        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert,
+                                          user=self.user, japd=self.japd)
+        self.assertEqual(els.config, self.results4)
 
-        els = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((els.port, els.hosts, els.is_connected, els.data,
-                          els.logs),
-                         (9200, self.host_list, False, {}, {}))
+    def test_ca_cert_passed2(self):
 
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
-    @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
-    @mock.patch("elastic_class.get_nodes")
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_ping_true(self, mock_es, mock_nodes, mock_info, mock_health,
-                       mock_master, mock_cluster):
+        """Function:  test_ca_cert_passed2
 
-        """Function:  test_ping_true
-
-        Description:  Test ping of Elasticsearch server is True.
+        Description:  Test with ca_cert passed.
 
         Arguments:
 
         """
 
-        mock_es.return_value = self.els
-        mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
-        mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
+        els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert)
+        self.assertEqual(els.config, self.results3)
+
+    def test_ca_cert_passed(self):
+
+        """Function:  test_ca_cert_passed
+
+        Description:  Test with ca_cert passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert)
+        self.assertEqual(els.ca_cert, self.ca_cert)
+
+    def test_ca_cert_not_passed2(self):
+
+        """Function:  test_ca_cert_not_passed2
+
+        Description:  Test with no ca_cert passed.
+
+        Arguments:
+
+        """
 
         els = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((els.port, els.hosts, els.is_connected, els.data,
-                          els.logs),
-                         (9200, self.host_list, True, self.data_results,
-                          self.logs_results))
+        self.assertEqual(els.config, self.results)
 
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
-    @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
-    @mock.patch("elastic_class.get_nodes")
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_host_list(self, mock_es, mock_nodes, mock_info, mock_health,
-                       mock_master, mock_cluster):
+    def test_ca_cert_not_passed(self):
+
+        """Function:  test_ca_cert_not_passed
+
+        Description:  Test with no ca_cert passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual(els.ca_cert, None)
+
+    def test_login_info_passed2(self):
+
+        """Function:  test_login_info_passed2
+
+        Description:  Test with login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(
+            self.host_list, user=self.user, japd=self.japd)
+        self.assertEqual(els.config, self.results2)
+
+    def test_japd_only_passed2(self):
+
+        """Function:  test_japd_only_passed2
+
+        Description:  Test with only japd argument passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, japd=self.japd)
+        self.assertEqual(els.config, self.results)
+
+    def test_user_only_passed2(self):
+
+        """Function:  test_user_only_passed2
+
+        Description:  Test with only user argument passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, user=self.user)
+        self.assertEqual(els.config, self.results)
+
+    def test_login_info_not_passed2(self):
+
+        """Function:  test_login_info_not_passed2
+
+        Description:  Test with no login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual(els.config, self.results)
+
+    def test_login_info_passed(self):
+
+        """Function:  test_login_info_passed
+
+        Description:  Test with login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(
+            self.host_list, user=self.user, japd=self.japd)
+        self.assertEqual((els.user, els.japd), (self.user, self.japd))
+
+    def test_login_info_not_passed(self):
+
+        """Function:  test_login_info_not_passed
+
+        Description:  Test with no login information passed.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list)
+        self.assertEqual((els.user, els.japd), (None, None))
+
+    def test_port_change(self):
+
+        """Function:  test_port_change
+
+        Description:  Test with change to port.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, port=9201)
+        self.assertEqual((els.port, els.hosts), (9201, self.host_list))
+
+    def test_host_list(self):
 
         """Function:  test_host_list
 
@@ -194,13 +246,6 @@ class UnitTest(unittest.TestCase):
         Arguments:
 
         """
-
-        mock_es.return_value = self.els
-        mock_nodes.return_value = self.nodes_data
-        mock_info.return_value = self.info_data
-        mock_health.return_value = self.health_data
-        mock_master.return_value = self.master_name
-        mock_cluster.return_value = self.cluster_data
 
         els = elastic_class.ElasticSearch(self.host_list)
         self.assertEqual((els.port, els.hosts), (9200, self.host_list))

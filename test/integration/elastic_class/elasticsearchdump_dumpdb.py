@@ -43,15 +43,15 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_dbs_multi_names -> Test dumping two databases.
-        test_dbs_is_successful -> Test dumping single database.
-        test_dbs_is_not_str -> Test database name is not a string.
-        test_dump_list_updated -> Test dump list is updated after dump.
-        test_dump_succesful -> Test dump of database is successful.
-        test_repo_name_is_set -> Test repo name is set, but not present.
-        test_repo_name_not_set -> Test repo name is not set for dump.
-        tearDown -> Clean up of integration testing.
+        setUp
+        test_dbs_multi_names
+        test_dbs_is_successful
+        test_dbs_is_not_str
+        test_dump_list_updated
+        test_dump_succesful
+        test_repo_name_is_set
+        test_repo_name_not_set
+        tearDown
 
     """
 
@@ -83,16 +83,24 @@ class UnitTest(unittest.TestCase):
 
         Description:  Test dumping two databases.
 
+        Note:  In Elasticsearch v7.4.0, one dump was equal to one dump
+            directory.  However, in Elasticsearch v7.12.0. one dump has
+            multiple dump directories.
+
         Arguments:
 
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
 
         # Capture 2 databases/indices name in Elasticsearch.
         dbs = ','.join(
@@ -100,7 +108,6 @@ class UnitTest(unittest.TestCase):
                 x.split() for x in esd.els.cat.indices().splitlines()]][0:2])
 
         err_flag, _ = esd.dump_db(dbs)
-
         dir_path = os.path.join(self.phy_repo_dir, "indices")
 
         # Count number of databases/indices dumped to repository.
@@ -110,7 +117,7 @@ class UnitTest(unittest.TestCase):
         esr.delete_repo()
 
         self.assertFalse(err_flag)
-        self.assertEqual(cnt, 2)
+        self.assertTrue(cnt > 1)
 
     def test_dbs_is_successful(self):
 
@@ -118,23 +125,30 @@ class UnitTest(unittest.TestCase):
 
         Description:  Test dumping single database.
 
+        Note:  In Elasticsearch v7.4.0, one dump was equal to one dump
+            directory.  However, in Elasticsearch v7.12.0. one dump has
+            multiple dump directories.
+
         Arguments:
 
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
 
         # Capture the first database/indice name in Elasticsearch.
         dbs = str([name.split()
                    for name in esd.els.cat.indices().splitlines()][0][2])
 
         err_flag, _ = esd.dump_db(dbs)
-
         dir_path = os.path.join(self.phy_repo_dir, "indices")
 
         # Count number of databases/indices dumped to repository.
@@ -144,7 +158,7 @@ class UnitTest(unittest.TestCase):
         esr.delete_repo()
 
         self.assertFalse(err_flag)
-        self.assertEqual(cnt, 1)
+        self.assertTrue(cnt > 0)
 
     def test_dbs_is_not_str(self):
 
@@ -157,13 +171,15 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
-
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
         err_flag, status_msg = esd.dump_db(self.dbs_err)
 
         self.assertEqual((err_flag, status_msg), (True, self.msg2))
@@ -179,13 +195,15 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
-
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
         err_flag, _ = esd.dump_db()
 
         esr.delete_repo()
@@ -204,12 +222,15 @@ class UnitTest(unittest.TestCase):
         """
 
         esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir)
-
+            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
+            user=self.cfg.user, japd=self.cfg.japd)
+        esr.connect()
         esr.create_repo()
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
 
         err_flag, status_msg = esd.dump_db()
 
@@ -227,8 +248,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host,
-                                              repo=self.repo_name)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            japd=self.cfg.japd)
+        esd.connect()
 
         err_flag, status_msg = esd.dump_db()
 
@@ -244,7 +267,9 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        esd = elastic_class.ElasticSearchDump(self.cfg.host)
+        esd = elastic_class.ElasticSearchDump(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        esd.connect()
 
         err_flag, status_msg = esd.dump_db()
 

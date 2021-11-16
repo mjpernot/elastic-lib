@@ -41,8 +41,8 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_default -> Test with default settings.
+        setUp
+        test_default
 
     """
 
@@ -62,8 +62,6 @@ class UnitTest(unittest.TestCase):
         self.last_dump = None
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
-                mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearchDump.update_dump_status",
                 mock.Mock(return_value=True))
     def test_default(self):
 

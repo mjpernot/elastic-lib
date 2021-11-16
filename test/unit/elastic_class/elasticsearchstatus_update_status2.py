@@ -42,7 +42,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -69,9 +69,9 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_ping_false -> Test ping of Elasticsearch server is False.
-        test_ping_true -> Test ping of Elasticsearch server is True.
+        setUp
+        test_ping_false
+        test_ping_true
 
     """
 
@@ -121,6 +121,7 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.els
 
         els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.connect()
         self.assertEqual((els.port, els.hosts, els.is_connected),
                          (9200, self.host_list, False))
 
@@ -152,6 +153,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_data
 
         els = elastic_class.ElasticSearchStatus(self.host_list)
+        els.connect()
         self.assertEqual(
             (els.port, els.hosts, els.is_connected, els.shard_list),
             (9200, self.host_list, True, self.shards_data))

@@ -42,7 +42,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -67,10 +67,10 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_tasks_warn -> Test with pending tasks warning.
-        test_status_warn -> Test with cluster status warning.
-        test_no_warn -> Test with no warnings.
+        setUp
+        test_tasks_warn
+        test_status_warn
+        test_no_warn
 
     """
 
@@ -84,8 +84,6 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        # This is set to allow to show large differences.
-        self.maxDiff = None
         self.host_list = ["host1", "host2"]
         self.els = Elasticsearch(self.host_list)
         self.cluster_status = "green"

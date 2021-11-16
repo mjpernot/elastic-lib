@@ -42,7 +42,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -70,12 +70,12 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_repo_name_failed -> Test with repo name failed to delete.
-        test_repo_name_none -> Test with repo name set to None.
-        test_no_repo_name -> Test with no repo name passed.
-        test_not_deleted -> Test with repository not being deleted.
-        test_default -> Test with default settings.
+        setUp
+        test_repo_name_failed
+        test_repo_name_none
+        test_no_repo_name
+        test_not_deleted
+        test_default
 
     """
 
@@ -125,6 +125,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         els.repo_dict[self.repo] = True
 
         self.assertEqual(
@@ -152,6 +153,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict3]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         els.repo = None
 
         self.assertEqual(
@@ -179,6 +181,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict3]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_repo(), (False, None))
         self.assertEqual(els.repo_dict, self.repo_dict3)
@@ -204,6 +207,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_repo(self.repo), (True, self.err_msg))
         self.assertEqual(els.repo_dict, self.repo_dict)
@@ -229,6 +233,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.side_effect = [self.repo_dict, self.repo_dict2]
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_repo(self.repo2), (False, None))
         self.assertEqual(els.repo_dict, self.repo_dict2)

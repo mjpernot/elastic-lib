@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # Classification (U)
 
-"""Program:  elastic_search.py
+"""Program:  elasticsearchstatus_connect.py
 
-    Description:  Integration testing of ElasticSearch in elastic_class.py.
+    Description:  Integration testing of connect method in ElasticSearchStatus
+        class in elastic_class.py.
 
     Usage:
-        test/integration/elastic_class/elastic_search.py
+        test/integration/elastic_class/elasticsearchstatus_connect.py
 
     Arguments:
 
@@ -41,10 +42,9 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Unit testing initilization.
-        test_ping_success -> Test to if ping is successful.
-        test_host_is_list -> Test to see if host is a list.
-        test_init -> Test to see if class instance is created.
+        setUp
+        test_connect
+        test_init
 
     """
 
@@ -63,33 +63,21 @@ class UnitTest(unittest.TestCase):
         self.config_path = os.path.join(self.test_path, "config")
         self.cfg = gen_libs.load_module("elastic", self.config_path)
 
-    def test_ping_success(self):
+    def test_connect(self):
 
-        """Function:  test_ping_success
+        """Function:  test_connect
 
-        Description:  Test to if ping is successful.
-
-        Arguments:
-
-        """
-
-        els = elastic_class.ElasticSearch(self.cfg.host)
-
-        self.assertTrue(els.cluster_name)
-
-    def test_host_is_list(self):
-
-        """Function:  test_host_is_list
-
-        Description:  Test to see if host is a list.
+        Description:  Test to successfully connect to Elasticsearch.
 
         Arguments:
 
         """
 
-        els = elastic_class.ElasticSearch(self.cfg.host)
+        ess = elastic_class.ElasticSearchStatus(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        ess.connect()
 
-        self.assertTrue(els.hosts == self.cfg.host)
+        self.assertTrue(ess.is_connected)
 
     def test_init(self):
 
@@ -101,12 +89,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        host_list = ["Host_Name"]
+        ess = elastic_class.ElasticSearchStatus(
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+        ess.connect()
 
-        with gen_libs.no_std_out():
-            els = elastic_class.ElasticSearch(host_list)
-
-        self.assertTrue(els.hosts == host_list)
+        self.assertTrue(ess.uptime)
 
 
 if __name__ == "__main__":

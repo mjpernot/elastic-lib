@@ -42,7 +42,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -67,9 +67,9 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_unassigned -> Test with unassigned disk.
-        test_default -> Test with default settings.
+        setUp
+        test_unassigned
+        test_default
 
     """
 
@@ -83,8 +83,6 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        # This is set to allow to show large differences.
-        self.maxDiff = None
         self.host_list = ["host1", "host2"]
         self.els = Elasticsearch(self.host_list)
         self.disk_list = [

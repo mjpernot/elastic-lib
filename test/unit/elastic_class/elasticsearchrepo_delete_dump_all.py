@@ -42,7 +42,7 @@ class Elasticsearch(object):
     Description:  Class representation of the Elasticsearch class.
 
     Methods:
-        __init__ -> Initialize configuration environment.
+        __init__
 
     """
 
@@ -70,11 +70,11 @@ class UnitTest(unittest.TestCase):
     Description:  Class which is a representation of a unit testing.
 
     Methods:
-        setUp -> Initialization for unit testing.
-        test_delete_dump_fails -> Test with delete dumps fails.
-        test_repo_name_none -> Test with repo name set to none.
-        test_no_repo_name -> Test with no repo name passed.
-        test_default -> Test with default settings.
+        setUp
+        test_delete_dump_fails
+        test_repo_name_none
+        test_no_repo_name
+        test_default
 
     """
 
@@ -118,6 +118,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_dump_all(self.repo),
                          (True, "Error Message"))
@@ -146,6 +147,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
         els.repo = None
 
         self.assertEqual(
@@ -176,6 +178,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_dump_all(), (False, None))
 
@@ -203,6 +206,7 @@ class UnitTest(unittest.TestCase):
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
+        els.connect()
 
         self.assertEqual(els.delete_dump_all(self.repo), (False, None))
 

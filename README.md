@@ -19,66 +19,39 @@
     - python-pip
 
   * Local class/library dependencies within the program structure.
-    - elastic_libs
-    - lib/gen_libs
+    - elastic-lib
+    - python-lib
 
 
 # Installation
-  There are two types of installs: pip and git.
+  * From here on out, any reference to **{Python_Project}** or **PYTHON_PROJECT** replace with the baseline path of the python program.
+  * Replace any reference to **{Other_Python_Project}** with the baseline path of another python program.
+  * There are two types of installs: pip and git.
 
 ### Pip Installation:
-  * Replace **{Other_Python_Project}** with the baseline path of another python program.
 
 ###### Create requirements file in another program's project to install elastic-lib as a library module.
 
-Create requirements-elastic-lib.txt file:
+Create requirements-elastic-lib.txt and requirements-elastic-python-lib.txt files:
 
 ```
-vim {Other_Python_Project}/requirements-elastic-lib.txt
-```
-
-Add the following lines to the requirements-elastic-lib.txt file:
-
-```
-git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/elastic-lib.git#egg=elastic-lib
-```
-
-Create requirements-python-lib.txt file:
-
-```
-vim {Other_Python_Project}/requirements-python-lib.txt
-```
-
-Add the following lines to the requirements-python-lib.txt file:
-
-```
-git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/python-lib.git#egg=python-lib
+cd {Python_Project}
+cp requirements-elastic-lib.txt {Other_Python_Project}/requirements-elastic-lib.txt
+cp requirements-python-lib.txt {Other_Python_Project}/requirements-elastic-python-lib.txt
 ```
 
 ##### Modify the other program's README.md file to add the pip commands under the "Install supporting classes and libraries" section.
 
-Modify the README.md file:
-
-```
-vim {Other_Python_Project}/README.md
-```
-
-Add the following lines under the "Install supporting classes and libraries" section.
+Modify the {Other_Python_Project}/README.md file and add the following line:
 
 ```
 pip install -r requirements-elastic-lib.txt --target elastic_lib --trusted-host pypi.appdev.proj.coe.ic.gov
-pip install -r requirements-python-lib.txt --target elastic_lib/lib --trusted-host pypi.appdev.proj.coe.ic.gov
+pip install -r requirements-elastic-python-lib.txt --target elastic_lib/lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
 ##### Add the general elastic-lib requirements to the other program's requirements.txt file.  Remove any duplicates.
 
-Modify the requirements.txt file:
-
-```
-vim {Other_Python_Project}/requirements.txt
-```
-
-Add the following lines to the requirements.txt file:
+Modify the {Other_Python_Project}/requirements.txt file and add the following line:
 
 ```
 elasticsearch>=7.0.0,<8.0.0
@@ -88,7 +61,6 @@ urllib3==1.24.3
 ### Git Installation:
 
 Install general Elastic libraries and classes using git.
-  * Replace **{Python_Project}** with the baseline path of the python program.
 
 ```
 cd {Python_Project}
@@ -118,30 +90,7 @@ pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appd
 
 ### Installation:
 
-Install general Elastic libraries and classes using git.
-  * Replace **{Python_Project}** with the baseline path of the python program.
-  * Replace **{Branch_Name}** with the name of the Git branch being tested.  See Git Merge Request.
-
-```
-cd {Python_Project}
-git clone --branch {Branch_Name} git@sc.appdev.proj.coe.ic.gov:JAC-DSXD/elastic-lib.git
-```
-
-Install/upgrade system modules.
-
-```
-sudo bash
-umask 022
-pip install -r requirements.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
-exit
-```
-
-Install supporting classes and libraries
-
-```
-cd elastic-lib
-pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
-```
+Install the project using the procedures in the Git Installation section.
 
 ### Testing:
 
@@ -162,35 +111,14 @@ test/unit/elastic_class/code_coverage.sh
 
 # Integration Testing:
 
-NOTE:  These tests require that the Elasticsearch database/cluster do not have any repositories setup, otherwise the tests will be skipped.
+NOTES:
+  * These tests need to run as the same user who is running the elasticsearch database, normally the elasticsearch user.
+  * These tests require that the Elasticsearch database/cluster do not have any created repositories, otherwise the tests will be skipped.  
+  * The path.repo needs to be set in the elasticsearch.yml file to register a path for any repositories to be created.
 
 ### Installation:
-  * Replace **{Python_Project}** with the baseline path of the python program.
-  * Replace **{Branch_Name}** with the name of the Git branch being tested.  See Git Merge Request.
 
-Install these programs using git.
-
-```
-umask 022
-cd {Python_Project}
-git clone --branch {Branch_Name} git@sc.appdev.proj.coe.ic.gov:JAC-DSXD/elastic-lib.git
-```
-
-Install/upgrade system modules.
-
-```
-sudo bash
-umask 022
-pip install -r requirements.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
-exit
-```
-
-Install supporting classes and libraries
-
-```
-cd elastic-lib
-pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
-```
+Install the project using the procedures in the Git Installation section.
 
 ### Configuration:
 
@@ -208,7 +136,7 @@ Make the appropriate changes to the Elasticsearch environment.
     - phy_repo_dir = "PHYSICAL_DIR_PATH"
   * **LOGICAL_DIR_PATH** is the logical directory path to the share file system.
   * **phy_repo_dir** is the physical directory path to the share file system.
-    -  NOTE:  If running ElasticSearch as Docker setup, then these paths will be different.  If running as a standard setup, they will be the same.
+    - See the path.repo entry in the elasticsearch.yml for log_repo_dir and phy_repo_dir values.
 
 ```
 vim elastic.py
@@ -217,8 +145,6 @@ sudo chown elasticsearch:elasticsearch elastic.py
 ```
 
 ### Testing:
-  * These tests must be run as the elasticsearch account:
-  * Replace **{Python_Project}** with the baseline path of the python program.
 
 ```
 cd {Python_Project}/elastic_lib
