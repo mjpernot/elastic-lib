@@ -330,8 +330,10 @@ class ElasticSearch(object):
             (input) host_list -> List of host(s) within ElasticSearch cluster.
             (input) port -> ElasticSearch port to connect to.
             (input) kwargs:
-                user -> User login name.
-                japd -> User pswd.
+                user -> User login name
+                japd -> User pswd
+                ca_cert -> CA Certificate
+                scheme -> Type of connection
 
         """
 
@@ -481,6 +483,8 @@ class ElasticSearchDump(ElasticSearch):
             (input) kwargs:
                 user -> User login name.
                 japd -> User pswd.
+                ca_cert -> CA Certificate
+                scheme -> Type of connection
 
         """
 
@@ -697,6 +701,8 @@ class ElasticSearchRepo(ElasticSearch):
             (input) kwargs:
                 user -> User login name.
                 japd -> User pswd.
+                ca_cert -> CA Certificate
+                scheme -> Type of connection
 
         """
 
@@ -969,6 +975,8 @@ class ElasticSearchStatus(ElasticSearch):
             (input) kwargs:
                 user -> User login name.
                 japd -> User pswd.
+                ca_cert -> CA Certificate
+                scheme -> Type of connection
 
         """
 

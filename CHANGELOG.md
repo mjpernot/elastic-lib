@@ -5,6 +5,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 
 ## [3.0.1] - 2021-11-24
+### Changed
+- Documentation updates.
 
 
 ## [3.0.0] - 2021-10-18
