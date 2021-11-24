@@ -358,7 +358,7 @@ class ElasticSearch(object):
 
         # SSL configuration setup
         self.ca_cert = kwargs.get("ca_cert", None)
-        self.scheme = "https"
+        self.scheme = kwargs.get("scheme", "https")
         self.set_ssl_config()
 
     def connect(self):
