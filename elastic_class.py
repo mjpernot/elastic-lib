@@ -1455,6 +1455,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
+        """
         # List of checks to be called
         func_list = [self.chk_mem, self.chk_nodes, self.chk_shards,
                      self.chk_server, self.chk_status, self.chk_disk]
@@ -1472,3 +1473,21 @@ class ElasticSearchStatus(ElasticSearch):
                 data, _, _ = gen_libs.merge_two_dicts(data, results)
 
         return data if err_flag else {}
+        """
+
+        # List of checks to be called
+        func_list = [self.chk_mem, self.chk_nodes, self.chk_shards,
+                     self.chk_server, self.chk_status, self.chk_disk]
+        data = {}
+
+        for func in func_list:
+            results = func(cutoff_cpu=cutoff_cpu, cutoff_mem=cutoff_mem,
+                           cutoff_disk=cutoff_disk)
+
+            if results:
+                data, _, _ = gen_libs.merge_two_dicts(data, results)
+
+        if data:
+            data, _, _ = gen_libs.merge_two_dicts(data, self.get_cluster())
+
+        return data
