@@ -41,6 +41,8 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_passed_scheme
+        test_default_scheme
         test_ca_cert_login_passed
         test_ca_cert_passed2
         test_ca_cert_passed
@@ -71,12 +73,44 @@ class UnitTest(unittest.TestCase):
         self.user = "user"
         self.japd = "japd"
         self.ca_cert = "ca.crt"
+        self.scheme = "http"
         self.results = {}
         self.results2 = {"http_auth": (self.user, self.japd)}
         self.results3 = {"use_ssl": True, "ca_certs": self.ca_cert,
                          "scheme": "https"}
         self.results4 = {"http_auth": (self.user, self.japd), "use_ssl": True,
                          "ca_certs": self.ca_cert, "scheme": "https"}
+        self.results5 = {"http_auth": (self.user, self.japd), "use_ssl": True,
+                         "ca_certs": self.ca_cert, "scheme": "http"}
+
+    def test_passed_scheme(self):
+
+        """Function:  test_passed_scheme
+
+        Description:  Test with scheme passed in.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(
+            self.host_list, ca_cert=self.ca_cert, user=self.user,
+            japd=self.japd, scheme=self.scheme)
+        self.assertEqual(els.config, self.results5)
+
+    def test_default_scheme(self):
+
+        """Function:  test_default_scheme
+
+        Description:  Test with default scheme used.
+
+        Arguments:
+
+        """
+
+        els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert,
+                                          user=self.user, japd=self.japd)
+        self.assertEqual(els.config, self.results4)
 
     def test_ca_cert_login_passed(self):
 

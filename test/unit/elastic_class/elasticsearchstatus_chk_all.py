@@ -57,6 +57,9 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
+        self.cutoff_cpu = 75
+        self.cutoff_mem = 90
+        self.cutoff_disk = 85
 
 
 class UnitTest(unittest.TestCase):
@@ -67,6 +70,12 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_cutoff_disk_default
+        test_cutoff_disk_value
+        test_cutoff_mem_default
+        test_cutoff_mem_value
+        test_cutoff_cpu_default
+        test_cutoff_cpu_value
         test_one_warn
         test_default_no_warn
 
@@ -90,6 +99,216 @@ class UnitTest(unittest.TestCase):
                 "ClusterStatus": {
                     "Reason": "Detected the cluster is not green",
                     "Status": "yellow"}}}
+
+    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_server",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_shards",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_nodes",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_mem",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_cutoff_disk_default(self, mock_es):
+
+        """Function:  test_cutoff_disk_default
+
+        Description:  Test with default cutoff_disk value.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+
+        self.assertEqual(els.chk_all(cutoff_disk=None), self.results)
+
+    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_server",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_shards",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_nodes",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_mem",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_cutoff_disk_value(self, mock_es):
+
+        """Function:  test_cutoff_disk_value
+
+        Description:  Test with cutoff_disk value passed.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+
+        self.assertEqual(els.chk_all(cutoff_disk=50), self.results)
+
+    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_server",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_shards",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_nodes",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_mem",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_cutoff_mem_default(self, mock_es):
+
+        """Function:  test_cutoff_mem_default
+
+        Description:  Test with default cutoff_mem value.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+
+        self.assertEqual(els.chk_all(cutoff_mem=None), self.results)
+
+    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_server",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_shards",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_nodes",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_mem",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_cutoff_mem_value(self, mock_es):
+
+        """Function:  test_cutoff_mem_value
+
+        Description:  Test with cutoff_mem value passed.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+
+        self.assertEqual(els.chk_all(cutoff_mem=50), self.results)
+
+    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_server",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_shards",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_nodes",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_mem",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_cutoff_cpu_default(self, mock_es):
+
+        """Function:  test_cutoff_cpu_default
+
+        Description:  Test with default cutoff_cpu value.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+
+        self.assertEqual(els.chk_all(cutoff_cpu=None), self.results)
+
+    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_server",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_shards",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_nodes",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.chk_mem",
+                mock.Mock(return_value={}))
+    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_cutoff_cpu_value(self, mock_es):
+
+        """Function:  test_cutoff_cpu_value
+
+        Description:  Test with cutoff_cpu value passed.
+
+        Arguments:
+
+        """
+
+        mock_es.return_value = self.els
+
+        els = elastic_class.ElasticSearchStatus(self.host_list)
+
+        self.assertEqual(els.chk_all(cutoff_cpu=50), self.results)
 
     @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
                 mock.Mock(return_value={}))
