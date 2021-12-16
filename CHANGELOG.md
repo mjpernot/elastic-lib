@@ -7,7 +7,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [3.0.1] - 2021-11-24
 ### Fixed
 - elastic_class.ElasticSearchStatus.chk_all:  Set cutoff values to the current instance settings if None is passed for any of them.
-- elastic_class.ElasticSearch.\_\_init\_\_:  Allow the scheme attribute to be set from passed in arguments.
+- elastic_class.ElasticSearch.\_\_init\_\_:  Allow the "scheme" attribute to be set from passed in arguments.
 
 ### Changed
 - elastic_class.ElasticSearchStatus.chk_all: Refactored method.
