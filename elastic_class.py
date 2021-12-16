@@ -330,8 +330,10 @@ class ElasticSearch(object):
             (input) host_list -> List of host(s) within ElasticSearch cluster.
             (input) port -> ElasticSearch port to connect to.
             (input) kwargs:
-                user -> User login name.
-                japd -> User pswd.
+                user -> User login name
+                japd -> User pswd
+                ca_cert -> CA Certificate
+                scheme -> Type of connection
 
         """
 
@@ -356,7 +358,7 @@ class ElasticSearch(object):
 
         # SSL configuration setup
         self.ca_cert = kwargs.get("ca_cert", None)
-        self.scheme = "https"
+        self.scheme = kwargs.get("scheme", "https")
         self.set_ssl_config()
 
     def connect(self):
@@ -481,6 +483,8 @@ class ElasticSearchDump(ElasticSearch):
             (input) kwargs:
                 user -> User login name.
                 japd -> User pswd.
+                ca_cert -> CA Certificate
+                scheme -> Type of connection
 
         """
 
@@ -697,6 +701,8 @@ class ElasticSearchRepo(ElasticSearch):
             (input) kwargs:
                 user -> User login name.
                 japd -> User pswd.
+                ca_cert -> CA Certificate
+                scheme -> Type of connection
 
         """
 
@@ -969,6 +975,8 @@ class ElasticSearchStatus(ElasticSearch):
             (input) kwargs:
                 user -> User login name.
                 japd -> User pswd.
+                ca_cert -> CA Certificate
+                scheme -> Type of connection
 
         """
 
@@ -1447,20 +1455,22 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        # List of checks to be called
+        # List of methods to be called
         func_list = [self.chk_mem, self.chk_nodes, self.chk_shards,
                      self.chk_server, self.chk_status, self.chk_disk]
-        err_flag = False
-
-        data = self.get_cluster()
+        data = {}
+        cutoff_cpu = cutoff_cpu if cutoff_cpu else self.cutoff_cpu
+        cutoff_mem = cutoff_mem if cutoff_mem else self.cutoff_mem
+        cutoff_disk = cutoff_disk if cutoff_disk else self.cutoff_disk
 
         for func in func_list:
             results = func(cutoff_cpu=cutoff_cpu, cutoff_mem=cutoff_mem,
                            cutoff_disk=cutoff_disk)
 
             if results:
-                err_flag = True
-
                 data, _, _ = gen_libs.merge_two_dicts(data, results)
 
-        return data if err_flag else {}
+        if data:
+            data, _, _ = gen_libs.merge_two_dicts(data, self.get_cluster())
+
+        return data
