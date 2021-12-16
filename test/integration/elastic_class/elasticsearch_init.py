@@ -66,6 +66,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        self.ca_cert = "ca_cert.pem"
         self.scheme = "http"
         self.base_dir = "test/integration/elastic_class"
         self.test_path = os.path.join(os.getcwd(), self.base_dir)
@@ -83,7 +84,7 @@ class UnitTest(unittest.TestCase):
         """
 
         temp_val = self.cfg.ssl_client_ca
-        self.cfg.ssl_client_ca = "ca_cert.pem"
+        self.cfg.ssl_client_ca = self.ca_cert
         els = elastic_class.ElasticSearch(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
             ca_cert=self.cfg.ssl_client_ca, scheme=self.scheme)
@@ -102,7 +103,7 @@ class UnitTest(unittest.TestCase):
         """
 
         temp_val = self.cfg.ssl_client_ca
-        self.cfg.ssl_client_ca = "ca_cert.pem"
+        self.cfg.ssl_client_ca = self.ca_cert
         els = elastic_class.ElasticSearch(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
             ca_cert=self.cfg.ssl_client_ca)
@@ -121,7 +122,7 @@ class UnitTest(unittest.TestCase):
         """
 
         temp_val = self.cfg.ssl_client_ca
-        self.cfg.ssl_client_ca = "ca_cert.pem"
+        self.cfg.ssl_client_ca = self.ca_cert
         els = elastic_class.ElasticSearch(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
             ca_cert=self.cfg.ssl_client_ca)
