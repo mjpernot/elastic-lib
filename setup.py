@@ -55,6 +55,6 @@ setuptools.setup(
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Topic :: Database",
-        "Topic :: Database :: Elasticsearch :: 5.4.0",
         "Topic :: Database :: Elasticsearch :: 7.4.0",
-        "Topic :: Database :: Elasticsearch :: 7.12.0"])
+        "Topic :: Database :: Elasticsearch :: 7.12.0",
+        "Topic :: Database :: Elasticsearch :: 7.17.0"])
