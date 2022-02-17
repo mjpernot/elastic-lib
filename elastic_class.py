@@ -195,21 +195,30 @@ def get_disks(els):
     return [item.split() for item in els.cat.allocation().splitlines()]
 
 
-def get_dump_list(els, repo):
+def get_dump_list(els, repo, **kwargs):
 
     """Function:  get_dump_list
 
     Description:  Return a list of dumps within a named repository.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (input) repo -> Name of repository.
-        (output) List of ElasticSearch dumps.
+        (input) els -> ElasticSearch instance
+        (input) repo -> Name of repository
+        (input) kwargs:
+            snapshot -> A list of snapshot names, defaults to all snapshots
+        (output) dump_list -> List of ElasticSearch dumps
 
     """
 
-    return [item.split()
-            for item in els.cat.snapshots(repository=repo).splitlines()]
+    snapshot = kwargs.get("snapshot", "_all")
+
+# What happens when a snapshot name is not present?
+    dump_list = els.snapshot.get(repository=repo, snapshot=snapshot)
+
+    return dump_list["snapshots"]
+
+    #return [item.split()
+    #        for item in els.cat.snapshots(repository=repo).splitlines()]
 
 
 def get_info(els):
