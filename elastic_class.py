@@ -201,24 +201,41 @@ def get_dump_list(els, repo, **kwargs):
 
     Description:  Return a list of dumps within a named repository.
 
+    Note:  The "ignore" option will determine whether to ignore the exception
+        or capture the exception and process it.
+
+    Future mods:  If want to capture the exception codes then will need to add
+        the following to the end of the exception: as (err_num, err_code, msg) 
+
     Arguments:
         (input) els -> ElasticSearch instance
         (input) repo -> Name of repository
         (input) kwargs:
             snapshot -> A list of snapshot names, defaults to all snapshots
+            ignore -> True|False - Ignore if snapshot name is not found
         (output) dump_list -> List of ElasticSearch dumps
+        (output) status -> True|False - If found snapshot successfully
+        (output) err_msg -> Error message if snapshot not found
 
     """
 
     snapshot = kwargs.get("snapshot", "_all")
+    ignore = kwargs.get("ignore", True)
+    err_msg = None
 
-# What happens when a snapshot name is not present?
-    dump_list = els.snapshot.get(repository=repo, snapshot=snapshot)
+    try:
+        data = els.snapshot.get(
+            repository=repo, snapshot=snapshot, ignore_unavailable=ignore)
+        dump_list = data["snapshots"]
+        status = True
 
-    return dump_list["snapshots"]
+    except elasticsearch.exceptions.NotFoundError:
+        err_msg = "Failed to find snapshot: '%s' in repository: '%s'" % (
+            snapshot, repo)
+        dump_list = []
+        status = False
 
-    #return [item.split()
-    #        for item in els.cat.snapshots(repository=repo).splitlines()]
+    return dump_list, status, err_msg
 
 
 def get_info(els):
