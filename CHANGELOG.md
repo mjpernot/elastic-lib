@@ -7,6 +7,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [4.0.0] - 2022-02-17
 Breaking Change
 
+### Changed
+- elastic_class.get_dump_list:  Added return status and error message to method.
+
 ### Fixed
 - elastic_class.get_dump_list:  Changed cat.snapshot to snapshot.get call.  Returns a list of dumps, but each dump is in JSON format instead of a string.
 
