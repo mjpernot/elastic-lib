@@ -24,20 +24,24 @@ else:
     import unittest
 
 # Third-party
+import elasticsearch
+import mock
 
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
+import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
 
 
-class Repo(object):
 
-    """Class:  Repo
+class Repo2(object):
 
-    Description:  Class representation of the cat class.
+    """Class:  Repo2
+
+    Description:  Class representation of the snapshot class.
 
     Methods:
         __init__
@@ -56,10 +60,9 @@ class Repo(object):
         """
 
         self.repository = None
-        self.snapshots = {"snapshots": [{"repo": "repo1"}]}
-        self.snapshots2 = {"snapshots": [{"repo": "repo1"}, {"repo": "repo2"}]}
+        self.ignore_unavailable = None
 
-    def get(self, repository, snapshot):
+    def get(self, repository, snapshot, ignore_unavailable):
 
         """Method:  get
 
@@ -70,14 +73,82 @@ class Repo(object):
         """
 
         self.repository = repository
+        self.ignore_unavailable = ignore_unavailable
+
+        raise elasticsearch.exceptions.NotFoundError('holder', 'holder')
+
+
+class Elasticsearch2(object):
+
+    """Class:  ElasticSearch
+
+    Description:  Class representation of the Elasticsearch class.
+
+    Methods:
+        __init__
+
+    """
+
+    def __init__(self, host_list, port=9200):
+
+        """Method:  __init__
+
+        Description:  Initialization instance of the class.
+
+        Arguments:
+
+        """
+
+        self.hosts = host_list
+        self.port = port
+        self.snapshot = Repo2()
+
+
+class Repo(object):
+
+    """Class:  Repo
+
+    Description:  Class representation of the snapshot class.
+
+    Methods:
+        __init__
+        get
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Class initialization.
+
+        Arguments:
+
+        """
+
+        self.repository = None
+        self.ignore_unavailable = None
+        self.snapshots = {"snapshots": [{"repo": "repo1"}]}
+        self.snapshots2 = {"snapshots": [{"repo": "repo1"}, {"repo": "repo2"}]}
+
+    def get(self, repository, snapshot, ignore_unavailable):
+
+        """Method:  get
+
+        Description:  Stub holder for snapshot.get method.
+
+        Arguments:
+
+        """
+
+        self.repository = repository
+        self.ignore_unavailable = ignore_unavailable
 
         if snapshot == "_all":
             return self.snapshots2
 
         else:
             return self.snapshots
-
-        #return "bkp_name SUCCESS start end\nbkp_name2 SUCCESS start end\n"
 
 
 class Elasticsearch(object):
@@ -114,6 +185,11 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_raise_error2
+        test_raise_error
+        test_without_name2
+        test_without_name
+        test_with_name2
         test_with_name
 
     """
@@ -131,9 +207,53 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.els = Elasticsearch(self.host_list)
-        self.results = {"snapshots": [{"repo": "repo1"}]}
-        self.results2 = {"snapshots": [{"repo": "repo1"}, {"repo": "repo2"}]}
+        self.results = [{"repo": "repo1"}]
+        self.results2 = [{"repo": "repo1"}, {"repo": "repo2"}]
         self.name = "repo1"
+        self.els2 = Elasticsearch2(self.host_list)
+        self.err = "Failed to find snapshot: '_all' in repository: 'reponame'"
+
+    def test_raise_error2(self):
+
+        """Function:  test_raise_error2
+
+        Description:  Test with exception raised.
+
+        Arguments:
+
+        """
+
+        data = elastic_class.get_dump_list(self.els2, repo=self.repo)
+
+        self.assertEqual((data[1], data[2]), (False, self.err))
+
+    def test_raise_error(self):
+
+        """Function:  test_raise_error
+
+        Description:  Test with exception raised.
+
+        Arguments:
+
+        """
+
+        data = elastic_class.get_dump_list(self.els2, repo=self.repo)
+
+        self.assertEqual(data[0], [])
+
+    def test_without_name2(self):
+
+        """Function:  test_without_name2
+
+        Description:  Test with no snapshot name passed.
+
+        Arguments:
+
+        """
+
+        data = elastic_class.get_dump_list(self.els, repo=self.repo)
+
+        self.assertEqual((data[1], data[2]), (True, None))
 
     def test_without_name(self):
 
@@ -145,9 +265,24 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(
-            elastic_class.get_dump_list(
-                self.els, repo=self.repo), self.results2)
+        data = elastic_class.get_dump_list(self.els, repo=self.repo)[0]
+
+        self.assertEqual(data, self.results2)
+
+    def test_with_name2(self):
+
+        """Function:  test_with_name2
+
+        Description:  Test with snapshot name passed.
+
+        Arguments:
+
+        """
+
+        data = elastic_class.get_dump_list(
+            self.els, repo=self.repo, snapshot=self.name)
+
+        self.assertEqual((data[1], data[2]), (True, None))
 
     def test_with_name(self):
 
@@ -159,9 +294,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(
-            elastic_class.get_dump_list(
-                self.els, repo=self.repo, snapshot=self.name), self.results)
+        data = elastic_class.get_dump_list(
+            self.els, repo=self.repo, snapshot=self.name)[0]
+
+        self.assertEqual(data, self.results)
 
 
 if __name__ == "__main__":
