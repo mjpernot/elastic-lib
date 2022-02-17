@@ -41,7 +41,7 @@ class Repo(object):
 
     Methods:
         __init__
-        snapshots
+        get
 
     """
 
@@ -56,12 +56,14 @@ class Repo(object):
         """
 
         self.repository = None
+        self.snapshots = {"snapshots": [{"repo": "repo1"}]}
+        self.snapshots2 = {"snapshots": [{"repo": "repo1"}, {"repo": "repo2"}]}
 
-    def snapshots(self, repository):
+    def get(self, repository, snapshot):
 
-        """Method:  snapshots
+        """Method:  get
 
-        Description:  Stub holder for cat.snapshots method.
+        Description:  Stub holder for snapshot.get method.
 
         Arguments:
 
@@ -69,7 +71,13 @@ class Repo(object):
 
         self.repository = repository
 
-        return "bkp_name SUCCESS start end\nbkp_name2 SUCCESS start end\n"
+        if snapshot == "_all":
+            return self.snapshots2
+
+        else:
+            return self.snapshots
+
+        #return "bkp_name SUCCESS start end\nbkp_name2 SUCCESS start end\n"
 
 
 class Elasticsearch(object):
@@ -95,7 +103,7 @@ class Elasticsearch(object):
 
         self.hosts = host_list
         self.port = port
-        self.cat = Repo()
+        self.snapshot = Repo()
 
 
 class UnitTest(unittest.TestCase):
@@ -106,7 +114,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
-        test_default
+        test_with_name
 
     """
 
@@ -123,21 +131,37 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.els = Elasticsearch(self.host_list)
-        self.results = [["bkp_name", "SUCCESS", "start", "end"],
-                        ["bkp_name2", "SUCCESS", "start", "end"]]
+        self.results = {"snapshots": [{"repo": "repo1"}]}
+        self.results2 = {"snapshots": [{"repo": "repo1"}, {"repo": "repo2"}]}
+        self.name = "repo1"
 
-    def test_default(self):
+    def test_without_name(self):
 
-        """Function:  test_default
+        """Function:  test_without_name
 
-        Description:  Test with default settings.
+        Description:  Test with no snapshot name passed.
 
         Arguments:
 
         """
 
-        self.assertEqual(elastic_class.get_dump_list(self.els, repo=self.repo),
-                         self.results)
+        self.assertEqual(
+            elastic_class.get_dump_list(
+                self.els, repo=self.repo), self.results2)
+
+    def test_with_name(self):
+
+        """Function:  test_with_name
+
+        Description:  Test with snapshot name passed.
+
+        Arguments:
+
+        """
+
+        self.assertEqual(
+            elastic_class.get_dump_list(
+                self.els, repo=self.repo, snapshot=self.name), self.results)
 
 
 if __name__ == "__main__":
