@@ -11,6 +11,8 @@ Breaking Change
 - elastic_class.get_dump_list:  Added return status and error message to method.
 
 ### Fixed
+- elastic_class.ElasticSearchDump.update_dump_status:  Handle multiple returned datatypes from get_dump_list call.
+- elastic_libs.get_latest_dump:  Changed the processing of dumps from list to dictionary.
 - elastic_class.get_dump_list:  Changed cat.snapshot to snapshot.get call.  Returns a list of dumps, but each dump is in JSON format instead of a string.
 
 
