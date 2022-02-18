@@ -572,7 +572,7 @@ class ElasticSearchDump(ElasticSearch):
         if self.repo_name:
             self.type = repo_dict[self.repo_name]["type"]
             self.dump_loc = repo_dict[self.repo_name]["settings"]["location"]
-            self.dump_list = get_dump_list(self.els, self.repo_name)
+            self.dump_list, _, _ = get_dump_list(self.els, self.repo_name)
 
         if self.dump_list:
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
