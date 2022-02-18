@@ -45,13 +45,6 @@ def get_latest_dump(dump_list):
                 last_dump = dump['snapshot']
                 break
 
-#        search = max([item[4] for item in dump_list])
-
-#        for item in dump_list:
-#            if item[4] == search:
-#                last_dump = item[0]
-#                break
-
     return last_dump
 
 
