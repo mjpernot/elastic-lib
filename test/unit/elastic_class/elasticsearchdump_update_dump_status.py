@@ -173,8 +173,9 @@ class UnitTest(unittest.TestCase):
         self.repo = "reponame"
         self.repo2 = "reponame2"
         self.els = Elasticsearch(self.host_list)
-        self.get_dump_list = (["dump1", "dump2"], True, None)
-        self.dump_list = ["dump1", "dump2"]
+        self.get_dump_list = (
+            [{"snapshot": "dump1"}, {"snapshot": "dump2"}], True, None)
+        self.dump_list = [{"snapshot": "dump1"}, {"snapshot": "dump2"}]
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
                                          {"path": {"data": ["/dir/data1"],
                                                    "logs": ["/dir/logs1"]}}},
