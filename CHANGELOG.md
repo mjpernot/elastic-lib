@@ -12,6 +12,7 @@ Breaking Change
 
 ### Fixed
 - elastic_class.ElasticSearchDump.update_dump_status:  Handle multiple returned datatypes from get_dump_list call.
+- elastic_class.ElasticSearchDump.dump_db:  Handle multiple returned datatypes from get_dump_list call.
 - elastic_libs.get_latest_dump:  Changed the processing of dumps from lists to dictionaries.
 - elastic_class.get_dump_list:  Changed cat.snapshot to snapshot.get call.  Returns a list of dumps, but each dump is in JSON format instead of a string.
 
