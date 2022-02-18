@@ -616,7 +616,7 @@ class ElasticSearchDump(ElasticSearch):
 
                 err_flag, status_msg, break_flag = self._chk_status(break_flag)
 
-            self.dump_list = get_dump_list(self.els, self.repo_name)
+            self.dump_list, _, _ = get_dump_list(self.els, self.repo_name)
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
 
         elif not err_flag:
