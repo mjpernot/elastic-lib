@@ -11,6 +11,7 @@ Breaking Change
 - elastic_class.get_dump_list:  Added return status and error message to method.
 
 ### Fixed
+- elastic_class.ElasticSearchDump.\_chk_status:  Changed the processing of dumps from lists to dictionaries.
 - elastic_class.ElasticSearchDump.update_dump_status:  Handle multiple returned datatypes from get_dump_list call.
 - elastic_class.ElasticSearchDump.dump_db:  Handle multiple returned datatypes from get_dump_list call.
 - elastic_libs.get_latest_dump:  Changed the processing of dumps from lists to dictionaries.
