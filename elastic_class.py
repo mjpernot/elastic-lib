@@ -192,7 +192,7 @@ def get_disks(els):
 
     """
 
-    return [item.split() for item in els.cat.allocation().splitlines()]
+    return els.cat.allocation(format="json")
 
 
 def get_dump_list(els, repo, **kwargs):
@@ -646,6 +646,7 @@ class ElasticSearchDump(ElasticSearch):
 
             if self.dump_name == dump["snapshot"]:
 
+# Remove _parse method
 #                self.dump_status, self.failed_shards = self._parse(dump)
                 self.dump_status = dump["state"]
                 self.failed_shards = dump["shards"]["failed"]
