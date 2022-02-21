@@ -56,10 +56,10 @@ def create_snapshot(els, reponame, body, dumpname):
     Description:  Runs a dump of a named repository.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (input) reponame -> Name of repository.
-        (input) body -> Contains arguments for the dump command.
-        (input) dumpname -> Dump name which it will be dumped too.
+        (input) els -> ElasticSearch instance
+        (input) reponame -> Name of repository
+        (input) body -> Contains arguments for the dump command
+        (input) dumpname -> Dump name which it will be dumped too
 
     """
 
@@ -74,11 +74,11 @@ def create_snapshot_repo(els, reponame, body, verify=True):
     Description:  Creates a repository in Elasticsearch cluster.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (input) reponame -> Name of repository.
-        (input) body -> Contains arguments for the dump command.
-        (input) verify -> True|False - Validate the repository.
-        (output) Return exit status of create_repository command.
+        (input) els -> ElasticSearch instance
+        (input) reponame -> Name of repository
+        (input) body -> Contains arguments for the dump command
+        (input) verify -> True|False - Validate the repository
+        (output) Return exit status of create_repository command
 
     """
 
@@ -94,10 +94,10 @@ def delete_snapshot(els, reponame, dumpname):
     Description:  Deltes a dump in a named repository.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (input) reponame -> Name of repository.
-        (input) dumpname -> Dump name to be deleted.
-        (output) Return exit status of delete_repository command.
+        (input) els -> ElasticSearch instance
+        (input) reponame -> Name of repository
+        (input) dumpname -> Dump name to be deleted
+        (output) Return exit status of delete_repository command
 
     """
 
@@ -111,9 +111,9 @@ def delete_snapshot_repo(els, reponame):
     Description:  Deletes named repository in Elasticsearch cluster.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (input) reponame -> Name of repository.
-        (output) Return exit status of delete_repository command.
+        (input) els -> ElasticSearch instance
+        (input) reponame -> Name of repository
+        (output) Return exit status of delete_repository command
 
     """
 
@@ -127,8 +127,8 @@ def get_cluster_health(els):
     Description:  Return a dict of information on Elasticsearch cluster health.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) Dictionary of information on Elasticsearch cluster health.
+        (input) els -> ElasticSearch instance
+        (output) Dictionary of information on Elasticsearch cluster health
 
     """
 
@@ -142,8 +142,8 @@ def get_cluster_nodes(els):
     Description:  Return a dict of information on Elasticsearch cluster nodes.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) Dictionary of information on Elasticsearch cluster nodes.
+        (input) els -> ElasticSearch instance
+        (output) Dictionary of information on Elasticsearch cluster nodes
 
     """
 
@@ -157,8 +157,8 @@ def get_cluster_stats(els):
     Description:  Return a dict of information on Elasticsearch cluster stats.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) Dictionary of information on Elasticsearch cluster stats.
+        (input) els -> ElasticSearch instance
+        (output) Dictionary of information on Elasticsearch cluster stats
 
     """
 
@@ -172,8 +172,8 @@ def get_cluster_status(els):
     Description:  Return status of the Elasticsearch cluster.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) Status of the Elasticsearch cluster.
+        (input) els -> ElasticSearch instance
+        (output) Status of the Elasticsearch cluster
 
     """
 
@@ -187,8 +187,8 @@ def get_disks(els):
     Description:  Return a list of disks within the Elasticsearch cluster.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) List of ElasticSearch disks.
+        (input) els -> ElasticSearch instance
+        (output) List of ElasticSearch disks
 
     """
 
@@ -245,8 +245,8 @@ def get_info(els):
     Description:  Return a dictionary of a basic Elasticsearch info command.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) Dictionary of basic Elasticsearch info command.
+        (input) els -> ElasticSearch instance
+        (output) Dictionary of basic Elasticsearch info command
 
     """
 
@@ -260,8 +260,8 @@ def get_master_name(els):
     Description:  Return name of the master node in a Elasticsearch cluster.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) Name of master node in ElasticSearch cluster.
+        (input) els -> ElasticSearch instance
+        (output) Name of master node in ElasticSearch cluster
 
     """
 
@@ -275,8 +275,8 @@ def get_nodes(els):
     Description:  Return a dictionary of information on Elasticsearch nodes.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) Dictionary of information on Elasticsearch nodes.
+        (input) els -> ElasticSearch instance
+        (output) Dictionary of information on Elasticsearch nodes
 
     """
 
@@ -290,8 +290,8 @@ def get_repo_list(els):
     Description:  Return a dictionary of a list of Elasticsearch repositories.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) Dictionary of a list of Elasticsearch repositories.
+        (input) els -> ElasticSearch instance
+        (output) Dictionary of a list of Elasticsearch repositories
 
     """
 
@@ -305,8 +305,8 @@ def get_shards(els):
     Description:  Return a list of shards within the Elasticsearch cluster.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) List of ElasticSearch shards.
+        (input) els -> ElasticSearch instance
+        (output) List of ElasticSearch shards
 
     """
 
@@ -320,8 +320,8 @@ def is_active(els):
     Description:  Returns True or False if the Elasticsearch cluster is up.
 
     Arguments:
-        (input) els -> ElasticSearch instance.
-        (output) True|False - Elasticsearch cluster is up.
+        (input) els -> ElasticSearch instance
+        (output) True|False - Elasticsearch cluster is up
 
     """
 
@@ -353,8 +353,8 @@ class ElasticSearch(object):
         Description:  Initialization of an instance of the ElasticSearch class.
 
         Arguments:
-            (input) host_list -> List of host(s) within ElasticSearch cluster.
-            (input) port -> ElasticSearch port to connect to.
+            (input) host_list -> List of host(s) within ElasticSearch cluster
+            (input) port -> ElasticSearch port to connect to
             (input) kwargs:
                 user -> User login name
                 japd -> User pswd
@@ -502,13 +502,13 @@ class ElasticSearchDump(ElasticSearch):
             class.
 
         Arguments:
-            (input) host_list -> List of host(s) within ElasticSearch cluster.
-            (input) port -> ElasticSearch database port.
-            (input) repo -> Name of repository.  Required if multiple
-                repositories are present in the cluster.
+            (input) host_list -> List of host(s) within ElasticSearch cluster
+            (input) port -> ElasticSearch database port
+            (input) repo -> Name of repository, required if multiple
+                repositories are present in the cluster
             (input) kwargs:
-                user -> User login name.
-                japd -> User pswd.
+                user -> User login name
+                japd -> User pswd
                 ca_cert -> CA Certificate
                 scheme -> Type of connection
 
@@ -591,9 +591,9 @@ class ElasticSearchDump(ElasticSearch):
         Description:  Executes a dump of an ElasticSearch database.
 
         Arguments:
-            (input) dbs -> String of database(s) to dump, comma delimited.
-            (output) err_flag True|False -> Were errors detected during dump.
-            (output) status_msg -> Dump error message.
+            (input) dbs -> String of database(s) to dump, comma delimited
+            (output) err_flag True|False -> Were errors detected during dump
+            (output) status_msg -> Dump error message
 
         """
 
@@ -632,10 +632,10 @@ class ElasticSearchDump(ElasticSearch):
         Description:  Check status of database dump.
 
         Arguments:
-            (input) break_flag True|False -> Break out of loop for check.
-            (output) err_flag True|False -> Were errors detected during dump.
-            (output) status_msg -> Dump error message.
-            (output) break_flag True|False -> Break out of loop for check.
+            (input) break_flag True|False -> Break out of loop for check
+            (output) err_flag True|False -> Were errors detected during dump
+            (output) status_msg -> Dump error message
+            (output) break_flag True|False -> Break out of loop for check
 
         """
 
@@ -685,9 +685,9 @@ class ElasticSearchDump(ElasticSearch):
         Description:  Parse the dump entry for status and shard.
 
         Arguments:
-            (input)  dump -> Dump entry.
-            (output) Return dump status.
-            (output) Return shard failures.
+            (input)  dump -> Dump entry
+            (output) Return dump status
+            (output) Return shard failures
 
         """
 
@@ -722,13 +722,13 @@ class ElasticSearchRepo(ElasticSearch):
             class.
 
         Arguments:
-            (input) host_list -> List of host(s) within ElasticSearch cluster.
-            (input) port -> ElasticSearch database port.
-            (input) repo -> Name of repository.
-            (input) repo_dir -> Directory path to respository.
+            (input) host_list -> List of host(s) within ElasticSearch cluster
+            (input) port -> ElasticSearch database port
+            (input) repo -> Name of repository
+            (input) repo_dir -> Directory path to respository
             (input) kwargs:
-                user -> User login name.
-                japd -> User pswd.
+                user -> User login name
+                japd -> User pswd
                 ca_cert -> CA Certificate
                 scheme -> Type of connection
 
@@ -775,10 +775,10 @@ class ElasticSearchRepo(ElasticSearch):
         Description:  Create an elasticsearch dump repository.
 
         Arguments:
-            (input) repo_name -> Name of repository.
-            (input) repo_dir -> Directory path to respository.
-            (output) err_flag -> True|False - Error status for repo creation.
-            (output) err_msg -> Status error message or None.
+            (input) repo_name -> Name of repository
+            (input) repo_dir -> Directory path to respository
+            (output) err_flag -> True|False - Error status for repo creation
+            (output) err_msg -> Status error message or None
 
         """
 
@@ -826,9 +826,9 @@ class ElasticSearchRepo(ElasticSearch):
         Description:  Delete an elasticsearch dump repository.
 
         Arguments:
-            (input) repo -> Name of repository.
-            (output) err_flag -> True|False - Error status for repo deletion.
-            (output) err_msg -> Status error message or None.
+            (input) repo -> Name of repository
+            (output) err_flag -> True|False - Error status for repo deletion
+            (output) err_msg -> Status error message or None
 
         """
 
@@ -869,10 +869,10 @@ class ElasticSearchRepo(ElasticSearch):
         Description:  Delete a database dump in an Elasticsearch repository.
 
         Arguments:
-            (input) repo_name -> Name of repository.
-            (input) dump_name -> Name of dump.
-            (output) err_flag -> True|False - Error status for deletion.
-            (output) err_msg -> Status error message or None.
+            (input) repo_name -> Name of repository
+            (input) dump_name -> Name of dump
+            (output) err_flag -> True|False - Error status for deletion
+            (output) err_msg -> Error message, if any
 
         """
 
@@ -885,7 +885,9 @@ class ElasticSearchRepo(ElasticSearch):
         if repo_name and dump_name and repo_name in self.repo_dict:
 
             # See if the dump exists.
-            if dump_name in [x[0] for x in get_dump_list(self.els, repo_name)]:
+            if dump_name in \
+               [item["snapshot"] for item in get_dump_list(
+                   self.els, repo_name)[0]]:
 
                 status = delete_snapshot(self.els, repo_name, dump_name)
 
@@ -895,9 +897,10 @@ class ElasticSearchRepo(ElasticSearch):
                               % (repo_name, dump_name)
 
                 else:
-                    # See if the dump still exists.
-                    if dump_name in [x[0] for x in get_dump_list(self.els,
-                                                                 repo_name)]:
+                    # Does the dump still exists
+                    if dump_name in \
+                       [item["snapshot"] for item in get_dump_list(
+                           self.els, repo_name)[0]]:
 
                         err_flag = True
                         err_msg = "ERROR: Dump still detected: %s, %s" \
@@ -922,9 +925,9 @@ class ElasticSearchRepo(ElasticSearch):
         Description:  Delete all dumps in a repository.
 
         Arguments:
-            (input)  repo_name -> Name of repository.
-            (output) err_flag -> True|False - Error status for deletion.
-            (output) err_msg -> Status error message or None.
+            (input)  repo_name -> Name of repository
+            (output) err_flag -> True|False - Error status for deletion
+            (output) err_msg -> Status error message or None
 
         """
 
@@ -995,14 +998,14 @@ class ElasticSearchStatus(ElasticSearch):
             class.
 
         Arguments:
-            (input) hostname -> Hostname of Elasticsearch database node.
-            (input) port -> Elasticsearch database port.  Default = 9200.
-            (input) cutoff_mem -> Threshold cutoff for memory check.
-            (input) cutoff_cpu -> Threshold cutoff for cpu usage check.
-            (input) cutoff_disk -> Threshold cutoff for disk usage check.
+            (input) hostname -> Hostname of Elasticsearch database node
+            (input) port -> Elasticsearch database port.  Default = 9200
+            (input) cutoff_mem -> Threshold cutoff for memory check
+            (input) cutoff_cpu -> Threshold cutoff for cpu usage check
+            (input) cutoff_disk -> Threshold cutoff for disk usage check
             (input) kwargs:
-                user -> User login name.
-                japd -> User pswd.
+                user -> User login name
+                japd -> User pswd
                 ca_cert -> CA Certificate
                 scheme -> Type of connection
 
@@ -1119,7 +1122,7 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Return dictionary format of status of nodes.
 
         Arguments:
-            (output) Return dictionary format of status of nodes in cluster.
+            (output) Return dictionary format of status of nodes in cluster
 
         """
 
@@ -1133,7 +1136,7 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Return dictionary format of status of server.
 
         Arguments:
-            (output) Return dictionary dictionary format of status of server.
+            (output) Return dictionary dictionary format of status of server
 
         """
 
@@ -1148,7 +1151,7 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Return dictionary format of status of memory on server.
 
         Arguments:
-            (output) Return dictionary format of status of memory.
+            (output) Return dictionary format of status of memory
 
         """
 
@@ -1164,7 +1167,7 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Return dictionary format of status of shards in cluster.
 
         Arguments:
-            (output) Return dictionary format of status of shards in cluster.
+            (output) Return dictionary format of status of shards in cluster
 
         """
 
@@ -1180,7 +1183,7 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Return dictionary format of general status in cluster.
 
         Arguments:
-            (output) Return dictionary format of general status of cluster.
+            (output) Return dictionary format of general status of cluster
 
         """
 
@@ -1196,7 +1199,7 @@ class ElasticSearchStatus(ElasticSearch):
             node.
 
         Arguments:
-            (output) data -> Dictionary format of disk usage status by node.
+            (output) data -> Dictionary format of disk usage status by node
 
         """
 
@@ -1219,7 +1222,7 @@ class ElasticSearchStatus(ElasticSearch):
             each repository.
 
         Arguments:
-            (output) data -> Dictionary format of dump disk usage by repo.
+            (output) data -> Dictionary format of dump disk usage by repo
 
         """
 
@@ -1245,7 +1248,7 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Return dictionary format of  status of all elements.
 
         Arguments:
-            (output) data -> Dictionary format of status of all elements.
+            (output) data -> Dictionary format of status of all elements
 
         """
 
@@ -1269,11 +1272,11 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Checks the memory percentage used against a cutoff value.
 
         Arguments:
-            (input) cutoff_mem -> Percentage threshold on memory used.
+            (input) cutoff_mem -> Percentage threshold on memory used
             (input) kwargs:
-                cutoff_cpu -> Percentage threshold on cpu usage.
-                cutoff_disk -> Percentage threshold on disk usage.
-            (output) Return warning message on memory usage.
+                cutoff_cpu -> Percentage threshold on cpu usage
+                cutoff_disk -> Percentage threshold on disk usage
+            (output) Return warning message on memory usage
 
         """
 
@@ -1301,10 +1304,10 @@ class ElasticSearchStatus(ElasticSearch):
 
         Arguments:
             (input) kwargs:
-                cutoff_cpu -> Percentage threshold on cpu usage.
-                cutoff_mem -> Percentage threshold on memory used.
-                cutoff_disk -> Percentage threshold on disk usage.
-            (output) Return warning message on failed nodes.
+                cutoff_cpu -> Percentage threshold on cpu usage
+                cutoff_mem -> Percentage threshold on memory used
+                cutoff_disk -> Percentage threshold on disk usage
+            (output) Return warning message on failed nodes
 
         """
 
@@ -1326,10 +1329,10 @@ class ElasticSearchStatus(ElasticSearch):
 
         Arguments:
             (input) kwargs:
-                cutoff_cpu -> Percentage threshold on cpu usage.
-                cutoff_mem -> Percentage threshold on memory used.
-                cutoff_disk -> Percentage threshold on disk usage.
-            (output) Return warning message on shard problems.
+                cutoff_cpu -> Percentage threshold on cpu usage
+                cutoff_mem -> Percentage threshold on memory used
+                cutoff_disk -> Percentage threshold on disk usage
+            (output) Return warning message on shard problems
 
         """
 
@@ -1373,11 +1376,11 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Checks the server status.
 
         Arguments:
-            (input) cutoff_cpu -> Percentage threshold on cpu usage.
+            (input) cutoff_cpu -> Percentage threshold on cpu usage
             (input) kwargs:
-                cutoff_mem -> Percentage threshold on memory used.
-                cutoff_disk -> Percentage threshold on disk usage.
-            (output) Return warning message on server status.
+                cutoff_mem -> Percentage threshold on memory used
+                cutoff_disk -> Percentage threshold on disk usage
+            (output) Return warning message on server status
 
         """
 
@@ -1403,10 +1406,10 @@ class ElasticSearchStatus(ElasticSearch):
 
         Arguments:
             (input) kwargs:
-                cutoff_cpu -> Percentage threshold on cpu usage.
-                cutoff_mem -> Percentage threshold on memory used.
-                cutoff_disk -> Percentage threshold on disk usage.
-            (output) Return warning message on cluster status.
+                cutoff_cpu -> Percentage threshold on cpu usage
+                cutoff_mem -> Percentage threshold on memory used
+                cutoff_disk -> Percentage threshold on disk usage
+            (output) Return warning message on cluster status
 
         """
 
@@ -1439,11 +1442,11 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Checks the disk usage status.
 
         Arguments:
-            (input) cutoff_disk -> Percentage threshold on disk usage.
+            (input) cutoff_disk -> Percentage threshold on disk usage
             (input) kwargs:
-                cutoff_cpu -> Percentage threshold on cpu usage.
-                cutoff_mem -> Percentage threshold on memory used.
-            (output) data -> Warning messages on disk usage status.
+                cutoff_cpu -> Percentage threshold on cpu usage
+                cutoff_mem -> Percentage threshold on memory used
+            (output) data -> Warning messages on disk usage status
 
         """
 
@@ -1476,10 +1479,10 @@ class ElasticSearchStatus(ElasticSearch):
         Description:  Check status of all elements.
 
         Arguments:
-            (input) cutoff_cpu -> Percentage threshold on cpu usage.
-            (input) cutoff_mem -> Percentage threshold on memory used.
-            (input) cutoff_disk -> Percentage threshold on disk usage.
-            (output) Return any messages from all element check.
+            (input) cutoff_cpu -> Percentage threshold on cpu usage
+            (input) cutoff_mem -> Percentage threshold on memory used
+            (input) cutoff_disk -> Percentage threshold on disk usage
+            (output) Return any messages from all element check
 
         """
 
