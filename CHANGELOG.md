@@ -7,15 +7,17 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [4.0.0] - 2022-02-17
 Breaking Change
 
-### Changed
-- elastic_class.get_dump_list:  Added return status and error message to method.
-
 ### Fixed
 - elastic_class.ElasticSearchDump.\_chk_status:  Changed the processing of dumps from lists to dictionaries.
 - elastic_class.ElasticSearchDump.update_dump_status:  Handle multiple returned datatypes from get_dump_list call.
+- elastic_class.ElasticSearchDump.delete_dump:  Handle multiple returned datatypes from get_dump_list call.
 - elastic_class.ElasticSearchDump.dump_db:  Handle multiple returned datatypes from get_dump_list call.
 - elastic_libs.get_latest_dump:  Changed the processing of dumps from lists to dictionaries.
 - elastic_class.get_dump_list:  Changed cat.snapshot to snapshot.get call.  Returns a list of dumps, but each dump is in JSON format instead of a string.
+
+### Changed
+- elastic_class.get_dump_list:  Added return status and error message to method.
+- Documentation updates.
 
 
 ## [3.0.1] - 2021-11-24
