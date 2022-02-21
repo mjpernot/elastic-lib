@@ -29,8 +29,8 @@ def get_latest_dump(dump_list):
     Description:  Return latest dump from a list of dumps based on epoch date.
 
     Arguments:
-        (input) dump_list -> List of dumps from a repository.
-        (output) Name of latest dump.
+        (input) dump_list -> List of dumps from a repository
+        (output) last_dump -> Name of latest dump
 
     """
 
@@ -38,11 +38,11 @@ def get_latest_dump(dump_list):
     last_dump = None
 
     if dump_list:
-        search = max([item[4] for item in dump_list])
+        last_time = max([item['end_time_in_millis'] for item in dump_list])
 
-        for item in dump_list:
-            if item[4] == search:
-                last_dump = item[0]
+        for dump in dump_list:
+            if dump['end_time_in_millis'] == last_time:
+                last_dump = dump['snapshot']
                 break
 
     return last_dump

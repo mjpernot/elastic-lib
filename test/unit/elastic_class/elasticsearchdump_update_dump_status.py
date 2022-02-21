@@ -173,7 +173,9 @@ class UnitTest(unittest.TestCase):
         self.repo = "reponame"
         self.repo2 = "reponame2"
         self.els = Elasticsearch(self.host_list)
-        self.dump_list = ["dump1", "dump2"]
+        self.get_dump_list = (
+            [{"snapshot": "dump1"}, {"snapshot": "dump2"}], True, None)
+        self.dump_list = [{"snapshot": "dump1"}, {"snapshot": "dump2"}]
         self.nodes_data = {"serverid1": {"name": "hostname1", "settings":
                                          {"path": {"data": ["/dir/data1"],
                                                    "logs": ["/dir/logs1"]}}},
@@ -210,7 +212,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.return_value = self.dump_list
+        mock_list.return_value = self.get_dump_list
         mock_date.strftime.side_effect = ["dump2", "dump3"]
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
@@ -247,7 +249,7 @@ class UnitTest(unittest.TestCase):
         self.els.snapshot = Repo2()
 
         mock_es.return_value = self.els
-        mock_list.return_value = self.dump_list
+        mock_list.return_value = self.get_dump_list
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
@@ -281,7 +283,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.return_value = self.dump_list
+        mock_list.return_value = self.get_dump_list
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
@@ -315,7 +317,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.return_value = self.dump_list
+        mock_list.return_value = self.get_dump_list
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
@@ -348,7 +350,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.return_value = self.dump_list
+        mock_list.return_value = self.get_dump_list
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 

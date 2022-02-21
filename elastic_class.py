@@ -572,7 +572,7 @@ class ElasticSearchDump(ElasticSearch):
         if self.repo_name:
             self.type = repo_dict[self.repo_name]["type"]
             self.dump_loc = repo_dict[self.repo_name]["settings"]["location"]
-            self.dump_list = get_dump_list(self.els, self.repo_name)
+            self.dump_list, _, _ = get_dump_list(self.els, self.repo_name)
 
         if self.dump_list:
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
@@ -616,7 +616,7 @@ class ElasticSearchDump(ElasticSearch):
 
                 err_flag, status_msg, break_flag = self._chk_status(break_flag)
 
-            self.dump_list = get_dump_list(self.els, self.repo_name)
+            self.dump_list, _, _ = get_dump_list(self.els, self.repo_name)
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
 
         elif not err_flag:
@@ -642,11 +642,13 @@ class ElasticSearchDump(ElasticSearch):
         err_flag = False
         status_msg = None
 
-        for dump in get_dump_list(self.els, self.repo_name):
+        for dump in get_dump_list(self.els, self.repo_name)[0]:
 
-            if self.dump_name == dump[0]:
+            if self.dump_name == dump["snapshot"]:
 
-                self.dump_status, self.failed_shards = self._parse(dump)
+#                self.dump_status, self.failed_shards = self._parse(dump)
+                self.dump_status = dump["state"]
+                self.failed_shards = dump["shards"]["failed"]
 
                 if self.dump_status == "IN_PROGRESS":
                     time.sleep(5)
@@ -670,8 +672,8 @@ class ElasticSearchDump(ElasticSearch):
                     err_flag = True
 
                 else:
-                    status_msg = "Unknown error detected on %s" \
-                                 % (self.repo_name)
+                    status_msg = "Unknown error '%s' detected on %s" \
+                                 % (self.dump_status, self.repo_name)
                     err_flag = True
 
         return err_flag, status_msg, break_flag
