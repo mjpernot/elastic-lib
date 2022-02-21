@@ -40,11 +40,32 @@ class Repo(object):
     Description:  Class representation of the cat class.
 
     Methods:
+        __init__
         allocation
 
     """
 
-    def allocation(self):
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization instance of the class.
+
+        Arguments:
+
+        """
+
+        self.format = None
+        self.disks = [
+            {"node": "nodename", "disk.total": "100gb", "shards": "101",
+             "disk.avail": "75gb", "disk.used": "20gb", "host": "servername",
+             "disk.percent": "21", "ip": "ip.addr", "disk.indices": "15gb"},
+            {"node": "nodename2", "disk.total": "110gb", "shards": "101",
+             "disk.avail": "65gb", "disk.used": "30gb", "host": "servername2",
+             "disk.percent": "31", "ip": "ip.addr2", "disk.indices": "20gb"},
+            ]
+
+    def allocation(self, format):
 
         """Method:  allocation
 
@@ -54,7 +75,9 @@ class Repo(object):
 
         """
 
-        return "disk1 GREEN start end\ndisk2 GREEN start end\n"
+        self.format = format
+
+        return self.disks
 
 
 class Elasticsearch(object):
@@ -108,8 +131,14 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.els = Elasticsearch(self.host_list)
-        self.results = [["disk1", "GREEN", "start", "end"],
-                        ["disk2", "GREEN", "start", "end"]]
+        self.results = [
+            {"node": "nodename", "disk.total": "100gb", "shards": "101",
+             "disk.avail": "75gb", "disk.used": "20gb", "host": "servername",
+             "disk.percent": "21", "ip": "ip.addr", "disk.indices": "15gb"},
+            {"node": "nodename2", "disk.total": "110gb", "shards": "101",
+             "disk.avail": "65gb", "disk.used": "30gb", "host": "servername2",
+             "disk.percent": "31", "ip": "ip.addr2", "disk.indices": "20gb"},
+            ]
 
     def test_default(self):
 
