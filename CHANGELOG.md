@@ -11,6 +11,7 @@ Breaking Change
 - elastic_class.get_dump_list:  Changed cat.snapshot to snapshot.get call.  Returns a list of dumps, but each dump is in JSON format instead of a string.
 
 ### Changed
+- elastic_class.get_disks:  Changed the output format of cat.allocation from string to JSON.
 - elastic_libs.get_latest_dump, elastic_class.ElasticSearchDump.\_chk_status:  Changed the processing of dumps from lists to dictionaries.
 - elastic_class.ElasticSearchDump.update_dump_status, elastic_class.ElasticSearchDump.delete_dump_all, elastic_class.ElasticSearchDump.delete_dump, elastic_class.ElasticSearchDump.dump_db:  Handle multiple returned datatypes from get_dump_list call.
 - elastic_class.get_dump_list:  Added return status and error message to method.
