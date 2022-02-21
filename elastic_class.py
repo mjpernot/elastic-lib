@@ -939,7 +939,9 @@ class ElasticSearchRepo(ElasticSearch):
 
         if repo_name and repo_name in self.repo_dict:
 
-            for dump in [x[0] for x in get_dump_list(self.els, repo_name)]:
+            for dump in \
+               [item["snapshot"] for item in get_dump_list(
+                   self.els, repo_name)[0]]:
 
                 err_flag, err_msg = self.delete_dump(repo_name=repo_name,
                                                      dump_name=dump)
