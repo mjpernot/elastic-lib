@@ -1347,38 +1347,31 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        err_flag = False
-
         data = {"ShardWarning": {}}
 
-        # Shards not assigned to a node
+        # Unassigned shards
         if self.unassigned_shards > 0:
-            err_flag = True
-
             data["ShardWarning"]["UnassignedShards"] = \
                 {"Reason": "Detected unassigned shards",
                  "Unassigned": self.unassigned_shards,
                  "Total": self.num_shards}
 
-        # How much of shards is not active
+        # How percentage of shards not active
         if self.active_shards_percent < 100:
-            err_flag = True
-
             data["ShardWarning"]["ActiveShardsPercent"] = \
                 {"Reason": "Detected less than 100% active shards",
                  "Percentage": self.active_shards_percent}
 
-        # List of shards not in running in operations
-        shards = [x for x in self.shard_list if x[3] != "STARTED"]
+        # List of shards not in running operations
+        shards = [
+            item for item in self.shard_list if item["state"] != "STARTED"]
 
         if shards:
-            err_flag = True
-
             data["ShardWarning"]["NonOperationShards"] = \
                 {"Reason": "Detected shards not in operational mode",
                  "ListofShards": shards}
 
-        return data if err_flag else {}
+        return data if data["ShardWarning"] else {}
 
     def chk_server(self, cutoff_cpu=None, **kwargs):
 
