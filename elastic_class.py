@@ -265,7 +265,8 @@ def get_master_name(els):
 
     """
 
-    return els.cat.master().strip().split(" ")[-1]
+    return els.cat.master(format="json")[0]["node"]
+#    return els.cat.master().strip().split(" ")[-1]
 
 
 def get_nodes(els):
