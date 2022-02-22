@@ -136,8 +136,7 @@ class UnitTest(unittest.TestCase):
              "disk.percent": "21", "ip": "ip.addr", "disk.indices": "15gb"},
             {"node": "nodename2", "disk.total": "110gb", "shards": "101",
              "disk.avail": "65gb", "disk.used": "30gb", "host": "servername2",
-             "disk.percent": "31", "ip": "ip.addr2", "disk.indices": "20gb"},
-            ]
+             "disk.percent": "31", "ip": "ip.addr2", "disk.indices": "20gb"}]
 
     def test_default(self):
 
