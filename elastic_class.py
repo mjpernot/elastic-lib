@@ -1209,11 +1209,17 @@ class ElasticSearchStatus(ElasticSearch):
         data = {"DiskUsage": {}}
 
         for node in self.disk_list:
-            if node[1] != "UNASSIGNED":
-                data["DiskUsage"][node[8]] = {
-                    "Total": node[4], "Available": node[3],
-                    "TotalUsed": node[2], "ESUsed": node[1],
-                    "Percent": node[5]}
+            data["DiskUsage"][node["node"]] = {
+                "Total": node["disk.total"], "Available": node["disk.avail"],
+                "TotalUsed": node["disk.used"], "ESUsed": node["disk.indices"],
+                "Percent": node["disk.percent"]}
+
+#        for node in self.disk_list:
+#            if node[1] != "UNASSIGNED":
+#                data["DiskUsage"][node[8]] = {
+#                    "Total": node[4], "Available": node[3],
+#                    "TotalUsed": node[2], "ESUsed": node[1],
+#                    "Percent": node[5]}
 
         return data
 
