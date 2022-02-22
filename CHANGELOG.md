@@ -20,6 +20,9 @@ Breaking Change
 - elastic_class.get_dump_list:  Added return status and error message to method.
 - Documentation updates.
 
+### Removed
+- elastic_class.ElasticSearchDump.\_parse method
+
 
 ## [3.0.1] - 2021-11-24
 ### Fixed
