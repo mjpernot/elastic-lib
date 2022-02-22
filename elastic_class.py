@@ -492,7 +492,6 @@ class ElasticSearchDump(ElasticSearch):
         update_dump_status
         dump_db
         _chk_status
-        _parse
 
     """
 
@@ -648,8 +647,6 @@ class ElasticSearchDump(ElasticSearch):
 
             if self.dump_name == dump["snapshot"]:
 
-# Remove _parse method
-#                self.dump_status, self.failed_shards = self._parse(dump)
                 self.dump_status = dump["state"]
                 self.failed_shards = dump["shards"]["failed"]
 
@@ -660,41 +657,26 @@ class ElasticSearchDump(ElasticSearch):
                     break_flag = True
 
                 elif self.dump_status == "INCOMPATIBLE":
-                    status_msg = "Older version of ES detected: %s" \
-                                 % (self.repo_name)
+                    status_msg = "Older version of ES detected: %s" % (
+                        self.repo_name)
                     err_flag = True
 
                 elif self.dump_status == "PARTIAL":
-                    status_msg = "Partial dump completed on %s" \
-                                 % (self.repo_name)
+                    status_msg = "Partial dump completed on %s" % (
+                        self.repo_name)
                     err_flag = True
 
                 elif self.dump_status == "FAILED":
-                    status_msg = "Dump failed to finish on %s" \
-                                 % (self.repo_name)
+                    status_msg = "Dump failed to finish on %s" % (
+                        self.repo_name)
                     err_flag = True
 
                 else:
-                    status_msg = "Unknown error '%s' detected on %s" \
-                                 % (self.dump_status, self.repo_name)
+                    status_msg = "Unknown error '%s' detected on %s" % (
+                        self.dump_status, self.repo_name)
                     err_flag = True
 
         return err_flag, status_msg, break_flag
-
-    def _parse(self, dump):
-
-        """Function:  _parse
-
-        Description:  Parse the dump entry for status and shard.
-
-        Arguments:
-            (input)  dump -> Dump entry
-            (output) Return dump status
-            (output) Return shard failures
-
-        """
-
-        return dump[1], dump[9]
 
 
 class ElasticSearchRepo(ElasticSearch):
@@ -803,8 +785,8 @@ class ElasticSearchRepo(ElasticSearch):
 
             if not status["acknowledged"]:
                 err_flag = True
-                err_msg = "ERROR:  Repository creation failure:  %s, %s" \
-                          % (repo_name, repo_dir)
+                err_msg = "ERROR:  Repository creation failure:  %s, %s" % (
+                    repo_name, repo_dir)
 
             else:
                 # Update repo dictionary.
@@ -812,13 +794,13 @@ class ElasticSearchRepo(ElasticSearch):
 
                 if repo_name not in self.repo_dict:
                     err_flag = True
-                    err_msg = "ERROR:  Repository not detected:  %s, %s" \
-                              % (repo_name, repo_dir)
+                    err_msg = "ERROR:  Repository not detected:  %s, %s" % (
+                        repo_name, repo_dir)
 
         else:
             err_flag = True
-            err_msg = "ERROR: Missing repo name or directory: '%s', '%s'" \
-                      % (repo_name, repo_dir)
+            err_msg = "ERROR: Missing repo name or directory: '%s', '%s'" % (
+                repo_name, repo_dir)
 
         return err_flag, err_msg
 
@@ -847,8 +829,8 @@ class ElasticSearchRepo(ElasticSearch):
 
             if not status["acknowledged"]:
                 err_flag = True
-                err_msg = "ERROR:  Repository deletion failed:  %s" \
-                          % (repo_name)
+                err_msg = "ERROR:  Repository deletion failed:  %s" % (
+                    repo_name)
 
             else:
                 # Update repo dictionary.
@@ -856,8 +838,8 @@ class ElasticSearchRepo(ElasticSearch):
 
                 if repo_name in self.repo_dict:
                     err_flag = True
-                    err_msg = "ERROR:  Repository still detected:  %s" \
-                              % (repo_name)
+                    err_msg = "ERROR:  Repository still detected:  %s" % (
+                        repo_name)
 
         else:
             err_flag = True
@@ -896,8 +878,8 @@ class ElasticSearchRepo(ElasticSearch):
 
                 if not status["acknowledged"]:
                     err_flag = True
-                    err_msg = "ERROR:  Dump deletion failed:  %s, %s" \
-                              % (repo_name, dump_name)
+                    err_msg = "ERROR:  Dump deletion failed:  %s, %s" % (
+                        repo_name, dump_name)
 
                 else:
                     # Does the dump still exists
@@ -906,13 +888,13 @@ class ElasticSearchRepo(ElasticSearch):
                            self.els, repo_name)[0]]:
 
                         err_flag = True
-                        err_msg = "ERROR: Dump still detected: %s, %s" \
-                                  % (repo_name, dump_name)
+                        err_msg = "ERROR: Dump still detected: %s, %s" % (
+                            repo_name, dump_name)
 
             else:
                 err_flag = True
-                err_msg = "ERROR: Dump: %s not in Repository: %s" \
-                          % (dump_name, repo_name)
+                err_msg = "ERROR: Dump: %s not in Repository: %s" % (
+                    dump_name, repo_name)
 
         else:
             err_flag = True
