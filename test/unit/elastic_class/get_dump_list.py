@@ -36,7 +36,6 @@ import version
 __version__ = version.__version__
 
 
-
 class Repo2(object):
 
     """Class:  Repo2
