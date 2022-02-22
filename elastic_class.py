@@ -266,7 +266,7 @@ def get_master_name(els):
     """
 
     return els.cat.master(format="json")[0]["node"]
-#    return els.cat.master().strip().split(" ")[-1]
+    #return els.cat.master().strip().split(" ")[-1]
 
 
 def get_nodes(els):
@@ -311,7 +311,8 @@ def get_shards(els):
 
     """
 
-    return [item.split() for item in els.cat.shards().splitlines()]
+    return els.cat.shards(format="json")
+    #return [item.split() for item in els.cat.shards().splitlines()]
 
 
 def is_active(els):
