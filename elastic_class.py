@@ -205,7 +205,7 @@ def get_dump_list(els, repo, **kwargs):
         or capture the exception and process it.
 
     Future mods:  If want to capture the exception codes then will need to add
-        the following to the end of the exception: as (err_num, err_code, msg) 
+        the following to the end of the exception: as (err_num, err_code, msg)
 
     Arguments:
         (input) els -> ElasticSearch instance
@@ -266,7 +266,6 @@ def get_master_name(els):
     """
 
     return els.cat.master(format="json")[0]["node"]
-    #return els.cat.master().strip().split(" ")[-1]
 
 
 def get_nodes(els):
@@ -312,7 +311,6 @@ def get_shards(els):
     """
 
     return els.cat.shards(format="json")
-    #return [item.split() for item in els.cat.shards().splitlines()]
 
 
 def is_active(els):
@@ -924,9 +922,9 @@ class ElasticSearchRepo(ElasticSearch):
 
         if repo_name and repo_name in self.repo_dict:
 
-            for dump in \
-               [item["snapshot"] for item in get_dump_list(
-                   self.els, repo_name)[0]]:
+            for dump in [
+                item["snapshot"] for item in get_dump_list(
+                    self.els, repo_name)[0]]:
 
                 err_flag, err_msg = self.delete_dump(repo_name=repo_name,
                                                      dump_name=dump)
