@@ -1459,27 +1459,33 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        err_flag = False
-
         data = {"DiskWarning": {}}
 
         if cutoff_disk:
             self.cutoff_disk = cutoff_disk
 
         for node in self.disk_list:
-
-            if node[1] != "UNASSIGNED" and int(node[5]) >= self.cutoff_disk:
-                err_flag = True
-                data["DiskWarning"][node[8]] = {
+            if int(node["disk.percent"]) >= self.cutoff_disk:
+                data["DiskWarning"][node["node"]] = {
                     "Reason": "Have reached disk usage threshold",
                     "ThresholdPercent": self.cutoff_disk,
-                    "UsedPercent": node[5],
-                    "TotalDisk": node[4],
-                    "TotalUsed": node[2],
-                    "Available": node[3],
-                    "ElasticSearchUsed": node[1]}
+                    "UsedPercent": node["disk.percent"],
+                    "TotalDisk": node["disk.total"],
+                    "TotalUsed": node["disk.used"],
+                    "Available": node["disk.avail"],
+                    "ElasticSearchUsed": node["disk.indices"]}
 
-        return data if err_flag else {}
+#            if node[1] != "UNASSIGNED" and int(node[5]) >= self.cutoff_disk:
+#                data["DiskWarning"][node[8]] = {
+#                    "Reason": "Have reached disk usage threshold",
+#                    "ThresholdPercent": self.cutoff_disk,
+#                    "UsedPercent": node[5],
+#                    "TotalDisk": node[4],
+#                    "TotalUsed": node[2],
+#                    "Available": node[3],
+#                    "ElasticSearchUsed": node[1]}
+
+        return data if data["DiskWarning"] else {}
 
     def chk_all(self, cutoff_cpu=None, cutoff_mem=None, cutoff_disk=None):
 
