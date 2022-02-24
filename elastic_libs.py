@@ -48,19 +48,39 @@ def get_latest_dump(dump_list):
     return last_dump
 
 
-def list_dumps(dump_list):
+def list_dumps(dump_list, **kwargs):
 
     """Function:  list_dumps
 
     Description:  Lists the dumps under the current repository.
 
     Arguments:
-        (input) dump_list -> List of database dumps.
+        (input) dump_list -> List of database dumps
+        (input) kwargs:
+            raw -> True|False - Print raw data in JSON format
 
     """
 
     dump_list = list(dump_list)
 
+    if kwargs.get("raw", False):
+
+        for item in dump_list:
+            gen_libs.print_dict(item, json_fmt=True)
+
+    else:
+        print("{0:15} {1:25} {2:14} {3:11} {4:12} {5:100}".
+              format("Status", "Start Time", "Shard Success", "Shard Fail",
+                     "Shard Total", "Database Dump Name"))
+
+        for item in dump_list:
+            print("{0:15} {1:25} {2:14} {3:11} {4:12} {5:100}".
+                  format(
+                      item["state"], item["start_time"],
+                      item["shards"]["successful"], item["shards"]["failed"],
+                      item["shards"]["total"], item["snapshot"]))
+
+    """
     print("{0:45} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
           .format("Database Dump Name", "Status", "Time", "Number",
                   "Shard Information", "", ""))
@@ -71,6 +91,7 @@ def list_dumps(dump_list):
         print("{0:45} {1:15} {2:10} {3:10} {4:10} {5:5} {6:5}"
               .format(item[0], item[1], item[6], item[7], item[8], item[9],
                       item[10]))
+    """
 
 
 def list_repos2(repo_list):
@@ -80,7 +101,7 @@ def list_repos2(repo_list):
     Description:  Lists the repositories in the Elasticsearch cluster.
 
     Arguments:
-        (input) repo_list -> Dictionary of repositories.
+        (input) repo_list -> Dictionary of repositories
 
     """
 
