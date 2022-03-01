@@ -1196,13 +1196,6 @@ class ElasticSearchStatus(ElasticSearch):
                 "TotalUsed": node["disk.used"], "ESUsed": node["disk.indices"],
                 "Percent": node["disk.percent"]}
 
-#        for node in self.disk_list:
-#            if node[1] != "UNASSIGNED":
-#                data["DiskUsage"][node[8]] = {
-#                    "Total": node[4], "Available": node[3],
-#                    "TotalUsed": node[2], "ESUsed": node[1],
-#                    "Percent": node[5]}
-
         return data
 
     def get_dump_disk_status(self):
@@ -1449,16 +1442,6 @@ class ElasticSearchStatus(ElasticSearch):
                     "TotalUsed": node["disk.used"],
                     "Available": node["disk.avail"],
                     "ElasticSearchUsed": node["disk.indices"]}
-
-#            if node[1] != "UNASSIGNED" and int(node[5]) >= self.cutoff_disk:
-#                data["DiskWarning"][node[8]] = {
-#                    "Reason": "Have reached disk usage threshold",
-#                    "ThresholdPercent": self.cutoff_disk,
-#                    "UsedPercent": node[5],
-#                    "TotalDisk": node[4],
-#                    "TotalUsed": node[2],
-#                    "Available": node[3],
-#                    "ElasticSearchUsed": node[1]}
 
         return data if data["DiskWarning"] else {}
 
