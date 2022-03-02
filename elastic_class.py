@@ -868,9 +868,9 @@ class ElasticSearchRepo(ElasticSearch):
         if repo_name and dump_name and repo_name in self.repo_dict:
 
             # See if the dump exists.
-            if dump_name in \
-               [item["snapshot"] for item in get_dump_list(
-                   self.els, repo_name)[0]]:
+            if dump_name in [
+                    item["snapshot"] for item in get_dump_list(
+                        self.els, repo_name)[0]]:
 
                 status = delete_snapshot(self.els, repo_name, dump_name)
 
@@ -881,9 +881,9 @@ class ElasticSearchRepo(ElasticSearch):
 
                 else:
                     # Does the dump still exists
-                    if dump_name in \
-                       [item["snapshot"] for item in get_dump_list(
-                           self.els, repo_name)[0]]:
+                    if dump_name in [
+                            item["snapshot"] for item in get_dump_list(
+                                self.els, repo_name)[0]]:
 
                         err_flag = True
                         err_msg = "ERROR: Dump still detected: %s, %s" % (
@@ -923,8 +923,8 @@ class ElasticSearchRepo(ElasticSearch):
         if repo_name and repo_name in self.repo_dict:
 
             for dump in [
-                item["snapshot"] for item in get_dump_list(
-                    self.els, repo_name)[0]]:
+                    item["snapshot"] for item in get_dump_list(
+                        self.els, repo_name)[0]]:
 
                 err_flag, err_msg = self.delete_dump(repo_name=repo_name,
                                                      dump_name=dump)
