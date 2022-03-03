@@ -1429,10 +1429,12 @@ class ElasticSearchStatus(ElasticSearch):
 
         data = {"DiskWarning": {}}
 
-        if cutoff_disk:
+        if cutoff_disk or cutoff_disk == 0:
             self.cutoff_disk = cutoff_disk
 
-        for node in self.disk_list:
+        for node in (disk for disk in self.disk_list
+                     if disk["node"] != "UNASSIGNED"):
+
             if int(node["disk.percent"]) >= self.cutoff_disk:
                 data["DiskWarning"][node["node"]] = {
                     "Reason": "Have reached disk usage threshold",
