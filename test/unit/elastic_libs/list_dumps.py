@@ -58,7 +58,6 @@ class UnitTest(unittest.TestCase):
 
         """
 
-
         self.list_multi = [
             {"snapshot": "dump1", "state": "SUCCESS",
              "start_time": "2022-02-16TO08:15:12.013Z",
