@@ -70,12 +70,12 @@ def list_dumps(dump_list, **kwargs):
             gen_libs.print_dict(item, json_fmt=True)
 
     else:
-        print("{0:15} {1:25} {2:14} {3:11} {4:12} {5:100}".
+        print("{0:15} {1:30} {2:14} {3:11} {4:11} {5:100}".
               format("Status", "Start Time", "Shard Success", "Shard Fail",
                      "Shard Total", "Database Dump Name"))
 
         for item in dump_list:
-            print("{0:15} {1:25} {2:14} {3:11} {4:12} {5:100}".
+            print("{0:15} {1:30} {2:13} {3:11} {4:12} {5:100}".
                   format(
                       item["state"], item["start_time"],
                       item["shards"]["successful"], item["shards"]["failed"],
