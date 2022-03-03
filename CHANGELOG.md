@@ -7,15 +7,22 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 ## [4.0.0] - 2022-02-17
 Breaking Change
 
-### Changed
-- elastic_class.get_dump_list:  Added return status and error message to method.
-
 ### Fixed
-- elastic_class.ElasticSearchDump.\_chk_status:  Changed the processing of dumps from lists to dictionaries.
-- elastic_class.ElasticSearchDump.update_dump_status:  Handle multiple returned datatypes from get_dump_list call.
-- elastic_class.ElasticSearchDump.dump_db:  Handle multiple returned datatypes from get_dump_list call.
-- elastic_libs.get_latest_dump:  Changed the processing of dumps from lists to dictionaries.
+- elastic_class.get_shards: Changed the output format of cat.shards from string to JSON.
+- elastic_class.get_master_name: Changed the output format of cat.master from string to JSON.
+- elastic_class.get_disks:  Changed the output format of cat.allocation from string to JSON.
 - elastic_class.get_dump_list:  Changed cat.snapshot to snapshot.get call.  Returns a list of dumps, but each dump is in JSON format instead of a string.
+
+### Changed
+- elastic_libs.list_dumps:  Changed to handle dictionary format and added raw data print option.
+- elastic_class.ElasticDumpStatus.get_disk_status, elastic_class.ElasticDumpStatus.chk_disk, elastic_class.ElasticDumpStatus.chk_shards:  Changed processing from a list to a dictionary format.
+- elastic_libs.get_latest_dump, elastic_class.ElasticSearchDump.\_chk_status:  Changed the processing of dumps from lists to dictionaries.
+- elastic_class.ElasticSearchDump.update_dump_status, elastic_class.ElasticSearchDump.delete_dump_all, elastic_class.ElasticSearchDump.delete_dump, elastic_class.ElasticSearchDump.dump_db:  Handle multiple returned datatypes from get_dump_list call.
+- elastic_class.get_dump_list:  Added return status and error message to method.
+- Documentation updates.
+
+### Removed
+- elastic_class.ElasticSearchDump.\_parse method
 
 
 ## [3.0.1] - 2021-11-24

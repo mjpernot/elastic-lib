@@ -35,31 +35,6 @@ import version
 __version__ = version.__version__
 
 
-class Elasticsearch(object):
-
-    """Class:  ElasticSearch
-
-    Description:  Class representation of the Elasticsearch class.
-
-    Methods:
-        __init__
-
-    """
-
-    def __init__(self, host_list, port=9200):
-
-        """Method:  __init__
-
-        Description:  Initialization instance of the class.
-
-        Arguments:
-
-        """
-
-        self.hosts = host_list
-        self.port = port
-
-
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -86,15 +61,25 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.els = Elasticsearch(self.host_list)
+        self.els = elastic_class.ElasticSearchStatus(self.host_list)
         self.unassigned_shards = 0
         self.unassigned_shards2 = 1
         self.active_shards_percent = 100
         self.active_shards_percent2 = 90
-        self.shard_list = [["shard1", "d1", "d1", "STARTED"],
-                           ["shard2", "d1", "d1", "STARTED"]]
-        self.shard_list2 = [["shard1", "d1", "d1", "STARTED"],
-                            ["shard2", "d1", "d1", "STOPPED"]]
+        self.shard_list = [
+            {"node": "nodename", "index": "indexname", "docs": "10",
+             "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr",
+             "store": "5mb"},
+            {"node": "nodename2", "index": "indexname2", "docs": "20",
+             "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr2",
+             "store": "15mb"}]
+        self.shard_list2 = [
+            {"node": "nodename", "index": "indexname", "docs": "10",
+             "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr",
+             "store": "5mb"},
+            {"node": "nodename2", "index": "indexname2", "docs": "20",
+             "shard": "0", "state": "UNASSIGNED", "prirep": "p",
+             "ip": "ip_addr2", "store": "15mb"}]
         self.num_shards = 10
         self.results = {}
         self.results2 = {
@@ -109,7 +94,10 @@ class UnitTest(unittest.TestCase):
         self.results4 = {
             "ShardWarning": {"NonOperationShards": {
                 "Reason": "Detected shards not in operational mode",
-                "ListofShards": [["shard2", "d1", "d1", "STOPPED"]]}}}
+                "ListofShards": [
+                    {"node": "nodename2", "index": "indexname2", "docs": "20",
+                     "shard": "0", "state": "UNASSIGNED", "prirep": "p",
+                     "ip": "ip_addr2", "store": "15mb"}]}}}
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -128,12 +116,11 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.els
 
-        els = elastic_class.ElasticSearchStatus(self.host_list)
-        els.unassigned_shards = self.unassigned_shards
-        els.active_shards_percent = self.active_shards_percent
-        els.shard_list = self.shard_list2
+        self.els.unassigned_shards = self.unassigned_shards
+        self.els.active_shards_percent = self.active_shards_percent
+        self.els.shard_list = self.shard_list2
 
-        self.assertEqual(els.chk_shards(), self.results4)
+        self.assertEqual(self.els.chk_shards(), self.results4)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -152,12 +139,11 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.els
 
-        els = elastic_class.ElasticSearchStatus(self.host_list)
-        els.unassigned_shards = self.unassigned_shards
-        els.active_shards_percent = self.active_shards_percent2
-        els.shard_list = self.shard_list
+        self.els.unassigned_shards = self.unassigned_shards
+        self.els.active_shards_percent = self.active_shards_percent2
+        self.els.shard_list = self.shard_list
 
-        self.assertEqual(els.chk_shards(), self.results3)
+        self.assertEqual(self.els.chk_shards(), self.results3)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -176,13 +162,12 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.els
 
-        els = elastic_class.ElasticSearchStatus(self.host_list)
-        els.unassigned_shards = self.unassigned_shards2
-        els.active_shards_percent = self.active_shards_percent
-        els.shard_list = self.shard_list
-        els.num_shards = self.num_shards
+        self.els.unassigned_shards = self.unassigned_shards2
+        self.els.active_shards_percent = self.active_shards_percent
+        self.els.shard_list = self.shard_list
+        self.els.num_shards = self.num_shards
 
-        self.assertEqual(els.chk_shards(), self.results2)
+        self.assertEqual(self.els.chk_shards(), self.results2)
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -201,12 +186,11 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.els
 
-        els = elastic_class.ElasticSearchStatus(self.host_list)
-        els.unassigned_shards = self.unassigned_shards
-        els.active_shards_percent = self.active_shards_percent
-        els.shard_list = self.shard_list
+        self.els.unassigned_shards = self.unassigned_shards
+        self.els.active_shards_percent = self.active_shards_percent
+        self.els.shard_list = self.shard_list
 
-        self.assertEqual(els.chk_shards(), self.results)
+        self.assertEqual(self.els.chk_shards(), self.results)
 
 
 if __name__ == "__main__":

@@ -35,31 +35,6 @@ import version
 __version__ = version.__version__
 
 
-class Elasticsearch(object):
-
-    """Class:  ElasticSearch
-
-    Description:  Class representation of the Elasticsearch class.
-
-    Methods:
-        __init__
-
-    """
-
-    def __init__(self, host_list, port=9200):
-
-        """Method:  __init__
-
-        Description:  Initialization instance of the class.
-
-        Arguments:
-
-        """
-
-        self.hosts = host_list
-        self.port = port
-
-
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -68,7 +43,6 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
-        test_unassigned
         test_default
 
     """
@@ -84,51 +58,23 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.els = Elasticsearch(self.host_list)
         self.disk_list = [
-            ["995", "69mb", "16gb", "53gb", "69gb", "23", "ip1", "ip2",
-             "hostname1"],
-            ["990", "68mb", "15gb", "53gb", "68gb", "22", "ip3", "ip4",
-             "hostname2"]]
-        self.disk_list2 = [
-            ["995", "69mb", "16gb", "53gb", "69gb", "23", "ip1", "ip2",
-             "hostname1"],
-            ["2", "UNASSIGNED"],
-            ["990", "68mb", "15gb", "53gb", "68gb", "22", "ip3", "ip4",
-             "hostname2"]]
+            {"node": "nodename", "disk.total": "100gb", "shards": "101",
+             "disk.avail": "75gb", "disk.used": "20gb", "host": "servername",
+             "disk.percent": "21", "ip": "ip.addr", "disk.indices": "15gb"},
+            {"node": "nodename2", "disk.total": "110gb", "shards": "101",
+             "disk.avail": "65gb", "disk.used": "30gb", "host": "servername2",
+             "disk.percent": "31", "ip": "ip.addr2", "disk.indices": "20gb"}]
         self.results = {
-            "DiskUsage": {"hostname1": {"Total": "69gb",
-                                        "Available": "53gb",
-                                        "TotalUsed": "16gb",
-                                        "ESUsed": "69mb",
-                                        "Percent": "23"},
-                          "hostname2": {"Total": "68gb",
-                                        "Available": "53gb",
-                                        "TotalUsed": "15gb",
-                                        "ESUsed": "68mb",
-                                        "Percent": "22"}}}
-
-    @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
-                mock.Mock(return_value=True))
-    @mock.patch("elastic_class.ElasticSearch.update_status",
-                mock.Mock(return_value=True))
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_unassigned(self, mock_es):
-
-        """Function:  test_unassigned
-
-        Description:  Test with unassigned disk.
-
-        Arguments:
-
-        """
-
-        mock_es.return_value = self.els
-
-        els = elastic_class.ElasticSearchStatus(self.host_list)
-        els.disk_list = self.disk_list2
-
-        self.assertEqual(els.get_disk_status(), self.results)
+            "DiskUsage": {
+                "nodename": {
+                    "Total": "100gb", "Available": "75gb", "TotalUsed": "20gb",
+                    "ESUsed": "15gb", "Percent": "21"},
+                "nodename2": {
+                    "Total": "110gb", "Available": "65gb", "TotalUsed": "30gb",
+                    "ESUsed": "20gb", "Percent": "31"}}}
+        self.els = elastic_class.ElasticSearchStatus(self.host_list)
+        self.els.disk_list = self.disk_list
 
     @mock.patch("elastic_class.ElasticSearchStatus.update_status2",
                 mock.Mock(return_value=True))
@@ -147,10 +93,7 @@ class UnitTest(unittest.TestCase):
 
         mock_es.return_value = self.els
 
-        els = elastic_class.ElasticSearchStatus(self.host_list)
-        els.disk_list = self.disk_list
-
-        self.assertEqual(els.get_disk_status(), self.results)
+        self.assertEqual(self.els.get_disk_status(), self.results)
 
 
 if __name__ == "__main__":

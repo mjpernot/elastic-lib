@@ -25,16 +25,13 @@ else:
 
 # Third-party
 import elasticsearch
-import mock
 
 # Local
 sys.path.append(os.getcwd())
 import elastic_class
-import lib.gen_libs as gen_libs
 import version
 
 __version__ = version.__version__
-
 
 
 class Repo2(object):
@@ -61,6 +58,7 @@ class Repo2(object):
 
         self.repository = None
         self.ignore_unavailable = None
+        self.snapshot = None
 
     def get(self, repository, snapshot, ignore_unavailable):
 
@@ -73,6 +71,7 @@ class Repo2(object):
         """
 
         self.repository = repository
+        self.snapshot = snapshot
         self.ignore_unavailable = ignore_unavailable
 
         raise elasticsearch.exceptions.NotFoundError('holder', 'holder')
@@ -147,8 +146,7 @@ class Repo(object):
         if snapshot == "_all":
             return self.snapshots2
 
-        else:
-            return self.snapshots
+        return self.snapshots
 
 
 class Elasticsearch(object):
