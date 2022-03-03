@@ -42,6 +42,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_print_raw
         test_print_empty
         test_print_dump
 
@@ -57,13 +58,29 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.list_mult = [[u'yavin_bkp_20171004-1153', u'SUCCESS',
-                           u'1507118001', u'11:53:21', u'1507118120',
-                           u'11:55:20', u'1.9m', u'35', u'175', u'0', u'175'],
-                          [u'yavin_bkp_20171010-1234', u'SUCCESS',
-                           u'1507638885', u'12:34:45', u'1507639060',
-                           u'12:37:40', u'2.9m', u'41', u'205', u'0', u'205']]
+
+        self.list_multi = [
+            {"snapshot": "dump1", "state": "SUCCESS",
+             "start_time": "2022-02-16TO08:15:12.013Z",
+             "shards": {"successful": 12, "failed": 0, "total": 12}},
+            {"snapshot": "dump2", "state": "SUCCESS",
+             "start_time": "2022-02-21TO09:11:11.122Z",
+             "shards": {"successful": 15, "failed": 0, "total": 15}}]
         self.empty_list = []
+
+    def test_print_raw(self):
+
+        """Function:  test_print_raw
+
+        Description:  Test printing with raw option.
+
+        Arguments:
+
+        """
+
+        with gen_libs.no_std_out():
+            self.assertFalse(
+                elastic_libs.list_dumps(self.list_multi, raw=True))
 
     def test_print_empty(self):
 
@@ -89,7 +106,7 @@ class UnitTest(unittest.TestCase):
         """
 
         with gen_libs.no_std_out():
-            self.assertFalse(elastic_libs.list_dumps(self.list_mult))
+            self.assertFalse(elastic_libs.list_dumps(self.list_multi))
 
 
 if __name__ == "__main__":
