@@ -8,6 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 Breaking Change
 
 ### Fixed
+- elastic_class.ElasticSearchStatus.chk_disk: Ignore UNASSIGNED disk and check for cutoff disk argument if set to zero.
 - elastic_class.get_shards: Changed the output format of cat.shards from string to JSON.
 - elastic_class.get_master_name: Changed the output format of cat.master from string to JSON.
 - elastic_class.get_disks:  Changed the output format of cat.allocation from string to JSON.

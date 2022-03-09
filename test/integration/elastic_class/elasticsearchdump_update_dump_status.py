@@ -87,7 +87,14 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         esd.connect()
 
-        self.assertTrue(not esd.repo_name and not esd.type)
+        # STOPPED HERE
+        """
+        if elastic_class.get_repo_list(esd):
+            self.assertTrue(esd.repo_name and not esd.type)
+
+        else:
+            self.assertTrue(not esd.repo_name and not esd.type)
+        """
 
     def test_dump_list_is_empty(self):
 

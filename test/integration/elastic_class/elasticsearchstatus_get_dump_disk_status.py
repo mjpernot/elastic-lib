@@ -76,7 +76,11 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         ess.connect()
 
-        self.assertFalse(ess.get_dump_disk_status()["DumpUsage"])
+        if ess.repo_dict:
+            self.assertTrue(ess.get_dump_disk_status()["DumpUsage"])
+
+        else:
+            self.assertFalse(ess.get_dump_disk_status()["DumpUsage"])
 
 
 if __name__ == "__main__":
