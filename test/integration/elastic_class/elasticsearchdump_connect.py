@@ -49,7 +49,6 @@ class UnitTest(unittest.TestCase):
         test_repo_is_set
         test_repo_not_set
         test_multi_repo
-        test_single_repo
         test_repo_not_passed
         test_repo_not_exist
         test_connect
@@ -130,7 +129,8 @@ class UnitTest(unittest.TestCase):
         esr.connect()
         esr.create_repo()
         esd = elastic_class.ElasticSearchDump(
-            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
+            repo=self.repo_name)
         esd.connect()
 
         self.assertTrue(not esd.dump_list)
@@ -153,7 +153,8 @@ class UnitTest(unittest.TestCase):
         esr.connect()
         esr.create_repo()
         esd = elastic_class.ElasticSearchDump(
-            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
+            repo=self.repo_name)
         esd.connect()
 
         self.assertTrue(esd.dump_loc == self.repo_dir)
@@ -174,7 +175,11 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         esd.connect()
 
-        self.assertTrue(not esd.type)
+        if esd.repo_name:
+            self.assertTrue(esd.type)
+
+        else:
+            self.assertTrue(not esd.type)
 
     def test_multi_repo(self):
 
@@ -201,29 +206,6 @@ class UnitTest(unittest.TestCase):
         esr.delete_repo()
         esr.delete_repo(repo_name=self.repo_name2)
 
-    def test_single_repo(self):
-
-        """Function:  test_single_repo
-
-        Description:  Test if single repo is present.
-
-        Arguments:
-
-        """
-
-        esr = elastic_class.ElasticSearchRepo(
-            self.cfg.host, repo=self.repo_name, repo_dir=self.repo_dir,
-            user=self.cfg.user, japd=self.cfg.japd)
-        esr.connect()
-        esr.create_repo()
-        esd = elastic_class.ElasticSearchDump(
-            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
-        esd.connect()
-
-        self.assertTrue(esd.repo_name == self.repo_name)
-
-        esr.delete_repo()
-
     def test_repo_not_passed(self):
 
         """Function:  test_repo_not_passed
@@ -238,7 +220,11 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         esd.connect()
 
-        self.assertTrue(not esd.repo_name and not esd.type)
+        if esd.repo_name:
+            self.assertTrue(esd.repo_name and esd.type)
+
+        else:
+            self.assertTrue(not esd.repo_name and not esd.type)
 
     def test_repo_not_exist(self):
 
@@ -251,7 +237,7 @@ class UnitTest(unittest.TestCase):
         """
 
         esd = elastic_class.ElasticSearchDump(
-            self.cfg.host, repo=self.repo_name, user=self.cfg.user,
+            self.cfg.host, repo=self.repo_name + "JUNK", user=self.cfg.user,
             japd=self.cfg.japd)
         esd.connect()
 
@@ -268,7 +254,8 @@ class UnitTest(unittest.TestCase):
         """
 
         esd = elastic_class.ElasticSearchDump(
-            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
+            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
+            repo=self.repo_name + "JUNK")
         esd.connect()
 
         self.assertTrue(not esd.repo_name and not esd.type)
