@@ -97,6 +97,18 @@ class UnitTest(unittest.TestCase):
         self.dump_name = "dump3"
         self.repo_dict = {"reponame": {"type": "dbdump", "settings":
                                        {"location": "/dir/path/dump"}}}
+        self.get_dump_list = (
+            [{"snapshot": "dump1", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump2", "state": "SUCCESS",
+              "shards": {"failed": 0}}], True, None)
+        self.get_dump_list2 = (
+            [{"snapshot": "dump1", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump2", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump3", "state": "SUCCESS",
+              "shards": {"failed": 0}}], True, None)
 
     @mock.patch("elastic_class.delete_snapshot",
                 mock.Mock(return_value={"acknowledged": False}))
@@ -117,8 +129,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
-                                 [["dump1"], ["dump2"]]]
+        mock_list.side_effect = [self.get_dump_list2, self.get_dump_list]
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
@@ -148,8 +159,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [[["dump1"], ["dump2"]],
-                                 [["dump1"], ["dump2"]]]
+        mock_list.side_effect = [self.get_dump_list, self.get_dump_list]
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
@@ -177,8 +187,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
-                                 [["dump1"], ["dump2"], ["dump3"]]]
+        mock_list.side_effect = [self.get_dump_list2, self.get_dump_list2]
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
@@ -206,8 +215,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
-                                 [["dump1"], ["dump2"]]]
+        mock_list.side_effect = [self.get_dump_list2, self.get_dump_list]
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
@@ -236,8 +244,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
-                                 [["dump1"], ["dump2"]]]
+        mock_list.side_effect = [self.get_dump_list2, self.get_dump_list]
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)
@@ -264,8 +271,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [[["dump1"], ["dump2"], ["dump3"]],
-                                 [["dump1"], ["dump2"]]]
+        mock_list.side_effect = [self.get_dump_list2, self.get_dump_list]
         mock_repo.return_value = self.repo_dict
 
         els = elastic_class.ElasticSearchRepo(self.host_list, repo=self.repo)

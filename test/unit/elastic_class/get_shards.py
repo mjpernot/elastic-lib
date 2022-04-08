@@ -40,11 +40,31 @@ class Repo(object):
     Description:  Class representation of the cat class.
 
     Methods:
+        __init__
         shards
 
     """
 
-    def shards(self):
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization instance of the class.
+
+        Arguments:
+
+        """
+
+        self.format = None
+        self.shard_list = [
+            {"node": "nodename", "index": "indexname", "docs": "10",
+             "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr",
+             "store": "5mb"},
+            {"node": "nodename2", "index": "indexname2", "docs": "20",
+             "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr2",
+             "store": "15mb"}]
+
+    def shards(self, format):
 
         """Method:  shards
 
@@ -54,7 +74,9 @@ class Repo(object):
 
         """
 
-        return "shard1 GREEN start end\nshard2 GREEN start end\n"
+        self.format = format
+
+        return self.shard_list
 
 
 class Elasticsearch(object):
@@ -108,8 +130,13 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.els = Elasticsearch(self.host_list)
-        self.results = [["shard1", "GREEN", "start", "end"],
-                        ["shard2", "GREEN", "start", "end"]]
+        self.results = [
+            {"node": "nodename", "index": "indexname", "docs": "10",
+             "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr",
+             "store": "5mb"},
+            {"node": "nodename2", "index": "indexname2", "docs": "20",
+             "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr2",
+             "store": "15mb"}]
 
     def test_default(self):
 

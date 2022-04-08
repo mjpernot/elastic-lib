@@ -40,11 +40,27 @@ class Repo(object):
     Description:  Class representation of the cat class.
 
     Methods:
+        __init__
         master
 
     """
 
-    def master(self):
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization instance of the class.
+
+        Arguments:
+
+        """
+
+        self.format = None
+        self.masterlist = [
+            {"node": "masternode", "ip": "ip_addr", "host": "hostname",
+             "id": "idname"}]
+
+    def master(self, format):
 
         """Method:  master
 
@@ -54,7 +70,9 @@ class Repo(object):
 
         """
 
-        return "serverid hostip serverip servername\n"
+        self.format = format
+
+        return self.masterlist
 
 
 class Elasticsearch(object):
@@ -108,7 +126,7 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.els = Elasticsearch(self.host_list)
-        self.results = "servername"
+        self.results = "masternode"
 
     def test_default(self):
 

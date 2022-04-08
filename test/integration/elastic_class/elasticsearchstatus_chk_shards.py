@@ -75,7 +75,8 @@ class UnitTest(unittest.TestCase):
         ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         ess.connect()
-        shards = [item for item in ess.shard_list if item[3] != "STARTED"]
+        shards = [
+            item for item in ess.shard_list if item["state"] != "STARTED"]
 
         if ess.unassigned_shards > 0 or ess.active_shards_percent < 100 \
            or shards:

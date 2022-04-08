@@ -43,6 +43,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_repo_not_passed
         test_dump_list_is_empty
         test_dump_name_set
 
@@ -87,7 +88,11 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         esd.connect()
 
-        self.assertTrue(not esd.repo_name and not esd.type)
+        if esd.repo_name:
+            self.assertTrue(esd.repo_name and esd.type)
+
+        else:
+            self.assertTrue(not esd.repo_name and not esd.type)
 
     def test_dump_list_is_empty(self):
 

@@ -40,11 +40,37 @@ class Repo(object):
     Description:  Class representation of the cat class.
 
     Methods:
+        __init__
         allocation
 
     """
 
-    def allocation(self):
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization instance of the class.
+
+        Arguments:
+
+        """
+
+        disk_tot = "disk.total"
+        disk_avl = "disk.avail"
+        disk_use = "disk.used"
+        disk_per = "disk.percent"
+        disk_ind = "disk.indices"
+
+        self.format = None
+        self.disks = [
+            {"node": "nodename", disk_tot: "100gb", "shards": "101",
+             disk_avl: "75gb", disk_use: "20gb", "host": "servername",
+             disk_per: "21", "ip": "ip.addr", disk_ind: "15gb"},
+            {"node": "nodename2", disk_tot: "110gb", "shards": "101",
+             disk_avl: "65gb", disk_use: "30gb", "host": "servername2",
+             disk_per: "31", "ip": "ip.addr2", disk_ind: "20gb"}]
+
+    def allocation(self, **kwargs):
 
         """Method:  allocation
 
@@ -54,7 +80,9 @@ class Repo(object):
 
         """
 
-        return "disk1 GREEN start end\ndisk2 GREEN start end\n"
+        self.format = kwargs.get("format", None)
+
+        return self.disks
 
 
 class Elasticsearch(object):
@@ -105,11 +133,22 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        disk_tot = "disk.total"
+        disk_avl = "disk.avail"
+        disk_use = "disk.used"
+        disk_per = "disk.percent"
+        disk_ind = "disk.indices"
+
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
         self.els = Elasticsearch(self.host_list)
-        self.results = [["disk1", "GREEN", "start", "end"],
-                        ["disk2", "GREEN", "start", "end"]]
+        self.results = [
+            {"node": "nodename", disk_tot: "100gb", "shards": "101",
+             disk_avl: "75gb", disk_use: "20gb", "host": "servername",
+             disk_per: "21", "ip": "ip.addr", disk_ind: "15gb"},
+            {"node": "nodename2", disk_tot: "110gb", "shards": "101",
+             disk_avl: "65gb", disk_use: "30gb", "host": "servername2",
+             disk_per: "31", "ip": "ip.addr2", disk_ind: "20gb"}]
 
     def test_default(self):
 

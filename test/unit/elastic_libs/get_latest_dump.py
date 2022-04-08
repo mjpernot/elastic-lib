@@ -58,34 +58,45 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.empty_list = []
-        self.list_one = [[u'yavin_bkp_20171004-1153', u'SUCCESS',
-                          u'1507118001', u'11:53:21', u'1507118120',
-                          u'11:55:20', u'1.9m', u'35', u'175', u'0', u'175']]
-        self.list_mult = [[u'yavin_bkp_20171004-1153', u'SUCCESS',
-                           u'1507118001', u'11:53:21', u'1507118120',
-                           u'11:55:20', u'1.9m', u'35', u'175', u'0', u'175'],
-                          [u'yavin_bkp_20171010-1234', u'SUCCESS',
-                           u'1507638885', u'12:34:45', u'1507639060',
-                           u'12:37:40', u'2.9m', u'41', u'205', u'0', u'205'],
-                          [u'yavin_bkp_20171011-1137', u'SUCCESS',
-                           u'1507721867', u'11:37:47', u'1507722088',
-                           u'11:41:28', u'3.6m', u'42', u'210', u'0', u'210'],
-                          [u'yavin_bkp_20171011-1142', u'SUCCESS',
-                           u'1507722132', u'11:42:12', u'1507722204',
-                           u'11:43:24', u'1.1m', u'42', u'210', u'0', u'210']]
-        self.list_revr = [[u'yavin_bkp_20171011-1142', u'SUCCESS',
-                           u'1507722132', u'11:42:12', u'1507722204',
-                           u'11:43:24', u'1.1m', u'42', u'210', u'0', u'210'],
-                          [u'yavin_bkp_20171011-1137', u'SUCCESS',
-                           u'1507721867', u'11:37:47', u'1507722088',
-                           u'11:41:28', u'3.6m', u'42', u'210', u'0', u'210'],
-                          [u'yavin_bkp_20171010-1234', u'SUCCESS',
-                           u'1507638885', u'12:34:45', u'1507639060',
-                           u'12:37:40', u'2.9m', u'41', u'205', u'0', u'205'],
-                          [u'yavin_bkp_20171004-1153', u'SUCCESS',
-                           u'1507118001', u'11:53:21', u'1507118120',
-                           u'11:55:20', u'1.9m', u'35', u'175', u'0', u'175']]
+        self.list = []
+        self.list1 = [{
+            "snapshot": "yavin_bkp_20171004-1153", "state": "SUCCESS",
+            "start_time_in_millis": 1507118001,
+            "end_time_in_millis": 1507118120}]
+        self.list2 = [
+            {
+                "snapshot": "yavin_bkp_20171004-1153", "state": "SUCCESS",
+                "start_time_in_millis": 1507118001,
+                "end_time_in_millis": 1507118120},
+            {
+                "snapshot": "yavin_bkp_20171010-1234", "state": "SUCCESS",
+                "start_time_in_millis": 1507638885,
+                "end_time_in_millis": 1507639060},
+            {
+                "snapshot": "yavin_bkp_20171011-1137", "state": "SUCCESS",
+                "start_time_in_millis": 1507721867,
+                "end_time_in_millis": 1507722088},
+            {
+                "snapshot": "yavin_bkp_20171011-1142", "state": "SUCCESS",
+                "start_time_in_millis": 1507722132,
+                "end_time_in_millis": 1507722204}]
+        self.list3 = [
+            {
+                "snapshot": "yavin_bkp_20171011-1142", "state": "SUCCESS",
+                "start_time_in_millis": 1507722132,
+                "end_time_in_millis": 1507722204},
+            {
+                "snapshot": "yavin_bkp_20171011-1137", "state": "SUCCESS",
+                "start_time_in_millis": 1507721867,
+                "end_time_in_millis": 1507722088},
+            {
+                "snapshot": "yavin_bkp_20171010-1234", "state": "SUCCESS",
+                "start_time_in_millis": 1507638885,
+                "end_time_in_millis": 1507639060},
+            {
+                "snapshot": "yavin_bkp_20171004-1153", "state": "SUCCESS",
+                "start_time_in_millis": 1507118001,
+                "end_time_in_millis": 1507118120}]
 
     def test_list_reverse(self):
 
@@ -97,7 +108,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_libs.get_latest_dump(self.list_revr),
+        self.assertEqual(elastic_libs.get_latest_dump(self.list3),
                          ("yavin_bkp_20171011-1142"))
 
     def test_list_multi(self):
@@ -110,7 +121,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_libs.get_latest_dump(self.list_mult),
+        self.assertEqual(elastic_libs.get_latest_dump(self.list2),
                          ("yavin_bkp_20171011-1142"))
 
     def test_list_one(self):
@@ -123,7 +134,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_libs.get_latest_dump(self.list_one),
+        self.assertEqual(elastic_libs.get_latest_dump(self.list1),
                          ("yavin_bkp_20171004-1153"))
 
     def test_empty_list(self):
@@ -136,7 +147,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_libs.get_latest_dump(self.empty_list),
+        self.assertEqual(elastic_libs.get_latest_dump(self.list),
                          (None))
 
 
