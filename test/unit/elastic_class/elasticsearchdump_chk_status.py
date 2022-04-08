@@ -186,6 +186,48 @@ class UnitTest(unittest.TestCase):
                                          {"path": {"data": ["/dir/data2"],
                                                    "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
+        self.get_dump_list = (
+            [{"snapshot": "dump1", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump2", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump3", "state": "SUCCESS",
+              "shards": {"failed": 0}}], True, None)
+        self.get_dump_list2 = (
+            [{"snapshot": "dump1", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump2", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump3", "state": "IN_PROGRESS",
+              "shards": {"failed": 0}}], True, None)
+        self.get_dump_list3 = (
+            [{"snapshot": "dump1", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump2", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump3", "state": "INCOMPATIBLE",
+              "shards": {"failed": 0}}], True, None)
+        self.get_dump_list4 = (
+            [{"snapshot": "dump1", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump2", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump3", "state": "PARTIAL",
+              "shards": {"failed": 0}}], True, None)
+        self.get_dump_list5 = (
+            [{"snapshot": "dump1", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump2", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump3", "state": "FAILED",
+              "shards": {"failed": 0}}], True, None)
+        self.get_dump_list6 = (
+            [{"snapshot": "dump1", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump2", "state": "SUCCESS",
+              "shards": {"failed": 0}},
+             {"snapshot": "dump3", "state": "UNKNOWN",
+              "shards": {"failed": 0}}], True, None)
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
@@ -210,11 +252,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [
-            ["dump1", "dump2"],
-            [["dump1"], ["dump2"],
-             ["dump3", "UNKNOWN", None, None, None, None, None, None, None,
-              0]]]
+        mock_list.return_value = self.get_dump_list6
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
@@ -223,7 +261,7 @@ class UnitTest(unittest.TestCase):
         els.dump_name = "dump3"
         self.assertEqual(
             els._chk_status(self.break_flag),
-            (True, "Unknown error detected on reponame", False))
+            (True, "Unknown error 'UNKNOWN' detected on reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
@@ -248,10 +286,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [
-            ["dump1", "dump2"],
-            [["dump1"], ["dump2"],
-             ["dump3", "FAILED", None, None, None, None, None, None, None, 0]]]
+        mock_list.return_value = self.get_dump_list5
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
@@ -285,11 +320,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [
-            ["dump1", "dump2"],
-            [["dump1"], ["dump2"],
-             ["dump3", "PARTIAL", None, None, None, None, None, None, None,
-              0]]]
+        mock_list.return_value = self.get_dump_list4
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
@@ -324,11 +355,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [
-            ["dump1", "dump2"],
-            [["dump1"], ["dump2"],
-             ["dump3", "INCOMPATIBLE", None, None, None, None, None, None,
-              None, 0]]]
+        mock_list.return_value = self.get_dump_list3
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
@@ -363,20 +390,15 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [
-            ["dump1", "dump2"],
-            [["dump1"], ["dump2"],
-             ["dump3", "IN_PROGRESS", None, None, None, None, None, None, None,
-              0],
-             ["dump3", "SUCCESS", None, None, None, None, None, None, None,
-              0]]]
+        mock_list.return_value = self.get_dump_list2
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         els.connect()
         els.dump_name = "dump3"
-        self.assertEqual(els._chk_status(self.break_flag), (False, None, True))
+        self.assertEqual(
+            els._chk_status(self.break_flag), (False, None, False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
@@ -401,11 +423,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [
-            ["dump1", "dump2"],
-            [["dump1"], ["dump2"],
-             ["dump3", "SUCCESS", None, None, None, None, None, None, None,
-              0]]]
+        mock_list.return_value = self.get_dump_list
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 

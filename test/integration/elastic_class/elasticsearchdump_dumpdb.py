@@ -273,7 +273,11 @@ class UnitTest(unittest.TestCase):
 
         err_flag, status_msg = esd.dump_db()
 
-        self.assertEqual((err_flag, status_msg), (True, self.msg))
+        if not esd.repo_name:
+            self.assertEqual((err_flag, status_msg), (True, self.msg))
+
+        else:
+            self.assertEqual((err_flag, status_msg), (False, None))
 
     def tearDown(self):
 

@@ -137,6 +137,11 @@ class UnitTest(unittest.TestCase):
                                          {"path": {"data": ["/dir/data2"],
                                                    "logs": ["/dir/logs2"]}}}}
         self.health_data = {"status": "green", "cluster_name": "ClusterName"}
+        self.get_dump_list = (
+            [{"snapshot": "dump1"}, {"snapshot": "dump2"}], True, None)
+        self.get_dump_list2 = (
+            [{"snapshot": "dump1"}, {"snapshot": "dump2"},
+             {"snapshot": "dump3"}], True, None)
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
     @mock.patch("elastic_class.create_snapshot", mock.Mock())
@@ -165,8 +170,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [["dump1", "dump2"],
-                                 ["dump1", "dump2", "dump3"]]
+        mock_list.side_effect = [self.get_dump_list, self.get_dump_list2]
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
@@ -204,8 +208,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [["dump1", "dump2"],
-                                 ["dump1", "dump2", "dump3"]]
+        mock_list.side_effect = [self.get_dump_list, self.get_dump_list2]
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 
@@ -242,8 +245,7 @@ class UnitTest(unittest.TestCase):
         """
 
         mock_es.return_value = self.els
-        mock_list.side_effect = [["dump1", "dump2"],
-                                 ["dump1", "dump2", "dump3"]]
+        mock_list.side_effect = [self.get_dump_list, self.get_dump_list2]
         mock_nodes.return_value = self.nodes_data
         mock_health.return_value = self.health_data
 

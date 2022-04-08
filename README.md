@@ -112,6 +112,7 @@ test/unit/elastic_class/code_coverage.sh
 # Integration Testing:
 
 NOTES:
+  * For several of the tests to work the Elasticsearch needs to have xpack.security.enabled set to true.
   * These tests need to run as the same user who is running the elasticsearch database, normally the elasticsearch user.
   * These tests require that the Elasticsearch database/cluster do not have any created repositories, otherwise the tests will be skipped.  
   * The path.repo needs to be set in the elasticsearch.yml file to register a path for any repositories to be created.

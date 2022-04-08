@@ -85,7 +85,11 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         esr.connect()
 
-        self.assertTrue(not esr.repo and not esr.repo_dict)
+        if esr.repo_dict:
+            self.assertTrue(not esr.repo and esr.repo_dict)
+
+        else:
+            self.assertTrue(not esr.repo and not esr.repo_dict)
 
     def test_init(self):
 
