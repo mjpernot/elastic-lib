@@ -273,7 +273,7 @@ class UnitTest(unittest.TestCase):
 
         err_flag, status_msg = esd.dump_db()
 
-        if len(elastic_class(esd).keys()) == 0:
+        if not esd.repo_name:
             self.assertEqual((err_flag, status_msg), (True, self.msg))
 
         else:
