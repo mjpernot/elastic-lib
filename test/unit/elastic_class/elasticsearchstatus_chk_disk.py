@@ -60,21 +60,27 @@ class UnitTest(unittest.TestCase):
 
         """
 
+        disk_tot = "disk.total"
+        disk_avl = "disk.avail"
+        disk_use = "disk.used"
+        disk_per = "disk.percent"
+        disk_ind = "disk.indices"
+
         self.host_list = ["host1", "host2"]
         self.disk_list = [
-            {"node": "nodename", "disk.total": "100gb", "shards": "101",
-             "disk.avail": "75gb", "disk.used": "20gb", "host": "servername",
-             "disk.percent": "21", "ip": "ip.addr", "disk.indices": "15gb"},
-            {"node": "nodename2", "disk.total": "110gb", "shards": "101",
-             "disk.avail": "65gb", "disk.used": "30gb", "host": "servername2",
-             "disk.percent": "31", "ip": "ip.addr2", "disk.indices": "20gb"}]
+            {"node": "nodename", disk_tot: "100gb", "shards": "101",
+             disk_avl: "75gb", disk_use: "20gb", "host": "servername",
+             disk_per: "21", "ip": "ip.addr", disk_ind: "15gb"},
+            {"node": "nodename2", disk_tot: "110gb", "shards": "101",
+             disk_avl: "65gb", disk_use: "30gb", "host": "servername2",
+             disk_per: "31", "ip": "ip.addr2", disk_ind: "20gb"}]
         self.disk_list2 = [
-            {"node": "nodename", "disk.total": "100gb", "shards": "101",
-             "disk.avail": "75gb", "disk.used": "20gb", "host": "servername",
-             "disk.percent": "21", "ip": "ip.addr", "disk.indices": "15gb"},
-            {"node": "nodename2", "disk.total": "110gb", "shards": "101",
-             "disk.avail": "65gb", "disk.used": "30gb", "host": "servername2",
-             "disk.percent": "90", "ip": "ip.addr2", "disk.indices": "20gb"}]
+            {"node": "nodename", disk_tot: "100gb", "shards": "101",
+             disk_avl: "75gb", disk_use: "20gb", "host": "servername",
+             disk_per: "21", "ip": "ip.addr", disk_ind: "15gb"},
+            {"node": "nodename2", disk_tot: "110gb", "shards": "101",
+             disk_avl: "65gb", disk_use: "30gb", "host": "servername2",
+             disk_per: "90", "ip": "ip.addr2", disk_ind: "20gb"}]
         self.results = {}
         self.results2 = {
             "DiskWarning": {"nodename2": {

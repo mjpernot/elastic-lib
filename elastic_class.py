@@ -48,6 +48,9 @@ import version
 
 __version__ = version.__version__
 
+# Global
+DISK_PER = "disk.percent"
+
 
 def create_snapshot(els, reponame, body, dumpname):
 
@@ -1188,13 +1191,15 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
+        global DISK_PER
+
         data = {"DiskUsage": {}}
 
         for node in self.disk_list:
             data["DiskUsage"][node["node"]] = {
                 "Total": node["disk.total"], "Available": node["disk.avail"],
                 "TotalUsed": node["disk.used"], "ESUsed": node["disk.indices"],
-                "Percent": node["disk.percent"]}
+                "Percent": node[DISK_PER]}
 
         return data
 
@@ -1427,6 +1432,8 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
+        global DISK_PER
+
         data = {"DiskWarning": {}}
 
         if cutoff_disk or cutoff_disk == 0:
@@ -1435,11 +1442,11 @@ class ElasticSearchStatus(ElasticSearch):
         for node in (disk for disk in self.disk_list
                      if disk["node"] != "UNASSIGNED"):
 
-            if int(node["disk.percent"]) >= self.cutoff_disk:
+            if int(node[DISK_PER]) >= self.cutoff_disk:
                 data["DiskWarning"][node["node"]] = {
                     "Reason": "Have reached disk usage threshold",
                     "ThresholdPercent": self.cutoff_disk,
-                    "UsedPercent": node["disk.percent"],
+                    "UsedPercent": node[DISK_PER],
                     "TotalDisk": node["disk.total"],
                     "TotalUsed": node["disk.used"],
                     "Available": node["disk.avail"],
