@@ -70,7 +70,7 @@ class Repo(object):
              disk_avl: "65gb", disk_use: "30gb", "host": "servername2",
              disk_per: "31", "ip": "ip.addr2", disk_ind: "20gb"}]
 
-    def allocation(self, format):
+    def allocation(self, **kwargs):
 
         """Method:  allocation
 
@@ -80,7 +80,7 @@ class Repo(object):
 
         """
 
-        self.format = format
+        self.format = kwargs.get("format", None)
 
         return self.disks
 

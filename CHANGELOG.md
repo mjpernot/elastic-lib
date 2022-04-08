@@ -6,6 +6,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 ## [4.0.0] - 2022-02-17
 Breaking Change
+- Updated to work in Elasticsearch 7.17.0
+
 
 ### Fixed
 - elastic_class.ElasticSearchStatus.chk_disk: Ignore UNASSIGNED disk and check for cutoff disk argument if set to zero.
