@@ -33,18 +33,23 @@
 """
 
 # Libraries and Global Variables
+from __future__ import absolute_import
 
 # Standard
 import datetime
 import time
-
-# Third-party
 import elasticsearch
 
 # Local
-import elastic_libs
-import lib.gen_libs as gen_libs
-import version
+try:
+    from . import elastic_libs
+    from .lib import gen_libs
+    from . import version
+
+except (ValueError, ImportError) as err:
+    import elastic_libs
+    import lib.gen_libs as gen_libs
+    import version
 
 __version__ = version.__version__
 
@@ -564,11 +569,11 @@ class ElasticSearchDump(ElasticSearch):
         elif not self.repo_name:
 
             # Use if only one repository exists.
-            if len(repo_dict.keys()) == 1:
+            if len(list(repo_dict.keys())) == 1:
                 self.repo_name = next(iter(repo_dict))
 
             # Cannot set if multiple repositories exist.
-            elif len(repo_dict.keys()) >= 1:
+            elif len(list(repo_dict.keys())) >= 1:
                 self.repo_name = None
 
         if self.repo_name:

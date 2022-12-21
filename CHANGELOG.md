@@ -8,6 +8,10 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - Updated to work in Python 3 too
 - Upgraded python-lib to v2.9.4
 
+### Changed
+- Converted imports to use Python 2.7 or Python 3.
+- elastic_class.ElasticSearchDump.update_dump_status: Converted dictionary keys() call to list.
+
 
 ## [4.0.0] - 2022-02-17
 Breaking Change
