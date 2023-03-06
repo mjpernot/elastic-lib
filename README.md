@@ -6,21 +6,10 @@
 
 
 ### This README file is broken down into the following sections:
-  *  Prerequisites
   *  Installation
   *  Testing
      - Unit
      - Integration
-
-
-# Prerequisites:
-  * List of Linux packages that need to be installed on the server.
-    - git
-    - python-pip
-
-  * Local class/library dependencies within the program structure.
-    - elastic-lib
-    - python-lib
 
 
 # Installation
