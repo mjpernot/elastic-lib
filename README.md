@@ -6,21 +6,10 @@
 
 
 ### This README file is broken down into the following sections:
-  *  Prerequisites
   *  Installation
   *  Testing
      - Unit
      - Integration
-
-
-# Prerequisites:
-  * List of Linux packages that need to be installed on the server.
-    - git
-    - python-pip
-
-  * Local class/library dependencies within the program structure.
-    - elastic-lib
-    - python-lib
 
 
 # Installation
@@ -132,7 +121,7 @@ cp elastic.py.TEMPLATE elastic.py
 
 Make the appropriate changes to the Elasticsearch environment.
   * Change these entries in the elastic.py file:
-    - host = ["HOST_NAME1", "HOST_NAME2"]
+    - host = ["https://HOST_NAME1:9200", "https://HOST_NAME2:9200"]
     - log_repo_dir = "LOGICAL_DIR_PATH"
     - phy_repo_dir = "PHYSICAL_DIR_PATH"
   * **LOGICAL_DIR_PATH** is the logical directory path to the share file system.

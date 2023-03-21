@@ -6,7 +6,7 @@
 
 echo ""
 echo "Unit test:  elastic_libs"
-/usr/bin/python ./test/unit/elastic_libs/get_latest_dump.py
-/usr/bin/python ./test/unit/elastic_libs/list_dumps.py
-/usr/bin/python ./test/unit/elastic_libs/list_repos2.py
+/usr/bin/python3 ./test/unit/elastic_libs/get_latest_dump.py
+/usr/bin/python3 ./test/unit/elastic_libs/list_dumps.py
+/usr/bin/python3 ./test/unit/elastic_libs/list_repos2.py
 

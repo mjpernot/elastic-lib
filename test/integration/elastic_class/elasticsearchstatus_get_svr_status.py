@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # Classification (U)
 
 """Program:  elasticsearchstatus_get_svr_status.py
@@ -18,13 +17,7 @@
 # Standard
 import sys
 import os
-
-if sys.version_info < (2, 7):
-    import unittest2 as unittest
-else:
-    import unittest
-
-# Third-party
+import unittest
 
 # Local
 sys.path.append(os.getcwd())
@@ -75,13 +68,13 @@ class UnitTest(unittest.TestCase):
         ess = elastic_class.ElasticSearchStatus(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         ess.connect()
-        data = ess.uptime / 1000
+        data = int(ess.uptime / 1000)
         seconds = data % 60
-        data /= 60
+        data = int(data / 60)
         minutes = data % 60
-        data /= 60
+        data = int(data / 60)
         hours = data % 24
-        data /= 24
+        data = int(data / 24)
         days = data
         uptime = "%d days %d hours %d minutes %d seconds" \
                  % (days, hours, minutes, seconds)
