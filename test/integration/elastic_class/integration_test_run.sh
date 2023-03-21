@@ -6,38 +6,38 @@
 
 echo ""
 echo "Integration test:  elastic_class"
-test/integration/elastic_class/elasticsearch_init.py
-test/integration/elastic_class/elasticsearch_connect.py
-test/integration/elastic_class/elasticsearch_update.py
-test/integration/elastic_class/elasticsearchdump.py
-test/integration/elastic_class/elasticsearchdump_connect.py
-test/integration/elastic_class/elasticsearchdump_dumpdb.py
-test/integration/elastic_class/elasticsearchdump_update_dump_status.py
-test/integration/elastic_class/elasticsearchrepo.py
-test/integration/elastic_class/elasticsearchrepo_connect.py
-test/integration/elastic_class/elasticsearchrepo_createrepo.py
-test/integration/elastic_class/elasticsearchrepo_deleterepo.py
-test/integration/elastic_class/elasticsearchrepo_deletedump.py
-test/integration/elastic_class/elasticsearchrepo_deletedumpall.py
-test/integration/elastic_class/elasticsearchrepo_update_repo_status.py
-test/integration/elastic_class/elasticsearchstatus.py
-test/integration/elastic_class/elasticsearchstatus_chk_all.py
-test/integration/elastic_class/elasticsearchstatus_chk_disk.py
-test/integration/elastic_class/elasticsearchstatus_chk_mem.py
-test/integration/elastic_class/elasticsearchstatus_chk_nodes.py
-test/integration/elastic_class/elasticsearchstatus_chk_server.py
-test/integration/elastic_class/elasticsearchstatus_chk_shards.py
-test/integration/elastic_class/elasticsearchstatus_chk_status.py
-test/integration/elastic_class/elasticsearchstatus_connect.py
-test/integration/elastic_class/elasticsearchstatus_get_all.py
-test/integration/elastic_class/elasticsearchstatus_get_cluster.py
-test/integration/elastic_class/elasticsearchstatus_get_disk_status.py
-test/integration/elastic_class/elasticsearchstatus_get_dump_disk_status.py
-test/integration/elastic_class/elasticsearchstatus_get_gen_status.py
-test/integration/elastic_class/elasticsearchstatus_get_mem_status.py
-test/integration/elastic_class/elasticsearchstatus_get_nodes.py
-test/integration/elastic_class/elasticsearchstatus_get_node_status.py
-test/integration/elastic_class/elasticsearchstatus_get_shrd_status.py
-test/integration/elastic_class/elasticsearchstatus_get_svr_status.py
-test/integration/elastic_class/elasticsearchstatus_update_status2.py
+/usr/bin/python test/integration/elastic_class/elasticsearch_init.py
+/usr/bin/python test/integration/elastic_class/elasticsearch_connect.py
+/usr/bin/python test/integration/elastic_class/elasticsearch_update.py
+/usr/bin/python test/integration/elastic_class/elasticsearchdump.py
+/usr/bin/python test/integration/elastic_class/elasticsearchdump_connect.py
+/usr/bin/python test/integration/elastic_class/elasticsearchdump_dumpdb.py
+/usr/bin/python test/integration/elastic_class/elasticsearchdump_update_dump_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchrepo.py
+/usr/bin/python test/integration/elastic_class/elasticsearchrepo_connect.py
+/usr/bin/python test/integration/elastic_class/elasticsearchrepo_createrepo.py
+/usr/bin/python test/integration/elastic_class/elasticsearchrepo_deleterepo.py
+/usr/bin/python test/integration/elastic_class/elasticsearchrepo_deletedump.py
+/usr/bin/python test/integration/elastic_class/elasticsearchrepo_deletedumpall.py
+/usr/bin/python test/integration/elastic_class/elasticsearchrepo_update_repo_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_chk_all.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_chk_disk.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_chk_mem.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_chk_nodes.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_chk_server.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_chk_shards.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_chk_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_connect.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_all.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_cluster.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_disk_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_dump_disk_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_gen_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_mem_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_nodes.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_node_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_shrd_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_get_svr_status.py
+/usr/bin/python test/integration/elastic_class/elasticsearchstatus_update_status2.py
 
