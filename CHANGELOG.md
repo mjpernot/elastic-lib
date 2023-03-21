@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.1] - 2022-12-21
+- Updated to work in Python 3 too
+- Upgraded python-lib to v2.9.4
+
+### Changed
+- requirements.txt: Added requests==2.6.0 and certifi==2019.11.28.
+- Converted imports to use Python 2.7 or Python 3.
+- elastic_class.ElasticSearchDump.update_dump_status: Converted dictionary keys() call to list.
+
+
 ## [4.0.0] - 2022-02-17
 Breaking Change
 - Updated to work in Elasticsearch 7.17.0

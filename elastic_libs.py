@@ -13,12 +13,19 @@
 """
 
 # Libraries and Global Variables
+from __future__ import print_function
+from __future__ import absolute_import
 
 # Standard
 
 # Local
-import lib.gen_libs as gen_libs
-import version
+try:
+    from .lib import gen_libs
+    from . import version
+
+except (ValueError, ImportError) as err:
+    import lib.gen_libs as gen_libs
+    import version
 
 __version__ = version.__version__
 
