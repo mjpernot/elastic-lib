@@ -7,6 +7,8 @@
 
 ### This README file is broken down into the following sections:
   *  Installation
+     - Pip Installation
+     - Git Installation
   *  Testing
      - Unit
      - Integration
@@ -15,7 +17,6 @@
 # Installation
   * From here on out, any reference to **{Python_Project}** or **PYTHON_PROJECT** replace with the baseline path of the python program.
   * Replace any reference to **{Other_Python_Project}** with the baseline path of another python program.
-  * There are two types of installs: pip and git.
 
 ### Pip Installation:
 
@@ -24,27 +25,51 @@
 Create requirements-elastic-lib.txt and requirements-elastic-python-lib.txt files:
 
 ```
-cd {Python_Project}
-cp requirements-elastic-lib.txt {Other_Python_Project}/requirements-elastic-lib.txt
-cp requirements-python-lib.txt {Other_Python_Project}/requirements-elastic-python-lib.txt
+cp {Python_Project}/requirements-elastic-lib.txt {Other_Python_Project}/requirements-elastic-lib.txt
+cp {Python_Project}/requirements-python-lib.txt {Other_Python_Project}/requirements-elastic-python-lib.txt
 ```
 
 ##### Modify the other program's README.md file to add the pip commands under the "Install supporting classes and libraries" section.
 
 Modify the {Other_Python_Project}/README.md file and add the following line:
 
+Centos 7 (Running Python 2.7):
 ```
 pip install -r requirements-elastic-lib.txt --target elastic_lib --trusted-host pypi.appdev.proj.coe.ic.gov
 pip install -r requirements-elastic-python-lib.txt --target elastic_lib/lib --trusted-host pypi.appdev.proj.coe.ic.gov
+```
+
+Redhat 8 (Running Python 3.6):
+```
+python -m pip install -r requirements-elastic-lib.txt --target elastic_lib --trusted-host pypi.appdev.proj.coe.ic.gov
+python -m pip install -r requirements-elastic-python-lib.txt --target elastic_lib/lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
 ##### Add the general elastic-lib requirements to the other program's requirements.txt file.  Remove any duplicates.
 
 Modify the {Other_Python_Project}/requirements.txt file and add the following line:
 
+Centos 7 (Running Python 2.7):
 ```
-elasticsearch>=7.0.0,<8.0.0
+certifi==2019.11.28
+chardet==3.0.4
+requests==2.6.0
+distro==1.6.0
+simplejson==2.0.9
 urllib3==1.24.3
+elasticsearch==7.7.19
+email==4.0.3
+```
+
+Redhat 8 (Running Python 3.6):
+```
+certifi==2019.11.28
+chardet==3.0.4
+requests==2.6.0
+distro==1.6.0
+simplejson==3.12.0
+urllib3==1.24.3
+elasticsearch==7.7.19
 ```
 
 ### Git Installation:
@@ -52,24 +77,36 @@ urllib3==1.24.3
 Install general Elastic libraries and classes using git.
 
 ```
-cd {Python_Project}
 git clone git@sc.appdev.proj.coe.ic.gov:JAC-DSXD/elastic-lib.git
+cd elastic-lib
 ```
 
 Install/upgrade system modules.
 
+Centos 7 (Running Python 2.7):
 ```
-sudo bash
-umask 022
-pip install -r requirements.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
-exit
+sudo pip install -r requirements.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
+
+Redhat 8 (Running Python 3.6):
+NOTE: Install as the user that will use the package.
+
+```
+python -m pip install --user -r requirements.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
+```
+
 
 Install supporting classes and libraries
 
+Centos 7 (Running Python 2.7):
 ```
-cd elastic-lib
 pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
+```
+
+Redhat 8 (Running Python 3.6):
+
+```
+python -m pip install -r requirements-python-lib.txt --target lib --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
 
@@ -92,7 +129,6 @@ test/unit/elastic_class/unit_test_run.sh
 ### Code coverage:
 
 ```
-cd {Python_Project}/elastic-lib
 test/unit/elastic_libs/code_coverage.sh
 test/unit/elastic_class/code_coverage.sh
 ```
@@ -137,14 +173,12 @@ sudo chown elasticsearch:elasticsearch elastic.py
 ### Testing:
 
 ```
-cd {Python_Project}/elastic_lib
 test/integration/elastic_class/integration_test_run.sh
 ```
 
 ### Code coverage:
 
 ```
-cd {Python_Project}/elastic_lib
 test/integration/elastic_class/code_coverage.sh
 ```
 
