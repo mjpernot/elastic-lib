@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.3] - 2024-07-30
+- Set urllib3 to 1.26.19 for Python 2 for security reasons.
+
+### Added
+- elastic.py - Template Elasticsearch configuration file.
+
+
 ## [4.0.2] - 2024-02-29
 - Updated to work in Red Hat 8
 - Updated python-lib to v3.0.3
