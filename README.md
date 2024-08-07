@@ -47,30 +47,11 @@ python -m pip install -r requirements-elastic-python-lib.txt --target elastic_li
 
 ##### Add the general elastic-lib requirements to the other program's requirements.txt file.  Remove any duplicates.
 
-Modify the {Other_Python_Project}/requirements.txt file and add the following line:
-
 Centos 7 (Running Python 2.7):
-```
-certifi==2019.11.28
-chardet==3.0.4
-requests==2.6.0
-distro==1.6.0
-simplejson==2.0.9
-urllib3==1.24.3
-elasticsearch==7.7.19
-email==4.0.3
-```
+requirements.txt
 
 Redhat 8 (Running Python 3.6):
-```
-certifi==2019.11.28
-chardet==3.0.4
-requests==2.6.0
-distro==1.6.0
-simplejson==3.12.0
-urllib3==1.24.3
-elasticsearch==7.7.19
-```
+requirements3.txt
 
 ### Git Installation:
 
