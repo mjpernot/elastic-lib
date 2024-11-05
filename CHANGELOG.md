@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.6] - 2024-11-05
+- Updated certifi==2024.6.2 for Python 3.
+- Updated chardet==4.0.0 for Python 3.
+- Updated distro==1.9.0 for Python 3.
+- Updated idna==2.10 for Python 3.
+- Updated urllib3==1.26.19 for Python 3.
+- Updated requests==2.25.0 for Python 3.
+- Added elastic-transport==8.10.0 for Python 3.
+- Updated elasticsearch==8.11.1 for Python 3.
+- Updated python-lib to v3.0.7
+
+
 ## [4.0.5] - 2024-09-27
 - Updated simplejson==3.13.2 for Python 3
 - Updated python-lib to v3.0.5

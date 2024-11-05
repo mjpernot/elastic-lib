@@ -103,8 +103,8 @@ Install the project using the procedures in the Git Installation section.
 
 ```
 cd {Python_Project}/elastic-lib
-test/unit/elastic_libs/unit_test_run.sh
-test/unit/elastic_class/unit_test_run.sh
+test/unit/elastic_libs/unit_test_run3.sh
+test/unit/elastic_class/unit_test_run3.sh
 ```
 
 ### Code coverage:
@@ -154,7 +154,7 @@ sudo chown elasticsearch:elasticsearch elastic.py
 ### Testing:
 
 ```
-test/integration/elastic_class/integration_test_run.sh
+test/integration/elastic_class/integration_test_run3.sh
 ```
 
 ### Code coverage:
