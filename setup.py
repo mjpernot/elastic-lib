@@ -55,7 +55,14 @@ setuptools.setup(
         "Operating System :: Linux :: RedHat :: 8",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.6",
-        "Topic :: Database",
+        "Operating System :: Linux :: RedHat :: 9",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.9",
+        "Operating System :: Linux :: Fedora",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.12",
+        "Topic :: Database :: Elasticsearch",
         "Topic :: Database :: Elasticsearch :: 7.4",
         "Topic :: Database :: Elasticsearch :: 7.12",
-        "Topic :: Database :: Elasticsearch :: 7.17"])
+        "Topic :: Database :: Elasticsearch :: 7.17",
+        "Topic :: Database :: Elasticsearch :: 8.14"])
