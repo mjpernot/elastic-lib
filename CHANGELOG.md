@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.7] - 2024-11-18
+- Updated python-lib to v3.0.8
+
+### Fixed
+- Set chardet==3.0.4 for Python 3.
+
+### Deprecated
+- Support for Python 2.7
+
+
 ## [4.0.6] - 2024-11-05
 - Updated certifi==2024.6.2 for Python 3.
 - Updated chardet==4.0.0 for Python 3.
