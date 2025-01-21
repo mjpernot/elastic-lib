@@ -33,7 +33,6 @@
 """
 
 # Libraries and Global Variables
-from __future__ import absolute_import
 
 # Standard
 import datetime
@@ -48,13 +47,12 @@ try:
 
 except (ValueError, ImportError) as err:
     import elastic_libs
-    import lib.gen_libs as gen_libs
+    import lib.gen_libs as gen_libs                     # pylint:disable=R0402
     import version
 
 __version__ = version.__version__
 
 # Global
-DISK_PER = "disk.percent"
 
 
 def create_snapshot(els, reponame, body, dumpname):
@@ -91,8 +89,8 @@ def create_snapshot_repo(els, reponame, body, verify=True):
     """
 
     body = dict(body)
-    return els.snapshot.create_repository(repository=reponame, body=body,
-                                          verify=verify)
+    return els.snapshot.create_repository(
+        repository=reponame, body=body, verify=verify)
 
 
 def delete_snapshot(els, reponame, dumpname):
@@ -336,7 +334,7 @@ def is_active(els):
     return els.ping()
 
 
-class ElasticSearch(object):
+class ElasticSearch():
 
     """Class:  ElasticSearch
 
@@ -497,7 +495,7 @@ class ElasticSearchDump(ElasticSearch):
         connect
         update_dump_status
         dump_db
-        _chk_status
+        chk_status
 
     """
 
@@ -621,7 +619,7 @@ class ElasticSearchDump(ElasticSearch):
 
             while not break_flag and not err_flag:
 
-                err_flag, status_msg, break_flag = self._chk_status(break_flag)
+                err_flag, status_msg, break_flag = self.chk_status(break_flag)
 
             self.dump_list, _, _ = get_dump_list(self.els, self.repo_name)
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
@@ -632,9 +630,9 @@ class ElasticSearchDump(ElasticSearch):
 
         return err_flag, status_msg
 
-    def _chk_status(self, break_flag):
+    def chk_status(self, break_flag):
 
-        """Function:  _chk_status
+        """Function:  chk_status
 
         Description:  Check status of database dump.
 
@@ -1196,7 +1194,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        global DISK_PER
+        disk_per = "disk.percent"
 
         data = {"DiskUsage": {}}
 
@@ -1204,7 +1202,7 @@ class ElasticSearchStatus(ElasticSearch):
             data["DiskUsage"][node["node"]] = {
                 "Total": node["disk.total"], "Available": node["disk.avail"],
                 "TotalUsed": node["disk.used"], "ESUsed": node["disk.indices"],
-                "Percent": node[DISK_PER]}
+                "Percent": node[disk_per]}
 
         return data
 
@@ -1437,7 +1435,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        global DISK_PER
+        disk_per = "disk.percent"
 
         data = {"DiskWarning": {}}
 
@@ -1447,11 +1445,11 @@ class ElasticSearchStatus(ElasticSearch):
         for node in (disk for disk in self.disk_list
                      if disk["node"] != "UNASSIGNED"):
 
-            if int(node[DISK_PER]) >= self.cutoff_disk:
+            if int(node[disk_per]) >= self.cutoff_disk:
                 data["DiskWarning"][node["node"]] = {
                     "Reason": "Have reached disk usage threshold",
                     "ThresholdPercent": self.cutoff_disk,
-                    "UsedPercent": node[DISK_PER],
+                    "UsedPercent": node[disk_per],
                     "TotalDisk": node["disk.total"],
                     "TotalUsed": node["disk.used"],
                     "Available": node["disk.avail"],

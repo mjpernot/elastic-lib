@@ -20,13 +20,13 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_class
-import version
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class Repo(object):
+class Repo():                                           # pylint:disable=R0903
 
     """Class:  Repo
 
@@ -57,7 +57,7 @@ class Repo(object):
              "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr2",
              "store": "15mb"}]
 
-    def shards(self, format):
+    def shards(self, data):
 
         """Method:  shards
 
@@ -67,12 +67,12 @@ class Repo(object):
 
         """
 
-        self.format = format
+        self.format = data
 
         return self.shard_list
 
 
-class Elasticsearch(object):
+class Elasticsearch():                                  # pylint:disable=R0903
 
     """Class:  ElasticSearch
 

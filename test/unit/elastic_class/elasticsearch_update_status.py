@@ -21,13 +21,13 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_class
-import version
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class Elasticsearch(object):
+class Elasticsearch():                                  # pylint:disable=R0903
 
     """Class:  ElasticSearch
 
@@ -122,8 +122,9 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_single_node(self, mock_es, mock_nodes, mock_info, mock_health,
-                         mock_master, mock_cluster):
+    def test_single_node(                               # pylint:disable=R0913
+            self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
+            mock_cluster):
 
         """Function:  test_single_node
 
@@ -151,8 +152,9 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_multiple_nodes(self, mock_es, mock_nodes, mock_info, mock_health,
-                            mock_master, mock_cluster):
+    def test_multiple_nodes(                            # pylint:disable=R0913
+            self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
+            mock_cluster):
 
         """Function:  test_multiple_nodes
 
@@ -180,8 +182,9 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_update_status(self, mock_es, mock_nodes, mock_info, mock_health,
-                           mock_master, mock_cluster):
+    def test_update_status(                             # pylint:disable=R0913
+            self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
+            mock_cluster):
 
         """Function:  test_update_status
 

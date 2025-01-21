@@ -2,7 +2,7 @@
 
 """Program:  elasticsearchdump_chk_status.py
 
-    Description:  Unit testing of _chk_status in
+    Description:  Unit testing of chk_status in
         elastic_class.ElasticSearchDump class.
 
     Usage:
@@ -22,13 +22,13 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_class
-import version
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class Repo(object):
+class Repo():
 
     """Class:  Repo
 
@@ -85,7 +85,7 @@ class Repo(object):
         return True
 
 
-class Elasticsearch(object):
+class Elasticsearch():
 
     """Class:  ElasticSearch
 
@@ -253,7 +253,7 @@ class UnitTest(unittest.TestCase):
         els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
-            els._chk_status(self.break_flag),
+            els.chk_status(self.break_flag),
             (True, "Unknown error 'UNKNOWN' detected on reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -287,7 +287,7 @@ class UnitTest(unittest.TestCase):
         els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
-            els._chk_status(self.break_flag),
+            els.chk_status(self.break_flag),
             (True, "Dump failed to finish on reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -321,7 +321,7 @@ class UnitTest(unittest.TestCase):
         els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
-            els._chk_status(self.break_flag),
+            els.chk_status(self.break_flag),
             (True, "Partial dump completed on reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -356,7 +356,7 @@ class UnitTest(unittest.TestCase):
         els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
-            els._chk_status(self.break_flag),
+            els.chk_status(self.break_flag),
             (True, "Older version of ES detected: reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
@@ -391,7 +391,7 @@ class UnitTest(unittest.TestCase):
         els.connect()
         els.dump_name = "dump3"
         self.assertEqual(
-            els._chk_status(self.break_flag), (False, None, False))
+            els.chk_status(self.break_flag), (False, None, False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))
@@ -423,7 +423,7 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearchDump(self.host_list, repo=self.repo)
         els.connect()
         els.dump_name = "dump3"
-        self.assertEqual(els._chk_status(self.break_flag), (False, None, True))
+        self.assertEqual(els.chk_status(self.break_flag), (False, None, True))
 
 
 if __name__ == "__main__":
