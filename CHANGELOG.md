@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.8] - 2025-01-21
+- Updated certifi==2024.12.14
+- Updated urllib3==1.26.20
+- Downgraded elasticsearch==7.17.9
+- Updated python-lib==4.0.0
+
+### Fixed
+- Downgraded elasticsearch library from 8.11.1 to 7.17.19
+
+### Changed
+- Documentation changes.
+
+### Deprecated
+- Support for Elasticsearch v7.4, v7.12 and v7.17
+
+
 ## [4.0.7] - 2024-11-18
 - Updated python-lib to v3.0.8
 
