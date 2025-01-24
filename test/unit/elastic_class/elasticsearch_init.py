@@ -20,8 +20,8 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_class
-import version
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -169,7 +169,7 @@ class UnitTest(unittest.TestCase):
         """
 
         els = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual(els.ca_cert, None)
+        self.assertIsNone(els.ca_cert)
 
     def test_login_info_passed2(self):
 

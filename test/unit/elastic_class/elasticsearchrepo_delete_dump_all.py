@@ -22,13 +22,13 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_class
-import version
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class Elasticsearch(object):
+class Elasticsearch():                                  # pylint:disable=R0903
 
     """Class:  ElasticSearch
 
@@ -155,7 +155,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(
             els.delete_dump_all(),
-            (True, "ERROR:  Repo:  None is not present or missing argument."))
+            (True, "ERROR: Repo: None is not present or missing argument."))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))

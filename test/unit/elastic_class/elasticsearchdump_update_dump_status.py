@@ -22,13 +22,13 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_class
-import version
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class Repo2(object):
+class Repo2():                                          # pylint:disable=R0903
 
     """Class:  Repo2
 
@@ -55,7 +55,7 @@ class Repo2(object):
                               {"location": "/dir/path/dump2"}}}
 
 
-class Repo(object):
+class Repo():                                           # pylint:disable=R0903
 
     """Class:  Repo
 
@@ -80,7 +80,7 @@ class Repo(object):
                              {"location": "/dir/path/dump"}}}
 
 
-class Elasticsearch(object):
+class Elasticsearch():
 
     """Class:  ElasticSearch
 
@@ -186,15 +186,15 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(return_value="dump2"))
-    @mock.patch("elastic_class.ElasticSearchDump._chk_status",
+    @mock.patch("elastic_class.ElasticSearchDump.chk_status",
                 mock.Mock(return_value=(False, None, True)))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.datetime.datetime")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_dupe_name(self, mock_es, mock_list, mock_date, mock_nodes,
-                       mock_health):
+    def test_dupe_name(                                 # pylint:disable=R0913
+            self, mock_es, mock_list, mock_date, mock_nodes, mock_health):
 
         """Function:  test_dupe_name
 

@@ -13,8 +13,6 @@
 """
 
 # Libraries and Global Variables
-from __future__ import print_function
-from __future__ import absolute_import
 
 # Standard
 
@@ -24,7 +22,7 @@ try:
     from . import version
 
 except (ValueError, ImportError) as err:
-    import lib.gen_libs as gen_libs
+    import lib.gen_libs as gen_libs                     # pylint:disable=R0402
     import version
 
 __version__ = version.__version__
@@ -77,16 +75,15 @@ def list_dumps(dump_list, **kwargs):
             gen_libs.print_dict(item, json_fmt=True)
 
     else:
-        print("{0:15} {1:30} {2:14} {3:11} {4:11} {5:100}".
-              format("Status", "Start Time", "Shard Success", "Shard Fail",
-                     "Shard Total", "Database Dump Name"))
+        print(f'{"Status":15} {"Start Time":30} {"Shard Success":14}'
+              f' {"Shard Fail":11} {"Shard Total":11}'
+              f' {"Database Dump Name":100}')
 
         for item in dump_list:
-            print("{0:15} {1:30} {2:13} {3:11} {4:12} {5:100}".
-                  format(
-                      item["state"], item["start_time"],
-                      item["shards"]["successful"], item["shards"]["failed"],
-                      item["shards"]["total"], item["snapshot"]))
+            print(f'{item["state"]:15} {item["start_time"]:30}'
+                  f' {item["shards"]["successful"]:13}'
+                  f' {item["shards"]["failed"]:11}'
+                  f' {item["shards"]["total"]:12} {item["snapshot"]:100}')
 
 
 def list_repos2(repo_list):
@@ -102,8 +99,7 @@ def list_repos2(repo_list):
 
     repo_list = dict(repo_list)
 
-    print("{0:30} {1}".format("Repository Name", "Location"))
+    print(f'{"Repository Name":30} {"Location"}')
 
     for repo in repo_list:
-        print("{0:30} {1}".format(repo,
-                                  repo_list[repo]["settings"]["location"]))
+        print(f'{repo:30} {repo_list[repo]["settings"]["location"]}')

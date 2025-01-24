@@ -22,13 +22,13 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_class
-import version
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class Elasticsearch(object):
+class Elasticsearch():                                  # pylint:disable=R0903
 
     """Class:  ElasticSearch
 
@@ -127,8 +127,9 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_shards")
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_ping_true(self, mock_es, mock_health, mock_shards, mock_status,
-                       mock_disks, mock_repo):
+    def test_ping_true(                                 # pylint:disable=R0913
+            self, mock_es, mock_health, mock_shards, mock_status, mock_disks,
+            mock_repo):
 
         """Function:  test_ping_true
 

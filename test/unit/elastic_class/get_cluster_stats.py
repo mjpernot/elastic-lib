@@ -20,13 +20,13 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_class
-import version
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class Repo(object):
+class Repo():                                           # pylint:disable=R0903
 
     """Class:  Repo
 
@@ -50,7 +50,7 @@ class Repo(object):
         return {"shards": 100, "disk": 2}
 
 
-class Elasticsearch(object):
+class Elasticsearch():                                  # pylint:disable=R0903
 
     """Class:  ElasticSearch
 

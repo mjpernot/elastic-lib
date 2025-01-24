@@ -22,13 +22,13 @@ import mock
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_class
-import version
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
 
-class Elasticsearch(object):
+class Elasticsearch():                                  # pylint:disable=R0903
 
     """Class:  ElasticSearch
 
@@ -132,8 +132,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(
             els.create_repo(self.repo3, self.repo_dir),
             (True,
-             "ERROR:  Repository creation failure: " +
-             " reponame3, /dir/path/dump2"))
+             "ERROR: Repository creation failure: reponame3, /dir/path/dump2"))
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
@@ -162,7 +161,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(
             els.create_repo(self.repo3, self.repo_dir),
             (True,
-             "ERROR:  Repository not detected:  reponame3, /dir/path/dump2"))
+             "ERROR: Repository not detected: reponame3, /dir/path/dump2"))
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": False}))
@@ -191,8 +190,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(
             els.create_repo(repo_dir=self.repo_dir),
             (True,
-             "ERROR: Missing repo name or" +
-             " directory: 'None', '/dir/path/dump2'"))
+             "ERROR: Missing repo name or directory: None, /dir/path/dump2"))
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
