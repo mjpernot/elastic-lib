@@ -155,7 +155,7 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(
             els.delete_dump_all(),
-            (True, "ERROR:  Repo:  None is not present or missing argument."))
+            (True, "ERROR: Repo: None is not present or missing argument."))
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))

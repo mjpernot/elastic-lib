@@ -254,7 +254,7 @@ class UnitTest(unittest.TestCase):
         els.dump_name = "dump3"
         self.assertEqual(
             els.chk_status(self.break_flag),
-            (True, "Unknown error 'UNKNOWN' detected on reponame", False))
+            (True, "Unknown error UNKNOWN detected on reponame", False))
 
     @mock.patch("elastic_class.get_cluster_nodes",
                 mock.Mock(return_value={"_nodes": {"total": 3}}))

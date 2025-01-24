@@ -132,8 +132,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(
             els.create_repo(self.repo3, self.repo_dir),
             (True,
-             "ERROR:  Repository creation failure: " +
-             " reponame3, /dir/path/dump2"))
+             "ERROR: Repository creation failure: reponame3, /dir/path/dump2"))
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
@@ -162,7 +161,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(
             els.create_repo(self.repo3, self.repo_dir),
             (True,
-             "ERROR:  Repository not detected:  reponame3, /dir/path/dump2"))
+             "ERROR: Repository not detected: reponame3, /dir/path/dump2"))
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": False}))
@@ -191,8 +190,7 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(
             els.create_repo(repo_dir=self.repo_dir),
             (True,
-             "ERROR: Missing repo name or" +
-             " directory: 'None', '/dir/path/dump2'"))
+             "ERROR: Missing repo name or directory: None, /dir/path/dump2"))
 
     @mock.patch("elastic_class.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))

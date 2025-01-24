@@ -236,8 +236,7 @@ def get_dump_list(els, repo, **kwargs):
         status = True
 
     except elasticsearch.exceptions.NotFoundError:
-        err_msg = "Failed to find snapshot: '%s' in repository: '%s'" % (
-            snapshot, repo)
+        err_msg = f"Failed to find snapshot: {snapshot} in repository: {repo}"
         dump_list = []
         status = False
 
@@ -334,7 +333,7 @@ def is_active(els):
     return els.ping()
 
 
-class ElasticSearch():
+class ElasticSearch():                                  # pylint:disable=R0902
 
     """Class:  ElasticSearch
 
@@ -482,7 +481,7 @@ class ElasticSearch():
         self.master = get_master_name(self.els)
 
 
-class ElasticSearchDump(ElasticSearch):
+class ElasticSearchDump(ElasticSearch):                 # pylint:disable=R0902
 
     """Class:  ElasticSearchDump
 
@@ -520,7 +519,8 @@ class ElasticSearchDump(ElasticSearch):
         """
 
         host_list = list(host_list)
-        super(ElasticSearchDump, self).__init__(host_list, port, **kwargs)
+        super(                                          # pylint:disable=R1725
+            ElasticSearchDump, self).__init__(host_list, port, **kwargs)
 
         self.dump_status = None
         self.failed_shards = 0
@@ -541,7 +541,8 @@ class ElasticSearchDump(ElasticSearch):
 
         """
 
-        super(ElasticSearchDump, self).connect()
+        super(                                          # pylint:disable=R1725
+            ElasticSearchDump, self).connect()
 
         if self.is_connected:
             self.update_dump_status()
@@ -612,7 +613,7 @@ class ElasticSearchDump(ElasticSearch):
 
         elif dbs and not isinstance(dbs, str):
             err_flag = True
-            status_msg = "ERROR:  Database name(s) is not a string: %s" % dbs
+            status_msg = f"ERROR:  Database name(s) is not a string: {dbs}"
 
         if self.repo_name and not err_flag:
             create_snapshot(self.els, self.repo_name, body, self.dump_name)
@@ -661,23 +662,22 @@ class ElasticSearchDump(ElasticSearch):
                     break_flag = True
 
                 elif self.dump_status == "INCOMPATIBLE":
-                    status_msg = "Older version of ES detected: %s" % (
-                        self.repo_name)
+                    status_msg = \
+                        f"Older version of ES detected: {self.repo_name}"
                     err_flag = True
 
                 elif self.dump_status == "PARTIAL":
-                    status_msg = "Partial dump completed on %s" % (
-                        self.repo_name)
+                    status_msg = f"Partial dump completed on {self.repo_name}"
                     err_flag = True
 
                 elif self.dump_status == "FAILED":
-                    status_msg = "Dump failed to finish on %s" % (
-                        self.repo_name)
+                    status_msg = f"Dump failed to finish on {self.repo_name}"
                     err_flag = True
 
                 else:
-                    status_msg = "Unknown error '%s' detected on %s" % (
-                        self.dump_status, self.repo_name)
+                    status_msg = \
+                        f"Unknown error {self.dump_status} detected on" \
+                        f" {self.repo_name}"
                     err_flag = True
 
         return err_flag, status_msg, break_flag
@@ -724,7 +724,8 @@ class ElasticSearchRepo(ElasticSearch):
         """
 
         host_list = list(host_list)
-        super(ElasticSearchRepo, self).__init__(host_list, port, **kwargs)
+        super(                                          # pylint:disable=R1725
+            ElasticSearchRepo, self).__init__(host_list, port, **kwargs)
 
         self.repo = repo
         self.repo_dir = repo_dir
@@ -740,7 +741,8 @@ class ElasticSearchRepo(ElasticSearch):
 
         """
 
-        super(ElasticSearchRepo, self).connect()
+        super(                                          # pylint:disable=R1725
+            ElasticSearchRepo, self).connect()
 
         if self.is_connected:
             self.update_repo_status()
@@ -789,8 +791,9 @@ class ElasticSearchRepo(ElasticSearch):
 
             if not status["acknowledged"]:
                 err_flag = True
-                err_msg = "ERROR:  Repository creation failure:  %s, %s" % (
-                    repo_name, repo_dir)
+                err_msg = \
+                    f"ERROR: Repository creation failure:" \
+                    f" {repo_name}, {repo_dir}"
 
             else:
                 # Update repo dictionary.
@@ -798,13 +801,15 @@ class ElasticSearchRepo(ElasticSearch):
 
                 if repo_name not in self.repo_dict:
                     err_flag = True
-                    err_msg = "ERROR:  Repository not detected:  %s, %s" % (
-                        repo_name, repo_dir)
+                    err_msg = \
+                        f"ERROR: Repository not detected: {repo_name}," \
+                        f" {repo_dir}"
 
         else:
             err_flag = True
-            err_msg = "ERROR: Missing repo name or directory: '%s', '%s'" % (
-                repo_name, repo_dir)
+            err_msg = \
+                f"ERROR: Missing repo name or directory: {repo_name}," \
+                f" {repo_dir}"
 
         return err_flag, err_msg
 
@@ -833,8 +838,7 @@ class ElasticSearchRepo(ElasticSearch):
 
             if not status["acknowledged"]:
                 err_flag = True
-                err_msg = "ERROR:  Repository deletion failed:  %s" % (
-                    repo_name)
+                err_msg = f"ERROR:  Repository deletion failed:  {repo_name}"
 
             else:
                 # Update repo dictionary.
@@ -842,12 +846,12 @@ class ElasticSearchRepo(ElasticSearch):
 
                 if repo_name in self.repo_dict:
                     err_flag = True
-                    err_msg = "ERROR:  Repository still detected:  %s" % (
-                        repo_name)
+                    err_msg = \
+                        f"ERROR:  Repository still detected:  {repo_name}"
 
         else:
             err_flag = True
-            err_msg = "ERROR: Missing repo or does not exist: %s" % (repo_name)
+            err_msg = f"ERROR: Missing repo or does not exist: {repo_name}"
 
         return err_flag, err_msg
 
@@ -882,8 +886,9 @@ class ElasticSearchRepo(ElasticSearch):
 
                 if not status["acknowledged"]:
                     err_flag = True
-                    err_msg = "ERROR:  Dump deletion failed:  %s, %s" % (
-                        repo_name, dump_name)
+                    err_msg = \
+                        f"ERROR:  Dump deletion failed:  {repo_name}," \
+                        f" {dump_name}"
 
                 else:
                     # Does the dump still exists
@@ -892,18 +897,20 @@ class ElasticSearchRepo(ElasticSearch):
                                 self.els, repo_name)[0]]:
 
                         err_flag = True
-                        err_msg = "ERROR: Dump still detected: %s, %s" % (
-                            repo_name, dump_name)
+                        err_msg = \
+                            f"ERROR: Dump still detected: {repo_name}," \
+                            f" {dump_name}"
 
             else:
                 err_flag = True
-                err_msg = "ERROR: Dump: %s not in Repository: %s" % (
-                    dump_name, repo_name)
+                err_msg = \
+                    f"ERROR: Dump: {dump_name} not in Repository: {repo_name}"
 
         else:
             err_flag = True
-            err_msg = "ERROR: Missing arg/repo not exist, Repo: %s, Dump: %s" \
-                      % (repo_name, dump_name)
+            err_msg = \
+                f"ERROR: Missing arg/repo not exist, Repo: {repo_name}," \
+                f" Dump: {dump_name}"
 
         return err_flag, err_msg
 
@@ -941,13 +948,13 @@ class ElasticSearchRepo(ElasticSearch):
 
         else:
             err_flag = True
-            err_msg = "ERROR:  Repo:  %s is not present or missing argument." \
-                      % (repo_name)
+            err_msg = \
+                f"ERROR: Repo: {repo_name} is not present or missing argument."
 
         return err_flag, err_msg
 
 
-class ElasticSearchStatus(ElasticSearch):
+class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
 
     """Class:  ElasticSearchStatus
 
@@ -980,8 +987,9 @@ class ElasticSearchStatus(ElasticSearch):
 
     """
 
-    def __init__(self, hostname, port=9200, cutoff_mem=90, cutoff_cpu=75,
-                 cutoff_disk=85, **kwargs):
+    def __init__(                                       # pylint:disable=R0913
+            self, hostname, port=9200, cutoff_mem=90, cutoff_cpu=75,
+            cutoff_disk=85, **kwargs):
 
         """Method:  __init__
 
@@ -1002,7 +1010,8 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        super(ElasticSearchStatus, self).__init__(hostname, port, **kwargs)
+        super(                                          # pylint:disable=R1725
+            ElasticSearchStatus, self).__init__(hostname, port, **kwargs)
 
         self.cutoff_mem = cutoff_mem
         self.cutoff_cpu = cutoff_cpu
@@ -1034,7 +1043,8 @@ class ElasticSearchStatus(ElasticSearch):
 
         """
 
-        super(ElasticSearchStatus, self).connect()
+        super(                                          # pylint:disable=R1725
+            ElasticSearchStatus, self).connect()
 
         if self.is_connected:
             self.update_status2()
@@ -1257,7 +1267,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_mem(self, cutoff_mem=None, **kwargs):
+    def chk_mem(self, cutoff_mem=None, **kwargs):       # pylint:disable=W0613
 
         """Method:  chk_mem
 
@@ -1288,7 +1298,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_nodes(self, **kwargs):
+    def chk_nodes(self, **kwargs):                      # pylint:disable=W0613
 
         """Method:  chk_nodes
 
@@ -1313,7 +1323,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_shards(self, **kwargs):
+    def chk_shards(self, **kwargs):                     # pylint:disable=W0613
 
         """Method:  chk_shards
 
@@ -1354,7 +1364,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data if data["ShardWarning"] else {}
 
-    def chk_server(self, cutoff_cpu=None, **kwargs):
+    def chk_server(self, cutoff_cpu=None, **kwargs):    # pylint:disable=W0613
 
         """Method:  chk_server
 
@@ -1383,7 +1393,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data
 
-    def chk_status(self, **kwargs):
+    def chk_status(self, **kwargs):                     # pylint:disable=W0613
 
         """Method:  chk_status
 
@@ -1420,7 +1430,7 @@ class ElasticSearchStatus(ElasticSearch):
 
         return data if err_flag else {}
 
-    def chk_disk(self, cutoff_disk=None, **kwargs):
+    def chk_disk(self, cutoff_disk=None, **kwargs):     # pylint:disable=W0613
 
         """Method:  chk_disk
 
