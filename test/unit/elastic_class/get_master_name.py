@@ -53,7 +53,7 @@ class Repo():                                           # pylint:disable=R0903
             {"node": "masternode", "ip": "ip_addr", "host": "hostname",
              "id": "idname"}]
 
-    def master(self, data):
+    def master(self, dataformat):
 
         """Method:  master
 
@@ -63,7 +63,7 @@ class Repo():                                           # pylint:disable=R0903
 
         """
 
-        self.format = data
+        self.format = dataformat
 
         return self.masterlist
 

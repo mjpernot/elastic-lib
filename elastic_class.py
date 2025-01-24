@@ -198,7 +198,7 @@ def get_disks(els):
 
     """
 
-    return els.cat.allocation(format="json")
+    return els.cat.allocation(dataformat="json")
 
 
 def get_dump_list(els, repo, **kwargs):
@@ -271,7 +271,7 @@ def get_master_name(els):
 
     """
 
-    return els.cat.master(format="json")[0]["node"]
+    return els.cat.master(dataformat="json")[0]["node"]
 
 
 def get_nodes(els):
@@ -316,7 +316,7 @@ def get_shards(els):
 
     """
 
-    return els.cat.shards(format="json")
+    return els.cat.shards(dataformat="json")
 
 
 def is_active(els):

@@ -19,6 +19,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearchDump.chk_status: Check status of database dump.
 
 ### Changed
+- elastic_class: get_shards, get_disks, get_master_name: Changed variable name due to naming conflict.
 - elastic_class.ElasticSearchDump.dump_db: Replaced \_chk_status call with chk_status call.
 - elastic_libs: Converted strings to f-strings.
 - Documentation changes.

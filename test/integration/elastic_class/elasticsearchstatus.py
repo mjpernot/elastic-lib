@@ -200,7 +200,7 @@ class UnitTest(unittest.TestCase):
 
         ess = elastic_class.ElasticSearchStatus(self.cfg.host)
 
-        self.assertTrue(not ess.unassigned_shards)
+        self.assertFalse(ess.unassigned_shards)
 
 
 if __name__ == "__main__":

@@ -57,7 +57,7 @@ class Repo():                                           # pylint:disable=R0903
              "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr2",
              "store": "15mb"}]
 
-    def shards(self, data):
+    def shards(self, dataformat):
 
         """Method:  shards
 
@@ -67,7 +67,7 @@ class Repo():                                           # pylint:disable=R0903
 
         """
 
-        self.format = data
+        self.format = dataformat
 
         return self.shard_list
 

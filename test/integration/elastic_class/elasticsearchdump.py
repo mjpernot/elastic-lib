@@ -82,7 +82,7 @@ class UnitTest(unittest.TestCase):
             ca_cert=self.cfg.ssl_client_ca)
         self.cfg.ssl_client_ca = temp_val
 
-        self.assertEqual(els.config["use_ssl"], True)
+        self.assertTrue(els.config["use_ssl"])
 
     def test_no_ca_cert_passed(self):
 
@@ -169,7 +169,7 @@ class UnitTest(unittest.TestCase):
 
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        self.assertTrue(not esd.dump_list)
+        self.assertFalse(esd.dump_list)
 
     def test_repo_not_set(self):
 
@@ -183,7 +183,7 @@ class UnitTest(unittest.TestCase):
 
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        self.assertTrue(not esd.type)
+        self.assertFalse(esd.type)
 
     def test_repo_not_passed(self):
 
@@ -226,7 +226,7 @@ class UnitTest(unittest.TestCase):
 
         esd = elastic_class.ElasticSearchDump(self.cfg.host)
 
-        self.assertTrue(not esd.dump_name)
+        self.assertFalse(esd.dump_name)
 
 
 if __name__ == "__main__":

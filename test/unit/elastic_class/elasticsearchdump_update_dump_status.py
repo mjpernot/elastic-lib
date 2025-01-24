@@ -186,7 +186,7 @@ class UnitTest(unittest.TestCase):
                 mock.Mock(return_value={"name": "localservername"}))
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(return_value="dump2"))
-    @mock.patch("elastic_class.ElasticSearchDump._chk_status",
+    @mock.patch("elastic_class.ElasticSearchDump.chk_status",
                 mock.Mock(return_value=(False, None, True)))
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.get_nodes")

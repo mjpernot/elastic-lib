@@ -169,7 +169,7 @@ class UnitTest(unittest.TestCase):
         """
 
         els = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual(els.ca_cert, None)
+        self.assertIsNone(els.ca_cert)
 
     def test_login_info_passed2(self):
 

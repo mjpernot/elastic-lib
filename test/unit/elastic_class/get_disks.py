@@ -73,7 +73,7 @@ class Repo():                                           # pylint:disable=R0903
 
         """
 
-        self.format = kwargs.get("format", None)
+        self.format = kwargs.get("dataformat", None)
 
         return self.disks
 

@@ -140,8 +140,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_libs.get_latest_dump(self.list),
-                         (None))
+        self.assertIsNone(elastic_libs.get_latest_dump(self.list))
 
 
 if __name__ == "__main__":

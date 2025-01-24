@@ -121,7 +121,7 @@ class UnitTest(unittest.TestCase):
             ca_cert=self.cfg.ssl_client_ca)
         self.cfg.ssl_client_ca = temp_val
 
-        self.assertEqual(els.config["use_ssl"], True)
+        self.assertTrue(els.config["use_ssl"])
 
     def test_no_ca_cert_passed(self):
 
@@ -211,7 +211,7 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearch(
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
 
-        self.assertTrue(els.hosts == self.cfg.host)
+        self.assertEqual(els.hosts, self.cfg.host)
 
     def test_init(self):
 
@@ -228,7 +228,7 @@ class UnitTest(unittest.TestCase):
         with gen_libs.no_std_out():
             els = elastic_class.ElasticSearch(host_list)
 
-        self.assertTrue(els.hosts == host_list)
+        self.assertEqual(els.hosts, host_list)
 
 
 if __name__ == "__main__":

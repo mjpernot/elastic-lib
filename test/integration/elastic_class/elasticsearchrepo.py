@@ -183,7 +183,7 @@ class UnitTest(unittest.TestCase):
 
         esr = elastic_class.ElasticSearchRepo(self.cfg.host)
 
-        self.assertTrue(not esr.repo)
+        self.assertFalse(esr.repo)
 
 
 if __name__ == "__main__":

@@ -69,7 +69,7 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         els.connect()
 
-        self.assertTrue(els.total_nodes > 0)
+        self.assertGreater(els.total_nodes, 0)
 
 
 if __name__ == "__main__":

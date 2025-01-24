@@ -110,7 +110,7 @@ class UnitTest(unittest.TestCase):
         esr.delete_repo()
 
         self.assertFalse(err_flag)
-        self.assertTrue(cnt > 1)
+        self.assertGreater(cnt, 1)
 
     def test_dbs_is_successful(self):
 
@@ -151,7 +151,7 @@ class UnitTest(unittest.TestCase):
         esr.delete_repo()
 
         self.assertFalse(err_flag)
-        self.assertTrue(cnt > 0)
+        self.assertGreater(cnt, 0)
 
     def test_dbs_is_not_str(self):
 

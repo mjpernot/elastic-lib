@@ -127,7 +127,7 @@ class UnitTest(unittest.TestCase):
             repo=self.repo_name)
         esd.connect()
 
-        self.assertTrue(not esd.dump_list)
+        self.assertFalse(esd.dump_list)
 
         esr.delete_repo()
 
@@ -151,7 +151,7 @@ class UnitTest(unittest.TestCase):
             repo=self.repo_name)
         esd.connect()
 
-        self.assertTrue(esd.dump_loc == self.repo_dir)
+        self.assertEqual(esd.dump_loc, self.repo_dir)
 
         esr.delete_repo()
 
@@ -173,7 +173,7 @@ class UnitTest(unittest.TestCase):
             self.assertTrue(esd.type)
 
         else:
-            self.assertTrue(not esd.type)
+            self.assertFalse(esd.type)
 
     def test_multi_repo(self):
 
@@ -195,7 +195,7 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         esd.connect()
 
-        self.assertTrue(esd.repo_name is None)
+        self.assertIsNone(esd.repo_name)
 
         esr.delete_repo()
         esr.delete_repo(repo_name=self.repo_name2)
