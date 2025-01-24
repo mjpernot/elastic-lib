@@ -23,9 +23,9 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import lib.gen_libs as gen_libs
-import elastic_class
-import version
+import lib.gen_libs as gen_libs             # pylint:disable=E0401,C0413,R0402
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -127,7 +127,7 @@ class UnitTest(unittest.TestCase):
             repo=self.repo_name)
         esd.connect()
 
-        self.assertTrue(not esd.dump_list)
+        self.assertFalse(esd.dump_list)
 
         esr.delete_repo()
 
@@ -151,7 +151,7 @@ class UnitTest(unittest.TestCase):
             repo=self.repo_name)
         esd.connect()
 
-        self.assertTrue(esd.dump_loc == self.repo_dir)
+        self.assertEqual(esd.dump_loc, self.repo_dir)
 
         esr.delete_repo()
 
@@ -173,7 +173,7 @@ class UnitTest(unittest.TestCase):
             self.assertTrue(esd.type)
 
         else:
-            self.assertTrue(not esd.type)
+            self.assertFalse(esd.type)
 
     def test_multi_repo(self):
 
@@ -195,7 +195,7 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         esd.connect()
 
-        self.assertTrue(esd.repo_name is None)
+        self.assertIsNone(esd.repo_name)
 
         esr.delete_repo()
         esr.delete_repo(repo_name=self.repo_name2)

@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.0.8] - 2025-01-21
+- Removed support for Python 2.7.
+- Updated certifi==2024.12.14
+- Updated urllib3==1.26.20
+- Downgraded elasticsearch==7.17.9
+- Updated python-lib==4.0.0
+
+### Fixed
+- elastic_class: get_disk_status, chk_disk:  Replaced global variable with local variable.
+- Downgraded elasticsearch library from 8.11.1 to 7.17.19
+
+### Added
+- elastic_class.ElasticSearchDump.chk_status: Check status of database dump.
+
+### Changed
+- elastic_class: get_shards, get_disks, get_master_name: Changed variable name due to naming conflict.
+- elastic_class.ElasticSearchDump.dump_db: Replaced \_chk_status call with chk_status call.
+- elastic_libs: Converted strings to f-strings.
+- Documentation changes.
+
+### Deprecated
+- Support for Elasticsearch v7.4, v7.12 and v7.17
+
+### Removed
+- elastic_class.ElasticSearchDump.\_chk_status method.
+
+
 ## [4.0.7] - 2024-11-18
 - Updated python-lib to v3.0.8
 

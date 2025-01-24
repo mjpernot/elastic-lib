@@ -21,9 +21,9 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import lib.gen_libs as gen_libs
-import elastic_class
-import version
+import lib.gen_libs as gen_libs             # pylint:disable=E0401,C0413,R0402
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -69,7 +69,7 @@ class UnitTest(unittest.TestCase):
             self.cfg.host, user=self.cfg.user, japd=self.cfg.japd)
         els.connect()
 
-        self.assertTrue(els.total_nodes > 0)
+        self.assertGreater(els.total_nodes, 0)
 
 
 if __name__ == "__main__":

@@ -20,8 +20,8 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import elastic_libs
-import version
+import elastic_libs                             # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -140,8 +140,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_libs.get_latest_dump(self.list),
-                         (None))
+        self.assertIsNone(elastic_libs.get_latest_dump(self.list))
 
 
 if __name__ == "__main__":

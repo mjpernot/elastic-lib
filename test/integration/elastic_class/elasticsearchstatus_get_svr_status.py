@@ -21,9 +21,9 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import lib.gen_libs as gen_libs
-import elastic_class
-import version
+import lib.gen_libs as gen_libs             # pylint:disable=E0401,C0413,R0402
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -76,8 +76,8 @@ class UnitTest(unittest.TestCase):
         hours = data % 24
         data = int(data / 24)
         days = data
-        uptime = "%d days %d hours %d minutes %d seconds" \
-                 % (days, hours, minutes, seconds)
+        uptime = \
+            f"{days} days {hours} hours {minutes} minutes {seconds} seconds"
         results = {
             "Server": {
                 "Uptime": uptime, "AllocatedCPU": ess.alloc_cpu,

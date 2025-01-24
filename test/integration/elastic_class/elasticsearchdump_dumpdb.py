@@ -22,9 +22,9 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import lib.gen_libs as gen_libs
-import elastic_class
-import version
+import lib.gen_libs as gen_libs             # pylint:disable=E0401,C0413,R0402
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -110,7 +110,7 @@ class UnitTest(unittest.TestCase):
         esr.delete_repo()
 
         self.assertFalse(err_flag)
-        self.assertTrue(cnt > 1)
+        self.assertGreater(cnt, 1)
 
     def test_dbs_is_successful(self):
 
@@ -151,7 +151,7 @@ class UnitTest(unittest.TestCase):
         esr.delete_repo()
 
         self.assertFalse(err_flag)
-        self.assertTrue(cnt > 0)
+        self.assertGreater(cnt, 0)
 
     def test_dbs_is_not_str(self):
 

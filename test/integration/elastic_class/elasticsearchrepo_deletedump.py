@@ -23,9 +23,9 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import lib.gen_libs as gen_libs
-import elastic_class
-import version
+import lib.gen_libs as gen_libs             # pylint:disable=E0401,C0413,R0402
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -140,8 +140,8 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(
             (status, msg),
             (True,
-             "ERROR: Missing arg/repo not exist, Repo: %s, Dump: %s" %
-             (self.repo_name, self.dump_name)))
+             f"ERROR: Missing arg/repo not exist, Repo: {self.repo_name},"
+             f"Dump: {self.dump_name}"))
 
     def test_repo_name_is_passed(self):
 

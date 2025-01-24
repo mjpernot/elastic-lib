@@ -21,9 +21,9 @@ import unittest
 
 # Local
 sys.path.append(os.getcwd())
-import lib.gen_libs as gen_libs
-import elastic_class
-import version
+import lib.gen_libs as gen_libs             # pylint:disable=E0401,C0413,R0402
+import elastic_class                            # pylint:disable=E0401,C0413
+import version                                  # pylint:disable=E0401,C0413
 
 __version__ = version.__version__
 
@@ -82,7 +82,7 @@ class UnitTest(unittest.TestCase):
             ca_cert=self.cfg.ssl_client_ca)
         self.cfg.ssl_client_ca = temp_val
 
-        self.assertEqual(els.config["use_ssl"], True)
+        self.assertTrue(els.config["use_ssl"])
 
     def test_no_ca_cert_passed(self):
 
@@ -200,7 +200,7 @@ class UnitTest(unittest.TestCase):
 
         ess = elastic_class.ElasticSearchStatus(self.cfg.host)
 
-        self.assertTrue(not ess.unassigned_shards)
+        self.assertFalse(ess.unassigned_shards)
 
 
 if __name__ == "__main__":
