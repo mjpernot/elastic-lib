@@ -17,6 +17,7 @@
 # Standard
 import sys
 import os
+import elasticsearch
 import unittest
 
 # Local
@@ -57,6 +58,7 @@ class UnitTest(unittest.TestCase):
         self.japd = 'japd'
         self.results = {}
         self.results2 = {"http_auth": (self.user, self.japd)}
+        self.results3 = {"basic_auth": (self.user, self.japd)}
 
     def test_login_info_passed(self):
 
@@ -70,7 +72,14 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearch(
             self.host_list, user=self.user, japd=self.japd)
-        self.assertEqual(els.config, self.results2)
+
+        if elasticsearch.__version__ >= (8, 0, 0):
+            results = self.results3
+
+        else:
+            results = self.results2
+
+        self.assertEqual(els.config, results)
 
     def test_japd_only_passed(self):
 
