@@ -53,7 +53,7 @@ class Repo():                                           # pylint:disable=R0903
         self.body = None
         self.verify = None
 
-    def create_repository(self, name, body, verify):
+    def create_repository(self, name, verify, **body):
 
         """Method:  create_repository
 
@@ -64,7 +64,8 @@ class Repo():                                           # pylint:disable=R0903
         """
 
         self.name = name
-        self.body = body
+        self.type = body["type"]
+        self.settings = body["settings"]
         self.verify = verify
 
         return {"acknowledged": True}
@@ -170,7 +171,9 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo_name = "reponame"
-        self.body = {"indices": "dbs", "ignore_unavailable": True}
+        self.body = {
+            "type": "fs", "settings": {
+                "location": "repo_dir", "compress": True}}
         self.els = Elasticsearch(self.host_list)
         self.results = {"acknowledged": True}
 
