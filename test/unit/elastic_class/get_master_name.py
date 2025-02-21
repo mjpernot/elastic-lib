@@ -16,6 +16,7 @@
 # Standard
 import sys
 import os
+import elasticsearch
 import unittest
 
 # Local
@@ -29,6 +30,48 @@ __version__ = version.__version__
 class Repo():                                           # pylint:disable=R0903
 
     """Class:  Repo
+
+    Description:  Class representation of the cat class.
+
+    Methods:
+        __init__
+        master
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization instance of the class.
+
+        Arguments:
+
+        """
+
+        self.format = None
+        self.masterlist = [
+            {"node": "masternode", "ip": "ip_addr", "host": "hostname",
+             "id": "idname"}]
+
+    def master(self, format):
+
+        """Method:  master
+
+        Description:  Stub holder for cat.master method.
+
+        Arguments:
+
+        """
+
+        self.format = format
+
+        return self.masterlist
+
+
+class Repo2():                                          # pylint:disable=R0903
+
+    """Class:  Repo2
 
     Description:  Class representation of the cat class.
 
@@ -91,7 +134,12 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
         self.hosts = host_list
         self.port = port
-        self.cat = Repo()
+
+        if elasticsearch.__version__ >= (8, 0, 0):
+            self.cat = Repo()
+
+        else:
+            self.cat = Repo2()
 
 
 class UnitTest(unittest.TestCase):

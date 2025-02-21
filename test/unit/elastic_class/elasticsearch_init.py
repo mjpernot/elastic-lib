@@ -16,6 +16,7 @@
 # Standard
 import sys
 import os
+import elasticsearch
 import unittest
 
 # Local
@@ -68,12 +69,17 @@ class UnitTest(unittest.TestCase):
         self.ca_cert = "ca.crt"
         self.scheme = "http"
         self.results = {}
-        self.results2 = {"http_auth": (self.user, self.japd)}
+        self.results2 = {"basic_auth": (self.user, self.japd)}
+        self.results2a = {"http_auth": (self.user, self.japd)}
         self.results3 = {"use_ssl": True, "ca_certs": self.ca_cert,
                          "scheme": "https"}
-        self.results4 = {"http_auth": (self.user, self.japd), "use_ssl": True,
+        self.results4 = {"basic_auth": (self.user, self.japd), "use_ssl": True,
                          "ca_certs": self.ca_cert, "scheme": "https"}
-        self.results5 = {"http_auth": (self.user, self.japd), "use_ssl": True,
+        self.results4a = {"http_auth": (self.user, self.japd), "use_ssl": True,
+                         "ca_certs": self.ca_cert, "scheme": "https"}
+        self.results5 = {"basic_auth": (self.user, self.japd), "use_ssl": True,
+                         "ca_certs": self.ca_cert, "scheme": "http"}
+        self.results5a = {"http_auth": (self.user, self.japd), "use_ssl": True,
                          "ca_certs": self.ca_cert, "scheme": "http"}
 
     def test_passed_scheme(self):
@@ -89,7 +95,14 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearch(
             self.host_list, ca_cert=self.ca_cert, user=self.user,
             japd=self.japd, scheme=self.scheme)
-        self.assertEqual(els.config, self.results5)
+
+        if elasticsearch.__version__ >= (8, 0, 0):
+            results = self.results5
+
+        else:
+            results = self.results5a
+
+        self.assertEqual(els.config, results)
 
     def test_default_scheme(self):
 
@@ -101,9 +114,17 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert,
-                                          user=self.user, japd=self.japd)
-        self.assertEqual(els.config, self.results4)
+        els = elastic_class.ElasticSearch(
+            self.host_list, ca_cert=self.ca_cert, user=self.user,
+            japd=self.japd)
+
+        if elasticsearch.__version__ >= (8, 0, 0):
+            results = self.results4
+
+        else:
+            results = self.results4a
+
+        self.assertEqual(els.config, results)
 
     def test_ca_cert_login_passed(self):
 
@@ -115,9 +136,17 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        els = elastic_class.ElasticSearch(self.host_list, ca_cert=self.ca_cert,
-                                          user=self.user, japd=self.japd)
-        self.assertEqual(els.config, self.results4)
+        els = elastic_class.ElasticSearch(
+            self.host_list, ca_cert=self.ca_cert, user=self.user,
+            japd=self.japd)
+
+        if elasticsearch.__version__ >= (8, 0, 0):
+            results = self.results4
+
+        else:
+            results = self.results4a
+
+        self.assertEqual(els.config, results)
 
     def test_ca_cert_passed2(self):
 
@@ -183,7 +212,14 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearch(
             self.host_list, user=self.user, japd=self.japd)
-        self.assertEqual(els.config, self.results2)
+
+        if elasticsearch.__version__ >= (8, 0, 0):
+            results = self.results2
+
+        else:
+            results = self.results2a
+
+        self.assertEqual(els.config, results)
 
     def test_japd_only_passed2(self):
 
