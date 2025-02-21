@@ -6,4 +6,4 @@ urllib3==1.26.20
 requests==2.25.0
 simplejson==3.13.2
 elastic-transport==8.10.0
-elasticsearch==7.17.9
+elasticsearch==8.11.1
