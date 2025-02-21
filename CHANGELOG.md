@@ -8,7 +8,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - Updated elasticsearch==8.11.1
 
 ### Changed
-- elastic_class: create_snapshot_repo, create_snapshot: Changed argument layout based on elasticsearch version check.
+- elastic_class: create_snapshot_repo, create_snapshot: Changed keyword arguments and argument layout based on elasticsearch version check.
 - elastic_class: get_master_name, get_shards, get_disks: Changed keyword arguments based on elasticsearch version check.
 - elastic_class.ElasticSearch.connect:  Removed port argument based on elasticsearch version check.
 - elastic_class.ElasticSearch.set_login_config:  Set login parameter to basic_auth or http_auth depending on elasticsearch version check.
