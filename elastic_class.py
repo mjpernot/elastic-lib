@@ -201,8 +201,7 @@ def get_disks(els):
     if elasticsearch.__version__ >= (8, 0, 0):
         return els.cat.allocation(format="json")
 
-    else:
-        return els.cat.allocation(dataformat="json")
+    return els.cat.allocation(dataformat="json")
 
 
 def get_dump_list(els, repo, **kwargs):
@@ -277,8 +276,7 @@ def get_master_name(els):
     if elasticsearch.__version__ >= (8, 0, 0):
         return els.cat.master(format="json")[0]["node"]
 
-    else:
-        return els.cat.master(dataformat="json")[0]["node"]
+    return els.cat.master(dataformat="json")[0]["node"]
 
 
 def get_nodes(els):
@@ -326,8 +324,7 @@ def get_shards(els):
     if elasticsearch.__version__ >= (8, 0, 0):
         return els.cat.shards(format="json")
 
-    else:
-        return els.cat.shards(dataformat="json")
+    return els.cat.shards(dataformat="json")
 
 
 def is_active(els):
