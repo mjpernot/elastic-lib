@@ -198,6 +198,9 @@ def get_disks(els):
 
     """
 
+    if elasticsearch.__version__ >= (8, 0, 0):
+        return els.cat.allocation(format="json")
+
     return els.cat.allocation(dataformat="json")
 
 
@@ -270,6 +273,9 @@ def get_master_name(els):
 
     """
 
+    if elasticsearch.__version__ >= (8, 0, 0):
+        return els.cat.master(format="json")[0]["node"]
+
     return els.cat.master(dataformat="json")[0]["node"]
 
 
@@ -314,6 +320,9 @@ def get_shards(els):
         (output) List of ElasticSearch shards
 
     """
+
+    if elasticsearch.__version__ >= (8, 0, 0):
+        return els.cat.shards(format="json")
 
     return els.cat.shards(dataformat="json")
 
