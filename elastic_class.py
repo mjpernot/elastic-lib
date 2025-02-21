@@ -402,8 +402,12 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         """
 
-        self.els = elasticsearch.Elasticsearch(
-            self.hosts, port=self.port, **self.config)
+        if elasticsearch.__version__ >= (8, 0, 0):
+            self.els = elasticsearch.Elasticsearch(self.hosts, **self.config)
+
+        else:
+            self.els = elasticsearch.Elasticsearch(
+                self.hosts, port=self.port, **self.config)
 
         if is_active(self.els):
             self.is_connected = True
@@ -422,8 +426,13 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         """
 
-        if self.user and self.japd:
-            self.config["http_auth"] = (self.user, self.japd)
+        if elasticsearch.__version__ >= (8, 0, 0):
+            if self.user and self.japd:
+                self.config["basic_auth"] = (self.user, self.japd)
+
+        else:
+            if self.user and self.japd:
+                self.config["http_auth"] = (self.user, self.japd)
 
     def set_ssl_config(self):
 

@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.1.0] - 2025-02-18
+- Updated elasticsearch==8.11.1
+
+### Changed
+- elastic_class.ElasticSearch.connect:  Removed port argument based on elasticsearch version check.
+- elastic_class.ElasticSearch.set_login_config:  Set login parameter to basic_auth or http_auth depending on elasticsearch version check.
+
+
 ## [4.0.8] - 2025-01-21
 - Removed support for Python 2.7.
 - Updated certifi==2024.12.14
