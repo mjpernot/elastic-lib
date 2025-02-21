@@ -16,6 +16,7 @@
 # Standard
 import sys
 import os
+import elasticsearch
 import unittest
 
 # Local
@@ -29,6 +30,52 @@ __version__ = version.__version__
 class Repo():                                           # pylint:disable=R0903
 
     """Class:  Repo
+
+    Description:  Class representation of the cat class.
+
+    Methods:
+        __init__
+        shards
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization instance of the class.
+
+        Arguments:
+
+        """
+
+        self.format = None
+        self.shard_list = [
+            {"node": "nodename", "index": "indexname", "docs": "10",
+             "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr",
+             "store": "5mb"},
+            {"node": "nodename2", "index": "indexname2", "docs": "20",
+             "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr2",
+             "store": "15mb"}]
+
+    def shards(self, format):
+
+        """Method:  shards
+
+        Description:  Stub holder for cat.shards method.
+
+        Arguments:
+
+        """
+
+        self.format = format
+
+        return self.shard_list
+
+
+class Repo2():                                          # pylint:disable=R0903
+
+    """Class:  Repo2
 
     Description:  Class representation of the cat class.
 
@@ -95,7 +142,12 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
         self.hosts = host_list
         self.port = port
-        self.cat = Repo()
+
+        if elasticsearch.__version__ >= (8, 0, 0):
+            self.cat = Repo()
+
+        else:
+            self.cat = Repo2()
 
 
 class UnitTest(unittest.TestCase):
