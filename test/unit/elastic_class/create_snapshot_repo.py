@@ -16,6 +16,7 @@
 # Standard
 import sys
 import os
+import elasticsearch
 import unittest
 
 # Local
@@ -29,6 +30,49 @@ __version__ = version.__version__
 class Repo():                                           # pylint:disable=R0903
 
     """Class:  Repo
+
+    Description:  Class representation of the snapshot class.
+
+    Methods:
+        __init__
+        create_repository
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization of class.
+
+        Arguments:
+
+        """
+
+        self.name = None
+        self.body = None
+        self.verify = None
+
+    def create_repository(self, name, body, verify):
+
+        """Method:  create_repository
+
+        Description:  Stub for snapshot.create_repository method.
+
+        Arguments:
+
+        """
+
+        self.name = name
+        self.body = body
+        self.verify = verify
+
+        return {"acknowledged": True}
+
+
+class Repo2():                                          # pylint:disable=R0903
+
+    """Class:  Repo2
 
     Description:  Class representation of the snapshot class.
 
@@ -92,7 +136,13 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
         self.hosts = host_list
         self.port = port
-        self.snapshot = Repo()
+
+        if elasticsearch.__version__ >= (8, 0, 0):
+            self.snapshot = Repo()
+
+        else:
+            self.snapshot = Repo2()
+
         self.results = {"acknowledged": True}
 
 
