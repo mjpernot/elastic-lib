@@ -97,11 +97,10 @@ def create_snapshot_repo(els, reponame, body, verify=True):
 
     if elasticsearch.__version__ >= (8, 0, 0):
         return els.snapshot.create_repository(
-            repository=reponame, verify=verify, **body)
+            name=reponame, verify=verify, **body)
 
-    else:
-        return els.snapshot.create_repository(
-            repository=reponame, body=body, verify=verify)
+    return els.snapshot.create_repository(
+        repository=reponame, body=body, verify=verify)
 
 
 def delete_snapshot(els, reponame, dumpname):
