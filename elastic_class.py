@@ -70,7 +70,12 @@ def create_snapshot(els, reponame, body, dumpname):
     """
 
     body = dict(body)
-    els.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
+
+    if elasticsearch.__version__ >= (8, 0, 0):
+        els.snapshot.create(repository=reponame, snapshot=dumpname, **body)
+
+    else:
+        els.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
 
 
 def create_snapshot_repo(els, reponame, body, verify=True):
@@ -89,8 +94,14 @@ def create_snapshot_repo(els, reponame, body, verify=True):
     """
 
     body = dict(body)
-    return els.snapshot.create_repository(
-        repository=reponame, body=body, verify=verify)
+
+    if elasticsearch.__version__ >= (8, 0, 0):
+        return els.snapshot.create_repository(
+            repository=reponame, verify=verify, **body)
+
+    else:
+        return els.snapshot.create_repository(
+            repository=reponame, body=body, verify=verify)
 
 
 def delete_snapshot(els, reponame, dumpname):
