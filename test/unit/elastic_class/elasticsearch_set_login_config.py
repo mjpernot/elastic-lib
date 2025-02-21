@@ -17,8 +17,8 @@
 # Standard
 import sys
 import os
-import elasticsearch
 import unittest
+import elasticsearch
 
 # Local
 sys.path.append(os.getcwd())

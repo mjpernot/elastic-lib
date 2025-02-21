@@ -429,7 +429,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
         if elasticsearch.__version__ >= (8, 0, 0):
             if self.user and self.japd:
                 self.config["basic_auth"] = (self.user, self.japd)
-           
+
         else:
             if self.user and self.japd:
                 self.config["http_auth"] = (self.user, self.japd)
