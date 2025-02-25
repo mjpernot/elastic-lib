@@ -133,6 +133,9 @@ def delete_snapshot_repo(els, reponame):
 
     """
 
+    if elasticsearch.__version__ >= (8, 0, 0):
+        return els.snapshot.delete_repository(name=reponame)
+
     return els.snapshot.delete_repository(repository=reponame)
 
 

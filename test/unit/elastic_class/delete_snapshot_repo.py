@@ -16,6 +16,7 @@
 # Standard
 import sys
 import os
+import elasticsearch
 import unittest
 
 # Local
@@ -29,6 +30,45 @@ __version__ = version.__version__
 class Repo():                                           # pylint:disable=R0903
 
     """Class:  Repo
+
+    Description:  Class representation of the snapshot class.
+
+    Methods:
+        __init__
+        delete_repository
+
+    """
+
+    def __init__(self):
+
+        """Method:  __init__
+
+        Description:  Initialization of class.
+
+        Arguments:
+
+        """
+
+        self.name = None
+
+    def delete_repository(self, name):
+
+        """Method:  delete_repository
+
+        Description:  Stub for snapshot.delete_repository method.
+
+        Arguments:
+
+        """
+
+        self.name = name
+
+        return {"acknowledged": True}
+
+
+class Repo2():                                           # pylint:disable=R0903
+
+    """Class:  Repo2
 
     Description:  Class representation of the snapshot class.
 
@@ -88,7 +128,12 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
         self.hosts = host_list
         self.port = port
-        self.snapshot = Repo()
+
+        if elasticsearch.__version__ >= (8, 0, 0):
+            self.snapshot = Repo()
+
+        else:
+            self.snapshot = Repo2()
 
 
 class UnitTest(unittest.TestCase):
