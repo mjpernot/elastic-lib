@@ -71,16 +71,20 @@ class UnitTest(unittest.TestCase):
         self.results = {}
         self.results2 = {"basic_auth": (self.user, self.japd)}
         self.results2a = {"http_auth": (self.user, self.japd)}
-        self.results3 = {"use_ssl": True, "ca_certs": self.ca_cert,
-                         "scheme": "https"}
-        self.results4 = {"basic_auth": (self.user, self.japd), "use_ssl": True,
-                         "ca_certs": self.ca_cert, "scheme": "https"}
-        self.results4a = {"http_auth": (self.user, self.japd), "use_ssl": True,
-                         "ca_certs": self.ca_cert, "scheme": "https"}
-        self.results5 = {"basic_auth": (self.user, self.japd), "use_ssl": True,
-                         "ca_certs": self.ca_cert, "scheme": "http"}
-        self.results5a = {"http_auth": (self.user, self.japd), "use_ssl": True,
-                         "ca_certs": self.ca_cert, "scheme": "http"}
+        self.results3 = {
+            "use_ssl": True, "ca_certs": self.ca_cert, "scheme": "https"}
+        self.results4 = {
+            "basic_auth": (self.user, self.japd), "use_ssl": True,
+            "ca_certs": self.ca_cert, "scheme": "https"}
+        self.results4a = {
+            "http_auth": (self.user, self.japd), "use_ssl": True,
+            "ca_certs": self.ca_cert, "scheme": "https"}
+        self.results5 = {
+            "basic_auth": (self.user, self.japd), "use_ssl": True,
+            "ca_certs": self.ca_cert, "scheme": "http"}
+        self.results5a = {
+            "http_auth": (self.user, self.japd), "use_ssl": True,
+            "ca_certs": self.ca_cert, "scheme": "http"}
 
     def test_passed_scheme(self):
 
