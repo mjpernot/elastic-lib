@@ -61,7 +61,7 @@ Install/upgrade system modules.
 NOTE: Install as the user that will use the package.
 
 ```
-python -m pip install --user -r requirements.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
+python -m pip install --user -r requirements3.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
 
@@ -105,8 +105,8 @@ Create Elasticsearch configuration file.
 
 ```
 cp elastic.py test/integration/elastic_class/config/elastic.py
-vim test/integration/elastic_class/config/elastic.py
 chmod 600 test/integration/elastic_class/config/elastic.py
+vim test/integration/elastic_class/config/elastic.py
 ```
 
 Add the following lines to the end of the file:

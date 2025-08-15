@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.2.0] - 2025-08-12
+
+### Added
+- elastic_class.ElasticSearch: Added is_active method.
+
+### Deprecated
+- elastic.py: The port and scheme entries in the configuration file.
+
+
 ## [4.1.0] - 2025-02-18
 - Updated elasticsearch==8.11.1
 
