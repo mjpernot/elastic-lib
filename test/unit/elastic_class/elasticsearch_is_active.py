@@ -99,8 +99,8 @@ class UnitTest(unittest.TestCase):
 #    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
 #    def test_ping(self, mock_es):
 
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch.ping",
-                mock.Mock(return_value=True))
+#    @mock.patch("elastic_class.elasticsearch.Elasticsearch.ping",
+#                mock.Mock(return_value=True))
     def test_ping(self):
 
         """Function:  test_ping
