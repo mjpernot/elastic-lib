@@ -91,6 +91,8 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["http://hostname:9200"]
+        self.els = elastic_class.Elasticsearch(self.host_list)
+        self.connect()
 #        self.els = Elasticsearch(self.host_list)
 
 #    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
@@ -99,8 +101,8 @@ class UnitTest(unittest.TestCase):
 #    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
 #    def test_ping(self, mock_es):
 
-#    @mock.patch("elastic_class.elasticsearch.Elasticsearch.ping",
-#                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch.ping",
+                mock.Mock(return_value=True))
     def test_ping(self):
 
         """Function:  test_ping
@@ -111,10 +113,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        els = elastic_class.ElasticSearch(self.host_list)
-        els.is_active()
+#        els = elastic_class.ElasticSearch(self.host_list)
+#        els.is_active()
 
-#        self.assertTrue(els.is_active())
+        self.assertTrue(els.is_active())
 
 #        mock_es.return_value = self.els
 
