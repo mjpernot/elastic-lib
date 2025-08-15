@@ -1,11 +1,11 @@
 # Classification (U)
 
-"""Program:  elasticsearch_is_active.py
+"""Program:  elasticsearch_get_shards.py
 
-    Description:  Unit testing of is_active in elastic_class.ElasticSearch.
+    Description:  Unit testing of get_shards in elastic_class.ElasticSearch.
 
     Usage:
-        python test/unit/elastic_class/elasticsearch_is_active.py
+        python test/unit/elastic_class/elasticsearch_get_shards.py
 
     Arguments:
 
@@ -35,7 +35,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
-        test_ping
+        test_get_shards
 
     """
 
@@ -53,19 +53,19 @@ class UnitTest(unittest.TestCase):
         self.els = elastic_class.ElasticSearch(host_list)
         self.els.connect()
 
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch.ping",
-                mock.Mock(return_value=True))
-    def test_ping(self):
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch.cat.shards",
+                mock.Mock(return_value=[]))
+    def test_get_shards(self):
 
-        """Function:  test_ping
+        """Function:  test_get_shards
 
-        Description:  Test with successful ping to Elasticsearch.
+        Description:  Test with successful list of shards.
 
         Arguments:
 
         """
 
-        self.assertTrue(self.els.is_active())
+        self.assertEqual(self.els.get_shards(), [])
 
 
 if __name__ == "__main__":

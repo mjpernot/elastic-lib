@@ -367,6 +367,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        get_shards
         is_active
         set_login_config
         set_ssl_config
@@ -438,6 +439,19 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         else:
             self.is_connected = False
+
+    def get_shards(self):
+
+        """Function:  get_shards
+
+        Description:  List of shards within the Elasticsearch cluster.
+
+        Arguments:
+            (output) List of ElasticSearch shards
+
+        """
+
+        return self.els.cat.shards(format="json")
 
     def is_active(self):
 

@@ -26,6 +26,7 @@ coverage run -a --source=elastic_class test/unit/elastic_class/get_shards.py
 coverage run -a --source=elastic_class test/unit/elastic_class/is_active.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_init.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_connect.py
+coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_is_active.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_set_login_config.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_set_ssl_config.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_update_status.py
