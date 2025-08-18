@@ -367,6 +367,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        get_disks
         get_dump_list
         get_info
         get_master_name
@@ -444,6 +445,19 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         else:
             self.is_connected = False
+
+    def get_disks(self):
+
+        """Function:  get_disks
+
+        Description:  List of disks within the cluster.
+
+        Arguments:
+            (output) List of ElasticSearch disks
+
+        """
+
+        return els.cat.allocation(format="json")
 
     def get_dump_list(self, repo, **kwargs):
 
