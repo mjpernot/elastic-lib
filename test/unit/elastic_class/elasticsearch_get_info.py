@@ -91,7 +91,8 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
 #        self.els = Elasticsearch(self.host_list)
-        self.els = elastic_class.ElasticSearch(self.host_list)
+        host_list = ["http://hostname:9200"]
+        self.els = elastic_class.ElasticSearch(host_list)
         self.els.connect()
         self.results = {"cluster_name": "ClusterName", "name": "ServerName"}
 
