@@ -457,7 +457,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         """
 
-        return els.cat.allocation(format="json")
+        return self.els.cat.allocation(format="json")
 
     def get_dump_list(self, repo, **kwargs):
 
