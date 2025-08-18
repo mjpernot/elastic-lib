@@ -453,6 +453,43 @@ class ElasticSearch():                                  # pylint:disable=R0902
         else:
             self.is_connected = False
 
+    def create_snapshot(self, reponame, body, dumpname):
+
+        """Function:  create_snapshot
+
+        Description:  Runs a dump of a named repository.
+
+        Arguments:
+            (input) reponame -> Name of repository
+            (input) body -> Contains arguments for the dump command
+            (input) dumpname -> Dump name which it will be dumped too
+
+        """
+
+        body = dict(body)
+
+        self.els.snapshot.create(
+            repository=reponame, snapshot=dumpname, **body)
+
+    def create_snapshot_repo(self, reponame, body, verify=True):
+
+        """Function:  create_snapshot_repo
+
+        Description:  Creates a repository in Elasticsearch cluster.
+
+        Arguments:
+            (input) reponame -> Name of repository
+            (input) body -> Contains arguments for the dump command
+            (input) verify -> True|False - Validate the repository
+            (output) Return exit status of create_repository command
+
+        """
+
+        body = dict(body)
+
+        return self.els.snapshot.create_repository(
+            name=reponame, verify=verify, **body)
+
     def delete_snapshot(self, reponame, dumpname):
 
         """Function:  delete_snapshot
