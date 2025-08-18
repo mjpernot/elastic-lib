@@ -12,6 +12,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearch: Added get_repo_list method.
 - elastic_class.ElasticSearch: Added get_nodes method.
 - elastic_class.ElasticSearch: Added get_master_name method.
+- elastic_class.ElasticSearch: Added get_info method.
 
 ### Deprecated
 - elastic_class.is_active function.
@@ -19,6 +20,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.get_repo_list function.
 - elastic_class.get_nodes function.
 - elastic_class.get_master_name function.
+- elastic_class.get_info function.
 - elastic.py: The port and scheme entries in the configuration file.
 
 
