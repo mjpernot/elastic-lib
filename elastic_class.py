@@ -367,6 +367,8 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        get_cluster_stats
+        get_cluster_status
         get_disks
         get_dump_list
         get_info
@@ -445,6 +447,33 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         else:
             self.is_connected = False
+
+    def get_cluster_stats(self):
+
+        """Function:  get_cluster_stats
+
+        Description:  Dictionary of stats information on the cluster.
+
+        Arguments:
+            (output) Dictionary of information on the cluster stats
+
+        """
+
+        return self.els.cluster.stats()
+
+
+    def get_cluster_status(self):
+
+        """Function:  get_cluster_status
+
+        Description:  Status of the cluster.
+
+        Arguments:
+            (output) Status of the Elasticsearch cluster
+
+        """
+
+        return self.els.cluster.health()["status"]
 
     def get_disks(self):
 
