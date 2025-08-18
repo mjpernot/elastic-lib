@@ -367,6 +367,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        get_master_name
         get_nodes
         get_repo_list
         get_shards
@@ -441,6 +442,19 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         else:
             self.is_connected = False
+
+    def get_master_name(self):
+
+        """Function:  get_master_name
+
+        Description:  Return name of the master node in the cluster.
+
+        Arguments:
+            (output) Name of master node in the cluster
+
+        """
+
+        return self.els.cat.master(format="json")[0]["node"]
 
     def get_nodes(self):
 
