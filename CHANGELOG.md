@@ -17,6 +17,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearch: Added get_disks method.
 - elastic_class.ElasticSearch: Added get_cluster_status method.
 - elastic_class.ElasticSearch: Added get_cluster_stats method.
+- elastic_class.ElasticSearch: Added get_cluster_health method.
+- elastic_class.ElasticSearch: Added get_cluster_nodes method.
 
 ### Deprecated
 - elastic_class.is_active function.
@@ -29,6 +31,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.get_disks function.
 - elastic_class.get_cluster_status function.
 - elastic_class.get_cluster_stats function.
+- elastic_class.get_cluster_health function.
+- elastic_class.get_cluster_nodes function.
 - elastic.py: The port and scheme entries in the configuration file.
 
 
