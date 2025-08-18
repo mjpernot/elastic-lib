@@ -19,6 +19,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearch: Added get_cluster_stats method.
 - elastic_class.ElasticSearch: Added get_cluster_health method.
 - elastic_class.ElasticSearch: Added get_cluster_nodes method.
+- elastic_class.ElasticSearch: Added delete_snapshot_repo method.
+- elastic_class.ElasticSearch: Added delete_snapshot method.
 
 ### Deprecated
 - elastic_class.is_active function.
@@ -33,6 +35,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.get_cluster_stats function.
 - elastic_class.get_cluster_health function.
 - elastic_class.get_cluster_nodes function.
+- elastic_class.delete_snapshot_repo function.
+- elastic_class.delete_snapshot function.
 - elastic.py: The port and scheme entries in the configuration file.
 
 

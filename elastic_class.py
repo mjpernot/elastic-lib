@@ -368,6 +368,8 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        delete_snapshot
+        delete_snapshot_repo
         get_cluster_health
         get_cluster_nodes
         get_cluster_stats
@@ -450,6 +452,36 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         else:
             self.is_connected = False
+
+    def delete_snapshot(self, reponame, dumpname):
+
+        """Function:  delete_snapshot
+
+        Description:  Deletes a named dump in the named repository.
+
+        Arguments:
+            (input) reponame -> Name of repository
+            (input) dumpname -> Name of the dump
+            (output) Return exit status of the delete command
+
+        """
+
+        return self.els.snapshot.delete(repository=reponame, snapshot=dumpname)
+
+
+    def delete_snapshot_repo(self, reponame):
+
+        """Function:  delete_snapshot_repo
+
+        Description:  Deletes named repository in the cluster.
+
+        Arguments:
+            (input) reponame -> Name of repository
+            (output) Return exit status of the delete command
+
+        """
+
+        return self.els.snapshot.delete_repository(name=reponame)
 
     def get_cluster_health(self):
 
