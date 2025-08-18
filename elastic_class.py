@@ -367,6 +367,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        get_nodes
         get_repo_list
         get_shards
         is_active
@@ -441,6 +442,19 @@ class ElasticSearch():                                  # pylint:disable=R0902
         else:
             self.is_connected = False
 
+    def get_nodes(self):
+
+        """Function:  get_nodes
+
+        Description:  Dictionary of information on the nodes in the cluster.
+
+        Arguments:
+            (output) Dictionary of information on Elasticsearch nodes
+
+        """
+
+        return self.els.nodes.info()["nodes"]
+
     def get_repo_list(self):
 
         """Function:  get_repo_list
@@ -448,7 +462,6 @@ class ElasticSearch():                                  # pylint:disable=R0902
         Description:  Dictionary of repositories within the cluster.
 
         Arguments:
-            (input) els -> ElasticSearch instance
             (output) Dictionary of Elasticsearch repositories
 
         """
