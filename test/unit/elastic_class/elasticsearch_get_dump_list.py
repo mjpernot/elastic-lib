@@ -208,7 +208,11 @@ class UnitTest(unittest.TestCase):
         self.err = "Failed to find snapshot: '_all' in repository: 'reponame'"
 
     @unittest.skip("Error:  Unable to raise exception.  Need to investigate.")
-    def test_raise_error2(self):
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_raise_error2(self, mock_es):
 
         """Function:  test_raise_error2
 
@@ -218,12 +222,19 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        data = elastic_class.get_dump_list(self.els2, repo=self.repo)
+        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+        data = els2.get_dump_list(repo=self.repo)
 
         self.assertEqual((data[1], data[2]), (False, self.err))
 
     @unittest.skip("Error:  Unable to raise exception.  Need to investigate.")
-    def test_raise_error(self):
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_raise_error(self, mock_es):
 
         """Function:  test_raise_error
 
@@ -233,11 +244,18 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        data = elastic_class.get_dump_list(self.els2, repo=self.repo)
+        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+        data = els2.get_dump_list(repo=self.repo)
 
         self.assertEqual(data[0], [])
 
-    def test_without_name2(self):
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_without_name2(self, mock_es):
 
         """Function:  test_without_name2
 
@@ -247,11 +265,18 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        data = elastic_class.get_dump_list(self.els, repo=self.repo)
+        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+        data = els.get_dump_list(repo=self.repo)
 
         self.assertEqual((data[1], data[2]), (True, None))
 
-    def test_without_name(self):
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_without_name(self, mock_es):
 
         """Function:  test_without_name
 
@@ -261,11 +286,18 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        data = elastic_class.get_dump_list(self.els, repo=self.repo)[0]
+        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+        data = els.get_dump_list(repo=self.repo)[0]
 
         self.assertEqual(data, self.results2)
 
-    def test_with_name2(self):
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_with_name2(self, mock_es):
 
         """Function:  test_with_name2
 
@@ -275,8 +307,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        data = elastic_class.get_dump_list(
-            self.els, repo=self.repo, snapshot=self.name)
+        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+        data = els.get_dump_list(repo=self.repo, snapshot=self.name)
 
         self.assertEqual((data[1], data[2]), (True, None))
 
@@ -297,7 +331,6 @@ class UnitTest(unittest.TestCase):
         mock_es.return_value = self.els
         els = elastic_class.ElasticSearch(self.host_list)
         els.connect()
-
         data = els.get_dump_list(repo=self.repo, snapshot=self.name)[0]
 
         self.assertEqual(data, self.results)
