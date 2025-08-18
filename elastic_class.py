@@ -367,6 +367,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        get_dump_list
         get_info
         get_master_name
         get_nodes
@@ -443,6 +444,48 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         else:
             self.is_connected = False
+
+    def get_dump_list(self, repo, **kwargs):
+
+        """Function:  get_dump_list
+
+        Description:  List of dumps within a named repository.
+
+        Note:  The "ignore" option will determine whether to ignore the
+            exception or capture the exception and process it.
+
+        Future mods:  If want to capture the exception codes then will need to
+            add the following to the end of the exception: as (err_num,
+            err_code, msg)
+
+        Arguments:
+            (input) repo -> Name of repository
+            (input) kwargs:
+                snapshot -> A list of snapshot names, defaults to all snapshots
+                ignore -> True|False - Ignore if snapshot name is not found
+            (output) dump_list -> List of ElasticSearch dumps
+            (output) status -> True|False - If found snapshot successfully
+            (output) err_msg -> Error message if snapshot not found
+
+        """
+
+        snapshot = kwargs.get("snapshot", "_all")
+        ignore = kwargs.get("ignore", True)
+        err_msg = None
+
+        try:
+            data = self.els.snapshot.get(
+                repository=repo, snapshot=snapshot, ignore_unavailable=ignore)
+            dump_list = data["snapshots"]
+            status = True
+
+        except elasticsearch.exceptions.NotFoundError:
+            err_msg = \
+                f"Failed to find snapshot: {snapshot} in repository: {repo}"
+            dump_list = []
+            status = False
+
+        return dump_list, status, err_msg
 
     def get_info(self):
 
