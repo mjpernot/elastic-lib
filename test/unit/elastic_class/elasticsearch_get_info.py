@@ -90,14 +90,14 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo = "reponame"
-        self.els = Elasticsearch(self.host_list)
+#        self.els = Elasticsearch(self.host_list)
+        self.els = elastic_class.ElasticSearch(self.host_list)
+        self.els.connect()
         self.results = {"cluster_name": "ClusterName", "name": "ServerName"}
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
-    @mock.patch("elastic_class.ElasticSearch.update_status",
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch.info",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_default(self, mock_es):
+    def test_default(self):
 
         """Function:  test_default
 
@@ -106,10 +106,6 @@ class UnitTest(unittest.TestCase):
         Arguments:
 
         """
-
-        mock_es.return_value = self.els
-        els = elastic_class.ElasticSearch(self.host_list)
-        els.connect()
 
         self.assertEqual(self.els.get_info(), self.results)
 
