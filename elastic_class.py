@@ -441,7 +441,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
         else:
             self.is_connected = False
 
-    def get_repo_list(els):
+    def get_repo_list(self):
 
         """Function:  get_repo_list
 
