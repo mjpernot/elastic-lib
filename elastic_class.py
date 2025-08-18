@@ -367,6 +367,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        get_repo_list
         get_shards
         is_active
         set_login_config
@@ -440,11 +441,25 @@ class ElasticSearch():                                  # pylint:disable=R0902
         else:
             self.is_connected = False
 
+    def get_repo_list(els):
+
+        """Function:  get_repo_list
+
+        Description:  Dictionary of repositories within the cluster.
+
+        Arguments:
+            (input) els -> ElasticSearch instance
+            (output) Dictionary of Elasticsearch repositories
+
+        """
+
+        return self.els.snapshot.get_repository()
+
     def get_shards(self):
 
         """Function:  get_shards
 
-        Description:  List of shards within the Elasticsearch cluster.
+        Description:  List of shards within the cluster.
 
         Arguments:
             (output) List of ElasticSearch shards

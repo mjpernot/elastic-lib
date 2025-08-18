@@ -24,6 +24,8 @@ echo "Unit test:  elastic_class"
 /usr/bin/python ./test/unit/elastic_class/is_active.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_connect.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_is_active.py
+/usr/bin/python ./test/unit/elastic_class/elasticsearch_get_repo_list.py
+/usr/bin/python ./test/unit/elastic_class/elasticsearch_get_shards.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_init.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_set_login_config.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_set_ssl_config.py
