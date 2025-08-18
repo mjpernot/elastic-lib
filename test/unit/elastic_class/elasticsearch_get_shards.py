@@ -122,7 +122,7 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearch(self.host_list)
         els.connect()
 
-        self.assertEqual(self.els.get_shards(), [])
+        self.assertEqual(els.get_shards(), [])
 
 
 if __name__ == "__main__":
