@@ -28,44 +28,6 @@ import version                                  # pylint:disable=E0401,C0413
 __version__ = version.__version__
 
 
-class Elasticsearch():                                  # pylint:disable=R0903
-
-    """Class:  ElasticSearch
-
-    Description:  Class representation of the Elasticsearch class.
-
-    Methods:
-        __init__
-        info
-
-    """
-
-    def __init__(self, host_list, port=9200):
-
-        """Method:  __init__
-
-        Description:  Initialization instance of the class.
-
-        Arguments:
-
-        """
-
-        self.hosts = host_list
-        self.port = port
-
-    def info(self):
-
-        """Method:  info
-
-        Description:  Stub holder for Elasticsearch.info method.
-
-        Arguments:
-
-        """
-
-        return {"cluster_name": "ClusterName", "name": "ServerName"}
-
-
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest
@@ -88,9 +50,6 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.host_list = ["host1", "host2"]
-        self.repo = "reponame"
-#        self.els = Elasticsearch(self.host_list)
         host_list = ["http://hostname:9200"]
         self.els = elastic_class.ElasticSearch(host_list)
         self.els.connect()
