@@ -163,7 +163,7 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearch(self.host_list)
         els.connect()
 
-        self.assertEqual(els.get_disks(self.els), self.results)
+        self.assertEqual(els.get_disks(), self.results)
 
 
 if __name__ == "__main__":
