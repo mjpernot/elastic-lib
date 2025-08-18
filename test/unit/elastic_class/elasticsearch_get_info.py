@@ -97,7 +97,9 @@ class UnitTest(unittest.TestCase):
         self.results = {"cluster_name": "ClusterName", "name": "ServerName"}
 
     @mock.patch("elastic_class.elasticsearch.Elasticsearch.info",
-                mock.Mock(return_value=True))
+                mock.Mock(
+                    return_value={
+                        "cluster_name": "ClusterName", "name": "ServerName"}))
     def test_default(self):
 
         """Function:  test_default
