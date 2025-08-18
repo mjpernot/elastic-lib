@@ -368,6 +368,8 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        create_snapshot
+        create_snapshot_repo
         delete_snapshot
         delete_snapshot_repo
         get_cluster_health
