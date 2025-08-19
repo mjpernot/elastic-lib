@@ -5,6 +5,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 
 ## [4.2.0] - 2025-08-12
+- Updated python-lib==4.0.3
 
 ### Added
 - elastic_class.ElasticSearch: Added is_active method.
