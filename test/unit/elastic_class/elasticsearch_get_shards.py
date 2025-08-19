@@ -101,7 +101,7 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.host_list = ["http://hostname:9200"]
+        self.host_list = ["https://hostname:9200"]
         self.els = Elasticsearch(self.host_list)
 
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
