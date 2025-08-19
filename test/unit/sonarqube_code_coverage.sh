@@ -32,6 +32,7 @@ coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_del
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_delete_snapshot_repo.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_get_cluster_health.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_get_nodes.py
+coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_get_cluster_nodes.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_get_cluster_stats.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_get_cluster_status.py
 coverage run -a --source=elastic_class test/unit/elastic_class/elasticsearch_get_disks.py
