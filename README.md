@@ -30,7 +30,6 @@
   * Create requirements-elastic-lib.txt and requirements-elastic-python-lib.txt files.  Replace N.N.N with the version of the library needed.
 
 ```
-echo 'git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/elastic-lib.git@N.N.N#egg=mysql-lib' > requirements-elastic-lib.txt
 echo 'git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/python-lib.git@N.N.N#egg=python-lib' > requirements-elastic-python-lib.txt
 ```
 
@@ -61,7 +60,7 @@ Install/upgrade system modules.
 NOTE: Install as the user that will use the package.
 
 ```
-python -m pip install --user -r requirements.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
+python -m pip install --user -r requirements3.txt --upgrade --trusted-host pypi.appdev.proj.coe.ic.gov
 ```
 
 
@@ -105,8 +104,8 @@ Create Elasticsearch configuration file.
 
 ```
 cp elastic.py test/integration/elastic_class/config/elastic.py
-vim test/integration/elastic_class/config/elastic.py
 chmod 600 test/integration/elastic_class/config/elastic.py
+vim test/integration/elastic_class/config/elastic.py
 ```
 
 Add the following lines to the end of the file:

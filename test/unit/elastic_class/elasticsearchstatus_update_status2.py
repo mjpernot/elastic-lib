@@ -127,7 +127,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_shards")
     @mock.patch("elastic_class.get_cluster_health")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_ping_true(                                 # pylint:disable=R0913
+    def test_ping_true(                         # pylint:disable=R0913,R0917
             self, mock_es, mock_health, mock_shards, mock_status, mock_disks,
             mock_repo):
 

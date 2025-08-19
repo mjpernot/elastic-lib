@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [4.2.0] - 2025-08-12
+- Updated python-lib==4.0.3
+
+### Added
+- elastic_class.ElasticSearch: Added is_active method.
+- elastic_class.ElasticSearch: Added get_shards method.
+- elastic_class.ElasticSearch: Added get_repo_list method.
+- elastic_class.ElasticSearch: Added get_nodes method.
+- elastic_class.ElasticSearch: Added get_master_name method.
+- elastic_class.ElasticSearch: Added get_info method.
+- elastic_class.ElasticSearch: Added get_dump_list method.
+- elastic_class.ElasticSearch: Added get_disks method.
+- elastic_class.ElasticSearch: Added get_cluster_status method.
+- elastic_class.ElasticSearch: Added get_cluster_stats method.
+- elastic_class.ElasticSearch: Added get_cluster_health method.
+- elastic_class.ElasticSearch: Added get_cluster_nodes method.
+- elastic_class.ElasticSearch: Added delete_snapshot_repo method.
+- elastic_class.ElasticSearch: Added delete_snapshot method.
+- elastic_class.ElasticSearch: Added create_snapshot_repo method.
+- elastic_class.ElasticSearch: Added create_snapshot method.
+
+### Changed
+- Documentation changes.
+
+### Deprecated
+- elastic_class.is_active function.
+- elastic_class.get_shards function.
+- elastic_class.get_repo_list function.
+- elastic_class.get_nodes function.
+- elastic_class.get_master_name function.
+- elastic_class.get_info function.
+- elastic_class.get_dump_list function.
+- elastic_class.get_disks function.
+- elastic_class.get_cluster_status function.
+- elastic_class.get_cluster_stats function.
+- elastic_class.get_cluster_health function.
+- elastic_class.get_cluster_nodes function.
+- elastic_class.delete_snapshot_repo function.
+- elastic_class.delete_snapshot function.
+- elastic_class.create_snapshot_repo function.
+- elastic_class.create_snapshot function.
+- elastic.py: The port and scheme entries in the configuration file.
+
+
 ## [4.1.0] - 2025-02-18
 - Updated elasticsearch==8.11.1
 

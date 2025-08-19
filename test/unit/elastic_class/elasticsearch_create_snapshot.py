@@ -1,11 +1,12 @@
 # Classification (U)
 
-"""Program:  create_snapshot.py
+"""Program:  elasticsearch_create_snapshot.py
 
-    Description:  Unit testing of create_snapshot in elastic_class class.
+    Description:  Unit testing of create_snapshot in
+        elastic_class.ElasticSearch class.
 
     Usage:
-        test/unit/elastic_class/create_snapshot.py
+        test/unit/elastic_class/elasticsearch_create_snapshot.py
 
     Arguments:
 
@@ -17,6 +18,7 @@
 import sys
 import os
 import unittest
+import mock
 import elasticsearch
 
 # Local
@@ -130,7 +132,11 @@ class UnitTest(unittest.TestCase):
         self.dump_name = "dumpname"
         self.els = Elasticsearch(self.host_list)
 
-    def test_default(self):
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_default(self, mock_es):
 
         """Function:  test_default
 
@@ -140,8 +146,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertFalse(elastic_class.create_snapshot(
-            self.els, self.repo_name, self.body, self.dump_name))
+        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+
+        self.assertFalse(
+            els.create_snapshot(self.repo_name, self.body, self.dump_name))
 
 
 if __name__ == "__main__":

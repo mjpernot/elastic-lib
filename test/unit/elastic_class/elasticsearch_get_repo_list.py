@@ -1,11 +1,12 @@
 # Classification (U)
 
-"""Program:  create_snapshot.py
+"""Program:  elasticsearch_get_repo_list.py
 
-    Description:  Unit testing of create_snapshot in elastic_class class.
+    Description:  Unit testing of get_repo_list in elastic_class.ElasticSearch
+        class.
 
     Usage:
-        test/unit/elastic_class/create_snapshot.py
+        test/unit/elastic_class/elasticsearch_get_repo_list.py
 
     Arguments:
 
@@ -17,7 +18,7 @@
 import sys
 import os
 import unittest
-import elasticsearch
+import mock
 
 # Local
 sys.path.append(os.getcwd())
@@ -31,44 +32,25 @@ class Repo():                                           # pylint:disable=R0903
 
     """Class:  Repo
 
-    Description:  Class representation of the snapshot class.
+    Description:  Class representation of the cat class.
 
     Methods:
-        create
+        snapshots
 
     """
 
-    def create(self, repository, snapshot, **body):
+    def get_repository(self):
 
-        """Method:  create
+        """Method:  get_repository
 
-        Description:  Stub holder for snapshot.create method.
+        Description:  Stub holder for snapshots.get_repository method.
 
         Arguments:
 
         """
 
-
-class Repo2():                                          # pylint:disable=R0903
-
-    """Class:  Repo2
-
-    Description:  Class representation of the snapshot class.
-
-    Methods:
-        create
-
-    """
-
-    def create(self, repository, body, snapshot):
-
-        """Method:  create
-
-        Description:  Stub holder for snapshot.create method.
-
-        Arguments:
-
-        """
+        return {"reponame": {"type": "dbdump", "settings":
+                             {"location": "/dir/path/dump"}}}
 
 
 class Elasticsearch():                                  # pylint:disable=R0903
@@ -94,12 +76,7 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
         self.hosts = host_list
         self.port = port
-
-        if elasticsearch.__version__ >= (8, 0, 0):
-            self.snapshot = Repo()
-
-        else:
-            self.snapshot = Repo2()
+        self.snapshot = Repo()
 
 
 class UnitTest(unittest.TestCase):
@@ -125,12 +102,16 @@ class UnitTest(unittest.TestCase):
         """
 
         self.host_list = ["host1", "host2"]
-        self.repo_name = "reponame"
-        self.body = {"indices": "dbs", "ignore_unavailable": True}
-        self.dump_name = "dumpname"
+        self.repo = "reponame"
         self.els = Elasticsearch(self.host_list)
+        self.results = {"reponame": {"type": "dbdump", "settings":
+                                     {"location": "/dir/path/dump"}}}
 
-    def test_default(self):
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_default(self, mock_es):
 
         """Function:  test_default
 
@@ -140,8 +121,11 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertFalse(elastic_class.create_snapshot(
-            self.els, self.repo_name, self.body, self.dump_name))
+        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+
+        self.assertEqual(els.get_repo_list(), self.results)
 
 
 if __name__ == "__main__":
