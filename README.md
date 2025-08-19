@@ -30,7 +30,6 @@
   * Create requirements-elastic-lib.txt and requirements-elastic-python-lib.txt files.  Replace N.N.N with the version of the library needed.
 
 ```
-echo 'git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/elastic-lib.git@N.N.N#egg=mysql-lib' > requirements-elastic-lib.txt
 echo 'git+ssh://git@sc.appdev.proj.coe.ic.gov/JAC-DSXD/python-lib.git@N.N.N#egg=python-lib' > requirements-elastic-python-lib.txt
 ```
 

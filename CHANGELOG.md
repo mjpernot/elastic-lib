@@ -25,6 +25,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearch: Added create_snapshot_repo method.
 - elastic_class.ElasticSearch: Added create_snapshot method.
 
+### Changed
+- Documentation changes.
+
 ### Deprecated
 - elastic_class.is_active function.
 - elastic_class.get_shards function.
