@@ -16,8 +16,8 @@
 # Standard
 import sys
 import os
-import elasticsearch
 import unittest
+import elasticsearch
 
 # Local
 sys.path.append(os.getcwd())
@@ -58,7 +58,7 @@ class Repo():                                           # pylint:disable=R0903
              "shard": "0", "state": "STARTED", "prirep": "p", "ip": "ip_addr2",
              "store": "15mb"}]
 
-    def shards(self, format):
+    def shards(self, format):                           # pylint:disable=W0622
 
         """Method:  shards
 

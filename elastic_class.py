@@ -15,6 +15,7 @@
         get_cluster_health
         get_cluster_nodes
         get_cluster_stats
+        get_cluster_status
         get_disks
         get_dump_list
         get_info
@@ -367,6 +368,22 @@ class ElasticSearch():                                  # pylint:disable=R0902
     Methods:
         __init__
         connect
+        create_snapshot
+        create_snapshot_repo
+        delete_snapshot
+        delete_snapshot_repo
+        get_cluster_health
+        get_cluster_nodes
+        get_cluster_stats
+        get_cluster_status
+        get_disks
+        get_dump_list
+        get_info
+        get_master_name
+        get_nodes
+        get_repo_list
+        get_shards
+        is_active
         set_login_config
         set_ssl_config
         update_status
@@ -437,6 +454,257 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         else:
             self.is_connected = False
+
+    def create_snapshot(self, reponame, body, dumpname):
+
+        """Function:  create_snapshot
+
+        Description:  Runs a dump of a named repository.
+
+        Arguments:
+            (input) reponame -> Name of repository
+            (input) body -> Contains arguments for the dump command
+            (input) dumpname -> Dump name which it will be dumped too
+
+        """
+
+        body = dict(body)
+
+        self.els.snapshot.create(
+            repository=reponame, snapshot=dumpname, **body)
+
+    def create_snapshot_repo(self, reponame, body, verify=True):
+
+        """Function:  create_snapshot_repo
+
+        Description:  Creates a repository in Elasticsearch cluster.
+
+        Arguments:
+            (input) reponame -> Name of repository
+            (input) body -> Contains arguments for the dump command
+            (input) verify -> True|False - Validate the repository
+            (output) Return exit status of create_repository command
+
+        """
+
+        body = dict(body)
+
+        return self.els.snapshot.create_repository(
+            name=reponame, verify=verify, **body)
+
+    def delete_snapshot(self, reponame, dumpname):
+
+        """Function:  delete_snapshot
+
+        Description:  Deletes a named dump in the named repository.
+
+        Arguments:
+            (input) reponame -> Name of repository
+            (input) dumpname -> Name of the dump
+            (output) Return exit status of the delete command
+
+        """
+
+        return self.els.snapshot.delete(repository=reponame, snapshot=dumpname)
+
+    def delete_snapshot_repo(self, reponame):
+
+        """Function:  delete_snapshot_repo
+
+        Description:  Deletes named repository in the cluster.
+
+        Arguments:
+            (input) reponame -> Name of repository
+            (output) Return exit status of the delete command
+
+        """
+
+        return self.els.snapshot.delete_repository(name=reponame)
+
+    def get_cluster_health(self):
+
+        """Function:  get_cluster_health
+
+        Description:  Dictionary of information on the cluster health.
+
+        Arguments:
+            (output) Dictionary of information on Elasticsearch cluster health
+
+        """
+
+        return self.els.cluster.health()
+
+    def get_cluster_nodes(self):
+
+        """Function:  get_cluster_nodes
+
+        Description:  Dictionary of information on the cluster nodes.
+
+        Arguments:
+            (output) Dictionary of information on Elasticsearch cluster nodes
+
+        """
+
+        return self.els.nodes.info()
+
+    def get_cluster_stats(self):
+
+        """Function:  get_cluster_stats
+
+        Description:  Dictionary of stats information on the cluster.
+
+        Arguments:
+            (output) Dictionary of information on the cluster stats
+
+        """
+
+        return self.els.cluster.stats()
+
+    def get_cluster_status(self):
+
+        """Function:  get_cluster_status
+
+        Description:  Status of the cluster.
+
+        Arguments:
+            (output) Status of the Elasticsearch cluster
+
+        """
+
+        return self.els.cluster.health()["status"]
+
+    def get_disks(self):
+
+        """Function:  get_disks
+
+        Description:  List of disks within the cluster.
+
+        Arguments:
+            (output) List of ElasticSearch disks
+
+        """
+
+        return self.els.cat.allocation(format="json")
+
+    def get_dump_list(self, repo, **kwargs):
+
+        """Function:  get_dump_list
+
+        Description:  List of dumps within a named repository.
+
+        Note:  The "ignore" option will determine whether to ignore the
+            exception or capture the exception and process it.
+
+        Future mods:  If want to capture the exception codes then will need to
+            add the following to the end of the exception: as (err_num,
+            err_code, msg)
+
+        Arguments:
+            (input) repo -> Name of repository
+            (input) kwargs:
+                snapshot -> A list of snapshot names, defaults to all snapshots
+                ignore -> True|False - Ignore if snapshot name is not found
+            (output) dump_list -> List of ElasticSearch dumps
+            (output) status -> True|False - If found snapshot successfully
+            (output) err_msg -> Error message if snapshot not found
+
+        """
+
+        snapshot = kwargs.get("snapshot", "_all")
+        ignore = kwargs.get("ignore", True)
+        err_msg = None
+
+        try:
+            data = self.els.snapshot.get(
+                repository=repo, snapshot=snapshot, ignore_unavailable=ignore)
+            dump_list = data["snapshots"]
+            status = True
+
+        except elasticsearch.exceptions.NotFoundError:
+            err_msg = \
+                f"Failed to find snapshot: {snapshot} in repository: {repo}"
+            dump_list = []
+            status = False
+
+        return dump_list, status, err_msg
+
+    def get_info(self):
+
+        """Function:  get_info
+
+        Description:  Dictionary of basic information.
+
+        Arguments:
+            (output) Dictionary of basic information
+
+        """
+
+        return self.els.info()
+
+    def get_master_name(self):
+
+        """Function:  get_master_name
+
+        Description:  Name of the master node in the cluster.
+
+        Arguments:
+            (output) Name of master node in the cluster
+
+        """
+
+        return self.els.cat.master(format="json")[0]["node"]
+
+    def get_nodes(self):
+
+        """Function:  get_nodes
+
+        Description:  Dictionary of information on the nodes in the cluster.
+
+        Arguments:
+            (output) Dictionary of information on Elasticsearch nodes
+
+        """
+
+        return self.els.nodes.info()["nodes"]
+
+    def get_repo_list(self):
+
+        """Function:  get_repo_list
+
+        Description:  Dictionary of repositories within the cluster.
+
+        Arguments:
+            (output) Dictionary of Elasticsearch repositories
+
+        """
+
+        return self.els.snapshot.get_repository()
+
+    def get_shards(self):
+
+        """Function:  get_shards
+
+        Description:  List of shards within the cluster.
+
+        Arguments:
+            (output) List of ElasticSearch shards
+
+        """
+
+        return self.els.cat.shards(format="json")
+
+    def is_active(self):
+
+        """Method:  is_active
+
+        Description:  Checks to see if Elasticsearch is up.
+
+        Arguments:
+            (output) True|False - Is the Elasticsearch cluster up
+
+        """
+
+        return self.els.ping()
 
     def set_login_config(self):
 
@@ -1018,7 +1286,7 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
 
     """
 
-    def __init__(                                       # pylint:disable=R0913
+    def __init__(                               # pylint:disable=R0913,R0917
             self, hostname, port=9200, cutoff_mem=90, cutoff_cpu=75,
             cutoff_disk=85, **kwargs):
 

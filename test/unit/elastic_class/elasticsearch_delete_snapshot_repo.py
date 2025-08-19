@@ -1,11 +1,12 @@
 # Classification (U)
 
-"""Program:  create_snapshot.py
+"""Program:  elasticsearch_delete_snapshot_repo.py
 
-    Description:  Unit testing of create_snapshot in elastic_class class.
+    Description:  Unit testing of delete_snapshot_repo in
+        elastic_class.ElasticSearch class.
 
     Usage:
-        test/unit/elastic_class/create_snapshot.py
+        test/unit/elastic_class/elasticsearch_delete_snapshot_repo.py
 
     Arguments:
 
@@ -17,6 +18,7 @@
 import sys
 import os
 import unittest
+import mock
 import elasticsearch
 
 # Local
@@ -34,41 +36,75 @@ class Repo():                                           # pylint:disable=R0903
     Description:  Class representation of the snapshot class.
 
     Methods:
-        create
+        __init__
+        delete_repository
 
     """
 
-    def create(self, repository, snapshot, **body):
+    def __init__(self):
 
-        """Method:  create
+        """Method:  __init__
 
-        Description:  Stub holder for snapshot.create method.
+        Description:  Initialization of class.
 
         Arguments:
 
         """
 
+        self.name = None
 
-class Repo2():                                          # pylint:disable=R0903
+    def delete_repository(self, name):
+
+        """Method:  delete_repository
+
+        Description:  Stub for snapshot.delete_repository method.
+
+        Arguments:
+
+        """
+
+        self.name = name
+
+        return {"acknowledged": True}
+
+
+class Repo2():                                           # pylint:disable=R0903
 
     """Class:  Repo2
 
     Description:  Class representation of the snapshot class.
 
     Methods:
-        create
+        __init__
+        delete_repository
 
     """
 
-    def create(self, repository, body, snapshot):
+    def __init__(self):
 
-        """Method:  create
+        """Method:  __init__
 
-        Description:  Stub holder for snapshot.create method.
+        Description:  Initialization of class.
 
         Arguments:
 
         """
+
+        self.repository = None
+
+    def delete_repository(self, repository):
+
+        """Method:  delete_repository
+
+        Description:  Stub for snapshot.delete_repository method.
+
+        Arguments:
+
+        """
+
+        self.repository = repository
+
+        return {"acknowledged": True}
 
 
 class Elasticsearch():                                  # pylint:disable=R0903
@@ -126,11 +162,14 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.repo_name = "reponame"
-        self.body = {"indices": "dbs", "ignore_unavailable": True}
-        self.dump_name = "dumpname"
         self.els = Elasticsearch(self.host_list)
+        self.results = {"acknowledged": True}
 
-    def test_default(self):
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_default(self, mock_es):
 
         """Function:  test_default
 
@@ -140,8 +179,12 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertFalse(elastic_class.create_snapshot(
-            self.els, self.repo_name, self.body, self.dump_name))
+        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+
+        self.assertEqual(
+            els.delete_snapshot_repo(self.repo_name), self.results)
 
 
 if __name__ == "__main__":

@@ -1,11 +1,12 @@
 # Classification (U)
 
-"""Program:  create_snapshot_repo.py
+"""Program:  elasticsearch_create_snapshot_repo.py
 
-    Description:  Unit testing of create_snapshot_repo in elastic_class class.
+    Description:  Unit testing of create_snapshot_repo in
+        elastic_class.ElasticSearch class.
 
     Usage:
-        test/unit/elastic_class/create_snapshot_repo.py
+        test/unit/elastic_class/elasticsearch_create_snapshot_repo.py
 
     Arguments:
 
@@ -17,6 +18,7 @@
 import sys
 import os
 import unittest
+import mock
 import elasticsearch
 
 # Local
@@ -52,8 +54,8 @@ class Repo():                                           # pylint:disable=R0903
         self.name = None
         self.body = None
         self.verify = None
-        self.type = None
         self.settings = None
+        self.type = None
 
     def create_repository(self, name, verify, **body):
 
@@ -179,7 +181,11 @@ class UnitTest(unittest.TestCase):
         self.els = Elasticsearch(self.host_list)
         self.results = {"acknowledged": True}
 
-    def test_default(self):
+    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.update_status",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.elasticsearch.Elasticsearch")
+    def test_default(self, mock_es):
 
         """Function:  test_default
 
@@ -189,8 +195,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        self.assertEqual(elastic_class.create_snapshot_repo(
-            self.els, self.repo_name, self.body, True), self.results)
+        mock_es.return_value = self.els
+        els = elastic_class.ElasticSearch(self.host_list)
+        els.connect()
+
+        self.assertEqual(
+            els.create_snapshot_repo(
+                self.repo_name, self.body, True), self.results)
 
 
 if __name__ == "__main__":

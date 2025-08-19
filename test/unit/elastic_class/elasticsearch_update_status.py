@@ -122,7 +122,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_single_node(                               # pylint:disable=R0913
+    def test_single_node(                       # pylint:disable=R0913,R0917
             self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
             mock_cluster):
 
@@ -152,7 +152,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_multiple_nodes(                            # pylint:disable=R0913
+    def test_multiple_nodes(                    # pylint:disable=R0913,R0917
             self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
             mock_cluster):
 
@@ -182,7 +182,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.get_info")
     @mock.patch("elastic_class.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_update_status(                             # pylint:disable=R0913
+    def test_update_status(                     # pylint:disable=R0913,R0917
             self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
             mock_cluster):
 
