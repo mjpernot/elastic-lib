@@ -17,9 +17,9 @@
 # Standard
 import sys
 import os
-import elasticsearch
 import unittest
 import mock
+import elasticsearch
 
 # Local
 sys.path.append(os.getcwd())
@@ -54,6 +54,8 @@ class Repo():                                           # pylint:disable=R0903
         self.name = None
         self.body = None
         self.verify = None
+        self.settings = None
+        self.type = None
 
     def create_repository(self, name, verify, **body):
 

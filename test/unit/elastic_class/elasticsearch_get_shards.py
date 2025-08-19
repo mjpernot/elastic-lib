@@ -37,7 +37,7 @@ class Cat():                                            # pylint:disable=R0903
 
     """
 
-    def shards(self, format="json"):
+    def shards(self, format="json"):            # pylint:disable=W0622,W0613
 
         """Method:  shards
 

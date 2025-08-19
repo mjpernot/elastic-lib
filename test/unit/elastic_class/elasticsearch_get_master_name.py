@@ -17,7 +17,6 @@
 # Standard
 import sys
 import os
-import elasticsearch
 import unittest
 import mock
 
@@ -56,7 +55,7 @@ class Repo():                                           # pylint:disable=R0903
             {"node": "masternode", "ip": "ip_addr", "host": "hostname",
              "id": "idname"}]
 
-    def master(self, format):
+    def master(self, format):                           # pylint:disable=W0622
 
         """Method:  master
 

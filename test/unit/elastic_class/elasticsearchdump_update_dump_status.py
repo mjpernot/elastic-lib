@@ -193,7 +193,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.datetime.datetime")
     @mock.patch("elastic_class.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
-    def test_dupe_name(                                 # pylint:disable=R0913
+    def test_dupe_name(                         # pylint:disable=R0913,R0917
             self, mock_es, mock_list, mock_date, mock_nodes, mock_health):
 
         """Function:  test_dupe_name

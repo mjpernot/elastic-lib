@@ -17,9 +17,9 @@
 # Standard
 import sys
 import os
-import elasticsearch
 import unittest
 import mock
+import elasticsearch
 
 # Local
 sys.path.append(os.getcwd())

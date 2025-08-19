@@ -507,7 +507,6 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         return self.els.snapshot.delete(repository=reponame, snapshot=dumpname)
 
-
     def delete_snapshot_repo(self, reponame):
 
         """Function:  delete_snapshot_repo
@@ -535,7 +534,6 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         return self.els.cluster.health()
 
-
     def get_cluster_nodes(self):
 
         """Function:  get_cluster_nodes
@@ -561,7 +559,6 @@ class ElasticSearch():                                  # pylint:disable=R0902
         """
 
         return self.els.cluster.stats()
-
 
     def get_cluster_status(self):
 
@@ -1289,7 +1286,7 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
 
     """
 
-    def __init__(                                       # pylint:disable=R0913
+    def __init__(                               # pylint:disable=R0913,R0917
             self, hostname, port=9200, cutoff_mem=90, cutoff_cpu=75,
             cutoff_disk=85, **kwargs):
 
