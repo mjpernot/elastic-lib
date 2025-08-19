@@ -70,7 +70,7 @@ class Repo2():                                          # pylint:disable=R0903
         self.ignore_unavailable = ignore_unavailable
 
         raise elasticsearch.exceptions.NotFoundError(   # pylint:disable=E1120
-            'holder', 'holder')
+            'message', 'meta', 'body')
 
 
 class Elasticsearch2():                                 # pylint:disable=R0903
@@ -205,9 +205,8 @@ class UnitTest(unittest.TestCase):
         self.results2 = [{"repo": "repo1"}, {"repo": "repo2"}]
         self.name = "repo1"
         self.els2 = Elasticsearch2(self.host_list)
-        self.err = "Failed to find snapshot: '_all' in repository: 'reponame'"
+        self.err = 'Failed to find snapshot: _all in repository: reponame'
 
-    @unittest.skip("Error:  Unable to raise exception.  Need to investigate.")
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -222,14 +221,13 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.els
+        mock_es.return_value = self.els2
         els = elastic_class.ElasticSearch(self.host_list)
         els.connect()
-        data = els2.get_dump_list(repo=self.repo)
+        data = els.get_dump_list(repo=self.repo)
 
         self.assertEqual((data[1], data[2]), (False, self.err))
 
-    @unittest.skip("Error:  Unable to raise exception.  Need to investigate.")
     @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
@@ -244,10 +242,10 @@ class UnitTest(unittest.TestCase):
 
         """
 
-        mock_es.return_value = self.els
+        mock_es.return_value = self.els2
         els = elastic_class.ElasticSearch(self.host_list)
         els.connect()
-        data = els2.get_dump_list(repo=self.repo)
+        data = els.get_dump_list(repo=self.repo)
 
         self.assertEqual(data[0], [])
 
