@@ -5,6 +5,7 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 
 
 ## [4.2.0] - 2025-08-12
+- Updated python-lib==4.0.3
 
 ### Added
 - elastic_class.ElasticSearch: Added is_active method.
@@ -23,6 +24,9 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.ElasticSearch: Added delete_snapshot method.
 - elastic_class.ElasticSearch: Added create_snapshot_repo method.
 - elastic_class.ElasticSearch: Added create_snapshot method.
+
+### Changed
+- Documentation changes.
 
 ### Deprecated
 - elastic_class.is_active function.
