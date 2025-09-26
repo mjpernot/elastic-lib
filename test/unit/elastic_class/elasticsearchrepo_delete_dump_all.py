@@ -39,7 +39,7 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
     """
 
-    def __init__(self, host_list, port=9200):
+    def __init__(self, host_list):
 
         """Method:  __init__
 
@@ -50,10 +50,9 @@ class Elasticsearch():                                  # pylint:disable=R0903
         """
 
         self.hosts = host_list
-        self.port = port
         self.ping_status = True
-        self.info_status = {"cluster_name": "ClusterName",
-                            "name": "servername"}
+        self.info_status = {
+            "cluster_name": "ClusterName", "name": "servername"}
 
 
 class UnitTest(unittest.TestCase):
@@ -101,11 +100,12 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
                 mock.Mock(return_value=(True, "Error Message")))
-    @mock.patch("elastic_class.get_repo_list")
-    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_delete_dump_fails(self, mock_es, mock_list, mock_repo):
 
@@ -129,11 +129,12 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
                 mock.Mock(return_value=(True, "Error Message")))
-    @mock.patch("elastic_class.get_repo_list")
-    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_repo_name_none(self, mock_es, mock_list, mock_repo):
 
@@ -159,11 +160,12 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
                 mock.Mock(return_value=(False, None)))
-    @mock.patch("elastic_class.get_repo_list")
-    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_no_repo_name(self, mock_es, mock_list, mock_repo):
 
@@ -186,11 +188,12 @@ class UnitTest(unittest.TestCase):
 
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearchRepo.delete_dump",
                 mock.Mock(return_value=(False, None)))
-    @mock.patch("elastic_class.get_repo_list")
-    @mock.patch("elastic_class.get_dump_list")
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es, mock_list, mock_repo):
 

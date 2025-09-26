@@ -39,7 +39,7 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
     """
 
-    def __init__(self, host_list, port=9200):
+    def __init__(self, host_list):
 
         """Method:  __init__
 
@@ -50,10 +50,9 @@ class Elasticsearch():                                  # pylint:disable=R0903
         """
 
         self.hosts = host_list
-        self.port = port
         self.ping_status = True
-        self.info_status = {"cluster_name":
-                            "ClusterName", "name": "servername"}
+        self.info_status = {
+            "cluster_name": "ClusterName", "name": "servername"}
 
     def info(self):
 
@@ -115,16 +114,18 @@ class UnitTest(unittest.TestCase):
         self.logs_results = {"hostname1": [dir_log],
                              "hostname2": ["/dir/logs2"]}
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
-    @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
-    @mock.patch("elastic_class.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.get_cluster_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_master_name")
+    @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
+    @mock.patch("elastic_class.ElasticSearch.get_info")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_single_node(                       # pylint:disable=R0913,R0917
             self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
             mock_cluster):
+
 
         """Function:  test_single_node
 
@@ -145,12 +146,13 @@ class UnitTest(unittest.TestCase):
         els.connect()
         self.assertEqual(len(els.nodes), 1)
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
-    @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
-    @mock.patch("elastic_class.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.get_cluster_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_master_name")
+    @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
+    @mock.patch("elastic_class.ElasticSearch.get_info")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_multiple_nodes(                    # pylint:disable=R0913,R0917
             self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
@@ -175,12 +177,13 @@ class UnitTest(unittest.TestCase):
         els.connect()
         self.assertEqual(len(els.nodes), 2)
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_cluster_nodes")
-    @mock.patch("elastic_class.get_master_name")
-    @mock.patch("elastic_class.get_cluster_health")
-    @mock.patch("elastic_class.get_info")
-    @mock.patch("elastic_class.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.get_cluster_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_master_name")
+    @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
+    @mock.patch("elastic_class.ElasticSearch.get_info")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_update_status(                     # pylint:disable=R0913,R0917
             self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
@@ -204,8 +207,8 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearch(self.host_list)
         els.connect()
         self.assertEqual(
-            (els.port, els.hosts, els.is_connected, els.data, els.logs),
-            (9200, self.host_list, True, self.data_results, self.logs_results))
+            (els.hosts, els.is_connected, els.data, els.logs),
+            (self.host_list, True, self.data_results, self.logs_results))
 
 
 if __name__ == "__main__":

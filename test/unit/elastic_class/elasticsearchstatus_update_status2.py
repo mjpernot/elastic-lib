@@ -39,7 +39,7 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
     """
 
-    def __init__(self, host_list, port=9200):
+    def __init__(self, host_list):
 
         """Method:  __init__
 
@@ -50,9 +50,8 @@ class Elasticsearch():                                  # pylint:disable=R0903
         """
 
         self.hosts = host_list
-        self.port = port
-        self.info_status = {"cluster_name": "ClusterName",
-                            "name": "servername"}
+        self.info_status = {
+            "cluster_name": "ClusterName", "name": "servername"}
 
 
 class UnitTest(unittest.TestCase):
@@ -97,7 +96,8 @@ class UnitTest(unittest.TestCase):
         self.disks_data = ["disk1", "disk2"]
         self.repo_data = {"repo1": "green", "repo2": "green"}
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
@@ -115,17 +115,18 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearchStatus(self.host_list)
         els.connect()
-        self.assertEqual((els.port, els.hosts, els.is_connected),
-                         (9200, self.host_list, False))
+        self.assertEqual(
+            (els.hosts, els.is_connected), (self.host_list, False))
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_repo_list")
-    @mock.patch("elastic_class.get_disks")
-    @mock.patch("elastic_class.get_cluster_stats")
-    @mock.patch("elastic_class.get_shards")
-    @mock.patch("elastic_class.get_cluster_health")
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.get_disks")
+    @mock.patch("elastic_class.ElasticSearch.get_cluster_stats")
+    @mock.patch("elastic_class.ElasticSearch.get_shards")
+    @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_ping_true(                         # pylint:disable=R0913,R0917
             self, mock_es, mock_health, mock_shards, mock_status, mock_disks,
@@ -149,8 +150,8 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearchStatus(self.host_list)
         els.connect()
         self.assertEqual(
-            (els.port, els.hosts, els.is_connected, els.shard_list),
-            (9200, self.host_list, True, self.shards_data))
+            (els.hosts, els.is_connected, els.shard_list),
+            (self.host_list, True, self.shards_data))
 
 
 if __name__ == "__main__":

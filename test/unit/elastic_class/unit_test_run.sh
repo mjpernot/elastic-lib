@@ -6,22 +6,6 @@
 
 echo ""
 echo "Unit test:  elastic_class"
-/usr/bin/python ./test/unit/elastic_class/create_snapshot.py
-/usr/bin/python ./test/unit/elastic_class/create_snapshot_repo.py
-/usr/bin/python ./test/unit/elastic_class/delete_snapshot.py
-/usr/bin/python ./test/unit/elastic_class/delete_snapshot_repo.py
-/usr/bin/python ./test/unit/elastic_class/get_cluster_health.py
-/usr/bin/python ./test/unit/elastic_class/get_cluster_nodes.py
-/usr/bin/python ./test/unit/elastic_class/get_cluster_stats.py
-/usr/bin/python ./test/unit/elastic_class/get_cluster_status.py
-/usr/bin/python ./test/unit/elastic_class/get_disks.py
-/usr/bin/python ./test/unit/elastic_class/get_dump_list.py
-/usr/bin/python ./test/unit/elastic_class/get_info.py
-/usr/bin/python ./test/unit/elastic_class/get_master_name.py
-/usr/bin/python ./test/unit/elastic_class/get_nodes.py
-/usr/bin/python ./test/unit/elastic_class/get_repo_list.py
-/usr/bin/python ./test/unit/elastic_class/get_shards.py
-/usr/bin/python ./test/unit/elastic_class/is_active.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_connect.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_create_snapshot.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_create_snapshot_repo.py
