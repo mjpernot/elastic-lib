@@ -126,7 +126,6 @@ class UnitTest(unittest.TestCase):
             self, mock_es, mock_nodes, mock_info, mock_health, mock_master,
             mock_cluster):
 
-
         """Function:  test_single_node
 
         Description:  Test with one node.

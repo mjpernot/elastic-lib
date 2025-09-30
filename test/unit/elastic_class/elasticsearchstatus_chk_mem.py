@@ -52,7 +52,6 @@ class Elasticsearch():                                  # pylint:disable=R0903
         self.hosts = host_list
 
 
-
 class UnitTest(unittest.TestCase):
 
     """Class:  UnitTest

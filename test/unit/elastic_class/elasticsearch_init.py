@@ -17,7 +17,6 @@
 import sys
 import os
 import unittest
-import elasticsearch
 
 # Local
 sys.path.append(os.getcwd())

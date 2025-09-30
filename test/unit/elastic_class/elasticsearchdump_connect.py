@@ -80,7 +80,8 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.els = Elasticsearch(self.host_list)
 
-    @mock.patch("elastic_class.ElasticSearch.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
