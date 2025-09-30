@@ -19,7 +19,6 @@ import sys
 import os
 import unittest
 import mock
-import elasticsearch
 
 # Local
 sys.path.append(os.getcwd())
@@ -129,7 +128,7 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
     """
 
-    def __init__(self, host_list, port=9200):
+    def __init__(self, host_list):
 
         """Method:  __init__
 
@@ -140,14 +139,7 @@ class Elasticsearch():                                  # pylint:disable=R0903
         """
 
         self.hosts = host_list
-        self.port = port
-
-        if elasticsearch.__version__ >= (8, 0, 0):
-            self.snapshot = Repo()
-
-        else:
-            self.snapshot = Repo2()
-
+        self.snapshot = Repo()
         self.results = {"acknowledged": True}
 
 
@@ -181,7 +173,8 @@ class UnitTest(unittest.TestCase):
         self.els = Elasticsearch(self.host_list)
         self.results = {"acknowledged": True}
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")

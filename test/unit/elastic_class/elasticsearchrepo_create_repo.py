@@ -39,7 +39,7 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
     """
 
-    def __init__(self, host_list, port=9200):
+    def __init__(self, host_list):
 
         """Method:  __init__
 
@@ -50,9 +50,8 @@ class Elasticsearch():                                  # pylint:disable=R0903
         """
 
         self.hosts = host_list
-        self.port = port
-        self.info_status = {"cluster_name": "ClusterName",
-                            "name": "servername"}
+        self.info_status = {
+            "cluster_name": "ClusterName", "name": "servername"}
 
 
 class UnitTest(unittest.TestCase):
@@ -105,12 +104,13 @@ class UnitTest(unittest.TestCase):
                            "reponame2": {"type": "dbdump", "settings":
                                          {"location": "/dir/path/dump2"}}}
 
-    @mock.patch("elastic_class.create_snapshot_repo",
+    @mock.patch("elastic_class.ElasticSearch.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": False}))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_not_created_repo(self, mock_es, mock_repo):
 
@@ -134,12 +134,13 @@ class UnitTest(unittest.TestCase):
             (True,
              "ERROR: Repository creation failure: reponame3, /dir/path/dump2"))
 
-    @mock.patch("elastic_class.create_snapshot_repo",
+    @mock.patch("elastic_class.ElasticSearch.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_not_detected_repo(self, mock_es, mock_repo):
 
@@ -163,12 +164,13 @@ class UnitTest(unittest.TestCase):
             (True,
              "ERROR: Repository not detected: reponame3, /dir/path/dump2"))
 
-    @mock.patch("elastic_class.create_snapshot_repo",
+    @mock.patch("elastic_class.ElasticSearch.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": False}))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_missing_repo_name(self, mock_es, mock_repo):
 
@@ -192,12 +194,13 @@ class UnitTest(unittest.TestCase):
             (True,
              "ERROR: Missing repo name or directory: None, /dir/path/dump2"))
 
-    @mock.patch("elastic_class.create_snapshot_repo",
+    @mock.patch("elastic_class.ElasticSearch.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_no_repo_dir(self, mock_es, mock_repo):
 
@@ -218,12 +221,13 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(els.create_repo(self.repo), (False, None))
         self.assertEqual(els.repo_dict, self.repo_dict2)
 
-    @mock.patch("elastic_class.create_snapshot_repo",
+    @mock.patch("elastic_class.ElasticSearch.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_no_repo_name(self, mock_es, mock_repo):
 
@@ -245,12 +249,13 @@ class UnitTest(unittest.TestCase):
                          (False, None))
         self.assertEqual(els.repo_dict, self.repo_dict2)
 
-    @mock.patch("elastic_class.create_snapshot_repo",
+    @mock.patch("elastic_class.ElasticSearch.create_snapshot_repo",
                 mock.Mock(return_value={"acknowledged": True}))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=True))
-    @mock.patch("elastic_class.get_repo_list")
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=True))
+    @mock.patch("elastic_class.ElasticSearch.get_repo_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es, mock_repo):
 

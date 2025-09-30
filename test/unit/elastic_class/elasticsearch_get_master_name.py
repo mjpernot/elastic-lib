@@ -81,7 +81,7 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
     """
 
-    def __init__(self, host_list, port=9200):
+    def __init__(self, host_list):
 
         """Method:  __init__
 
@@ -92,7 +92,6 @@ class Elasticsearch():                                  # pylint:disable=R0903
         """
 
         self.hosts = host_list
-        self.port = port
         self.cat = Repo()
 
 
@@ -123,7 +122,8 @@ class UnitTest(unittest.TestCase):
         self.els = Elasticsearch(self.host_list)
         self.results = "masternode"
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")

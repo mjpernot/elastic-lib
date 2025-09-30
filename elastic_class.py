@@ -8,22 +8,6 @@
         classes.
 
     Functions:
-        create_snapshot
-        create_snapshot_repo
-        delete_snapshot
-        delete_snapshot_repo
-        get_cluster_health
-        get_cluster_nodes
-        get_cluster_stats
-        get_cluster_status
-        get_disks
-        get_dump_list
-        get_info
-        get_master_name
-        get_nodes
-        get_repo_list
-        get_shards
-        is_active
 
     Classes:
         ElasticSearch
@@ -54,306 +38,6 @@ except (ValueError, ImportError) as err:
 __version__ = version.__version__
 
 # Global
-
-
-def create_snapshot(els, reponame, body, dumpname):
-
-    """Function:  create_snapshot
-
-    Description:  Runs a dump of a named repository.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (input) reponame -> Name of repository
-        (input) body -> Contains arguments for the dump command
-        (input) dumpname -> Dump name which it will be dumped too
-
-    """
-
-    body = dict(body)
-
-    if elasticsearch.__version__ >= (8, 0, 0):
-        els.snapshot.create(repository=reponame, snapshot=dumpname, **body)
-
-    else:
-        els.snapshot.create(repository=reponame, body=body, snapshot=dumpname)
-
-
-def create_snapshot_repo(els, reponame, body, verify=True):
-
-    """Function:  create_snapshot_repo
-
-    Description:  Creates a repository in Elasticsearch cluster.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (input) reponame -> Name of repository
-        (input) body -> Contains arguments for the dump command
-        (input) verify -> True|False - Validate the repository
-        (output) Return exit status of create_repository command
-
-    """
-
-    body = dict(body)
-
-    if elasticsearch.__version__ >= (8, 0, 0):
-        return els.snapshot.create_repository(
-            name=reponame, verify=verify, **body)
-
-    return els.snapshot.create_repository(
-        repository=reponame, body=body, verify=verify)
-
-
-def delete_snapshot(els, reponame, dumpname):
-
-    """Function:  delete_snapshot
-
-    Description:  Deltes a dump in a named repository.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (input) reponame -> Name of repository
-        (input) dumpname -> Dump name to be deleted
-        (output) Return exit status of delete_repository command
-
-    """
-
-    return els.snapshot.delete(repository=reponame, snapshot=dumpname)
-
-
-def delete_snapshot_repo(els, reponame):
-
-    """Function:  delete_snapshot_repo
-
-    Description:  Deletes named repository in Elasticsearch cluster.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (input) reponame -> Name of repository
-        (output) Return exit status of delete_repository command
-
-    """
-
-    if elasticsearch.__version__ >= (8, 0, 0):
-        return els.snapshot.delete_repository(name=reponame)
-
-    return els.snapshot.delete_repository(repository=reponame)
-
-
-def get_cluster_health(els):
-
-    """Function:  get_cluster_health
-
-    Description:  Return a dict of information on Elasticsearch cluster health.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) Dictionary of information on Elasticsearch cluster health
-
-    """
-
-    return els.cluster.health()
-
-
-def get_cluster_nodes(els):
-
-    """Function:  get_cluster_nodes
-
-    Description:  Return a dict of information on Elasticsearch cluster nodes.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) Dictionary of information on Elasticsearch cluster nodes
-
-    """
-
-    return els.nodes.info()
-
-
-def get_cluster_stats(els):
-
-    """Function:  get_cluster_stats
-
-    Description:  Return a dict of information on Elasticsearch cluster stats.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) Dictionary of information on Elasticsearch cluster stats
-
-    """
-
-    return els.cluster.stats()
-
-
-def get_cluster_status(els):
-
-    """Function:  get_cluster_status
-
-    Description:  Return status of the Elasticsearch cluster.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) Status of the Elasticsearch cluster
-
-    """
-
-    return els.cluster.health()["status"]
-
-
-def get_disks(els):
-
-    """Function:  get_disks
-
-    Description:  Return a list of disks within the Elasticsearch cluster.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) List of ElasticSearch disks
-
-    """
-
-    if elasticsearch.__version__ >= (8, 0, 0):
-        return els.cat.allocation(format="json")
-
-    return els.cat.allocation(dataformat="json")
-
-
-def get_dump_list(els, repo, **kwargs):
-
-    """Function:  get_dump_list
-
-    Description:  Return a list of dumps within a named repository.
-
-    Note:  The "ignore" option will determine whether to ignore the exception
-        or capture the exception and process it.
-
-    Future mods:  If want to capture the exception codes then will need to add
-        the following to the end of the exception: as (err_num, err_code, msg)
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (input) repo -> Name of repository
-        (input) kwargs:
-            snapshot -> A list of snapshot names, defaults to all snapshots
-            ignore -> True|False - Ignore if snapshot name is not found
-        (output) dump_list -> List of ElasticSearch dumps
-        (output) status -> True|False - If found snapshot successfully
-        (output) err_msg -> Error message if snapshot not found
-
-    """
-
-    snapshot = kwargs.get("snapshot", "_all")
-    ignore = kwargs.get("ignore", True)
-    err_msg = None
-
-    try:
-        data = els.snapshot.get(
-            repository=repo, snapshot=snapshot, ignore_unavailable=ignore)
-        dump_list = data["snapshots"]
-        status = True
-
-    except elasticsearch.exceptions.NotFoundError:
-        err_msg = f"Failed to find snapshot: {snapshot} in repository: {repo}"
-        dump_list = []
-        status = False
-
-    return dump_list, status, err_msg
-
-
-def get_info(els):
-
-    """Function:  get_info
-
-    Description:  Return a dictionary of a basic Elasticsearch info command.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) Dictionary of basic Elasticsearch info command
-
-    """
-
-    return els.info()
-
-
-def get_master_name(els):
-
-    """Function:  get_master_name
-
-    Description:  Return name of the master node in a Elasticsearch cluster.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) Name of master node in ElasticSearch cluster
-
-    """
-
-    if elasticsearch.__version__ >= (8, 0, 0):
-        return els.cat.master(format="json")[0]["node"]
-
-    return els.cat.master(dataformat="json")[0]["node"]
-
-
-def get_nodes(els):
-
-    """Function:  get_nodes
-
-    Description:  Return a dictionary of information on Elasticsearch nodes.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) Dictionary of information on Elasticsearch nodes
-
-    """
-
-    return els.nodes.info()["nodes"]
-
-
-def get_repo_list(els):
-
-    """Function:  get_repo_list
-
-    Description:  Return a dictionary of a list of Elasticsearch repositories.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) Dictionary of a list of Elasticsearch repositories
-
-    """
-
-    return els.snapshot.get_repository()
-
-
-def get_shards(els):
-
-    """Function:  get_shards
-
-    Description:  Return a list of shards within the Elasticsearch cluster.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) List of ElasticSearch shards
-
-    """
-
-    if elasticsearch.__version__ >= (8, 0, 0):
-        return els.cat.shards(format="json")
-
-    return els.cat.shards(dataformat="json")
-
-
-def is_active(els):
-
-    """Function:  is_active
-
-    Description:  Returns True or False if the Elasticsearch cluster is up.
-
-    Arguments:
-        (input) els -> ElasticSearch instance
-        (output) True|False - Elasticsearch cluster is up
-
-    """
-
-    return els.ping()
 
 
 class ElasticSearch():                                  # pylint:disable=R0902
@@ -390,7 +74,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
     """
 
-    def __init__(self, host_list, port=9200, **kwargs):
+    def __init__(self, host_list, **kwargs):
 
         """Method:  __init__
 
@@ -398,16 +82,13 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         Arguments:
             (input) host_list -> List of host(s) within ElasticSearch cluster
-            (input) port -> ElasticSearch port to connect to
             (input) kwargs:
                 user -> User login name
                 japd -> User pswd
                 ca_cert -> CA Certificate
-                scheme -> Type of connection
 
         """
 
-        self.port = port
         self.hosts = list(host_list)
         self.cluster_name = None
         self.node_connected_to = None
@@ -428,7 +109,6 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         # SSL configuration setup
         self.ca_cert = kwargs.get("ca_cert", None)
-        self.scheme = kwargs.get("scheme", "https")
         self.set_ssl_config()
 
     def connect(self):
@@ -441,14 +121,9 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         """
 
-        if elasticsearch.__version__ >= (8, 0, 0):
-            self.els = elasticsearch.Elasticsearch(self.hosts, **self.config)
+        self.els = elasticsearch.Elasticsearch(self.hosts, **self.config)
 
-        else:
-            self.els = elasticsearch.Elasticsearch(
-                self.hosts, port=self.port, **self.config)
-
-        if is_active(self.els):
+        if self.is_active():
             self.is_connected = True
             self.update_status()
 
@@ -716,13 +391,8 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         """
 
-        if elasticsearch.__version__ >= (8, 0, 0):
-            if self.user and self.japd:
-                self.config["basic_auth"] = (self.user, self.japd)
-
-        else:
-            if self.user and self.japd:
-                self.config["http_auth"] = (self.user, self.japd)
+        if self.user and self.japd:
+            self.config["basic_auth"] = (self.user, self.japd)
 
     def set_ssl_config(self):
 
@@ -735,9 +405,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
         """
 
         if self.ca_cert:
-            self.config["use_ssl"] = True
             self.config["ca_certs"] = self.ca_cert
-            self.config["scheme"] = self.scheme
 
     def update_status(self):
 
@@ -750,12 +418,12 @@ class ElasticSearch():                                  # pylint:disable=R0902
         """
 
         # Basic information
-        info = get_info(self.els)
+        info = self.get_info()
 
         self.node_connected_to = info["name"]
 
         # Node information
-        data = get_nodes(self.els)
+        data = self.get_nodes()
 
         for item in data:
             self.data[data[item]["name"]] = \
@@ -766,18 +434,18 @@ class ElasticSearch():                                  # pylint:disable=R0902
         self.nodes = [data[item]["name"] for item in data]
 
         # Cluster node information
-        cluster = get_cluster_nodes(self.els)
+        cluster = self.get_cluster_nodes()
 
         self.total_nodes = cluster["_nodes"]["total"]
 
         # Cluster health information
-        health = get_cluster_health(self.els)
+        health = self.get_cluster_health()
 
         self.cluster_status = health["status"]
         self.cluster_name = health["cluster_name"]
 
         # Master information
-        self.master = get_master_name(self.els)
+        self.master = self.get_master_name()
 
 
 class ElasticSearchDump(ElasticSearch):                 # pylint:disable=R0902
@@ -797,7 +465,7 @@ class ElasticSearchDump(ElasticSearch):                 # pylint:disable=R0902
 
     """
 
-    def __init__(self, host_list, port=9200, repo=None, **kwargs):
+    def __init__(self, host_list, repo=None, **kwargs):
 
         """Method:  __init__
 
@@ -806,20 +474,18 @@ class ElasticSearchDump(ElasticSearch):                 # pylint:disable=R0902
 
         Arguments:
             (input) host_list -> List of host(s) within ElasticSearch cluster
-            (input) port -> ElasticSearch database port
             (input) repo -> Name of repository, required if multiple
                 repositories are present in the cluster
             (input) kwargs:
                 user -> User login name
                 japd -> User pswd
                 ca_cert -> CA Certificate
-                scheme -> Type of connection
 
         """
 
         host_list = list(host_list)
         super(                                          # pylint:disable=R1725
-            ElasticSearchDump, self).__init__(host_list, port, **kwargs)
+            ElasticSearchDump, self).__init__(host_list, **kwargs)
 
         self.dump_status = None
         self.failed_shards = 0
@@ -859,7 +525,7 @@ class ElasticSearchDump(ElasticSearch):                 # pylint:disable=R0902
         self.dump_name = self.cluster_name.lower() + "_bkp_" + \
             datetime.datetime.strftime(
                 datetime.datetime.now(), "%Y%m%d-%H%M%S")
-        repo_dict = get_repo_list(self.els)
+        repo_dict = self.get_repo_list()
 
         if self.repo_name and self.repo_name not in repo_dict:
             self.repo_name = None
@@ -877,7 +543,7 @@ class ElasticSearchDump(ElasticSearch):                 # pylint:disable=R0902
         if self.repo_name:
             self.type = repo_dict[self.repo_name]["type"]
             self.dump_loc = repo_dict[self.repo_name]["settings"]["location"]
-            self.dump_list, _, _ = get_dump_list(self.els, self.repo_name)
+            self.dump_list, _, _ = self.get_dump_list(self.repo_name)
 
         if self.dump_list:
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
@@ -915,13 +581,13 @@ class ElasticSearchDump(ElasticSearch):                 # pylint:disable=R0902
             status_msg = f"ERROR:  Database name(s) is not a string: {dbs}"
 
         if self.repo_name and not err_flag:
-            create_snapshot(self.els, self.repo_name, body, self.dump_name)
+            self.create_snapshot(self.repo_name, body, self.dump_name)
 
             while not break_flag and not err_flag:
 
                 err_flag, status_msg, break_flag = self.chk_status(break_flag)
 
-            self.dump_list, _, _ = get_dump_list(self.els, self.repo_name)
+            self.dump_list, _, _ = self.get_dump_list(self.repo_name)
             self.last_dump_name = elastic_libs.get_latest_dump(self.dump_list)
 
         elif not err_flag:
@@ -947,7 +613,7 @@ class ElasticSearchDump(ElasticSearch):                 # pylint:disable=R0902
         err_flag = False
         status_msg = None
 
-        for dump in get_dump_list(self.els, self.repo_name)[0]:
+        for dump in self.get_dump_list(self.repo_name)[0]:
 
             if self.dump_name == dump["snapshot"]:
 
@@ -1001,8 +667,7 @@ class ElasticSearchRepo(ElasticSearch):
 
     """
 
-    def __init__(self, host_list, port=9200, repo=None, repo_dir=None,
-                 **kwargs):
+    def __init__(self, host_list, repo=None, repo_dir=None, **kwargs):
 
         """Method:  __init__
 
@@ -1011,20 +676,18 @@ class ElasticSearchRepo(ElasticSearch):
 
         Arguments:
             (input) host_list -> List of host(s) within ElasticSearch cluster
-            (input) port -> ElasticSearch database port
             (input) repo -> Name of repository
             (input) repo_dir -> Directory path to respository
             (input) kwargs:
                 user -> User login name
                 japd -> User pswd
                 ca_cert -> CA Certificate
-                scheme -> Type of connection
 
         """
 
         host_list = list(host_list)
         super(                                          # pylint:disable=R1725
-            ElasticSearchRepo, self).__init__(host_list, port, **kwargs)
+            ElasticSearchRepo, self).__init__(host_list, **kwargs)
 
         self.repo = repo
         self.repo_dir = repo_dir
@@ -1056,7 +719,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         """
 
-        self.repo_dict = get_repo_list(self.els)
+        self.repo_dict = self.get_repo_list()
 
     def create_repo(self, repo_name=None, repo_dir=None):
 
@@ -1086,7 +749,7 @@ class ElasticSearchRepo(ElasticSearch):
             data_dict = {"type": "fs", "settings": {"location": repo_dir,
                                                     "compress": True}}
 
-            status = create_snapshot_repo(self.els, repo_name, data_dict, True)
+            status = self.create_snapshot_repo(repo_name, data_dict, True)
 
             if not status["acknowledged"]:
                 err_flag = True
@@ -1096,7 +759,7 @@ class ElasticSearchRepo(ElasticSearch):
 
             else:
                 # Update repo dictionary.
-                self.repo_dict = get_repo_list(self.els)
+                self.repo_dict = self.get_repo_list()
 
                 if repo_name not in self.repo_dict:
                     err_flag = True
@@ -1133,7 +796,7 @@ class ElasticSearchRepo(ElasticSearch):
 
         if repo_name and repo_name in self.repo_dict:
 
-            status = delete_snapshot_repo(self.els, repo_name)
+            status = self.delete_snapshot_repo(repo_name)
 
             if not status["acknowledged"]:
                 err_flag = True
@@ -1141,7 +804,7 @@ class ElasticSearchRepo(ElasticSearch):
 
             else:
                 # Update repo dictionary.
-                self.repo_dict = get_repo_list(self.els)
+                self.repo_dict = self.get_repo_list()
 
                 if repo_name in self.repo_dict:
                     err_flag = True
@@ -1178,10 +841,10 @@ class ElasticSearchRepo(ElasticSearch):
 
             # See if the dump exists.
             if dump_name in [
-                    item["snapshot"] for item in get_dump_list(
-                        self.els, repo_name)[0]]:
+                    item["snapshot"] for item in self.get_dump_list(
+                        repo_name)[0]]:
 
-                status = delete_snapshot(self.els, repo_name, dump_name)
+                status = self.delete_snapshot(repo_name, dump_name)
 
                 if not status["acknowledged"]:
                     err_flag = True
@@ -1192,8 +855,8 @@ class ElasticSearchRepo(ElasticSearch):
                 else:
                     # Does the dump still exists
                     if dump_name in [
-                            item["snapshot"] for item in get_dump_list(
-                                self.els, repo_name)[0]]:
+                            item["snapshot"] for item in self.get_dump_list(
+                                repo_name)[0]]:
 
                         err_flag = True
                         err_msg = \
@@ -1235,11 +898,11 @@ class ElasticSearchRepo(ElasticSearch):
         if repo_name and repo_name in self.repo_dict:
 
             for dump in [
-                    item["snapshot"] for item in get_dump_list(
-                        self.els, repo_name)[0]]:
+                    item["snapshot"] for item in self.get_dump_list(
+                        repo_name)[0]]:
 
-                err_flag, err_msg = self.delete_dump(repo_name=repo_name,
-                                                     dump_name=dump)
+                err_flag, err_msg = self.delete_dump(
+                    repo_name=repo_name, dump_name=dump)
 
                 # Stop deleting if error
                 if err_flag:
@@ -1287,8 +950,8 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
     """
 
     def __init__(                               # pylint:disable=R0913,R0917
-            self, hostname, port=9200, cutoff_mem=90, cutoff_cpu=75,
-            cutoff_disk=85, **kwargs):
+            self, hostname, cutoff_mem=90, cutoff_cpu=75, cutoff_disk=85,
+            **kwargs):
 
         """Method:  __init__
 
@@ -1297,7 +960,6 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
 
         Arguments:
             (input) hostname -> Hostname of Elasticsearch database node
-            (input) port -> Elasticsearch database port.  Default = 9200
             (input) cutoff_mem -> Threshold cutoff for memory check
             (input) cutoff_cpu -> Threshold cutoff for cpu usage check
             (input) cutoff_disk -> Threshold cutoff for disk usage check
@@ -1305,12 +967,11 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
                 user -> User login name
                 japd -> User pswd
                 ca_cert -> CA Certificate
-                scheme -> Type of connection
 
         """
 
         super(                                          # pylint:disable=R1725
-            ElasticSearchStatus, self).__init__(hostname, port, **kwargs)
+            ElasticSearchStatus, self).__init__(hostname, **kwargs)
 
         self.cutoff_mem = cutoff_mem
         self.cutoff_cpu = cutoff_cpu
@@ -1359,7 +1020,7 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
         """
 
         # Get cluster health
-        health = get_cluster_health(self.els)
+        health = self.get_cluster_health()
 
         self.unassigned_shards = health["unassigned_shards"]
         self.active_shards_percent = \
@@ -1369,10 +1030,10 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
         self.num_primary = health["active_primary_shards"]
 
         # Get cluster shards
-        self.shard_list = get_shards(self.els)
+        self.shard_list = self.get_shards()
 
         # Get cluster status
-        status = get_cluster_stats(self.els)
+        status = self.get_cluster_stats()
 
         self.failed_nodes = status["_nodes"]["failed"]
         self.mem_per_used = status["nodes"]["os"]["mem"]["used_percent"]
@@ -1384,10 +1045,10 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
         self.cpu_active = status["nodes"]["process"]["cpu"]["percent"]
 
         # Get disks usage
-        self.disk_list = get_disks(self.els)
+        self.disk_list = self.get_disks()
 
         # Get repository list
-        self.repo_dict = get_repo_list(self.els)
+        self.repo_dict = self.get_repo_list()
 
     def get_cluster(self):
 
@@ -1554,11 +1215,10 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
         """
 
         # List of checks to be called
-        func_list = [self.get_nodes, self.get_node_status,
-                     self.get_svr_status, self.get_mem_status,
-                     self.get_shrd_status, self.get_gen_status,
-                     self.get_disk_status]
-        data = self.get_cluster()
+        func_list = [
+            self.get_node_status, self.get_svr_status, self.get_mem_status,
+            self.get_shrd_status, self.get_gen_status, self.get_disk_status]
+        data = {}
 
         for func in func_list:
             results = func()
@@ -1794,8 +1454,5 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
 
             if results:
                 data, _, _ = gen_libs.merge_two_dicts(data, results)
-
-        if data:
-            data, _, _ = gen_libs.merge_two_dicts(data, self.get_cluster())
 
         return data

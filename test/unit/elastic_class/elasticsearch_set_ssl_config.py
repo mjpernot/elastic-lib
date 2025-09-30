@@ -52,8 +52,7 @@ class UnitTest(unittest.TestCase):
         self.host_list = ["host1", "host2"]
         self.ca_cert = "ca.crt"
         self.results = {}
-        self.results2 = {"use_ssl": True, "ca_certs": self.ca_cert,
-                         "scheme": "https"}
+        self.results2 = {"ca_certs": self.ca_cert}
 
     def test_ca_cert_passed(self):
 

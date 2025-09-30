@@ -80,7 +80,7 @@ class UnitTest(unittest.TestCase):
             ca_cert=self.cfg.ssl_client_ca)
         self.cfg.ssl_client_ca = temp_val
 
-        self.assertTrue(els.config["use_ssl"])
+        self.assertTrue(els.config["ca_certs"])
 
     def test_no_ca_cert_passed(self):
 
