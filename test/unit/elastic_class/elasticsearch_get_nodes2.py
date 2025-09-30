@@ -1,12 +1,12 @@
 # Classification (U)
 
-"""Program:  elasticsearch_get_nodes.py
+"""Program:  elasticsearch_get_nodes2.py
 
-    Description:  Unit testing of get_nodes in elastic_class.ElasticSearch
+    Description:  Unit testing of get_nodes2 in elastic_class.ElasticSearch
         class.
 
     Usage:
-        test/unit/elastic_class/elasticsearch_get_nodes.py
+        test/unit/elastic_class/elasticsearch_get_nodes2.py
 
     Arguments:
 
@@ -126,7 +126,7 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearch(self.host_list)
         els.connect()
 
-        self.assertEqual(els.get_nodes(), self.results)
+        self.assertEqual(els.get_nodes2(), self.results)
 
 
 if __name__ == "__main__":

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [5.0.1] - 2025-09-30
+
+### Fixed
+- elastic_class.ElasticSearch: Renamed method get_nodes to get_nodes2 due to method name conflict.
+
+
 ## [5.0.0] - 2025-09-26
 Breaking Changes
 
