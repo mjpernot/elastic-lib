@@ -1215,11 +1215,10 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
         """
 
         # List of checks to be called
-        func_list = [self.get_nodes, self.get_node_status,
-                     self.get_svr_status, self.get_mem_status,
-                     self.get_shrd_status, self.get_gen_status,
-                     self.get_disk_status]
-        data = self.get_cluster()
+        func_list = [
+            self.get_node_status, self.get_svr_status, self.get_mem_status,
+            self.get_shrd_status, self.get_gen_status, self.get_disk_status]
+        data = {}
 
         for func in func_list:
             results = func()
@@ -1455,8 +1454,5 @@ class ElasticSearchStatus(ElasticSearch):               # pylint:disable=R0902
 
             if results:
                 data, _, _ = gen_libs.merge_two_dicts(data, results)
-
-        if data:
-            data, _, _ = gen_libs.merge_two_dicts(data, self.get_cluster())
 
         return data

@@ -92,8 +92,6 @@ class UnitTest(unittest.TestCase):
                     "Reason": "Detected the cluster is not green",
                     "Status": "yellow"}}}
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
@@ -127,8 +125,6 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(els.chk_all(cutoff_disk=None), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
@@ -162,8 +158,6 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(els.chk_all(cutoff_disk=50), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
@@ -197,8 +191,6 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(els.chk_all(cutoff_mem=None), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
@@ -232,8 +224,6 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(els.chk_all(cutoff_mem=50), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
@@ -267,8 +257,6 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(els.chk_all(cutoff_cpu=None), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
@@ -302,8 +290,6 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(els.chk_all(cutoff_cpu=50), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_status",
@@ -341,8 +327,6 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(els.chk_all(), self.results2)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_disk",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.chk_status",

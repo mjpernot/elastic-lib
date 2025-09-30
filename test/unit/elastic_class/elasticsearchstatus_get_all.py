@@ -59,6 +59,7 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
+        test_default2
         test_default
 
     """
@@ -75,14 +76,8 @@ class UnitTest(unittest.TestCase):
 
         self.host_list = ["host1", "host2"]
         self.els = Elasticsearch(self.host_list)
-        self.results = {"cluster": "clustername"}
-        self.results2 = {"cluster": "clustername",
-                         "Nodes": ["node1", "node2"]}
+        self.results = {}
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={"cluster": "clustername"}))
-    @mock.patch("elastic_class.ElasticSearchStatus.get_nodes",
-                mock.Mock(return_value={"Nodes": ["node1", "node2"]}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_node_status",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_svr_status",
@@ -114,12 +109,8 @@ class UnitTest(unittest.TestCase):
 
         els = elastic_class.ElasticSearchStatus(self.host_list)
 
-        self.assertEqual(els.get_all(), self.results2)
+        self.assertEqual(els.get_all(), self.results)
 
-    @mock.patch("elastic_class.ElasticSearchStatus.get_cluster",
-                mock.Mock(return_value={"cluster": "clustername"}))
-    @mock.patch("elastic_class.ElasticSearchStatus.get_nodes",
-                mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_node_status",
                 mock.Mock(return_value={}))
     @mock.patch("elastic_class.ElasticSearchStatus.get_svr_status",

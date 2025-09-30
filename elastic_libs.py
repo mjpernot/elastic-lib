@@ -44,7 +44,8 @@ def get_latest_dump(dump_list):
     last_dump = None
 
     if dump_list:
-        last_time = max([item['end_time_in_millis'] for item in dump_list])
+        time_gen = ([item['end_time_in_millis'] for item in dump_list])
+        last_time = max(time_gen)
 
         for dump in dump_list:
             if dump['end_time_in_millis'] == last_time:

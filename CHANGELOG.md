@@ -12,6 +12,8 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - Dropped support for Elasticsearch v7.X
 
 ### Changed
+- elastic_class.ElasticSearchStatus.chk_all: Removed the call to the get_cluster method.
+- elastic_libs.get_latest_dump: Replaced for-list loop finding the last dump time with a generator.
 - elastic_class.ElasticSearch.\_\_init\_\_: Removed port and scheme attributes.
 - elastic_class.ElasticSearch.set_ssl_config: Removed scheme attribute and the use_ssl argument.
 - elastic_class.ElasticSearch.connect: Removed Elasticsearch v7.x code and changed is_active call from a function call to a method call.
