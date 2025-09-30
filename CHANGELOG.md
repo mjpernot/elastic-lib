@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
-## [4.3.0] - 2025-09-26
+## [5.0.0] - 2025-09-26
+Breaking Changes
+
 - Updated simplejson=3.19.2
 - Added support for Python 3.13
 - Updated mock==5.2.0
@@ -53,7 +55,6 @@ The format is based on "Keep a Changelog".  This project adheres to Semantic Ver
 - elastic_class.get_shards function
 - elastic_class.is_active function
 - Support for Elasticsearch v7.4, v7.12 and v7.17
-
 
 
 ## [4.2.0] - 2025-08-12
