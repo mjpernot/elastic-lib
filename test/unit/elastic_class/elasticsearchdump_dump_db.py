@@ -148,7 +148,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.ElasticSearchDump.chk_status",
                 mock.Mock(return_value=(False, None, True)))
     @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes2")
     @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_no_repo_name(self, mock_es, mock_list, mock_nodes, mock_health):
@@ -187,7 +187,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.ElasticSearchDump.chk_status",
                 mock.Mock(return_value=(False, None, True)))
     @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes2")
     @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_bad_db_name(self, mock_es, mock_list, mock_nodes, mock_health):
@@ -225,7 +225,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.ElasticSearchDump.chk_status",
                 mock.Mock(return_value=(False, None, True)))
     @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes2")
     @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_default(self, mock_es, mock_list, mock_nodes, mock_health):

@@ -230,7 +230,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(side_effect=["dump2", "dump3"]))
     @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes2")
     @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_unknown_dump(self, mock_es, mock_list, mock_nodes, mock_health):
@@ -264,7 +264,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(side_effect=["dump2", "dump3"]))
     @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes2")
     @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_failed_dump(self, mock_es, mock_list, mock_nodes, mock_health):
@@ -298,7 +298,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(side_effect=["dump2", "dump3"]))
     @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes2")
     @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_partial_dump(self, mock_es, mock_list, mock_nodes, mock_health):
@@ -332,7 +332,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(side_effect=["dump2", "dump3"]))
     @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes2")
     @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_incompatible_dump(self, mock_es, mock_list, mock_nodes,
@@ -367,7 +367,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(side_effect=["dump2", "dump3"]))
     @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes2")
     @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_in_progress_dump(self, mock_es, mock_list, mock_nodes,
@@ -401,7 +401,7 @@ class UnitTest(unittest.TestCase):
     @mock.patch("elastic_class.elastic_libs.get_latest_dump",
                 mock.Mock(side_effect=["dump2", "dump3"]))
     @mock.patch("elastic_class.ElasticSearch.get_cluster_health")
-    @mock.patch("elastic_class.ElasticSearch.get_nodes")
+    @mock.patch("elastic_class.ElasticSearch.get_nodes2")
     @mock.patch("elastic_class.ElasticSearch.get_dump_list")
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
     def test_success_dump(self, mock_es, mock_list, mock_nodes, mock_health):
