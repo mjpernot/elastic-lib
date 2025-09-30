@@ -4,6 +4,59 @@ All notable changes to this project will be documented in this file.
 The format is based on "Keep a Changelog".  This project adheres to Semantic Versioning.
 
 
+## [5.0.0] - 2025-09-26
+Breaking Changes
+
+- Updated simplejson=3.19.2
+- Added support for Python 3.13
+- Updated mock==5.2.0
+- Updated python-lib to v4.1.0
+- Dropped support for Elasticsearch v7.X
+
+### Changed
+- elastic_class.ElasticSearchStatus.get_all: Removed the call to the get_cluster and get_nodes methods.
+- elastic_class.ElasticSearchStatus.chk_all: Removed the call to the get_cluster method.
+- elastic_libs.get_latest_dump: Replaced for-list loop finding the last dump time with a generator.
+- elastic_class.ElasticSearch.\_\_init\_\_: Removed port and scheme attributes.
+- elastic_class.ElasticSearch.set_ssl_config: Removed scheme attribute and the use_ssl argument.
+- elastic_class.ElasticSearch.connect: Removed Elasticsearch v7.x code and changed is_active call from a function call to a method call.
+- elastic_class.ElasticSearch.set_login_config: Removed Elasticsearch v7.x code.
+- elastic_class.ElasticSearch.update_status: Changed get_nodes, get_master_name, get_cluster_health, get_info and get_cluster_nodes calls from a function call to a method call.
+- elastic_class.ElasticSearchDump.\_\_init\_\_: Removed port attribute.
+- elastic_class.ElasticSearchDump.dump_db: Changed create_snapshot and get_dump_list calls from a function call to a method call.
+- elastic_class.ElasticSearchDump.update_dump_status: Changed get_repo_list and get_dump_list calls from a function call to a method call.
+- elastic_class.ElasticSearchDump.chk_status: Changed get_dump_list call from a function call to a method call.
+- elastic_class.ElasticSearchRepo.\_\_init\_\_: Removed port attribute.
+- elastic_class.ElasticSearchRepo.create_repo: Changed get_repo_list and create_snapshot_repo calls from a function call to a method call.
+- elastic_class.ElasticSearchRepo.delete_dump: Changed delete_snapshot and get_dump_list calls from a function call to a method call.
+- elastic_class.ElasticSearchRepo.delete_dump_all: Changed get_dump_list call from a function call to a method call.
+- elastic_class.ElasticSearchRepo.delete_repo: Changed iget_repo_list and delete_snapshot_repo calls from a function call to a method call.
+- elastic_class.ElasticSearchRepo.update_repo_status: Changed get_repo_list call from a function call to a method call.
+- elastic_class.ElasticSearchStatus.\_\_init\_\_: Removed port attribute.
+- elastic_class.ElasticSearchStatus.update_status2: Changed get_shards, get_repo_list, get_cluster_health, get_disks and get_cluster_stats calls from a function call to a method call.
+- elastic.py: Removed port and scheme entries.
+- Documentation changes.
+
+### Removed
+- elastic_class.create_snapshot function
+- elastic_class.create_snapshot_repo function
+- elastic_class.delete_snapshot function
+- elastic_class.delete_snapshot_repo function
+- elastic_class.get_cluster_health function
+- elastic_class.get_cluster_nodes function
+- elastic_class.get_cluster_stats function
+- elastic_class.get_cluster_status function
+- elastic_class.get_disks function
+- elastic_class.get_dump_list function
+- elastic_class.get_info function
+- elastic_class.get_master_name function
+- elastic_class.get_nodes function
+- elastic_class.get_repo_list function
+- elastic_class.get_shards function
+- elastic_class.is_active function
+- Support for Elasticsearch v7.4, v7.12 and v7.17
+
+
 ## [4.2.0] - 2025-08-12
 - Updated python-lib==4.0.3
 

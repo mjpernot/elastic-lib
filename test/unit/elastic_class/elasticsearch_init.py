@@ -17,7 +17,6 @@
 import sys
 import os
 import unittest
-import elasticsearch
 
 # Local
 sys.path.append(os.getcwd())
@@ -35,8 +34,6 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
-        test_passed_scheme
-        test_default_scheme
         test_ca_cert_login_passed
         test_ca_cert_passed2
         test_ca_cert_passed
@@ -48,7 +45,6 @@ class UnitTest(unittest.TestCase):
         test_login_info_not_passed2
         test_login_info_passed
         test_login_info_not_passed
-        test_port_change
         test_host_list
 
     """
@@ -67,68 +63,18 @@ class UnitTest(unittest.TestCase):
         self.user = "user"
         self.japd = "japd"
         self.ca_cert = "ca.crt"
-        self.scheme = "http"
         self.results = {}
         self.results2 = {"basic_auth": (self.user, self.japd)}
         self.results2a = {"http_auth": (self.user, self.japd)}
-        self.results3 = {
-            "use_ssl": True, "ca_certs": self.ca_cert, "scheme": "https"}
+        self.results3 = {"ca_certs": self.ca_cert}
         self.results4 = {
-            "basic_auth": (self.user, self.japd), "use_ssl": True,
-            "ca_certs": self.ca_cert, "scheme": "https"}
+            "basic_auth": (self.user, self.japd), "ca_certs": self.ca_cert}
         self.results4a = {
-            "http_auth": (self.user, self.japd), "use_ssl": True,
-            "ca_certs": self.ca_cert, "scheme": "https"}
+            "http_auth": (self.user, self.japd), "ca_certs": self.ca_cert}
         self.results5 = {
-            "basic_auth": (self.user, self.japd), "use_ssl": True,
-            "ca_certs": self.ca_cert, "scheme": "http"}
+            "basic_auth": (self.user, self.japd), "ca_certs": self.ca_cert}
         self.results5a = {
-            "http_auth": (self.user, self.japd), "use_ssl": True,
-            "ca_certs": self.ca_cert, "scheme": "http"}
-
-    def test_passed_scheme(self):
-
-        """Function:  test_passed_scheme
-
-        Description:  Test with scheme passed in.
-
-        Arguments:
-
-        """
-
-        els = elastic_class.ElasticSearch(
-            self.host_list, ca_cert=self.ca_cert, user=self.user,
-            japd=self.japd, scheme=self.scheme)
-
-        if elasticsearch.__version__ >= (8, 0, 0):
-            results = self.results5
-
-        else:
-            results = self.results5a
-
-        self.assertEqual(els.config, results)
-
-    def test_default_scheme(self):
-
-        """Function:  test_default_scheme
-
-        Description:  Test with default scheme used.
-
-        Arguments:
-
-        """
-
-        els = elastic_class.ElasticSearch(
-            self.host_list, ca_cert=self.ca_cert, user=self.user,
-            japd=self.japd)
-
-        if elasticsearch.__version__ >= (8, 0, 0):
-            results = self.results4
-
-        else:
-            results = self.results4a
-
-        self.assertEqual(els.config, results)
+            "http_auth": (self.user, self.japd), "ca_certs": self.ca_cert}
 
     def test_ca_cert_login_passed(self):
 
@@ -144,13 +90,7 @@ class UnitTest(unittest.TestCase):
             self.host_list, ca_cert=self.ca_cert, user=self.user,
             japd=self.japd)
 
-        if elasticsearch.__version__ >= (8, 0, 0):
-            results = self.results4
-
-        else:
-            results = self.results4a
-
-        self.assertEqual(els.config, results)
+        self.assertEqual(els.config, self.results4)
 
     def test_ca_cert_passed2(self):
 
@@ -217,13 +157,7 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearch(
             self.host_list, user=self.user, japd=self.japd)
 
-        if elasticsearch.__version__ >= (8, 0, 0):
-            results = self.results2
-
-        else:
-            results = self.results2a
-
-        self.assertEqual(els.config, results)
+        self.assertEqual(els.config, self.results2)
 
     def test_japd_only_passed2(self):
 
@@ -291,19 +225,6 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearch(self.host_list)
         self.assertEqual((els.user, els.japd), (None, None))
 
-    def test_port_change(self):
-
-        """Function:  test_port_change
-
-        Description:  Test with change to port.
-
-        Arguments:
-
-        """
-
-        els = elastic_class.ElasticSearch(self.host_list, port=9201)
-        self.assertEqual((els.port, els.hosts), (9201, self.host_list))
-
     def test_host_list(self):
 
         """Function:  test_host_list
@@ -315,7 +236,7 @@ class UnitTest(unittest.TestCase):
         """
 
         els = elastic_class.ElasticSearch(self.host_list)
-        self.assertEqual((els.port, els.hosts), (9200, self.host_list))
+        self.assertEqual(els.hosts, self.host_list)
 
 
 if __name__ == "__main__":

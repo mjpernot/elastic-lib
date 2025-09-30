@@ -84,7 +84,7 @@ class Elasticsearch2():                                 # pylint:disable=R0903
 
     """
 
-    def __init__(self, host_list, port=9200):
+    def __init__(self, host_list):
 
         """Method:  __init__
 
@@ -95,7 +95,6 @@ class Elasticsearch2():                                 # pylint:disable=R0903
         """
 
         self.hosts = host_list
-        self.port = port
         self.snapshot = Repo2()
 
 
@@ -156,7 +155,7 @@ class Elasticsearch():                                  # pylint:disable=R0903
 
     """
 
-    def __init__(self, host_list, port=9200):
+    def __init__(self, host_list):
 
         """Method:  __init__
 
@@ -167,7 +166,6 @@ class Elasticsearch():                                  # pylint:disable=R0903
         """
 
         self.hosts = host_list
-        self.port = port
         self.snapshot = Repo()
 
 
@@ -207,7 +205,8 @@ class UnitTest(unittest.TestCase):
         self.els2 = Elasticsearch2(self.host_list)
         self.err = 'Failed to find snapshot: _all in repository: reponame'
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
@@ -228,7 +227,8 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual((data[1], data[2]), (False, self.err))
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
@@ -249,7 +249,8 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(data[0], [])
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
@@ -270,7 +271,8 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual((data[1], data[2]), (True, None))
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
@@ -291,7 +293,8 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual(data, self.results2)
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")
@@ -312,7 +315,8 @@ class UnitTest(unittest.TestCase):
 
         self.assertEqual((data[1], data[2]), (True, None))
 
-    @mock.patch("elastic_class.is_active", mock.Mock(return_value=False))
+    @mock.patch("elastic_class.ElasticSearch.is_active",
+                mock.Mock(return_value=False))
     @mock.patch("elastic_class.ElasticSearch.update_status",
                 mock.Mock(return_value=True))
     @mock.patch("elastic_class.elasticsearch.Elasticsearch")

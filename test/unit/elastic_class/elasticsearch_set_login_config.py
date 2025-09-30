@@ -18,7 +18,6 @@
 import sys
 import os
 import unittest
-import elasticsearch
 
 # Local
 sys.path.append(os.getcwd())
@@ -73,13 +72,7 @@ class UnitTest(unittest.TestCase):
         els = elastic_class.ElasticSearch(
             self.host_list, user=self.user, japd=self.japd)
 
-        if elasticsearch.__version__ >= (8, 0, 0):
-            results = self.results3
-
-        else:
-            results = self.results2
-
-        self.assertEqual(els.config, results)
+        self.assertEqual(els.config, self.results3)
 
     def test_japd_only_passed(self):
 

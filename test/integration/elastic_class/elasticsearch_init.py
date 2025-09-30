@@ -36,8 +36,6 @@ class UnitTest(unittest.TestCase):
 
     Methods:
         setUp
-        test_passed_scheme
-        test_default_scheme
         test_ca_cert_passed
         test_no_ca_cert_passed
         test_login_info_passed
@@ -60,49 +58,10 @@ class UnitTest(unittest.TestCase):
         """
 
         self.ca_cert = "ca_cert.pem"
-        self.scheme = "http"
         self.base_dir = "test/integration/elastic_class"
         self.test_path = os.path.join(os.getcwd(), self.base_dir)
         self.config_path = os.path.join(self.test_path, "config")
         self.cfg = gen_libs.load_module("elastic", self.config_path)
-
-    def test_passed_scheme(self):
-
-        """Function:  test_passed_scheme
-
-        Description:  Test with scheme passed in.
-
-        Arguments:
-
-        """
-
-        temp_val = self.cfg.ssl_client_ca
-        self.cfg.ssl_client_ca = self.ca_cert
-        els = elastic_class.ElasticSearch(
-            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
-            ca_cert=self.cfg.ssl_client_ca, scheme=self.scheme)
-        self.cfg.ssl_client_ca = temp_val
-
-        self.assertEqual(els.config["scheme"], "http")
-
-    def test_default_scheme(self):
-
-        """Function:  test_default_scheme
-
-        Description:  Test with default scheme used.
-
-        Arguments:
-
-        """
-
-        temp_val = self.cfg.ssl_client_ca
-        self.cfg.ssl_client_ca = self.ca_cert
-        els = elastic_class.ElasticSearch(
-            self.cfg.host, user=self.cfg.user, japd=self.cfg.japd,
-            ca_cert=self.cfg.ssl_client_ca)
-        self.cfg.ssl_client_ca = temp_val
-
-        self.assertEqual(els.config["scheme"], "https")
 
     def test_ca_cert_passed(self):
 
@@ -121,7 +80,7 @@ class UnitTest(unittest.TestCase):
             ca_cert=self.cfg.ssl_client_ca)
         self.cfg.ssl_client_ca = temp_val
 
-        self.assertTrue(els.config["use_ssl"])
+        self.assertTrue(els.config["ca_certs"])
 
     def test_no_ca_cert_passed(self):
 
