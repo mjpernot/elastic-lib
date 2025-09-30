@@ -64,7 +64,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
         get_dump_list
         get_info
         get_master_name
-        get_nodes
+        get_nodes2
         get_repo_list
         get_shards
         is_active
@@ -329,9 +329,9 @@ class ElasticSearch():                                  # pylint:disable=R0902
 
         return self.els.cat.master(format="json")[0]["node"]
 
-    def get_nodes(self):
+    def get_nodes2(self):
 
-        """Function:  get_nodes
+        """Function:  get_nodes2
 
         Description:  Dictionary of information on the nodes in the cluster.
 
@@ -423,7 +423,7 @@ class ElasticSearch():                                  # pylint:disable=R0902
         self.node_connected_to = info["name"]
 
         # Node information
-        data = self.get_nodes()
+        data = self.get_nodes2()
 
         for item in data:
             self.data[data[item]["name"]] = \

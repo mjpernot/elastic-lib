@@ -12,7 +12,7 @@ echo "Unit test:  elastic_class"
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_delete_snapshot.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_delete_snapshot_repo.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_get_cluster_health.py
-/usr/bin/python ./test/unit/elastic_class/elasticsearch_get_nodes.py
+/usr/bin/python ./test/unit/elastic_class/elasticsearch_get_nodes2.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_get_cluster_nodes.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_get_cluster_stats.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_get_cluster_status.py
@@ -20,7 +20,6 @@ echo "Unit test:  elastic_class"
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_get_dump_list.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_get_info.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_get_master_name.py
-/usr/bin/python ./test/unit/elastic_class/elasticsearch_get_nodes.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_get_repo_list.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_get_shards.py
 /usr/bin/python ./test/unit/elastic_class/elasticsearch_init.py
